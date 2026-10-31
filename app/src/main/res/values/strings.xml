@@ -752,6 +752,7 @@
     <string name="playlist_share_ratio_portrait">Portrait · 4:5</string>
     <string name="playlist_share_ratio_story">Story · 9:16</string>
     <string name="playlist_share_scan">SCAN TO OPEN</string>
+    <string name="playlist_share_footer">Made with Sonora</string>
     <string name="share_playlist_image">Share this playlist image</string>
     <string name="your_playlist_card">Your playlist card</string>
     <string name="listening_shape">Your listening pattern</string>
