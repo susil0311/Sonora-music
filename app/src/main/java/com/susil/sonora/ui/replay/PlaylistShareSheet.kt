@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,12 +52,13 @@ internal fun PlaylistShareSheet(
     var poster by remember(request) { mutableStateOf<Bitmap?>(null) }
     var failed by remember(request) { mutableStateOf(false) }
     var saved by remember(request) { mutableStateOf(false) }
+    var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
 
-    LaunchedEffect(request) {
+    LaunchedEffect(request, ratio) {
         poster = null
         failed = false
         saved = false
-        poster = runCatching { renderPlaylistPoster(context, request) }
+        poster = runCatching { renderPlaylistPoster(context, request, ratio) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -80,11 +82,38 @@ internal fun PlaylistShareSheet(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(14.dp))
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            PlaylistPosterRatio.entries.forEach { option ->
+                Text(
+                    text = stringResource(option.labelRes),
+                    color = if (ratio == option) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            if (ratio == option) MaterialTheme.colorScheme.primary
+                            else androidx.compose.ui.graphics.Color.Transparent,
+                            RoundedCornerShape(10.dp),
+                        )
+                        .clickable { ratio = option }
+                        .padding(vertical = 10.dp),
+                )
+            }
+        }
+
         Box(
             Modifier
                 .fillMaxWidth(0.52f)
                 .align(Alignment.CenterHorizontally)
-                .aspectRatio(4f / 5f)
+                .aspectRatio(ratio.ratio)
                 .clip(RoundedCornerShape(18.dp))
                 .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,

@@ -641,6 +641,7 @@ object AppSettings {
     val downloadedMusicSort = MutableStateFlow(LocalMusicSort.TITLE_ASC)
     val localMusicViewType = MutableStateFlow(LibraryViewType.LIST)
     val downloadedMusicViewType = MutableStateFlow(LibraryViewType.LIST)
+    val playlistViewType = MutableStateFlow(LibraryViewType.GRID)
     /** Layout used by the Recents shelf on Play; compact tracks are the default. */
     val librarySort = MutableStateFlow(LibrarySort.DEFAULT)
 
@@ -1035,6 +1036,9 @@ object AppSettings {
         downloadedMusicSort.value = readLocalMusicSort(KEY_DOWNLOADED_MUSIC_SORT)
         localMusicViewType.value = readLibraryViewType(KEY_LOCAL_MUSIC_VIEW_TYPE)
         downloadedMusicViewType.value = readLibraryViewType(KEY_DOWNLOADED_MUSIC_VIEW_TYPE)
+        playlistViewType.value = prefs.getString(KEY_PLAYLIST_VIEW_TYPE, null)
+            ?.let { saved -> LibraryViewType.entries.firstOrNull { it.name == saved } }
+            ?: LibraryViewType.GRID
         librarySort.value = prefs.getString(KEY_LIBRARY_SORT, null)
             ?.let { saved -> LibrarySort.entries.firstOrNull { it.name == saved } }
             ?: LibrarySort.DEFAULT
@@ -1872,6 +1876,10 @@ object AppSettings {
         downloadedMusicViewType.value = value
         prefs.edit().putString(KEY_DOWNLOADED_MUSIC_VIEW_TYPE, value.name).apply()
     }
+    fun setPlaylistViewType(value: LibraryViewType) {
+        playlistViewType.value = value
+        prefs.edit().putString(KEY_PLAYLIST_VIEW_TYPE, value.name).apply()
+    }
 
     fun setLocalMusicFolderUri(value: String) {
         localMusicFolderUri.value = value
@@ -2208,6 +2216,7 @@ object AppSettings {
     private const val KEY_DETAIL_SONG_SORTS = "detail_song_sorts"
     private const val KEY_LOCAL_MUSIC_VIEW_TYPE = "local_music_view_type"
     private const val KEY_DOWNLOADED_MUSIC_VIEW_TYPE = "downloaded_music_view_type"
+    private const val KEY_PLAYLIST_VIEW_TYPE = "playlist_view_type"
     private const val KEY_LOCAL_MUSIC_FOLDER_URI = "local_music_folder_uri"
     private const val KEY_WEBDAV_URL = "webdav_url"
     private const val KEY_WEBDAV_USERNAME = "webdav_username"
@@ -2251,6 +2260,4 @@ object AppSettings {
     private const val KEY_DISCORD_INFO_DISMISSED = "discord_info_dismissed"
     private const val KEY_LAST_VERSION_CODE = "last_version_code"
 }
-
-
 

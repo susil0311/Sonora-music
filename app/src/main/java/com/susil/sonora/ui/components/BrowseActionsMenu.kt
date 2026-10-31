@@ -43,6 +43,7 @@ data class BrowseTarget(
     val subtitle: String,
     val thumbnailUrl: String? = null,
     val type: BrowseType = BrowseType.OTHER,
+    val description: String? = null,
     /**
      * The tracks already in hand. Empty for a card whose page was never
      * opened — the queue actions then fetch the listing themselves, which is
@@ -130,6 +131,7 @@ fun BrowseActionsMenu(
     isPinned: Boolean = false,
     onTogglePin: (() -> Unit)? = null,
     onRename: ((String) -> Unit)? = null,
+    onEditDescription: ((String) -> Unit)? = null,
     /**
      * Opens the reorder page for one of the account's own playlists — set
      * under the same rule as [onRename], since YouTube refuses to rearrange a
@@ -158,11 +160,13 @@ fun BrowseActionsMenu(
     var confirmingDeleteDownload by remember { mutableStateOf(false) }
 
     val playlist = target.playlist
-    if (renaming && playlist != null && onRename != null) {
+    if (renaming && playlist != null && (onRename != null || onEditDescription != null)) {
         RenamePlaylistForm(
             playlist = playlist,
             onBack = { renaming = false },
             onRename = onRename,
+            onEditDescription = onEditDescription,
+            description = target.description,
             modifier = modifier,
         )
         return
@@ -251,8 +255,8 @@ fun BrowseActionsMenu(
                     onClick = it,
                 )
             }
-            if (onRename != null) {
-                ActionRow(SfIcons.Pencil, stringResource(R.string.rename)) {
+            if (onRename != null || onEditDescription != null) {
+                ActionRow(SfIcons.Pencil, stringResource(R.string.edit_playlist)) {
                     if (onRenameInSheet != null) {
                         onRenameInSheet()
                     } else {

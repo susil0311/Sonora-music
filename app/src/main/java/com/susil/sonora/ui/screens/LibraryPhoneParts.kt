@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Lan
+import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import com.susil.sonora.R
 import com.susil.sonora.sharedui.resources.Res
 import com.susil.sonora.sharedui.resources.spotify_logo
 import com.susil.sonora.data.model.ShelfItem
+import com.susil.sonora.data.YtMusicRepository
 import com.susil.sonora.data.settings.AppSettings
 import com.susil.sonora.download.Downloads
 import com.susil.sonora.download.SavedCollection
@@ -54,6 +57,18 @@ fun libraryLinks(): List<LibraryLink> {
         icon = icon,
     )
     return listOfNotNull(
+        link(
+            stringResource(R.string.auto_liked),
+            stringResource(R.string.auto_empty_liked_subtitle),
+            YtMusicRepository.LIKED_MUSIC,
+            Icons.Rounded.Favorite,
+        ),
+        link(
+            stringResource(R.string.playlists),
+            stringResource(R.string.your_playlists),
+            YtMusicRepository.LIBRARY_PLAYLISTS_BROWSE_ID,
+            Icons.Rounded.QueueMusic,
+        ),
         link(
             stringResource(R.string.downloads),
             stringResource(R.string.downloaded_songs),

@@ -470,19 +470,23 @@ private fun NewPlaylistForm(
 internal fun RenamePlaylistForm(
     playlist: UserPlaylist,
     onBack: () -> Unit,
-    onRename: (String) -> Unit,
+    onRename: ((String) -> Unit)?,
+    onEditDescription: ((String) -> Unit)?,
+    description: String? = null,
     modifier: Modifier = Modifier,
 ) {
     var name by remember { mutableStateOf(playlist.title) }
+    var playlistDescription by remember { mutableStateOf(description.orEmpty()) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     val submit: () -> Unit = {
-        if (name.isNotBlank()) {
+        if (name.isNotBlank() && (name != playlist.title || playlistDescription != description.orEmpty())) {
             focusManager.clearFocus()
-            onRename(name)
+            if (name != playlist.title) onRename?.invoke(name)
+            if (playlistDescription != description.orEmpty()) onEditDescription?.invoke(playlistDescription)
         }
     }
 
@@ -507,7 +511,7 @@ internal fun RenamePlaylistForm(
                 )
             }
             Text(
-                text = stringResource(R.string.rename_playlist),
+                text = stringResource(R.string.edit_playlist),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.weight(1f),
@@ -538,14 +542,36 @@ internal fun RenamePlaylistForm(
                     .focusRequester(focusRequester),
             )
         }
+        Text(
+            text = stringResource(R.string.playlist_description),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 22.dp),
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 22.dp, vertical = 8.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(11.dp))
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+        ) {
+            BasicTextField(
+                value = playlistDescription,
+                onValueChange = { playlistDescription = it },
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                minLines = 3,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
         Button(
             onClick = submit,
-            enabled = name.isNotBlank() && name != playlist.title,
+            enabled = name.isNotBlank() && (name != playlist.title || playlistDescription != description.orEmpty()),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 22.dp),
         ) {
-            Text(stringResource(R.string.save_name))
+            Text(stringResource(R.string.save_playlist))
         }
         Spacer(Modifier.height(28.dp))
     }

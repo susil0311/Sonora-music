@@ -827,12 +827,20 @@ object YtMusicRepository {
     private fun pageOf(response: JsonObject, show: String? = null): SongPage {
         val library = InnertubeParser.parseLibraryState(response)
         val header = InnertubeParser.parseBrowseHeader(response)
+        val description = InnertubeParser.parseDescription(response)
         // A playlist page is scoped to its own shelf so its "Suggested
         // tracks" never read as songs the user added — see
         // parsePlaylistShelf. Anything else (album, library, history,
         // podcast) has no such shelf, and falls back to the layout-agnostic walk.
         InnertubeParser.parsePlaylistShelf(response)?.let { shelf ->
-            return SongPage(shelf.songs, shelf.continuation, shelf.suggested, library, header = header)
+            return SongPage(
+                shelf.songs,
+                shelf.continuation,
+                shelf.suggested,
+                library,
+                header = header,
+                description = description,
+            )
         }
         val podcast = InnertubeParser.podcastShow(response) ?: show
         val continuation = InnertubeParser.continuationToken(response)
@@ -845,7 +853,7 @@ object YtMusicRepository {
             continuation = continuation,
             library = library,
             header = header,
-            description = InnertubeParser.parseDescription(response),
+            description = description,
         )
     }
 
@@ -953,6 +961,7 @@ object YtMusicRepository {
      * turns those features off.
      */
     const val PLAYLISTS_SHELF = "Playlists"
+    const val LIBRARY_PLAYLISTS_BROWSE_ID = "FEmusic_liked_playlists"
 
     private val LIBRARY_FEEDS = listOf(
         PLAYLISTS_SHELF to LIBRARY_PLAYLISTS,
@@ -1103,6 +1112,9 @@ object YtMusicRepository {
 
     suspend fun renamePlaylist(playlistId: String, title: String): Result<Unit> =
         call("playlist:rename") { Innertube.renamePlaylist(playlistId, title) }
+
+    suspend fun updatePlaylistDescription(playlistId: String, description: String): Result<Unit> =
+        call("playlist:description") { Innertube.updatePlaylistDescription(playlistId, description) }
 
     suspend fun deletePlaylist(playlistId: String): Result<Unit> =
         call("playlist:delete") { Innertube.deletePlaylist(playlistId) }

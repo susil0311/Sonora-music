@@ -1,1 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="28dp" android:height="28dp" android:viewportWidth="1024" android:viewportHeight="1024"><path android:fillColor="#FFFFFFFF" android:pathData="M166,604C155,584 162,558 182,547C202,536 228,543 239,563C341,747 683,747 785,563C796,543 822,536 842,547C862,558 869,584 858,604C729,837 295,837 166,604Z"/><path android:fillColor="#FFFFFFFF" android:pathData="M227,452C216,432 223,406 243,395C263,384 289,391 300,411C381,555 643,555 724,411C735,391 761,384 781,395C801,406 808,432 797,452C688,646 336,646 227,452Z"/><path android:fillColor="#FFFFFFFF" android:pathData="M300,300C289,280 296,254 316,243C336,232 362,239 373,259C427,355 597,355 651,259C662,239 688,232 708,243C728,254 735,280 724,300C647,436 377,436 300,300Z"/></vector>
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@mipmap/ic_current_logo"
+    android:gravity="fill" />

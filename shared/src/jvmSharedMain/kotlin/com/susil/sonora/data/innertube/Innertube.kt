@@ -1104,6 +1104,15 @@ object Innertube {
         }
     }
 
+    suspend fun updatePlaylistDescription(playlistId: String, description: String) {
+        editPlaylist(playlistId) {
+            addJsonObject {
+                put("action", "ACTION_SET_PLAYLIST_DESCRIPTION")
+                put("playlistDescription", description)
+            }
+        }
+    }
+
     /** A fresh client-playback-nonce, identifying one play of one track. */
     fun newCpn(): String = (1..16).map { CPN_ALPHABET.random() }.joinToString("")
 

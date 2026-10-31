@@ -985,6 +985,7 @@ private fun SonoraApp(
     val webdavUrl by AppSettings.webdavUrl.collectAsStateWithLifecycle()
     val smbHost by AppSettings.smbHost.collectAsStateWithLifecycle()
     val librarySort by AppSettings.librarySort.collectAsStateWithLifecycle()
+    val playlistViewType by AppSettings.playlistViewType.collectAsStateWithLifecycle()
     // The releases those files were asked for as — read here rather than in the
     // page so the Downloads folder recomposes when one is added, the same way it
     // does when a file is.
@@ -2208,6 +2209,15 @@ private fun SonoraApp(
                 navigator.push(AppRoute.Spotify)
                 return@let
             }
+            if (id == YtMusicRepository.LIBRARY_PLAYLISTS_BROWSE_ID) {
+                val playlistShelf = (libraryState as? UiState.Success)
+                    ?.data
+                    ?.shelves
+                    ?.firstOrNull { it.title == YtMusicRepository.PLAYLISTS_SHELF }
+                    ?: HomeShelf(YtMusicRepository.PLAYLISTS_SHELF, emptyList())
+                navigator.push(AppRoute.LibraryShowAll(playlistShelf))
+                return@let
+            }
             if ((id == "local:all" || id == "local:downloads") && !LocalMediaRepository.hasStoragePermission(context)) {
                 mediaPermissionLauncher.launch(mediaPermission)
             }
@@ -2934,6 +2944,7 @@ private fun SonoraApp(
                                         null
                                     },
                                     contentPadding = listPadding,
+                                    viewType = if (shelf.title == YtMusicRepository.PLAYLISTS_SHELF) playlistViewType else LibraryViewType.GRID,
                                 )
                             }
                         } else if (pageRoute == AppRoute.Moods) {
@@ -3927,6 +3938,22 @@ private fun SonoraApp(
                             // the one thing a playlist or album card carries: a
                             // title.
                             if (route is AppRoute.LibraryShowAll) {
+                                if (route.shelf.title == YtMusicRepository.PLAYLISTS_SHELF) {
+                                    IconButton(
+                                        onClick = {
+                                            val next = if (playlistViewType == LibraryViewType.GRID) LibraryViewType.LIST else LibraryViewType.GRID
+                                            AppSettings.setPlaylistViewType(next)
+                                        },
+                                    ) {
+                                        Icon(
+                                            imageVector = if (playlistViewType == LibraryViewType.GRID) SonoraIcons.ListView else SonoraIcons.GridView,
+                                            contentDescription = stringResource(
+                                                if (playlistViewType == LibraryViewType.GRID) R.string.switch_to_list_view else R.string.switch_to_grid_view,
+                                            ),
+                                            tint = MaterialTheme.colorScheme.onSurface,
+                                        )
+                                    }
+                                }
                                 Box {
                                     IconButton(onClick = { librarySortMenuOpen = true }) {
                                         Icon(
@@ -4009,6 +4036,7 @@ private fun SonoraApp(
                                                 subtitle = detail.subtitle,
                                                 thumbnailUrl = detail.thumbnailUrl,
                                                 type = detail.type,
+                                                description = detail.description,
                                                 songs = releaseSongs.sortedForDetail(songSort).map { song ->
                                                     if (detail.type == BrowseType.ALBUM) {
                                                         song.copy(albumName = song.albumName ?: detail.title)
@@ -5124,6 +5152,8 @@ private fun SonoraApp(
                     playlistShareRequest = PlaylistShareRequest(
                         title = target.title,
                         subtitle = target.subtitle,
+                        description = target.description,
+                        creator = target.subtitle,
                         artworkUrl = target.thumbnailUrl,
                         songs = songs,
                         playlistUrl = target.browseId
@@ -5158,6 +5188,12 @@ private fun SonoraApp(
                         browseActions = null
                         OfflinePlaylists.rename(p.browseId, name)
                         viewModel.retitleDetail(p.browseId, name.trim())
+                    }
+                },
+                onEditDescription = playlist?.let { p ->
+                    { description: String ->
+                        browseActions = null
+                        viewModel.updatePlaylistDescription(p, description)
                     }
                 },
                 onReorder = playlist?.let { p ->

@@ -631,9 +631,8 @@ fun DetailScreen(
                 }
             }
 
-            // YouTube's own editorial blurb — an album or an artist only, per
-            // [DetailPage.description]. A playlist never carries one, and the
-            // section is skipped for it even on the rare response that does.
+            // YouTube's own editorial blurb, including the user-authored
+            // description on a remote playlist.
             //
             // On an artist page it closes the page, after the shelves, rather
             // than sitting between the action row and the songs.
@@ -644,7 +643,8 @@ fun DetailScreen(
             // The header holds Apple's logo here, so the ink goes at the foot of the page instead.
             val aboutSignature = if (isArtist && appleArt?.logoUrl != null) signature else null
             val showAbout = (!description.isNullOrBlank() &&
-                (page.type == BrowseType.ALBUM || isArtist)) || hasStats || aboutSignature != null
+                (page.type == BrowseType.ALBUM || page.type == BrowseType.PLAYLIST || isArtist)) ||
+                hasStats || aboutSignature != null
             fun LazyListScope.aboutItem() {
                 if (!showAbout) return
                 item(key = "about") {
@@ -652,7 +652,11 @@ fun DetailScreen(
                     Box(Modifier.padding(top = if (isArtist) 28.dp else 0.dp)) {
                     AboutSection(
                         title = stringResource(
-                            if (isArtist) R.string.about_artist else R.string.about_album,
+                            when {
+                                isArtist -> R.string.about_artist
+                                page.type == BrowseType.PLAYLIST -> R.string.about_playlist
+                                else -> R.string.about_album
+                            },
                         ),
                         text = description?.takeIf { it.isNotBlank() },
                         palette = palette,

@@ -5,6 +5,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
@@ -38,9 +39,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,6 +53,7 @@ import com.susil.sonora.data.model.LibraryPage
 import com.susil.sonora.data.model.ShelfItem
 import com.susil.sonora.data.model.UiState
 import com.susil.sonora.data.settings.LibrarySort
+import com.susil.sonora.data.settings.LibraryViewType
 import com.susil.sonora.ui.AppUi
 import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.components.LIBRARY_GRID_SPACING
@@ -59,6 +63,7 @@ import com.susil.sonora.ui.components.PullToRefresh
 import com.susil.sonora.ui.components.SHELF_CARD_WIDTH
 import com.susil.sonora.ui.components.libraryGrid
 import com.susil.sonora.ui.components.librarySkeleton
+import coil3.compose.AsyncImage
 
 /**
  * The signed-in library: the saved collections, as shelves of cards.
@@ -400,6 +405,7 @@ fun LibraryGridPage(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
     onNewPlaylist: (() -> Unit)? = null,
+    viewType: LibraryViewType = LibraryViewType.GRID,
 ) {
     // Re-read live rather than trusting [shelf] to already be sorted: this page
     // is opened from a snapshot (see `AppRoute.LibraryShowAll`), and a
@@ -413,7 +419,33 @@ fun LibraryGridPage(
     val sortedShelf = shelf.pinnedFirst(pinnedPlaylists).sortedForLibrary(librarySort)
     BoxWithConstraints(modifier.fillMaxSize()) {
         val grid = libraryGrid(maxWidth - PAGE_GUTTER * 2)
-        LazyVerticalGrid(
+        if (viewType == LibraryViewType.LIST) {
+            LazyColumn(
+                state = remember { LazyListState() },
+                contentPadding = contentPadding,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                if (onNewPlaylist != null) {
+                    item(key = "leading") {
+                        NewShelfCard(
+                            icon = SonoraIcons.Plus,
+                            label = stringResource(Res.string.new_playlist),
+                            subtitle = stringResource(Res.string.saved_to_youtube_music),
+                            onClick = onNewPlaylist,
+                            modifier = Modifier.padding(horizontal = PAGE_GUTTER, vertical = 8.dp),
+                        )
+                    }
+                }
+                items(sortedShelf.items, key = { it.browseId ?: it.title }) { item ->
+                    PlaylistListRow(
+                        item = item,
+                        onClick = { onItemClick(item) },
+                        onLongPress = { onItemLongPress(item) },
+                        modifier = Modifier.padding(horizontal = PAGE_GUTTER),
+                    )
+                }
+            }
+        } else LazyVerticalGrid(
             columns = GridCells.Fixed(grid.columns),
             state = gridState,
             contentPadding = contentPadding,
@@ -440,6 +472,36 @@ fun LibraryGridPage(
                     modifier = Modifier.fillMaxWidth(),
                     isPinned = item.browseId != null && item.browseId in pinnedPlaylists,
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PlaylistListRow(
+    item: ShelfItem,
+    onClick: () -> Unit,
+    onLongPress: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        AsyncImage(
+            model = item.thumbnailUrl,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8.dp)),
+        )
+        Column(Modifier.weight(1f)) {
+            Text(item.title, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (item.subtitle.isNotBlank()) {
+                Text(item.subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }

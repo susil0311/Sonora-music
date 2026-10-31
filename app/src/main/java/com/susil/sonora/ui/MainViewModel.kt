@@ -70,6 +70,8 @@ import com.susil.sonora.data.model.EntityType
 import com.susil.sonora.data.settings.SearchHistory
 import com.susil.sonora.download.Downloads
 import android.util.LruCache
+import org.json.JSONArray
+import org.json.JSONObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -117,6 +119,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 /** What the Search tab searches: YouTube Music, or the Local Music folder on this device. */
 enum class SearchSource { YOUTUBE, LIBRARY, ADDONS }
+
+private const val PLAYLIST_CACHE_TTL_MS = 10 * 60 * 1000L
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -921,15 +925,70 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _playlistsLoading = MutableStateFlow(false)
     val playlistsLoading: StateFlow<Boolean> = _playlistsLoading.asStateFlow()
 
-    /** Re-fetched rather than cached for the session: playlists are edited here. */
+    /**
+     * Playlists are shown immediately from the last successful response. The
+     * account can still refresh periodically, but opening Library no longer
+     * blocks on the same request every time.
+     */
     fun loadPlaylists() {
         if (!_signedIn.value || _playlistsLoading.value) return
         val identity = listenerKey()
+        val cached = readCachedPlaylists(identity)
+        if (cached != null) {
+            _playlists.value = cached.items
+            if (System.currentTimeMillis() - cached.savedAt < PLAYLIST_CACHE_TTL_MS) return
+        }
         _playlistsLoading.value = true
         viewModelScope.launch {
-            YtMusicRepository.userPlaylists().onSuccess { if (identity == listenerKey()) _playlists.value = it }
+            YtMusicRepository.userPlaylists().onSuccess {
+                if (identity == listenerKey()) {
+                    _playlists.value = it
+                    writeCachedPlaylists(identity, it)
+                }
+            }
             if (identity == listenerKey()) _playlistsLoading.value = false
         }
+    }
+
+    private data class CachedPlaylists(val savedAt: Long, val items: List<UserPlaylist>)
+
+    private fun playlistCacheKey(identity: String?): String? =
+        identity?.let { "playlists_cache_${it.hashCode()}" }
+
+    private fun readCachedPlaylists(identity: String?): CachedPlaylists? = runCatching {
+        val raw = playlistCacheKey(identity)?.let { getApplication<Application>().getSharedPreferences("sonora_library_cache", 0).getString(it, null) }
+            ?: return@runCatching null
+        val root = JSONObject(raw)
+        val items = root.optJSONArray("items") ?: return@runCatching null
+        CachedPlaylists(
+            savedAt = root.optLong("savedAt", 0L),
+            items = List(items.length()) { index ->
+                val item = items.getJSONObject(index)
+                UserPlaylist(
+                    playlistId = item.getString("playlistId"),
+                    title = item.getString("title"),
+                    subtitle = item.optString("subtitle"),
+                    thumbnailUrl = if (item.isNull("thumbnailUrl")) null else item.optString("thumbnailUrl").ifBlank { null },
+                )
+            },
+        )
+    }.getOrNull()
+
+    private fun writeCachedPlaylists(identity: String?, playlists: List<UserPlaylist>) {
+        val key = playlistCacheKey(identity) ?: return
+        val items = JSONArray().apply {
+            playlists.forEach { playlist ->
+                put(JSONObject().apply {
+                    put("playlistId", playlist.playlistId)
+                    put("title", playlist.title)
+                    put("subtitle", playlist.subtitle)
+                    put("thumbnailUrl", playlist.thumbnailUrl)
+                })
+            }
+        }
+        getApplication<Application>().getSharedPreferences("sonora_library_cache", 0).edit()
+            .putString(key, JSONObject().put("savedAt", System.currentTimeMillis()).put("items", items).toString())
+            .apply()
     }
 
     /**
@@ -1281,6 +1340,21 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 onSuccess = {
                     setPlaylistTitle(playlist, name)
                     libraryStale = true
+                },
+                onFailure = {},
+            )
+        }
+    }
+
+    fun updatePlaylistDescription(playlist: UserPlaylist, description: String) {
+        if (!requireSignIn()) return
+        val text = description.trim()
+        viewModelScope.launch {
+            YtMusicRepository.updatePlaylistDescription(playlist.playlistId, text).fold(
+                onSuccess = {
+                    _detailStack.value = _detailStack.value.map {
+                        if (it.browseId == playlist.browseId) it.copy(description = text) else it
+                    }
                 },
                 onFailure = {},
             )
