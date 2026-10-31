@@ -17,6 +17,8 @@ import com.susil.sonora.ui.screens.SettingsChoiceKind
  */
 sealed interface AppRoute {
     data object Settings : AppRoute
+    /** Sonora information and project credits, opened from the end of Settings. */
+    data object About : AppRoute
     data object AccountScrobbling : AppRoute
     data object Sources : AppRoute
     data object ListenTogether : AppRoute

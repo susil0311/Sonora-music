@@ -82,6 +82,16 @@ class AppNavigatorTest {
     }
 
     @Test
+    fun aboutIsItsOwnPageAboveSettings() {
+        navigator.push(AppRoute.Settings)
+        navigator.push(AppRoute.About)
+
+        assertEquals(AppRoute.About, navigator.visibleRoute())
+        assertTrue(navigator.pop())
+        assertEquals(AppRoute.Settings, navigator.visibleRoute())
+    }
+
+    @Test
     fun aReleaseRemovedUnderARouteDoesNotHideTheNextOne() {
         releases += "playlist"
         navigator.push(AppRoute.History)

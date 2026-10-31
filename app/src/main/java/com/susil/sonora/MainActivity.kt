@@ -166,6 +166,7 @@ import com.susil.sonora.ui.components.handleDacVolumeKey
 import com.susil.sonora.ui.components.VolumeHud
 import com.susil.sonora.ui.navigation.AppDestination
 import com.susil.sonora.ui.navigation.AppRoute
+import com.susil.sonora.ui.screens.AboutScreen
 import com.susil.sonora.ui.screens.EqualizerPresetPage
 import com.susil.sonora.ui.screens.SettingsChoicePage
 import com.susil.sonora.ui.components.SpotifyImportAlert
@@ -3073,6 +3074,8 @@ private fun SonoraApp(
                                 onConfirmBitPerfect = { confirmBitPerfect = it },
                                 contentPadding = listPadding,
                             )
+                        } else if (pageRoute == AppRoute.About) {
+                            AboutScreen(contentPadding = listPadding)
                         } else if (pageRoute == AppRoute.Settings || pageRoute is AppRoute.SettingsSection) {
                             // The main page and every category's page are the
                             // one screen, each showing its own share of the rows.
@@ -3102,6 +3105,7 @@ private fun SonoraApp(
                                 onSpotifyCanvasAuth = { showSpotifyCanvasAuth = true },
                                 onAppLanguage = { showAppLanguage = true },
                                 onEditSignatureApi = { editingSignatureApi = true },
+                                onOpenAbout = { navigator.push(AppRoute.About) },
                                 onConfirmBitPerfect = { confirmBitPerfect = it },
                                 onConfirmFixedVolume = { confirmFixedVolume = true },
                                 contentPadding = listPadding,
@@ -3759,6 +3763,7 @@ private fun SonoraApp(
                         AppRoute.WearOs -> stringResource(R.string.wear_os_page_title)
                         AppRoute.Equalizer -> stringResource(R.string.equalizer)
                         AppRoute.Settings -> stringResource(R.string.settings)
+                        AppRoute.About -> stringResource(R.string.about)
                         is AppRoute.SettingsSection -> stringResource(route.category.title)
                         is AppRoute.SettingsChoice -> stringResource(route.choice.title)
                         AppRoute.EqualizerPresets -> stringResource(R.string.equalizer_preset)

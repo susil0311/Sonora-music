@@ -19,6 +19,8 @@
     <string name="close">Close</string>
     <string name="back">Back</string>
     <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="about_settings_subtitle">Version, developer, and support</string>
     <string name="search">Search</string>
     <string name="clear_search">Clear search</string>
     <string name="library">Library</string>

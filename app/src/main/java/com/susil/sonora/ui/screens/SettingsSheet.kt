@@ -203,6 +203,7 @@ fun SettingsScreen(
     onSpotifyCanvasAuth: () -> Unit,
     onAppLanguage: () -> Unit,
     onEditSignatureApi: () -> Unit,
+    onOpenAbout: () -> Unit = {},
     /**
      * Asks before [mode] is turned on: it hands volume to the DAC at full
      * scale. Shown in the app's frosted alert, which needs the app's blur.
@@ -576,6 +577,14 @@ fun SettingsScreen(
                     SettingsGroup {
                         WearOsSettingsRow(onClick = onWearOs)
                     }
+                }
+                SettingsGroup(topSpacing = if (watchAvailable) 10.dp else 26.dp) {
+                    SettingsRow(
+                        icon = SfIcons.Info,
+                        title = stringResource(R.string.about),
+                        subtitle = stringResource(R.string.about_settings_subtitle),
+                        onClick = onOpenAbout,
+                    )
                 }
             }
         }
