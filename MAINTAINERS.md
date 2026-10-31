@@ -4,7 +4,7 @@ This document lists the maintainers responsible for Sonora.
 
 | Maintainer | GitHub | Responsibilities |
 |---|---|---|
-| Kushagra Singh | [@kushagrasinghx](https://github.com/kushagrasinghx) | Project creator, core architecture, release management, and PR reviews |
+| Susil Kumar | — | Project developer, release management, and PR reviews |
 
 ## Responsibilities
 

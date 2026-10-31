@@ -93,6 +93,7 @@
 
 Grab the latest signed APK from the [Releases](https://github.com/kushagrasinghx/Sonora/releases) page. Sideloading requires enabling "Install unknown apps" for whichever app you download it with.
 
+Release downloads are separate APKs for **ARMv7 (32-bit)** and **ARM64 (64-bit)** devices; choose the one matching your device.
 
 </div>
 
@@ -120,13 +121,12 @@ We welcome contributions to Sonora! Please review our [Contributing Guide](CONTR
 
 <h1><a id="support"></a>Support</h1>
 
-Sonora is free and always will be — if it's earned a spot in your rotation, you can chip in here:
+Sonora is free and always will be — if it's earned a spot in your rotation, you can support the developer via UPI:
 
-<a href="https://ko-fi.com/kushagrasinghx" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/gh/JMcrafter26/badges@main/src/assets/donate/kofi-singular-alt/cozy.svg" alt="Support me on Ko-fi" height="55"/></a>
-<a href="https://paypal.me/kuxhagrasingh" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/gh/JMcrafter26/badges@main/src/assets/donate/paypal-plural/cozy.svg" alt="Support us on PayPal" height="55"/></a>
+**Susil Kumar · `iamsusil@fam`**
 
 <br/>
-<img src="upi_support.jpg" alt="UPI Support" width="250" />
+<img src="upi_support.png" alt="Scan to pay Susil Kumar via UPI: iamsusil@fam" width="250" />
 
 </div>
 

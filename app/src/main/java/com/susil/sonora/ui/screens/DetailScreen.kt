@@ -631,8 +631,8 @@ fun DetailScreen(
                 }
             }
 
-            // YouTube's own editorial blurb, including the user-authored
-            // description on a remote playlist.
+            // YouTube's editorial blurbs for albums and artists. Playlist
+            // descriptions are shown in ReleaseHeader, above the play controls.
             //
             // On an artist page it closes the page, after the shelves, rather
             // than sitting between the action row and the songs.
@@ -643,7 +643,7 @@ fun DetailScreen(
             // The header holds Apple's logo here, so the ink goes at the foot of the page instead.
             val aboutSignature = if (isArtist && appleArt?.logoUrl != null) signature else null
             val showAbout = (!description.isNullOrBlank() &&
-                (page.type == BrowseType.ALBUM || page.type == BrowseType.PLAYLIST || isArtist)) ||
+                (page.type == BrowseType.ALBUM || isArtist)) ||
                 hasStats || aboutSignature != null
             fun LazyListScope.aboutItem() {
                 if (!showAbout) return
@@ -652,11 +652,7 @@ fun DetailScreen(
                     Box(Modifier.padding(top = if (isArtist) 28.dp else 0.dp)) {
                     AboutSection(
                         title = stringResource(
-                            when {
-                                isArtist -> R.string.about_artist
-                                page.type == BrowseType.PLAYLIST -> R.string.about_playlist
-                                else -> R.string.about_album
-                            },
+                            if (isArtist) R.string.about_artist else R.string.about_album,
                         ),
                         text = description?.takeIf { it.isNotBlank() },
                         palette = palette,
@@ -1008,6 +1004,19 @@ private fun ReleaseHeader(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(horizontal = HEADER_GUTTER),
+            )
+        }
+
+        val playlistDescription = page.description?.takeIf {
+            page.type == BrowseType.PLAYLIST && it.isNotBlank()
+        }
+        if (playlistDescription != null) {
+            Spacer(Modifier.height(14.dp))
+            AboutSection(
+                title = null,
+                text = playlistDescription,
+                palette = palette,
+                horizontalPadding = HEADER_GUTTER,
             )
         }
 
@@ -1864,7 +1873,7 @@ private fun AboutSignature(
 
 @Composable
 private fun AboutSection(
-    title: String,
+    title: String?,
     text: String?,
     palette: ArtworkPalette,
     horizontalPadding: Dp = ABOUT_GUTTER,
@@ -1876,17 +1885,19 @@ private fun AboutSection(
     var expanded by remember(text) { mutableStateOf(false) }
     var clipped by remember(text) { mutableStateOf(false) }
     Column {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = palette.onBackground,
-            modifier = Modifier.padding(
-                start = horizontalPadding,
-                end = horizontalPadding,
-                top = 2.dp,
-                bottom = 6.dp,
-            ),
-        )
+        if (!title.isNullOrBlank()) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = palette.onBackground,
+                modifier = Modifier.padding(
+                    start = horizontalPadding,
+                    end = horizontalPadding,
+                    top = 2.dp,
+                    bottom = 6.dp,
+                ),
+            )
+        }
         if (text != null) Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,

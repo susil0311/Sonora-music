@@ -94,19 +94,13 @@ object AppUpdateChecker {
     }
 
     /**
-     * One release carries the phone app and the TV app, each as a universal
-     * APK plus per-ABI splits:
-     *
-     *     Sonora-v1.8.apk     Sonora-v1.8_arm64-v8a.apk     ...
-     *     SonoraTV-v1.8.apk   SonoraTV-v1.8_arm64-v8a.apk   ...
-     *
-     * so this app's APKs are the ones named with its own
-     * [BuildConfig.UPDATE_APK_PREFIX] — "Sonora-" never matches a TV file,
-     * since the prefix ends at the hyphen. The universal build (no `_ABI`
-     * suffix) is taken first, as it installs anywhere; failing that, the split
-     * for this device's ABI. A release with neither leaves
-     * [UpdateInfo.apkUrl] null and the UI falls back to opening the releases
-     * page.
+     * Phone releases carry separate ARMv7 and ARM64 APKs, named with an ABI
+     * suffix (for example `Sonora-v1.9_arm64-v8a.apk`). There is no universal
+     * APK. This app's files are selected by [BuildConfig.UPDATE_APK_PREFIX]
+     * — "Sonora-" does not match a TV APK. Select the first published APK
+     * matching this device's supported ABI list. A release with no matching
+     * split leaves [UpdateInfo.apkUrl] null and the UI falls back to the
+     * releases page.
      */
     private fun apkAssetUrl(release: JsonObject): String? = runCatching {
         val apks = release["assets"]?.jsonArray

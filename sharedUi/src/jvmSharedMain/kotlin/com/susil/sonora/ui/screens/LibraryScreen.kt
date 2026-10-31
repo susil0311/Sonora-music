@@ -12,6 +12,7 @@ import androidx.compose.foundation.Image
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -427,12 +428,9 @@ fun LibraryGridPage(
             ) {
                 if (onNewPlaylist != null) {
                     item(key = "leading") {
-                        NewShelfCard(
-                            icon = SonoraIcons.Plus,
-                            label = stringResource(Res.string.new_playlist),
-                            subtitle = stringResource(Res.string.saved_to_youtube_music),
+                        NewPlaylistListRow(
                             onClick = onNewPlaylist,
-                            modifier = Modifier.padding(horizontal = PAGE_GUTTER, vertical = 8.dp),
+                            modifier = Modifier.padding(horizontal = PAGE_GUTTER),
                         )
                     }
                 }
@@ -478,6 +476,52 @@ fun LibraryGridPage(
 }
 
 @Composable
+private fun NewPlaylistListRow(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = SonoraIcons.Plus,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp),
+            )
+        }
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = stringResource(Res.string.new_playlist),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = stringResource(Res.string.saved_to_youtube_music),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
 private fun PlaylistListRow(
     item: ShelfItem,
     onClick: () -> Unit,
@@ -499,9 +543,21 @@ private fun PlaylistListRow(
             modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8.dp)),
         )
         Column(Modifier.weight(1f)) {
-            Text(item.title, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
             if (item.subtitle.isNotBlank()) {
-                Text(item.subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    text = item.subtitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         }
     }

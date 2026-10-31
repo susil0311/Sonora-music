@@ -1213,7 +1213,7 @@ fun TvAboutDialog(onDismiss: () -> Unit) {
     TvDialog(title = "Sonora", message = "Version ${BuildConfig.VERSION_NAME}", onDismissRequest = onDismiss) {
         TvAppMark(size = 77.dp, modifier = Modifier.padding(bottom = 21.dp))
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            TvListRow(title = "Kushagra Singh", value = "Creator", enabled = false, onClick = {})
+            TvListRow(title = "Susil Kumar", value = "Creator", enabled = false, onClick = {})
             TvListRow(title = "Nithyanantha", value = "TV App", enabled = false, onClick = {})
         }
         Spacer(modifier = Modifier.height(14.dp))

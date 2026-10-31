@@ -1592,9 +1592,9 @@ fun SettingsScreen(
                                 .padding(vertical = 6.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            // A glass foreground holds the finished icon in its own shape on the
-                            // central 72 of 108 dp: scaled 1.5× it fills the tile as designed.
-                            // Only the default goes through an adaptive mask.
+                            // Default and Monochrome preview their complete adaptive icons.
+                            // The glass foregrounds are already shaped for the central 72 of
+                            // 108 dp: scaled 1.5×, each fills the tile as designed.
                             val preview = option.previewRes
                             if (preview == null) {
                                 AndroidView(
@@ -1652,10 +1652,7 @@ fun SettingsScreen(
                 withLink(LinkAnnotation.Url("https://github.com/kushagrasinghx/Sonora", linkStyles)) {
                     append("GitHub")
                 }
-                append("  ")
-                withLink(LinkAnnotation.Url("https://github.com/kushagrasinghx", linkStyles)) {
-                    append("Developer")
-                }
+                append("  Developer: Susil Kumar")
                 append("  ")
                 withLink(LinkAnnotation.Url("https://discord.gg/pDdKfrdHY6", linkStyles)) {
                     append("Discord")
