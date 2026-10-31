@@ -44,21 +44,53 @@ jobs:
     - name: Build Signed ARMv7 and ARM64 Prod Release APKs
       run: ./gradlew assembleProdRelease
 
-    - name: Stage separately named ARM APKs
+    - name: Stage ARM APKs from Gradle output metadata
       env:
         RELEASE_NAME: ${{ github.ref_name }}
       run: |
         set -euo pipefail
-        output="app/build/outputs/apk/prod/release"
         mkdir -p release-assets
-        for abi in armeabi-v7a arm64-v8a; do
-          mapfile -t matches < <(find "$output" -maxdepth 1 -type f -name "*-${abi}.apk" | sort)
-          if [ "${#matches[@]}" -ne 1 ]; then
-            echo "Expected one APK for ${abi}; found ${#matches[@]} in ${output}" >&2
-            exit 1
-          fi
-          cp "${matches[0]}" "release-assets/Sonora-${RELEASE_NAME}_${abi}.apk"
-        done
+        python3 - <<'PY'
+        import json
+        import os
+        import shutil
+        from pathlib import Path
+
+        output = Path("app/build/outputs/apk/prod/release")
+        metadata_files = sorted(output.rglob("output-metadata.json"))
+        all_apks = sorted(output.rglob("*.apk"))
+        release_assets = Path("release-assets")
+
+        for abi in ("armeabi-v7a", "arm64-v8a"):
+            matches = []
+            for metadata_file in metadata_files:
+                data = json.loads(metadata_file.read_text())
+                for element in data.get("elements", []):
+                    filters = element.get("filters", [])
+                    if any(
+                        item.get("filterType") == "ABI" and item.get("value") == abi
+                        for item in filters
+                    ):
+                        apk = metadata_file.parent / element["outputFile"]
+                        if apk.is_file():
+                            matches.append(apk)
+
+            # Fallback for AGP versions whose output metadata format differs.
+            if not matches:
+                matches = [apk for apk in all_apks if abi in apk.name]
+
+            if len(matches) != 1:
+                available = ", ".join(str(apk) for apk in all_apks) or "none"
+                raise SystemExit(
+                    f"Expected one APK for {abi}; found {len(matches)}. "
+                    f"APK outputs: {available}. Metadata: "
+                    f"{', '.join(map(str, metadata_files)) or 'none'}"
+                )
+
+            destination = release_assets / f"Sonora-{os.environ['RELEASE_NAME']}_{abi}.apk"
+            shutil.copy2(matches[0], destination)
+            print(f"Staged {matches[0]} as {destination}")
+        PY
 
     - name: Upload ARMv7 APK artifact
       uses: actions/upload-artifact@v4
