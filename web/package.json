@@ -1,0 +1,19 @@
+{
+  "name": "sonora-web",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @sonora/app dev",
+    "dev:ext": "pnpm --filter @sonora/extension dev",
+    "dev:ext:firefox": "pnpm --filter @sonora/extension dev:firefox",
+    "build": "pnpm -r build",
+    "build:site": "pnpm --filter @sonora/extension package && pnpm --filter @sonora/app build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "fixtures": "node scripts/capture-fixtures.mjs"
+  }
+}
