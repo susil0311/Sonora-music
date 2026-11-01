@@ -21,10 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountBalanceWallet
-import androidx.compose.material.icons.rounded.CameraAlt
-import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -59,7 +55,7 @@ private const val UPI_SUPPORT_URL =
 @Composable
 private fun RowScope.AboutSocialButton(
     label: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    iconRes: Int,
     onClick: () -> Unit,
 ) {
     Column(
@@ -70,10 +66,10 @@ private fun RowScope.AboutSocialButton(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface,
+        Image(
+            painter = painterResource(iconRes),
+            contentDescription = label,
+            contentScale = ContentScale.Fit,
             modifier = Modifier.size(22.dp),
         )
         Spacer(Modifier.height(4.dp))
@@ -206,7 +202,7 @@ fun AboutScreen(
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 AboutSocialButton(
                     label = "Instagram",
-                    icon = Icons.Rounded.CameraAlt,
+                    iconRes = R.drawable.instagram,
                     onClick = { runCatching { uriHandler.openUri(INSTAGRAM_URL) } },
                 )
                 Box(
@@ -217,7 +213,7 @@ fun AboutScreen(
                 )
                 AboutSocialButton(
                     label = "Telegram",
-                    icon = Icons.Rounded.Send,
+                    iconRes = R.drawable.telegram,
                     onClick = { runCatching { uriHandler.openUri(TELEGRAM_URL) } },
                 )
             }
@@ -246,10 +242,10 @@ fun AboutScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp),
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.AccountBalanceWallet,
+                Image(
+                    painter = painterResource(R.drawable.upi),
                     contentDescription = "UPI",
-                    tint = MaterialTheme.colorScheme.primary,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier.size(width = 80.dp, height = 36.dp),
                 )
                 Spacer(Modifier.weight(1f))
@@ -283,6 +279,16 @@ fun AboutScreen(
         Spacer(Modifier.height(24.dp))
     }
 }
+
+@Composable
+private fun HorizontalDividerAbout() {
+    androidx.compose.material3.HorizontalDivider(
+        modifier = Modifier.padding(horizontal = 32.dp),
+        thickness = 2.dp,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f),
+    )
+}
+
 
 @Composable
 private fun HorizontalDividerAbout() {

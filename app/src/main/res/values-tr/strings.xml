@@ -1280,7 +1280,7 @@
     <string name="search_source_addons">Eklentiler</string>
     <string name="search_addons_none">Etkin eklenti yok. Ayarlar → Kaynaklar bölümünden bir tane ekleyin.</string>
     <string name="app_icon">Uygulama simgesi</string>
-    <string name="app_icon_default">Varsayılan</string>
+    <string name="app_icon_default" translatable="false">Default.png</string>
     <string name="show_queue_history">Sıra geçmişini göster</string>
     <string name="show_queue_history_subtitle">Sırada “Şimdi çalıyor” öğesinin üstünde daha önce çalınan en fazla 25 şarkıyı gösterir</string>
     <string name="not_enough_this_week">Replay’inizin kilidini açmak için bu hafta birkaç şarkı daha dinleyin.</string>

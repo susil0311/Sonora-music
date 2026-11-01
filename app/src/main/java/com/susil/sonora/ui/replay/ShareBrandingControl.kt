@@ -28,7 +28,7 @@ internal fun ShareBrandingControl(
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(start = 16.dp, end = 12.dp, vertical = 5.dp),
+            .padding(start = 16.dp, top = 5.dp, end = 12.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

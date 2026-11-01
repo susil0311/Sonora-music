@@ -212,9 +212,12 @@ private fun drawBigList(canvas: Canvas, context: Context, type: Fonts, rows: Lis
     rows.drop(1).forEach { row ->
         canvas.drawText(row.rank.toString(), MARGIN, y, type.heading(48f, 0x73FFFFFF))
         val name = type.body(52f, Color.WHITE, bold = true)
-        canvas.drawText(row.title, MARGIN + 80f, y, name)
         val stat = type.body(38f, 0x80FFFFFF.toInt()).apply { textAlign = Paint.Align.RIGHT }
-        canvas.drawText(formatListening(context, row.ms), POSTER_W - MARGIN, y, stat)
+        val statText = formatListening(context, row.ms)
+        val nameX = MARGIN + 80f
+        val nameWidth = (POSTER_W - MARGIN - nameX - stat.measureText(statText) - 32f).coerceAtLeast(0f)
+        canvas.drawText(ellipsised(row.title, name, nameWidth), nameX, y, name)
+        canvas.drawText(statText, POSTER_W - MARGIN, y, stat)
         y += 106f
     }
 }
@@ -222,8 +225,10 @@ private fun drawBigList(canvas: Canvas, context: Context, type: Fonts, rows: Lis
 private fun drawHabits(canvas: Canvas, context: Context, type: Fonts, summary: ReplaySummary, top: Float) {
     var y = top + 40f
     fun stat(value: String, label: String) {
-        canvas.drawText(value, MARGIN, y, type.heading(84f, Color.WHITE))
-        canvas.drawText(label, MARGIN, y + 56f, type.body(42f, 0x99FFFFFF.toInt()))
+        val valuePaint = type.heading(84f, Color.WHITE)
+        val labelPaint = type.body(42f, 0x99FFFFFF.toInt())
+        canvas.drawText(ellipsised(value, valuePaint, CONTENT_W), MARGIN, y, valuePaint)
+        canvas.drawText(ellipsised(label, labelPaint, CONTENT_W), MARGIN, y + 56f, labelPaint)
         y += 176f
     }
     if (summary.distinctAlbums > 0) {
@@ -243,7 +248,8 @@ private fun drawHabits(canvas: Canvas, context: Context, type: Fonts, summary: R
 private fun drawRecap(canvas: Canvas, context: Context, type: Fonts, summary: ReplaySummary, top: Float) {
     var y = top + 40f
     fun line(label: String, value: String) {
-        canvas.drawText(label, MARGIN, y, type.body(42f, 0x80FFFFFF.toInt()))
+        val labelPaint = type.body(42f, 0x80FFFFFF.toInt())
+        canvas.drawText(ellipsised(label, labelPaint, 292f), MARGIN, y, labelPaint)
         val v = type.body(52f, Color.WHITE, bold = true)
         canvas.drawText(ellipsised(value, v, CONTENT_W - 320f), MARGIN + 320f, y, v)
         y += 96f
@@ -262,20 +268,24 @@ private fun drawCollage(
     covers: Map<String, Bitmap?>,
     top: Float,
 ) {
-    val squares = summary.songs.mapNotNull { it.song.thumbnailUrl }.distinct().take(3)
-    val faces = summary.artists.mapNotNull { it.artworkUrl }.distinct()
-        .filterNot { it in squares }.take(3)
+    val squareRows = summary.songRows(POSTER_ROWS)
+        .distinctBy { it.artworkUrl ?: "song:${it.title}" }
+        .take(3)
+    val faceRows = summary.artistRows(POSTER_ROWS)
+        .filterNot { row -> row.artworkUrl != null && squareRows.any { it.artworkUrl == row.artworkUrl } }
+        .distinctBy { it.artworkUrl ?: "artist:${it.title}" }
+        .take(3)
     // Fractions of the content box, so the pile keeps its shape at any size.
     val squareAt = listOf(Triple(0.22f, 0.30f, 500f), Triple(0.02f, 0.06f, 260f), Triple(0.66f, 0.00f, 215f))
     val faceAt = listOf(Triple(0.00f, 0.62f, 185f), Triple(0.72f, 0.32f, 225f), Triple(0.46f, 0.76f, 200f))
     val height = 900f
-    squares.forEachIndexed { index, url ->
+    squareRows.forEachIndexed { index, row ->
         val (fx, fy, size) = squareAt[index]
-        drawArtwork(canvas, covers[url], "", MARGIN + CONTENT_W * fx, top + height * fy, size, false)
+        drawArtwork(canvas, row.artworkUrl?.let { covers[it] }, row.title, MARGIN + CONTENT_W * fx, top + height * fy, size, false)
     }
-    faces.forEachIndexed { index, url ->
+    faceRows.forEachIndexed { index, row ->
         val (fx, fy, size) = faceAt[index]
-        drawArtwork(canvas, covers[url], "", MARGIN + CONTENT_W * fx, top + height * fy, size, true)
+        drawArtwork(canvas, row.artworkUrl?.let { covers[it] }, row.title, MARGIN + CONTENT_W * fx, top + height * fy, size, true)
     }
 }
 
@@ -404,14 +414,17 @@ private fun drawHeader(
     } else {
         "Replay · $label"
     }
-    canvas.drawText(title, MARGIN, 132f, type.heading(46f, 0xFFFFFFFF.toInt()))
+    val textWidth = (CONTENT_W - if (showBranding) 240f else 0f).coerceAtLeast(0f)
+    val titlePaint = type.heading(46f, 0xFFFFFFFF.toInt())
+    canvas.drawText(ellipsised(title, titlePaint, textWidth), MARGIN, 132f, titlePaint)
     if (showBranding) drawBrandLockup(canvas, context, type, POSTER_W - MARGIN, 132f)
 
     val credit = listOfNotNull(
         holder.ifBlank { context.getString(R.string.default_replay_holder) },
         memberSince?.let { context.getString(R.string.member_since_value, it) },
     ).joinToString(" · ")
-    canvas.drawText(credit.uppercase(Locale.ROOT), MARGIN, 182f, type.label(24f, 0x8CFFFFFF.toInt()))
+    val creditPaint = type.label(24f, 0x8CFFFFFF.toInt())
+    canvas.drawText(ellipsised(credit.uppercase(Locale.ROOT), creditPaint, textWidth), MARGIN, 182f, creditPaint)
     return 300f
 }
 
@@ -515,9 +528,9 @@ private fun drawRow(
 
     val textX = artX + ART + 20f
     val textWidth = width - (textX - x)
-    val title = type.body(30f, Color.WHITE, bold = true)
+    val title = type.body(34f, Color.WHITE, bold = true)
     canvas.drawText(ellipsised(row.title, title, textWidth), textX, y + 36f, title)
-    val sub = type.body(25f, 0x99FFFFFF.toInt())
+    val sub = type.body(27f, 0x99FFFFFF.toInt())
     val detail = listOfNotNull(row.subtitle, formatListening(context, row.ms)).joinToString(" · ")
     canvas.drawText(ellipsised(detail, sub, textWidth), textX, y + 72f, sub)
 }
@@ -537,23 +550,23 @@ private fun drawAlbums(
         top,
         type.label(28f, 0xB3FFFFFF.toInt(), tracking = 0.16f),
     )
-    val size = 200f
+    val size = 180f
     val gap = (POSTER_W - MARGIN * 2 - size * POSTER_ALBUMS) / (POSTER_ALBUMS - 1)
-    val y = top + 40f
+    val y = top + 32f
     albums.take(POSTER_ALBUMS).forEachIndexed { index, album ->
         val x = MARGIN + index * (size + gap)
         drawArtwork(canvas, album.artworkUrl?.let { covers[it] }, album.title, x, y, size, false)
-        val name = type.body(25f, Color.WHITE, bold = true)
-        canvas.drawText(ellipsised(album.title, name, size), x, y + size + 38f, name)
-        val sub = type.body(22f, 0x8CFFFFFF.toInt())
+        val name = type.body(28f, Color.WHITE, bold = true)
+        canvas.drawText(ellipsised(album.title, name, size), x, y + size + 32f, name)
+        val sub = type.body(24f, 0x8CFFFFFF.toInt())
         canvas.drawText(
             ellipsised(album.subtitle ?: formatListening(context, album.ms), sub, size),
             x,
-            y + size + 70f,
+            y + size + 60f,
             sub,
         )
     }
-    return y + size + 130f
+    return y + size + 102f
 }
 
 private fun drawGenres(canvas: Canvas, context: Context, type: Fonts, summary: ReplaySummary, top: Float) {
@@ -565,16 +578,18 @@ private fun drawGenres(canvas: Canvas, context: Context, type: Fonts, summary: R
         top,
         type.label(28f, 0xB3FFFFFF.toInt(), tracking = 0.16f),
     )
-    val paint = type.body(32f, Color.WHITE, bold = true)
+    val paint = type.body(30f, Color.WHITE, bold = true)
     val chip = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x26FFFFFF }
-    var x = MARGIN
-    val y = top + 44f
-    genres.forEach { genre ->
-        val width = paint.measureText(genre.title) + 44f
-        if (x + width > POSTER_W - MARGIN) return
-        canvas.drawRoundRect(RectF(x, y, x + width, y + 62f), 31f, 31f, chip)
-        canvas.drawText(genre.title, x + 22f, y + 42f, paint)
-        x += width + 14f
+    val columnGap = 16f
+    val chipWidth = (CONTENT_W - columnGap) / 2f
+    val chipHeight = 56f
+    genres.take(POSTER_GENRES).forEachIndexed { index, genre ->
+        val row = index / 2
+        val column = index % 2
+        val x = MARGIN + column * (chipWidth + columnGap)
+        val y = top + 44f + row * (chipHeight + 12f)
+        canvas.drawRoundRect(RectF(x, y, x + chipWidth, y + chipHeight), chipHeight / 2f, chipHeight / 2f, chip)
+        canvas.drawText(ellipsised(genre.title, paint, chipWidth - 44f), x + 22f, y + 38f, paint)
     }
 }
 
@@ -623,6 +638,25 @@ internal fun drawArtwork(
         val hue = (fallback.hashCode().toFloat() % 360f + 360f) % 360f
         paint.color = ColorUtils.HSLToColor(floatArrayOf(hue, 0.55f, 0.45f))
         canvas.drawRoundRect(bounds, radius, radius, paint)
+        val initials = fallback.trim()
+            .split(Regex("\\s+"))
+            .mapNotNull { it.firstOrNull() }
+            .take(2)
+            .joinToString("")
+            .uppercase(Locale.ROOT)
+            .ifBlank { "♪" }
+        val mark = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = 0xA6FFFFFF.toInt()
+            textSize = (size * 0.32f).coerceAtMost(64f)
+            textAlign = Paint.Align.CENTER
+            isFakeBoldText = true
+        }
+        canvas.drawText(
+            initials,
+            x + size / 2f,
+            y + size / 2f - (mark.ascent() + mark.descent()) / 2f,
+            mark,
+        )
     }
 }
 
@@ -664,6 +698,7 @@ private fun drawRuns(
     var lineX = x
     var y = top + HEADLINE_SIZE
     var index = 0
+    var lineCount = 1
     while (index < text.length) {
         if (text[index].isWhitespace()) {
             index++
@@ -673,12 +708,20 @@ private fun drawRuns(
         while (end < text.length && !text[end].isWhitespace()) end++
         val word = text.substring(index, end)
         val paint = if (weights[index]) bold else plain
-        val width = paint.measureText("$word ")
+        val visibleWord = if (paint.measureText(word) > maxWidth) ellipsised(word, paint, maxWidth) else word
+        val width = paint.measureText("$visibleWord ")
         if (lineX + width - x > maxWidth && lineX > x) {
+            if (lineCount >= 4) {
+                val remainingWidth = (maxWidth - (lineX - x)).coerceAtLeast(0f)
+                val ellipsis = "…"
+                if (paint.measureText(ellipsis) <= remainingWidth) canvas.drawText(ellipsis, lineX, y, paint)
+                return y + 24f
+            }
             lineX = x
             y += HEADLINE_LEADING
+            lineCount++
         }
-        canvas.drawText(word, lineX, y, paint)
+        canvas.drawText(visibleWord, lineX, y, paint)
         lineX += width
         index = end
     }
@@ -688,10 +731,9 @@ private fun drawRuns(
 /**
  * The Sonora mark, baseline-aligned with the word beside it.
  *
- * The same vector the app draws everywhere, tinted and given bounds rather than
- * rasterised to a PNG first — a vector drawable renders into an ordinary canvas
- * on every version this app supports, so there is nothing to be gained by
- * keeping a second copy of the logo around at a fixed size.
+ * The same cropped transparent mark used throughout the app, tinted for the
+ * poster's white-on-dark lockup. Lyrics, Playlist, and Replay image shares all
+ * call [drawBrandLockup], so the logo stays consistent across their exports.
  */
 internal fun drawLogo(canvas: Canvas, context: Context, right: Float, baseline: Float) {
     val logo = runCatching {
@@ -776,10 +818,10 @@ private const val POSTER_H = 1920
 
 private const val MARGIN = 72f
 
-/** The mark's drawn size. 730×484 in the vector, so this keeps its proportions. */
-private const val LOGO_W = 66f
-private const val LOGO_H = 44f
-private const val LOGO_GAP = 20f
+/** The mark's drawn size, kept to the replacement artwork's cropped proportions. */
+private const val LOGO_W = 46f
+private const val LOGO_H = 40f
+private const val LOGO_GAP = 14f
 private const val BRAND_WORDMARK = "Sonora"
 private const val BRAND_WORDMARK_SIZE = 46f
 

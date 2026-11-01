@@ -746,7 +746,11 @@ fun DetailScreen(
                     // numbers those rows instead, and so does this.
                     val numbered = page.type == BrowseType.ALBUM
                     val isCurrentRow = playingRowMatcher(matches.map { it.value }, currentSong)
-                    if (matches.isEmpty() && state.data.isNotEmpty()) {
+                    if (state.data.isEmpty()) {
+                        item(key = "empty-release") {
+                            MessageState(stringResource(R.string.no_tracks_here))
+                        }
+                    } else if (matches.isEmpty()) {
                         item(key = "no-matches") {
                             MessageState(stringResource(R.string.nothing_matches, query))
                         }
@@ -965,7 +969,7 @@ private fun ReleaseHeader(
             style = MaterialTheme.typography.headlineMedium,
             color = palette.onBackground,
             textAlign = TextAlign.Center,
-            maxLines = 2,
+            maxLines = if (page.type == BrowseType.PLAYLIST) 3 else 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(horizontal = HEADER_GUTTER),
         )

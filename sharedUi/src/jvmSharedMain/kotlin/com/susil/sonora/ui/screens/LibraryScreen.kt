@@ -4,6 +4,7 @@ import com.susil.sonora.sharedui.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
@@ -64,6 +65,8 @@ import com.susil.sonora.ui.components.PullToRefresh
 import com.susil.sonora.ui.components.SHELF_CARD_WIDTH
 import com.susil.sonora.ui.components.libraryGrid
 import com.susil.sonora.ui.components.librarySkeleton
+import com.susil.sonora.ui.components.longPressMenuClickable
+import com.susil.sonora.ui.components.contextClick
 import coil3.compose.AsyncImage
 
 /**
@@ -324,6 +327,7 @@ private fun PlaylistShelf(
         onItemLongPress = onItemLongPress,
         onShowAll = onShowAll,
         pinnedPlaylists = pinnedPlaylists,
+        leadingItemCount = if (onImportSpotifyPlaylist != null) 2 else 1,
         leadingCard = {
             Row(horizontalArrangement = Arrangement.spacedBy(LIBRARY_GRID_SPACING)) {
                 NewShelfCard(
@@ -356,8 +360,8 @@ private const val LIBRARY_ROW_MAX_ITEMS = 5
  * title whenever there's more than that, opening the rest as a
  * vertically-scrolling grid instead. See [LibraryGridPage].
  *
- * [leadingCard], if given, occupies the first slot and counts against that
- * cap — see [PlaylistShelf].
+ * [leadingCard], if given, draws the leading action card(s); [leadingItemCount]
+ * is how many visible card widths they occupy against that cap — see [PlaylistShelf].
  */
 @Composable
 internal fun LibraryGridShelf(
@@ -366,9 +370,10 @@ internal fun LibraryGridShelf(
     onItemLongPress: (ShelfItem) -> Unit,
     onShowAll: () -> Unit,
     leadingCard: (@Composable () -> Unit)? = null,
+    leadingItemCount: Int = if (leadingCard != null) 1 else 0,
     pinnedPlaylists: List<String> = emptyList(),
 ) {
-    val leadingCount = if (leadingCard != null) 1 else 0
+    val leadingCount = leadingItemCount.coerceAtLeast(0)
     val visibleItems = shelf.items.take((LIBRARY_ROW_MAX_ITEMS - leadingCount).coerceAtLeast(0))
     Column(Modifier.padding(bottom = 26.dp)) {
         SectionHeader(
@@ -439,6 +444,7 @@ fun LibraryGridPage(
                         item = item,
                         onClick = { onItemClick(item) },
                         onLongPress = { onItemLongPress(item) },
+                        isPinned = item.browseId != null && item.browseId in pinnedPlaylists,
                         modifier = Modifier.padding(horizontal = PAGE_GUTTER),
                     )
                 }
@@ -521,35 +527,65 @@ private fun NewPlaylistListRow(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PlaylistListRow(
     item: ShelfItem,
     onClick: () -> Unit,
     onLongPress: () -> Unit,
+    isPinned: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .longPressMenuClickable(onClick = onClick, onLongClick = onLongPress)
+            .contextClick(onLongPress)
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        AsyncImage(
-            model = item.thumbnailUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8.dp)),
-        )
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = item.title,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = SonoraIcons.MusicNote,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(24.dp),
             )
+            if (!item.thumbnailUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = item.thumbnailUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
+        Column(Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (isPinned) {
+                    Icon(
+                        imageVector = SonoraIcons.Pin,
+                        contentDescription = stringResource(Res.string.pinned),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(14.dp),
+                    )
+                    Spacer(Modifier.width(4.dp))
+                }
+                Text(
+                    text = item.title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (item.subtitle.isNotBlank()) {
                 Text(
                     text = item.subtitle,

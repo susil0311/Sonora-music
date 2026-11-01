@@ -93,8 +93,9 @@ data class BrowseTarget(
  * and Shuffle; the page's own header already carries both, so there they are
  * null and the menu is the queue rows and the download.
  *
- * The queue rows are always offered. They are the reason this menu exists: a
- * release is exactly the kind of thing someone wants *after* what is playing
+ * Play, queue and download rows are offered only when [BrowseTarget.songs]
+ * contains tracks. They are the reason this menu exists for a populated release:
+ * a release is exactly the kind of thing someone wants *after* what is playing
  * rather than instead of it, and until now the only way to queue one was to
  * open it and long-press its tracks one at a time.
  *
@@ -178,19 +179,20 @@ fun BrowseActionsMenu(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            onPlay?.let { ActionRow(SfIcons.Play, stringResource(R.string.play), onClick = it) }
-            onShuffle?.let { ActionRow(SfIcons.Shuffle, stringResource(R.string.shuffle), onClick = it) }
-            ActionRow(
-                SfIcons.PlayNext,
-                stringResource(R.string.play_next),
-                onClick = onPlayNext,
-            )
-            ActionRow(
-                SfIcons.PlayLast,
-                stringResource(R.string.add_to_queue),
-                onClick = onAddToQueue,
-            )
-            onDownloadAll?.let { download ->
+            if (target.songs.isNotEmpty()) {
+                onPlay?.let { ActionRow(SfIcons.Play, stringResource(R.string.play), onClick = it) }
+                onShuffle?.let { ActionRow(SfIcons.Shuffle, stringResource(R.string.shuffle), onClick = it) }
+                ActionRow(
+                    SfIcons.PlayNext,
+                    stringResource(R.string.play_next),
+                    onClick = onPlayNext,
+                )
+                ActionRow(
+                    SfIcons.PlayLast,
+                    stringResource(R.string.add_to_queue),
+                    onClick = onAddToQueue,
+                )
+                onDownloadAll?.let { download ->
                 // Saying which of the three it is, rather than offering the same row
                 // whatever the state — this is where a release is asked for now that
                 // its page's header spends that spot on the search, and a menu that
@@ -230,6 +232,7 @@ fun BrowseActionsMenu(
                     },
                     onClick = download,
                 )
+            }
             }
             onOpen?.let {
                 ActionRow(

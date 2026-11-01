@@ -3996,7 +3996,8 @@ private fun SonoraApp(
                             // below is left with just the sleeve, the title and
                             // Shuffle / Play / Add.
                             if ((isReleaseDetail || isLocalDetail) && detail != null) {
-                                val releaseSongs = (detail.songs as? UiState.Success)?.data.orEmpty()
+                                val loadedReleaseSongs = (detail.songs as? UiState.Success)?.data
+                                val releaseSongs = loadedReleaseSongs.orEmpty()
                                 if (releaseSongs.isNotEmpty()) {
                                     IconButton(onClick = { detailSearching = !detailSearching }) {
                                         Icon(
@@ -4023,7 +4024,10 @@ private fun SonoraApp(
                                         tint = MaterialTheme.colorScheme.onSurface,
                                     )
                                 }
-                                if (isReleaseDetail && releaseSongs.isNotEmpty()) {
+                                if (
+                                    isReleaseDetail && loadedReleaseSongs != null &&
+                                    (releaseSongs.isNotEmpty() || detail.type == BrowseType.PLAYLIST)
+                                ) {
                                     // The page's own tracks, in the order the page
                                     // shows them, so the sheet has them already and
                                     // Play, Shuffle and Open are the buttons beside

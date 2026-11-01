@@ -219,10 +219,11 @@ private fun ColumnScope.NamePage(
     ) {
         Column {
             Spacer(Modifier.height(56.dp))
-            Image(
+            Icon(
                 painter = painterResource(Res.drawable.ic_logo),
                 contentDescription = null,
-                modifier = Modifier.size(width = 46.dp, height = 30.dp),
+                tint = Color.White,
+                modifier = Modifier.size(width = 35.dp, height = 30.dp),
             )
         }
     }

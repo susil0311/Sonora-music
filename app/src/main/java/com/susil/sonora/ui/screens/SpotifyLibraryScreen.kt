@@ -1,6 +1,7 @@
 package com.susil.sonora.ui.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,7 @@ import com.susil.sonora.data.settings.AppSettings
 import com.susil.sonora.data.spotify.SpotifyLibrary
 import com.susil.sonora.data.spotify.SpotifyPlaylist
 import com.susil.sonora.data.spotify.SpotifyTrack
+import com.susil.sonora.ui.icons.SonoraIcons
 
 /**
  * The signed-in Spotify account's playlists. A tap opens one as an ordinary
@@ -63,19 +65,22 @@ fun SpotifyLibraryScreen(
     var playlists by remember { mutableStateOf<List<SpotifyPlaylist>>(emptyList()) }
     var loading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    var loadedCookie by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(cookie) {
+        loadedCookie = null
+        playlists = emptyList()
+        error = null
         if (cookie.isBlank()) {
-            playlists = emptyList()
-            error = null
+            loading = false
             return@LaunchedEffect
         }
         loading = true
-        error = null
         runCatching { SpotifyLibrary.playlists() }
             .onSuccess { playlists = it }
             .onFailure { error = it.message }
         loading = false
+        loadedCookie = cookie
     }
 
     LazyColumn(
@@ -136,6 +141,16 @@ fun SpotifyLibraryScreen(
                     )
                 }
             }
+            if (loadedCookie == cookie && !loading && error == null && playlists.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.spotify_empty_playlists),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 28.dp),
+                    )
+                }
+            }
             items(playlists, key = { it.id }) { item ->
                 LibraryRow(
                     title = item.name,
@@ -163,12 +178,28 @@ private fun LibraryRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(52.dp).clip(RoundedCornerShape(8.dp)),
-        )
+        Box(
+            modifier = Modifier
+                .size(52.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = SonoraIcons.MusicNote,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(22.dp),
+            )
+            if (!imageUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
         Column(Modifier.weight(1f)) {
             Text(
                 text = title,

@@ -512,8 +512,8 @@ private fun HomeTitle(title: String, modifier: Modifier = Modifier) {
 /** The wordmark's height against the heading's font size. */
 private const val LOGO_TO_FONT = 0.9f
 
-/** ic_logo's viewport, 730 x 484. */
-private const val LOGO_ASPECT = 730f / 484f
+/** Cropped Sonora mark viewport, including its small optical margin. */
+private const val LOGO_ASPECT = 1.151f
 
 /**
  * Shared by the home feed, Explore and Library so headings line up across tabs.
@@ -557,7 +557,7 @@ internal fun SectionHeader(title: String, subtitle: String = "", onShowAll: (() 
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .clickable(onClick = onShowAll)
-                    .padding(start = 12.dp, top = 4.dp, bottom = 4.dp),
+                    .padding(start = 12.dp, top = 14.dp, bottom = 14.dp),
             )
         }
     }

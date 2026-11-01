@@ -278,11 +278,11 @@ fun ReplayCardRowSkeleton(modifier: Modifier = Modifier) {
     }
 }
 
-/** The signed-in library: saved collections, then the run of liked tracks. */
+/** The signed-in Library's saved-collection shelves while its feed is loading. */
 fun LazyListScope.librarySkeleton() {
-    item(key = "skeleton:library:shelf") { ShelfSkeleton() }
-    item(key = "skeleton:library:header") { SectionHeaderSkeleton(index = 1) }
-    songListSkeleton(count = 7, keyPrefix = "skeleton:library:song")
+    repeat(2) { index ->
+        item(key = "skeleton:library:shelf:$index") { ShelfSkeleton() }
+    }
 }
 
 /** The Play / Shuffle pair, which only appears once there is something to play. */
