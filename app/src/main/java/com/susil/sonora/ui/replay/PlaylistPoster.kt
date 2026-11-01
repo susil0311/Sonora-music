@@ -120,7 +120,7 @@ internal suspend fun renderPlaylistPoster(
         val titleLines = wrapPosterTitle(request.title, titlePaint, textWidth)
         val titleAdvance = titlePaint.textSize * TITLE_LINE_SPACING
         val avatarSize = if (isStory) 56f else 48f
-        val gap = 26f
+        val gap = 10f
         val titleBlock = titleLines.size * titleAdvance
         val descPaint = type.body(if (isStory) 27f else 24f, 0xD0FFFFFF.toInt())
         val descLines = wrapPosterDescription(
@@ -130,7 +130,7 @@ internal suspend fun renderPlaylistPoster(
             maxLines = if (isStory) 3 else 2,
         )
         val descAdvance = if (isStory) 38f else 32f
-        val descGap = if (descLines.isEmpty()) 0f else 22f
+        val descGap = if (descLines.isEmpty()) 0f else 16f
         val descHeight = descLines.size * descAdvance
         val blockHeight = titleBlock + gap + avatarSize + descGap + descHeight
         val blockTop = maxOf(coverTop, coverTop + (coverSize - blockHeight) / 2f)
