@@ -89,9 +89,13 @@ fun ReplayShareSheet(
     var poster by remember { mutableStateOf<Bitmap?>(null) }
     var failed by remember { mutableStateOf(false) }
     var saved by remember { mutableStateOf(false) }
+    var showBranding by remember(summary) { mutableStateOf(true) }
 
-    LaunchedEffect(summary, page) {
-        poster = runCatching { renderReplayPoster(context, summary, holder, memberSince, page) }
+    LaunchedEffect(summary, page, showBranding) {
+        poster = null
+        failed = false
+        saved = false
+        poster = runCatching { renderReplayPoster(context, summary, holder, memberSince, page, showBranding) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -118,6 +122,11 @@ fun ReplayShareSheet(
             },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(12.dp))
+        ShareBrandingControl(
+            showBranding = showBranding,
+            onShowBrandingChange = { showBranding = it },
         )
         Spacer(Modifier.height(16.dp))
 

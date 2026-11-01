@@ -5156,14 +5156,9 @@ private fun SonoraApp(
                 onShareImage = act { songs ->
                     playlistShareRequest = PlaylistShareRequest(
                         title = target.title,
-                        subtitle = target.subtitle,
-                        description = target.description,
-                        creator = target.subtitle,
+                        username = target.subtitle.takeIf { it.isNotBlank() },
                         artworkUrl = target.thumbnailUrl,
                         songs = songs,
-                        playlistUrl = target.browseId
-                            ?.takeIf { !it.startsWith("local:") }
-                            ?.let { "https://music.youtube.com/playlist?list=${it.removePrefix("VL")}" },
                     )
                 }.takeIf { target.type == BrowseType.PLAYLIST },
                 isPinned = pinnableId != null && pinnableId in pinnedPlaylists,

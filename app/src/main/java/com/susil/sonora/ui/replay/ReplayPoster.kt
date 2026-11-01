@@ -65,9 +65,10 @@ suspend fun renderReplayPoster(
      * summary and should not be: somebody taps share on the genre card because
      * the genre surprised them, and receiving a table of every chart instead is
      * a different message. The Replay page's own button is where "all of it"
-     * lives.
+    * lives.
      */
     page: ReplayStoryPage? = null,
+    showBranding: Boolean = true,
 ): Bitmap = coroutineScope {
     // The artwork this needs is a dozen small fetches that are all in Coil's
     // disk cache already — the page they came from has been on screen. Started
@@ -92,7 +93,7 @@ suspend fun renderReplayPoster(
         // The same cover and the same turn of the colour wheel the card on
         // screen was drawn with, so the picture is recognisably that card.
         drawBackdrop(canvas, covers[lit], page?.let(::storyHue) ?: 0f)
-        var y = drawHeader(canvas, context, type, summary, holder, memberSince)
+        var y = drawHeader(canvas, context, type, summary, holder, memberSince, showBranding)
         if (page == null) {
             y = drawTotals(canvas, context, type, summary, y)
             y = drawColumns(canvas, context, type, songs, artists, covers, y)
@@ -395,6 +396,7 @@ private fun drawHeader(
     summary: ReplaySummary,
     holder: String,
     memberSince: String?,
+    showBranding: Boolean,
 ): Float {
     val label = summary.localizedLabel(context)
     val title = if (label.length == 4 && label.all { it.isDigit() }) {
@@ -403,15 +405,7 @@ private fun drawHeader(
         "Replay · $label"
     }
     canvas.drawText(title, MARGIN, 132f, type.heading(46f, 0xFFFFFFFF.toInt()))
-    val brand = type.heading(46f, 0xE6FFFFFF.toInt()).apply {
-        textAlign = Paint.Align.RIGHT
-    }
-    canvas.drawText("Sonora", POSTER_W - MARGIN, 132f, brand)
-    // The mark, to the left of the word, exactly as the story header and the
-    // card carry it. Without it the one artefact of this app that ends up in
-    // somebody else's chat was the only place the logo didn't appear.
-    val wordWidth = brand.measureText("Sonora")
-    drawLogo(canvas, context, POSTER_W - MARGIN - wordWidth - LOGO_GAP, 132f)
+    if (showBranding) drawBrandLockup(canvas, context, type, POSTER_W - MARGIN, 132f)
 
     val credit = listOfNotNull(
         holder.ifBlank { context.getString(R.string.default_replay_holder) },
@@ -710,6 +704,21 @@ internal fun drawLogo(canvas: Canvas, context: Context, right: Float, baseline: 
     logo.draw(canvas)
 }
 
+/** The app mark and wordmark as one lockup at the shared 1080px poster anchor. */
+internal fun drawBrandLockup(
+    canvas: Canvas,
+    context: Context,
+    type: Fonts,
+    right: Float,
+    baseline: Float,
+) {
+    val wordmark = type.heading(BRAND_WORDMARK_SIZE, 0xE6FFFFFF.toInt()).apply {
+        textAlign = Paint.Align.RIGHT
+    }
+    canvas.drawText(BRAND_WORDMARK, right, baseline, wordmark)
+    drawLogo(canvas, context, right - wordmark.measureText(BRAND_WORDMARK) - LOGO_GAP, baseline)
+}
+
 /** Trims [text] to [width], with an ellipsis, the way a single-line row would. */
 internal fun ellipsised(text: String, paint: Paint, width: Float): String {
     if (paint.measureText(text) <= width) return text
@@ -771,6 +780,8 @@ private const val MARGIN = 72f
 private const val LOGO_W = 66f
 private const val LOGO_H = 44f
 private const val LOGO_GAP = 20f
+private const val BRAND_WORDMARK = "Sonora"
+private const val BRAND_WORDMARK_SIZE = 46f
 
 /** The width type and artwork are laid out in. */
 private const val CONTENT_W = POSTER_W - MARGIN * 2

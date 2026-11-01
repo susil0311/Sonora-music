@@ -183,7 +183,7 @@ fun AboutScreen(
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                painter = painterResource(R.drawable.susil_avatar),
+                painter = painterResource(R.drawable.susil_avatar_512),
                 contentDescription = "Susil Kumar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
@@ -207,7 +207,7 @@ fun AboutScreen(
                 AboutSocialButton(
                     label = "Instagram",
                     icon = Icons.Rounded.CameraAlt,
-                    onClick = { uriHandler.openUri(INSTAGRAM_URL) },
+                    onClick = { runCatching { uriHandler.openUri(INSTAGRAM_URL) } },
                 )
                 Box(
                     modifier = Modifier
@@ -218,7 +218,7 @@ fun AboutScreen(
                 AboutSocialButton(
                     label = "Telegram",
                     icon = Icons.Rounded.Send,
-                    onClick = { uriHandler.openUri(TELEGRAM_URL) },
+                    onClick = { runCatching { uriHandler.openUri(TELEGRAM_URL) } },
                 )
             }
         }
@@ -238,7 +238,7 @@ fun AboutScreen(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { uriHandler.openUri(UPI_SUPPORT_URL) },
+                .clickable { runCatching { uriHandler.openUri(UPI_SUPPORT_URL) } },
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
             shape = RoundedCornerShape(20.dp),
         ) {

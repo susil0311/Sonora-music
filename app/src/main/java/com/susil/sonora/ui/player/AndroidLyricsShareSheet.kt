@@ -41,6 +41,7 @@ import com.susil.sonora.R
 import com.susil.sonora.ui.haptics.Haptic
 import com.susil.sonora.ui.haptics.rememberHaptics
 import com.susil.sonora.ui.replay.ShareAction
+import com.susil.sonora.ui.replay.ShareBrandingControl
 import com.susil.sonora.ui.replay.cacheForSharing
 import com.susil.sonora.ui.replay.saveToGallery
 import com.susil.sonora.ui.replay.sendIntent
@@ -76,12 +77,13 @@ internal fun AndroidLyricsShareSheet(
     var saved by remember(request) { mutableStateOf(false) }
     // Same picture, cut to the 9:16 frame a story wants instead of to its lines.
     var story by remember(request) { mutableStateOf(false) }
+    var showBranding by remember(request) { mutableStateOf(true) }
 
-    LaunchedEffect(request, story) {
+    LaunchedEffect(request, story, showBranding) {
         image = null
         failed = false
         saved = false
-        image = runCatching { renderLyricsShareCard(context, request, story) }
+        image = runCatching { renderLyricsShareCard(context, request, story, showBranding) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -145,6 +147,11 @@ internal fun AndroidLyricsShareSheet(
                     haptics.play(Haptic.Tap)
                     story = !story
                 },
+            )
+
+            ShareBrandingControl(
+                showBranding = showBranding,
+                onShowBrandingChange = { showBranding = it },
             )
 
             if (failed) {

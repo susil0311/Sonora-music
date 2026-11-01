@@ -570,13 +570,10 @@
     <string name="saved">Guardado</string>
     <string name="saved_bang">¡Guardado!</string>
     <string name="playlist_share_as_image">Compartir como imagen</string>
-    <string name="playlist_share_title">Compartir imagen de playlist</string>
-    <string name="playlist_share_description">Una imagen de la playlist con su portada y algunas canciones.</string>
-    <string name="playlist_share_card_label">Playlist</string>
-    <string name="playlist_share_track_preview">En esta playlist</string>
-    <string name="playlist_share_footer">Creado con Sonora</string>
-    <string name="playlist_share_scan">ESCANEA PARA ABRIR</string>
+    <string name="playlist_share_title">Compartir playlist</string>
+    <string name="playlist_share_description">Previsualiza la tarjeta y guárdala o compártela.</string>
     <string name="share_playlist_image">Compartir esta imagen de playlist</string>
+    <string name="share_show_branding">Mostrar la marca Sonora</string>
     <string name="your_playlist_card">Tu tarjeta de playlist</string>
     <string name="share_my_replay">Compartir mi Replay</string>
     <string name="share_your_lyrics">Enviar tu tarjeta de letra</string>

@@ -557,13 +557,10 @@
     <string name="saved">Gespeichert</string>
     <string name="saved_bang">Gespeichert!</string>
     <string name="playlist_share_as_image">Als Bild teilen</string>
-    <string name="playlist_share_title">Playlist-Bild teilen</string>
-    <string name="playlist_share_description">Ein Playlist-Poster mit Cover und einigen Titeln.</string>
-    <string name="playlist_share_card_label">Playlist</string>
-    <string name="playlist_share_track_preview">In dieser Playlist</string>
-    <string name="playlist_share_footer">Mit Sonora erstellt</string>
-    <string name="playlist_share_scan">ZUM ÖFFNEN SCANNEN</string>
+    <string name="playlist_share_title">Playlist teilen</string>
+    <string name="playlist_share_description">Sieh dir die Karte an und speichere oder teile sie.</string>
     <string name="share_playlist_image">Dieses Playlist-Bild teilen</string>
+    <string name="share_show_branding">Sonora-Branding anzeigen</string>
     <string name="your_playlist_card">Deine Playlist-Karte</string>
     <string name="share_my_replay">Mein Replay teilen</string>
     <string name="share_your_lyrics">Textkarte senden</string>

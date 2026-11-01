@@ -53,12 +53,13 @@ internal fun PlaylistShareSheet(
     var failed by remember(request) { mutableStateOf(false) }
     var saved by remember(request) { mutableStateOf(false) }
     var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
+    var showBranding by remember(request) { mutableStateOf(true) }
 
-    LaunchedEffect(request, ratio) {
+    LaunchedEffect(request, ratio, showBranding) {
         poster = null
         failed = false
         saved = false
-        poster = runCatching { renderPlaylistPoster(context, request, ratio) }
+        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -109,9 +110,14 @@ internal fun PlaylistShareSheet(
             }
         }
 
+        ShareBrandingControl(
+            showBranding = showBranding,
+            onShowBrandingChange = { showBranding = it },
+        )
+
         Box(
             Modifier
-                .fillMaxWidth(0.52f)
+                .fillMaxWidth((0.72f * ratio.ratio).coerceIn(0.36f, 0.92f))
                 .align(Alignment.CenterHorizontally)
                 .aspectRatio(ratio.ratio)
                 .clip(RoundedCornerShape(18.dp))

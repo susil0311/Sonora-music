@@ -558,13 +558,10 @@
     <string name="saved">Enregistré</string>
     <string name="saved_bang">Enregistré !</string>
     <string name="playlist_share_as_image">Partager en image</string>
-    <string name="playlist_share_title">Partager l’image de la playlist</string>
-    <string name="playlist_share_description">Une affiche de playlist avec sa pochette et quelques titres.</string>
-    <string name="playlist_share_card_label">Playlist</string>
-    <string name="playlist_share_track_preview">Dans cette playlist</string>
-    <string name="playlist_share_footer">Créé avec Sonora</string>
-    <string name="playlist_share_scan">SCANNER POUR OUVRIR</string>
+    <string name="playlist_share_title">Partager la playlist</string>
+    <string name="playlist_share_description">Prévisualisez la carte, puis enregistrez-la ou partagez-la.</string>
     <string name="share_playlist_image">Partager cette image de playlist</string>
+    <string name="share_show_branding">Afficher l’identité Sonora</string>
     <string name="your_playlist_card">Votre carte playlist</string>
     <string name="share_my_replay">Partager mon Replay</string>
     <string name="share_your_lyrics">Envoyer votre carte de paroles</string>

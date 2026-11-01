@@ -8,7 +8,7 @@ import android.graphics.Paint
 import com.susil.sonora.ui.replay.Fonts
 import com.susil.sonora.ui.replay.drawArtwork
 import com.susil.sonora.ui.replay.drawBackdrop
-import com.susil.sonora.ui.replay.drawLogo
+import com.susil.sonora.ui.replay.drawBrandLockup
 import com.susil.sonora.ui.replay.ellipsised
 import com.susil.sonora.ui.replay.loadBitmap
 import kotlin.math.roundToInt
@@ -54,6 +54,7 @@ internal suspend fun renderLyricsShareCard(
     card: LyricsShareRequest,
     /** Pad out to the full 1080×1920 frame, the passage centred in the room. */
     story: Boolean = false,
+    showBranding: Boolean = true,
 ): Bitmap = withContext(Dispatchers.Default) {
     val type = Fonts(context)
     val cover = card.artworkUrl?.let { loadBitmap(context, it) }
@@ -84,19 +85,8 @@ internal suspend fun renderLyricsShareCard(
     drawBackdrop(canvas, cover, 0f, cardH)
 
     // ── Header ──────────────────────────────────────────────────────────────
-    // The mark alone, at the top right — the same one the Replay carries, so
-    // two of these cards still read as one family. Nothing else goes above
-    // the passage: the picture is the verse, not a caption for it.
-    val brand = type.heading(46f, 0xE6FFFFFF.toInt()).apply {
-        textAlign = Paint.Align.RIGHT
-    }
-    canvas.drawText(BRAND, CARD_W - CARD_MARGIN, HEADER_BASELINE, brand)
-    drawLogo(
-        canvas,
-        context,
-        CARD_W - CARD_MARGIN - brand.measureText(BRAND) - LOGO_GAP,
-        HEADER_BASELINE,
-    )
+    // The shared lockup sits at the same top-right anchor as Playlist and Replay.
+    if (showBranding) drawBrandLockup(canvas, context, type, CARD_W - CARD_MARGIN, HEADER_BASELINE)
 
     // ── The passage ─────────────────────────────────────────────────────────
     // Every row that exists is drawn: the frame below is measured from
@@ -265,9 +255,6 @@ private const val MAX_CARD_H = 1920f
 
 private const val CARD_MARGIN = 72f
 private const val CARD_CONTENT_W = CARD_W - CARD_MARGIN * 2
-
-private const val LOGO_GAP = 20f
-private const val BRAND = "Sonora"
 
 /** Baseline of the mark at the top right, and just under it where the gap starts. */
 private const val HEADER_BASELINE = 132f
