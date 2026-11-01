@@ -196,8 +196,13 @@ internal suspend fun renderPlaylistPoster(
             )
         }
 
-        // Brand lockup bottom-right, like the Spotify wordmark.
-        if (showBranding) drawBrandLockup(canvas, context, type, frame.right - 36f, frame.bottom - 40f)
+        // Quiet credit line, bottom center; no logo.
+        if (showBranding) {
+            val credit = type.body(if (isStory) 32f else 29f, 0xA6FFFFFF.toInt()).apply {
+                textAlign = Paint.Align.CENTER
+            }
+            canvas.drawText("Shared from Sonora", (frame.left + frame.right) / 2f, frame.bottom - 44f, credit)
+        }
 
         bitmap
     }
