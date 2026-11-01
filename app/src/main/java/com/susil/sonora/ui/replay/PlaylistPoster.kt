@@ -144,7 +144,13 @@ internal suspend fun renderPlaylistPoster(
         drawArtwork(canvas, ownerAvatar, owner, textLeft, avatarTop, avatarSize, circular = true)
         val ownerPaint = type.body(if (isStory) 31f else 28f, 0xF0FFFFFF.toInt())
         val ownerX = textLeft + avatarSize + 16f
-        val ownerRoom = (frame.right - pad - ownerX).coerceAtLeast(100f)
+        val total = request.songs.size
+        val count = context.resources.getQuantityString(R.plurals.track_count_plural, total, total)
+        val countPaint = type.body(if (isStory) 28f else 25f, 0xD8FFFFFF.toInt(), bold = true).apply {
+            textAlign = Paint.Align.RIGHT
+        }
+        canvas.drawText(count, frame.right - pad, avatarTop + avatarSize * 0.70f, countPaint)
+        val ownerRoom = (frame.right - pad - ownerX - countPaint.measureText(count) - 24f).coerceAtLeast(100f)
         canvas.drawText(
             ellipsised(owner, ownerPaint, ownerRoom),
             ownerX,
