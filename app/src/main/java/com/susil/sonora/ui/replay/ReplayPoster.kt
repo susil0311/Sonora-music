@@ -594,7 +594,7 @@ private fun drawGenres(canvas: Canvas, context: Context, type: Fonts, summary: R
 
 /** Quiet credit line, bottom center; no logo. Same line as the playlist and lyrics cards. */
 private fun drawFooter(canvas: Canvas, type: Fonts) {
-    val credit = type.body(30f, 0xA6FFFFFF.toInt()).apply { textAlign = Paint.Align.CENTER }
+    val credit = type.body(32f, 0xA6FFFFFF.toInt()).apply { textAlign = Paint.Align.CENTER }
     canvas.drawText("Shared from Sonora", POSTER_W / 2f, POSTER_H - 64f, credit)
 }
 
