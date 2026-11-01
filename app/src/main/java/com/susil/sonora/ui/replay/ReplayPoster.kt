@@ -103,7 +103,7 @@ suspend fun renderReplayPoster(
             y = drawRuns(canvas, type, summary.storyHeadline(context, page), MARGIN, y, CONTENT_W)
             drawCard(canvas, context, type, summary, page, covers, y + 56f)
         }
-        drawFooter(canvas, context, type)
+        if (showBranding) drawFooter(canvas, type)
         bitmap
     }
 }
@@ -414,10 +414,9 @@ private fun drawHeader(
     } else {
         "Replay · $label"
     }
-    val textWidth = (CONTENT_W - if (showBranding) 240f else 0f).coerceAtLeast(0f)
+    val textWidth = CONTENT_W
     val titlePaint = type.heading(46f, 0xFFFFFFFF.toInt())
     canvas.drawText(ellipsised(title, titlePaint, textWidth), MARGIN, 132f, titlePaint)
-    if (showBranding) drawBrandLockup(canvas, context, type, POSTER_W - MARGIN, 132f)
 
     val credit = listOfNotNull(
         holder.ifBlank { context.getString(R.string.default_replay_holder) },
@@ -593,13 +592,10 @@ private fun drawGenres(canvas: Canvas, context: Context, type: Fonts, summary: R
     }
 }
 
-private fun drawFooter(canvas: Canvas, context: Context, type: Fonts) {
-    canvas.drawText(
-        context.getString(R.string.counted_on_device_with_sonora),
-        MARGIN,
-        POSTER_H - 64f,
-        type.label(24f, 0x73FFFFFF, tracking = 0.08f),
-    )
+/** Quiet credit line, bottom center; no logo. Same line as the playlist and lyrics cards. */
+private fun drawFooter(canvas: Canvas, type: Fonts) {
+    val credit = type.body(30f, 0xA6FFFFFF.toInt()).apply { textAlign = Paint.Align.CENTER }
+    canvas.drawText("Shared from Sonora", POSTER_W / 2f, POSTER_H - 64f, credit)
 }
 
 // ── Pieces ──────────────────────────────────────────────────────────────────
