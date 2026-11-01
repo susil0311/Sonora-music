@@ -8,7 +8,6 @@ import android.graphics.Paint
 import com.susil.sonora.ui.replay.Fonts
 import com.susil.sonora.ui.replay.drawArtwork
 import com.susil.sonora.ui.replay.drawBackdrop
-import com.susil.sonora.ui.replay.drawBrandLockup
 import com.susil.sonora.ui.replay.ellipsised
 import com.susil.sonora.ui.replay.loadBitmap
 import kotlin.math.roundToInt
@@ -24,8 +23,8 @@ import kotlinx.coroutines.withContext
  * scrubber, the glow falloff, whichever lines happened to be on screen and the
  * status bar of that particular phone, so two people sharing the same verse
  * would send two different-looking pictures. A card laid out here is the verse,
- * the sleeve and this app's mark, and nothing else — and it is only as tall as
- * that verse needs, which holds it inside 1080×1920 (9:16): the shape a story
+ * the sleeve and a small credit line, and nothing else — and it is only as tall
+ * as that verse needs, which holds it inside 1080×1920 (9:16): the shape a story
  * or a chat head expects. Keeping it there is the player's job, by refusing
  * more words at the pick rather than by shrinking them here.
  *
@@ -35,9 +34,9 @@ import kotlinx.coroutines.withContext
  * [com.susil.sonora.ui.replay.ReplayPoster] does it, and for the same
  * reasons written up there: Compose offscreen on minSdk 26 is a cascade of
  * hardware bitmaps and layers that fails differently per device, while a
- * software canvas draws identically from API 26 up. The backdrop, the logo, the
- * fonts and the sleeve are shared with the Replay by importing them rather than
- * by copying, so the two cards cannot drift apart.
+ * software canvas draws identically from API 26 up. The backdrop, the fonts and
+ * the sleeve are shared with the Replay by importing them rather than by
+ * copying, so the cards cannot drift apart.
  *
  * ## Fitting the type
  *
@@ -66,7 +65,7 @@ internal suspend fun renderLyricsShareCard(
     // floating in the middle of it, and the size comes down only as far as the
     // ladder goes — past that the frame gives rather than the type does.
     val headTop = HEADER_BOTTOM + GAP_ABOVE_BODY
-    val frameRoom = MAX_CARD_H - FOOTER_THUMB - FOOTER_PAD - GAP_BELOW_BODY - headTop
+    val frameRoom = MAX_CARD_H - FOOTER_H - GAP_BELOW_BODY - headTop
     val plan = fittestPlan(type, card.lines, frameRoom)
     // A story is always the whole frame, so the spare room is split above and
     // below the passage; otherwise the card is only as tall as its words.
@@ -78,15 +77,21 @@ internal suspend fun renderLyricsShareCard(
     // land past the bottom by a rounding error and be replaced by a mark
     // saying something was left out.
     val bodyBottom = bodyTop + plan.content
-    val cardH = bodyBottom + spare / 2 + GAP_BELOW_BODY + FOOTER_THUMB + FOOTER_PAD
+    val cardH = bodyBottom + spare / 2 + GAP_BELOW_BODY + FOOTER_H
 
     val bitmap = Bitmap.createBitmap(CARD_W, cardH.roundToInt(), Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     drawBackdrop(canvas, cover, 0f, cardH)
 
     // ── Header ──────────────────────────────────────────────────────────────
-    // The shared lockup sits at the same top-right anchor as Playlist and Replay.
-    if (showBranding) drawBrandLockup(canvas, context, type, CARD_W - CARD_MARGIN, HEADER_BASELINE)
+    // Which song this is: sleeve, title and artist, above the passage.
+    drawArtwork(canvas, cover, card.song.title, CARD_MARGIN, HEAD_TOP, HEAD_THUMB, false)
+    val textX = CARD_MARGIN + HEAD_THUMB + 28f
+    val room = CARD_W - CARD_MARGIN - textX
+    val title = type.body(42f, Color.WHITE, bold = true)
+    canvas.drawText(ellipsised(card.song.title, title, room), textX, HEAD_TOP + 54f, title)
+    val artist = type.body(34f, 0x99FFFFFF.toInt())
+    canvas.drawText(ellipsised(card.song.artist, artist, room), textX, HEAD_TOP + 100f, artist)
 
     // ── The passage ─────────────────────────────────────────────────────────
     // Every row that exists is drawn: the frame below is measured from
@@ -102,15 +107,11 @@ internal suspend fun renderLyricsShareCard(
     }
 
     // ── Footer ──────────────────────────────────────────────────────────────
-    // Which song this is — which only the backdrop had been saying until now.
-    val thumbY = cardH - FOOTER_PAD - FOOTER_THUMB
-    drawArtwork(canvas, cover, card.song.title, CARD_MARGIN, thumbY, FOOTER_THUMB, false)
-    val textX = CARD_MARGIN + FOOTER_THUMB + 34f
-    val room = CARD_W - CARD_MARGIN - textX
-    val title = type.body(50f, Color.WHITE, bold = true)
-    canvas.drawText(ellipsised(card.song.title, title, room), textX, thumbY + 74f, title)
-    val artist = type.body(42f, 0x99FFFFFF.toInt())
-    canvas.drawText(ellipsised(card.song.artist, artist, room), textX, thumbY + 132f, artist)
+    // Quiet credit line, bottom center; no logo. Same line as the playlist card.
+    if (showBranding) {
+        val credit = type.body(CREDIT_SIZE, 0xA6FFFFFF.toInt()).apply { textAlign = Paint.Align.CENTER }
+        canvas.drawText("Shared from Sonora", CARD_W / 2f, cardH - CREDIT_BOTTOM, credit)
+    }
 
     bitmap
 }
@@ -256,17 +257,21 @@ private const val MAX_CARD_H = 1920f
 private const val CARD_MARGIN = 72f
 private const val CARD_CONTENT_W = CARD_W - CARD_MARGIN * 2
 
-/** Baseline of the mark at the top right, and just under it where the gap starts. */
-private const val HEADER_BASELINE = 132f
-private const val HEADER_BOTTOM = 170f
+/** The song header: sleeve square, its distance from the top edge, and where the header ends. */
+private const val HEAD_TOP = 84f
+private const val HEAD_THUMB = 120f
+private const val HEADER_BOTTOM = HEAD_TOP + HEAD_THUMB
 
-/** Air kept between the fixed furniture and the passage, both ends alike. */
-private const val GAP_ABOVE_BODY = 20f
-private const val GAP_BELOW_BODY = 20f
+/** Air kept between the header or footer and the passage. */
+private const val GAP_ABOVE_BODY = 52f
+private const val GAP_BELOW_BODY = 44f
 
-/** The sleeve square in the footer, and the air kept under it. */
-private const val FOOTER_THUMB = 160f
-private const val FOOTER_PAD = 96f
+/** Height reserved under the passage for the credit line. */
+private const val FOOTER_H = 110f
+
+/** The "Shared from Sonora" line: its size, and its baseline's distance above the card's bottom edge. */
+private const val CREDIT_SIZE = 30f
+private const val CREDIT_BOTTOM = 52f
 
 /** Smallest the translation line is allowed to get before it stops being legible. */
 private const val SUB_FLOOR = 24f
