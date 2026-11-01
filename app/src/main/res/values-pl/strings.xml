@@ -1354,7 +1354,7 @@
     <string name="search_source_addons">Dodatki</string>
     <string name="search_addons_none">Brak włączonych dodatków. Dodaj jeden w Ustawienia → Źródła.</string>
     <string name="app_icon">Ikona aplikacji</string>
-    <string name="app_icon_default" translatable="false">Default.png</string>
+    <string name="app_icon_default" translatable="false">Default</string>
     <string name="show_queue_history">Pokaż historię kolejki</string>
     <string name="show_queue_history_subtitle">Pokazuje do 25 wcześniej odtworzonych utworów nad pozycją „Teraz odtwarzane” w kolejce</string>
     <string name="not_enough_this_week">Posłuchaj w tym tygodniu jeszcze kilku utworów, aby odblokować swój Replay.</string>

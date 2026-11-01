@@ -1291,7 +1291,7 @@
     <string name="search_source_addons">Addon</string>
     <string name="search_addons_none">Tidak ada addon yang aktif. Tambahkan satu di Pengaturan → Sumber.</string>
     <string name="app_icon">Ikon aplikasi</string>
-    <string name="app_icon_default" translatable="false">Default.png</string>
+    <string name="app_icon_default" translatable="false">Default</string>
     <string name="show_queue_history">Tampilkan riwayat antrean</string>
     <string name="show_queue_history_subtitle">Menampilkan hingga 25 lagu yang sudah diputar di atas “Sedang diputar” di antrean</string>
     <string name="not_enough_this_week">Putar beberapa lagu lagi minggu ini untuk membuka Replay Anda.</string>

@@ -597,6 +597,10 @@ data class DetailPage(
      * fetched with a session; see [SubscriptionState].
      */
     val subscription: SubscriptionState? = null,
+    /** Playlist creator shown in YouTube Music's header facepile, when available. */
+    val ownerName: String? = null,
+    /** Creator's profile image from the playlist header facepile, when available. */
+    val ownerAvatarUrl: String? = null,
 )
 
 /**

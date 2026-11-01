@@ -1113,6 +1113,8 @@ object InnertubeParser {
         /** The line under it — "Album • Artist • 2024", or a playlist's blurb. */
         val subtitle: String,
         val thumbnailUrl: String?,
+        val ownerName: String? = null,
+        val ownerAvatarUrl: String? = null,
     )
 
     /**
@@ -1147,6 +1149,11 @@ object InnertubeParser {
             // there — so the first image under the header is the cover.
             thumbnailUrl = collectRenderers(header, "musicThumbnailRenderer").firstOrNull()
                 .o("thumbnail").a("thumbnails").best(),
+            ownerName = header.o("facepile").o("avatarStackViewModel")
+                .o("text").s("content")?.takeIf { it.isNotBlank() },
+            ownerAvatarUrl = header.o("facepile").o("avatarStackViewModel")
+                .a("avatars")?.firstOrNull()
+                .o("avatarViewModel").o("image").a("sources").best(),
         )
     }
 

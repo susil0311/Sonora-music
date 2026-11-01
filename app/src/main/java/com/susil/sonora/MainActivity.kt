@@ -4046,6 +4046,8 @@ private fun SonoraApp(
                                                 thumbnailUrl = detail.thumbnailUrl,
                                                 type = detail.type,
                                                 description = detail.description,
+                                                ownerName = detail.ownerName,
+                                                ownerAvatarUrl = detail.ownerAvatarUrl,
                                                 songs = releaseSongs.sortedForDetail(songSort).map { song ->
                                                     if (detail.type == BrowseType.ALBUM) {
                                                         song.copy(albumName = song.albumName ?: detail.title)
@@ -5160,7 +5162,9 @@ private fun SonoraApp(
                 onShareImage = act { songs ->
                     playlistShareRequest = PlaylistShareRequest(
                         title = target.title,
-                        username = target.subtitle.takeIf { it.isNotBlank() },
+                        username = target.ownerName ?: target.subtitle.takeIf { it.isNotBlank() },
+                        description = target.description,
+                        ownerAvatarUrl = target.ownerAvatarUrl,
                         artworkUrl = target.thumbnailUrl,
                         songs = songs,
                     )

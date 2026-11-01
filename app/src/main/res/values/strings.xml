@@ -325,13 +325,13 @@
     <string name="show_listen_together_button">Show Listen Together button</string>
     <string name="show_listen_together_button_subtitle">Off, the player shows only the audio output button between lyrics and the queue</string>
     <string name="app_icon">App icon</string>
-    <string name="app_icon_default" translatable="false">Default.png</string>
-    <string name="app_icon_monochrome" translatable="false">Monochrome.png</string>
-    <string name="app_icon_liquid_glass" translatable="false">Liquid Glass.png</string>
-    <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark.png</string>
-    <string name="app_icon_neon_silver" translatable="false">Neon silver.png</string>
-    <string name="app_icon_neon_cyan" translatable="false">Neon Cyan.png</string>
-    <string name="app_icon_neon_green" translatable="false">Neon Green.png</string>
+    <string name="app_icon_default" translatable="false">Default</string>
+    <string name="app_icon_monochrome" translatable="false">Monochrome</string>
+    <string name="app_icon_liquid_glass" translatable="false">Liquid Glass</string>
+    <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark</string>
+    <string name="app_icon_neon_silver" translatable="false">Neon silver</string>
+    <string name="app_icon_neon_cyan" translatable="false">Neon Cyan</string>
+    <string name="app_icon_neon_green" translatable="false">Neon Green</string>
     <string name="theme">Theme</string>
     <string name="font">Font</string>
     <string name="font_default">Default</string>
@@ -733,8 +733,9 @@
     <string name="playlist_share_as_image">Share as image</string>
     <string name="playlist_share_title">Share playlist</string>
     <string name="playlist_share_description">Preview the card, then save or share it.</string>
-    <string name="playlist_share_ratio_portrait">Portrait · 4:5</string>
+    <string name="playlist_share_ratio_portrait">Post · 4:5</string>
     <string name="playlist_share_ratio_story">Story · 9:16</string>
+    <string name="playlist_share_border_color">Border color</string>
     <string name="share_playlist_image">Share this playlist image</string>
     <string name="share_show_branding">Show Sonora branding</string>
     <string name="your_playlist_card">Your playlist card</string>

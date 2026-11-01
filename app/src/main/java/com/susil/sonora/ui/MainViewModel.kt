@@ -2824,6 +2824,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             var library: LibraryState? = null
             /** YouTube's own "About" blurb — see [DetailPage.description]. */
             var description: String? = null
+            var ownerName: String? = null
+            var ownerAvatarUrl: String? = null
             /** Artist header stats — see [DetailPage.subscriberCountText]. */
             var subscriberCountText: String? = null
             var monthlyListenerCount: String? = null
@@ -2909,6 +2911,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                                     credit = header.subtitle
                                 }
                                 if (thumbnailUrl == null) artwork = header.thumbnailUrl
+                                ownerName = header.ownerName
+                                ownerAvatarUrl = header.ownerAvatarUrl
                             }
                             description = page.description
                             if (page.songs.isEmpty()) {
@@ -2941,6 +2945,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                         continuation = more,
                         library = library,
                         description = description,
+                        ownerName = ownerName,
+                        ownerAvatarUrl = ownerAvatarUrl,
                         subscriberCountText = subscriberCountText,
                         monthlyListenerCount = monthlyListenerCount,
                         subscription = subscription,

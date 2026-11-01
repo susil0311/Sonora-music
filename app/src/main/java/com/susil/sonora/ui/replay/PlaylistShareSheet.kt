@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
@@ -34,6 +37,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.susil.sonora.R
@@ -54,12 +60,13 @@ internal fun PlaylistShareSheet(
     var saved by remember(request) { mutableStateOf(false) }
     var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
     var showBranding by remember(request) { mutableStateOf(true) }
+    var palette by remember(request) { mutableStateOf(PlaylistPosterPalette.Ruby) }
 
-    LaunchedEffect(request, ratio, showBranding) {
+    LaunchedEffect(request, ratio, showBranding, palette) {
         poster = null
         failed = false
         saved = false
-        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding) }
+        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding, palette) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -106,6 +113,39 @@ internal fun PlaylistShareSheet(
                         )
                         .clickable { ratio = option }
                         .padding(vertical = 10.dp),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.playlist_share_border_color),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f),
+            )
+            PlaylistPosterPalette.entries.forEach { option ->
+                val selected = palette == option
+                Box(
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clip(CircleShape)
+                        .background(androidx.compose.ui.graphics.Color(option.accent))
+                        .border(
+                            width = if (selected) 3.dp else 1.dp,
+                            color = if (selected) MaterialTheme.colorScheme.onBackground
+                            else MaterialTheme.colorScheme.outline,
+                            shape = CircleShape,
+                        )
+                        .semantics {
+                            contentDescription = option.label
+                            this.selected = selected
+                        }
+                        .clickable { palette = option },
                 )
             }
         }

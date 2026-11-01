@@ -313,9 +313,9 @@
     <string name="show_nerd_stats">전문가 통계 표시</string>
     <string name="show_nerd_stats_subtitle">플레이어에 코덱, 비트레이트, 샘플 레이트 표시</string>
     <string name="app_icon">앱 아이콘</string>
-    <string name="app_icon_default" translatable="false">Default.png</string>
-    <string name="app_icon_liquid_glass" translatable="false">Liquid Glass.png</string>
-    <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark.png</string>
+    <string name="app_icon_default" translatable="false">Default</string>
+    <string name="app_icon_liquid_glass" translatable="false">Liquid Glass</string>
+    <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark</string>
     <string name="theme">테마</string>
     <string name="reduce_animation">애니메이션 줄이기</string>
     <string name="reduce_animation_subtitle">메인 플레이어의 그라데이션 움직임을 멈춥니다</string>

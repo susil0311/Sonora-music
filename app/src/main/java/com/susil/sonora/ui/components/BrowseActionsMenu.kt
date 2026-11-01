@@ -80,6 +80,9 @@ data class BrowseTarget(
      * questions about the download record, not about what this menu is.
      */
     val downloadId: String? = null,
+    /** Creator facepile metadata from the opened playlist page, when available. */
+    val ownerName: String? = null,
+    val ownerAvatarUrl: String? = null,
 )
 
 /**
