@@ -198,7 +198,7 @@ internal suspend fun renderPlaylistPoster(
 
         // Quiet credit line, bottom center; no logo.
         if (showBranding) {
-            val credit = type.body(if (isStory) 32f else 29f, 0xA6FFFFFF.toInt()).apply {
+            val credit = type.body(if (isStory) 34f else 31f, 0xA6FFFFFF.toInt()).apply {
                 textAlign = Paint.Align.CENTER
             }
             canvas.drawText("Shared from Sonora", (frame.left + frame.right) / 2f, frame.bottom - 44f, credit)
