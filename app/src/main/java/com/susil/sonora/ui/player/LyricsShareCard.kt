@@ -270,7 +270,7 @@ private const val GAP_BELOW_BODY = 44f
 private const val FOOTER_H = 110f
 
 /** The "Shared from Sonora" line: its size, and its baseline's distance above the card's bottom edge. */
-private const val CREDIT_SIZE = 30f
+private const val CREDIT_SIZE = 32f
 private const val CREDIT_BOTTOM = 52f
 
 /** Smallest the translation line is allowed to get before it stops being legible. */
