@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import com.susil.sonora.ui.components.ShelfRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -57,9 +58,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.LibraryMusic
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Storage
 import com.susil.sonora.ui.icons.SonoraIcons
 import coil3.compose.AsyncImage
@@ -161,6 +167,11 @@ fun HomeScreen(
     onMoodsShowAll: () -> Unit = {},
     /** Whether the Top Picks and mood artwork may animate — see [LocalArtworkMotion]. */
     artworkMotion: Boolean = true,
+    onPlayPause: (() -> Unit)? = null,
+    onOpenHistory: () -> Unit = {},
+    onOpenLibrary: () -> Unit = {},
+    onOpenDownloads: () -> Unit = {},
+    onOpenSearch: () -> Unit = {},
 ) {
     // Top Picks' pictures and motion wait for the feed — see LocalArtworkImages.
     val feedReady = state !is UiState.Loading
@@ -193,7 +204,24 @@ fun HomeScreen(
             },
         ) {
             if (title != null) {
-                item { HomeTitle(title) }
+                item { HomeTitle(title, listenerName) }
+                item(key = "home-v2-actions") {
+                    HomeQuickActions(
+                        onHistory = onOpenHistory,
+                        onLibrary = onOpenLibrary,
+                        onDownloads = onOpenDownloads,
+                        onSearch = onOpenSearch,
+                    )
+                }
+                if (currentSong != null && onPlayPause != null) {
+                    item(key = "continue-listening") {
+                        ContinueListeningHero(
+                            song = currentSong,
+                            isPlaying = isPlaying,
+                            onPlayPause = onPlayPause,
+                        )
+                    }
+                }
             }
             if (!signedIn && onSignIn != null) {
                 item {
@@ -477,18 +505,154 @@ fun CompactTrackRow(
     }
 }
 
-/** Listen now's large heading. The app name is shown in the top bar instead. */
+/** Listen Now's heading, with a personal greeting when the account has a name. */
 @Composable
-private fun HomeTitle(title: String, modifier: Modifier = Modifier) {
-    val style = MaterialTheme.typography.displayLarge
+private fun HomeTitle(
+    title: String,
+    listenerName: String?,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MaterialTheme.colorScheme
+    val name = listenerName?.trim().orEmpty()
     Column(modifier = modifier.padding(horizontal = PAGE_GUTTER, vertical = 8.dp)) {
         Text(
-            text = title,
-            style = style,
-            color = MaterialTheme.colorScheme.onBackground,
+            text = if (name.isNotBlank()) stringResource(Res.string.home_greeting, name) else title,
+            style = MaterialTheme.typography.displayLarge,
+            color = colors.onBackground,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
+        if (name.isNotBlank()) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = colors.onSurfaceVariant,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+        }
+    }
+}
+
+private data class QuickHomeAction(
+    val label: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit,
+)
+
+@Composable
+private fun HomeQuickActions(
+    onHistory: () -> Unit,
+    onLibrary: () -> Unit,
+    onDownloads: () -> Unit,
+    onSearch: () -> Unit,
+) {
+    val actions = listOf(
+        QuickHomeAction(stringResource(Res.string.home_history), Icons.Rounded.History, onHistory),
+        QuickHomeAction(stringResource(Res.string.library), Icons.Rounded.LibraryMusic, onLibrary),
+        QuickHomeAction(stringResource(Res.string.home_downloads), Icons.Rounded.Download, onDownloads),
+        QuickHomeAction(stringResource(Res.string.search), Icons.Rounded.Search, onSearch),
+    )
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = PAGE_GUTTER),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        items(actions, key = { it.label }) { action ->
+            Row(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .clickable(onClick = action.onClick)
+                    .padding(horizontal = 14.dp, vertical = 11.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Icon(
+                    imageVector = action.icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(19.dp),
+                )
+                Text(
+                    text = action.label,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ContinueListeningHero(
+    song: Song,
+    isPlaying: Boolean,
+    onPlayPause: () -> Unit,
+) {
+    val colors = MaterialTheme.colorScheme
+    Row(
+        modifier = Modifier
+            .padding(horizontal = PAGE_GUTTER, vertical = 8.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(26.dp))
+            .background(
+                Brush.linearGradient(
+                    listOf(
+                        colors.primary.copy(alpha = 0.92f),
+                        colors.tertiary.copy(alpha = 0.76f),
+                        colors.secondary.copy(alpha = 0.66f),
+                    ),
+                ),
+            )
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        AsyncImage(
+            model = song.thumbnailUrl.artworkAt(HEADER_ART_PX),
+            contentDescription = song.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(92.dp)
+                .clip(RoundedCornerShape(18.dp))
+                .thumbnailBorder(RoundedCornerShape(18.dp)),
+        )
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = stringResource(Res.string.home_continue_listening),
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.White.copy(alpha = 0.78f),
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = song.title,
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = song.artist,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = 0.76f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+                .background(Color.White)
+                .clickable(onClick = onPlayPause),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                contentDescription = null,
+                tint = colors.primary,
+                modifier = Modifier.size(27.dp),
+            )
+        }
     }
 }
 

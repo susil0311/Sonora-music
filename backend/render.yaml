@@ -42,4 +42,4 @@ services:
       # proxy in front of Render may not carry X-Forwarded-Proto through;
       # invite deep links then use it verbatim.
       - key: JAM_PUBLIC_ORIGIN
-        sync: false
+        value: https://sonora-listen-together.onrender.com

@@ -246,7 +246,7 @@ To keep memory, bandwidth, and latency strictly bounded:
 
 ## Deploying to Oracle Cloud (Always Free)
 
-This is what runs `https://api.sonora.kushagrasingh.in`: one Always Free
+This is what runs `https://sonora-listen-together.onrender.com`: one Always Free
 `VM.Standard.E2.1.Micro` (1 OCPU, 1 GB) on Ubuntu 24.04 in ap-mumbai-1, with
 Caddy in front for HTTPS and WebSockets. Files are in `deploy/`.
 
@@ -261,7 +261,7 @@ Caddy in front for HTTPS and WebSockets. Files are in `deploy/`.
 4. **Install** (from a copy of `backend/` on the VM):
 
    ```sh
-   sudo DOMAIN=api.sonora.kushagrasingh.in bash deploy/setup.sh
+   sudo DOMAIN=sonora-listen-together.onrender.com bash deploy/setup.sh
    ```
 
    It installs Go, builds the server into `/opt/sonora-jam`, runs it as the

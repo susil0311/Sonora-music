@@ -21,8 +21,13 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_settings_subtitle">Version, developer, and support</string>
-    <string name="onboarding_welcome_title">Hey %1$s ❤️, you\'ve got great taste! 🎧</string>
-    <string name="onboarding_welcome_body">I\'m Susil Kumar, the developer behind Sonora.\n\nI built Sonora for people who truly love music—no ads, no tracking, just a clean and uninterrupted listening experience.\n\nEvery feature is designed to make your music journey smooth, beautiful, and personal.\n\nThanks for being part of the Sonora journey! 💖</string>
+    <string name="onboarding_welcome_eyebrow">SONORA  •  WELCOME</string>
+    <string name="onboarding_welcome_kicker">A more personal way to listen</string>
+    <string name="onboarding_welcome_title">Hey %1$s ❤️,\nyou\'ve got great taste! 🎧</string>
+    <string name="onboarding_welcome_intro">I\'m Susil Kumar, the developer behind Sonora.</string>
+    <string name="onboarding_welcome_promise">I built Sonora for people who truly love music - no ads, no tracking, just a clean and uninterrupted listening experience.</string>
+    <string name="onboarding_welcome_design">Every feature is designed to make your music journey smooth, beautiful, and personal.</string>
+    <string name="onboarding_welcome_thanks">Thanks for being part of the Sonora journey! 💖</string>
     <string name="onboarding_support_developer">☕ Support the developer</string>
     <string name="onboarding_follow_instagram">☆ Follow me on Instagram</string>
     <string name="onboarding_maybe_later">Maybe later</string>

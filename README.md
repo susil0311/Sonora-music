@@ -14,7 +14,7 @@
 [![Latest release](https://img.shields.io/github/v/release/kushagrasinghx/Sonora?style=for-the-badge&labelColor=0d1117)](https://github.com/kushagrasinghx/Sonora/releases)
 [![License](https://img.shields.io/github/license/kushagrasinghx/Sonora?style=for-the-badge&labelColor=0d1117)](https://github.com/kushagrasinghx/Sonora/blob/main/LICENSE)
 [![Downloads](https://img.shields.io/github/downloads/kushagrasinghx/Sonora/total?style=for-the-badge&labelColor=0d1117)](https://github.com/kushagrasinghx/Sonora/releases)
-[![Listening now](https://api.sonora.kushagrasingh.in/api/stats/live/badge.svg)](https://api.sonora.kushagrasingh.in/api/stats/live)
+[![Listening now](https://sonora-listen-together.onrender.com/api/stats/live/badge.svg)](https://sonora-listen-together.onrender.com/api/stats/live)
 
 <br/>
 

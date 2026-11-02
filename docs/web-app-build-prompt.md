@@ -300,7 +300,7 @@ Port the request and response shapes, caching (shared calls with manifest and st
 
 ## 8. Listen Together
 
-Server: `https://api.sonora.kushagrasingh.in`, the Go server in `backend/`. Read `backend/README.md` in full first: the anchor-and-offset sync model is the whole design.
+Server: `https://sonora-listen-together.onrender.com`, the Go server in `backend/`. Read `backend/README.md` in full first: the anchor-and-offset sync model is the whole design.
 
 ### 8.1 Server API
 - REST:

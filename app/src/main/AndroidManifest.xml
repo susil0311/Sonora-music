@@ -225,7 +225,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="sonora.kushagrasingh.in"
+                    android:host="sonora-listen-together.onrender.com"
                     android:pathPattern="/invite/......" />
             </intent-filter>
 

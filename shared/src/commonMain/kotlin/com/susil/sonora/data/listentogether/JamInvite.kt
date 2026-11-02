@@ -9,7 +9,7 @@ package com.susil.sonora.data.listentogether
  */
 object JamInvite {
 
-    const val ORIGIN = "https://sonora.kushagrasingh.in"
+    const val ORIGIN = "https://sonora-listen-together.onrender.com"
 
     /** How many characters a party code carries. */
     const val CODE_LENGTH = 6

@@ -4,6 +4,9 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -278,31 +281,60 @@ private fun ColumnScope.WelcomePage(
     onLater: () -> Unit,
 ) {
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    val accentTransition = rememberInfiniteTransition(label = "welcomeAccent")
+    val accentScale by accentTransition.animateFloat(
+        initialValue = 0.96f,
+        targetValue = 1.04f,
+        animationSpec = infiniteRepeatable(tween(1800), RepeatMode.Reverse),
+        label = "welcomeAccentScale",
+    )
 
     Spacer(Modifier.height(16.dp))
-    BackButton(onBack)
-    Spacer(Modifier.height(26.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        BackButton(onBack)
+        Text(
+            text = stringResource(R.string.onboarding_welcome_eyebrow),
+            style = MaterialTheme.typography.labelLarge,
+            letterSpacing = 1.4.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White.copy(alpha = 0.62f),
+        )
+    }
+    Spacer(Modifier.height(28.dp))
     AnimatedVisibility(
         visible = true,
         enter = fadeIn(tween(520, delayMillis = 100)) +
             slideInVertically(tween(520, delayMillis = 100)) { it / 4 },
     ) {
-        Title(stringResource(R.string.onboarding_welcome_title, name))
+        Column {
+            Text(
+                text = stringResource(R.string.onboarding_welcome_kicker),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White.copy(alpha = 0.72f),
+            )
+            Spacer(Modifier.height(8.dp))
+            Title(
+                text = stringResource(R.string.onboarding_welcome_title, name),
+                modifier = Modifier.graphicsLayer {
+                    scaleX = accentScale
+                    scaleY = accentScale
+                },
+            )
+        }
     }
-    Spacer(Modifier.height(18.dp))
-    AnimatedVisibility(
-        visible = true,
-        enter = fadeIn(tween(560, delayMillis = 220)) +
-            slideInVertically(tween(560, delayMillis = 220)) { it / 5 },
-    ) {
-        Text(
-            text = stringResource(R.string.onboarding_welcome_body),
-            style = MaterialTheme.typography.bodyLarge,
-            fontSize = 17.sp,
-            lineHeight = 25.sp,
-            color = Color.White.copy(alpha = 0.78f),
-        )
-    }
+    Spacer(Modifier.height(24.dp))
+    WelcomeParagraph(stringResource(R.string.onboarding_welcome_intro), delayMillis = 220)
+    Spacer(Modifier.height(16.dp))
+    WelcomeParagraph(stringResource(R.string.onboarding_welcome_promise), delayMillis = 320)
+    Spacer(Modifier.height(16.dp))
+    WelcomeParagraph(stringResource(R.string.onboarding_welcome_design), delayMillis = 420)
+    Spacer(Modifier.height(16.dp))
+    WelcomeParagraph(stringResource(R.string.onboarding_welcome_thanks), delayMillis = 520)
 
     Spacer(Modifier.weight(1f))
     AnimatedVisibility(
@@ -341,6 +373,23 @@ private fun ColumnScope.WelcomePage(
         )
     }
     Spacer(Modifier.height(16.dp))
+}
+
+@Composable
+private fun WelcomeParagraph(text: String, delayMillis: Int) {
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(500, delayMillis = delayMillis)) +
+            slideInVertically(tween(500, delayMillis = delayMillis)) { it / 5 },
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 17.sp,
+            lineHeight = 25.sp,
+            color = Color.White.copy(alpha = 0.80f),
+        )
+    }
 }
 
 @Composable
@@ -387,7 +436,7 @@ private fun ColumnScope.ConnectPage(
 
 /** Replay's heading, scaled up: the one line each page exists to say. */
 @Composable
-private fun Title(text: String) {
+private fun Title(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.displayLarge.copy(
@@ -396,6 +445,7 @@ private fun Title(text: String) {
             letterSpacing = (-1.2).sp,
         ),
         color = Color.White,
+        modifier = modifier,
     )
 }
 

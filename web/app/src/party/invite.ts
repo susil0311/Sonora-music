@@ -1,10 +1,10 @@
 /**
- * Party invites (JamInviteLink.kt): `https://sonora.kushagrasingh.in/invite/<CODE>`,
+ * Party invites (JamInviteLink.kt): `https://sonora-listen-together.onrender.com/invite/<CODE>`,
  * optionally `?server=<custom server>`, and `sonora://party/<CODE>`. On the
  * web the first is a route of this app (`/invite/:code`).
  */
 
-export const INVITE_ORIGIN = 'https://sonora.kushagrasingh.in';
+export const INVITE_ORIGIN = 'https://sonora-listen-together.onrender.com';
 export const CODE_LENGTH = 6;
 
 /** Letters and digits only, upper case; null unless it's six of them. */
