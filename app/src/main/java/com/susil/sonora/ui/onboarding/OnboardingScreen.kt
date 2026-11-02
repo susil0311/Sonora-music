@@ -4,11 +4,11 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -318,7 +318,11 @@ private fun ColumnScope.WelcomePage(
             .fillMaxWidth(),
     ) {
         BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
-            StampBanner(minOf(220.dp, maxHeight - 8.dp, maxWidth))
+            // The keyboard from the name page is still sliding away on the first
+            // frame, so the space can be tiny or negative; draw only once there
+            // is room, and never hand a negative size to a modifier.
+            val d = minOf(220.dp, maxHeight - 8.dp, maxWidth)
+            if (d >= 96.dp) StampBanner(d)
         }
         Spacer(Modifier.height(8.dp))
         RevealText(
@@ -407,7 +411,7 @@ private val SparkColors = listOf(
  */
 @Composable
 private fun StampBanner(diameter: Dp) {
-    val k = diameter.value / 220f
+    val k = (diameter.value / 220f).coerceAtLeast(0.1f)
     val scale = remember { Animatable(3.6f) }
     val alpha = remember { Animatable(0f) }
     val tilt = remember { Animatable(-24f) }
@@ -491,7 +495,7 @@ private fun StampBanner(diameter: Dp) {
             }
             .drawBehind {
                 val c = center
-                val base = (diameter / 2).toPx()
+                val base = (diameter / 2).toPx().coerceAtLeast(1f)
                 val f = flash.value
                 if (f > 0f) {
                     drawCircle(
