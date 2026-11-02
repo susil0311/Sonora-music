@@ -3,6 +3,11 @@ package com.susil.sonora.ui.onboarding
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -16,6 +21,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -41,6 +47,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -58,6 +65,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -73,6 +85,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.susil.sonora.R
 import com.susil.sonora.sharedui.resources.Res
 import com.susil.sonora.sharedui.resources.ic_google_g
@@ -291,51 +309,34 @@ private fun ColumnScope.WelcomePage(
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
     ) {
-        TypewriterText(
+        Spacer(Modifier.height(8.dp))
+        StampBanner()
+        Spacer(Modifier.height(12.dp))
+        RevealText(
             text = stringResource(R.string.onboarding_welcome_title, name),
             style = MaterialTheme.typography.displayLarge.copy(
-                fontSize = 34.sp,
-                lineHeight = 38.sp,
-                letterSpacing = (-0.9).sp,
+                fontSize = 28.sp,
+                lineHeight = 32.sp,
+                letterSpacing = (-0.7).sp,
             ),
-            delayMillis = 120,
-            charDelayMillis = 34,
+            delayMillis = 950,
+            color = Color.White,
         )
-        Spacer(Modifier.height(20.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_intro),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 250,
-            charDelayMillis = 22,
-        )
+        Spacer(Modifier.height(18.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_intro), MaterialTheme.typography.bodyLarge, 1150)
         Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_promise),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 400,
-            charDelayMillis = 16,
-        )
+        RevealText(stringResource(R.string.onboarding_welcome_promise), MaterialTheme.typography.bodyLarge, 1300)
         Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_design),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 550,
-            charDelayMillis = 19,
-        )
+        RevealText(stringResource(R.string.onboarding_welcome_design), MaterialTheme.typography.bodyLarge, 1450)
         Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_thanks),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 700,
-            charDelayMillis = 28,
-        )
+        RevealText(stringResource(R.string.onboarding_welcome_thanks), MaterialTheme.typography.bodyLarge, 1600)
     }
 
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 360)) +
-            slideInVertically(tween(480, delayMillis = 360)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1750)) +
+            slideInVertically(tween(480, delayMillis = 1750)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_support_developer),
@@ -346,8 +347,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 440)) +
-            slideInVertically(tween(480, delayMillis = 440)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1850)) +
+            slideInVertically(tween(480, delayMillis = 1850)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_follow_instagram),
@@ -358,8 +359,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(10.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 520)) +
-            slideInVertically(tween(480, delayMillis = 520)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1950)) +
+            slideInVertically(tween(480, delayMillis = 1950)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_maybe_later),
@@ -370,26 +371,165 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(16.dp))
 }
 
+/**
+ * A round seal punched onto the page: it comes in oversized and tilted, hits
+ * hard (haptic thump, screen shake, shockwave rings, radial ink burst),
+ * squashes under the impact, then the heart pops in on its own spring.
+ */
 @Composable
-private fun TypewriterText(
+private fun StampBanner() {
+    val scale = remember { Animatable(3.6f) }
+    val alpha = remember { Animatable(0f) }
+    val tilt = remember { Animatable(-24f) }
+    val ring = remember { Animatable(0f) }
+    val shake = remember { Animatable(0f) }
+    val heart = remember { Animatable(0f) }
+    val haptic = LocalHapticFeedback.current
+
+    LaunchedEffect(Unit) {
+        delay(300)
+        coroutineScope {
+            launch { alpha.animateTo(1f, tween(80)) }
+            launch { tilt.animateTo(-8f, tween(140, easing = FastOutLinearInEasing)) }
+            scale.animateTo(1f, tween(140, easing = FastOutLinearInEasing))
+            // PUNCH
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            launch { ring.animateTo(1f, tween(800, easing = LinearOutSlowInEasing)) }
+            launch {
+                shake.snapTo(1f)
+                shake.animateTo(0f, tween(460, easing = LinearEasing))
+            }
+            launch {
+                scale.snapTo(0.84f)
+                scale.animateTo(1f, spring(dampingRatio = 0.3f, stiffness = 420f))
+            }
+            launch { tilt.animateTo(-6f, spring(dampingRatio = 0.35f, stiffness = 300f)) }
+            launch {
+                delay(130)
+                heart.animateTo(1f, spring(dampingRatio = 0.36f, stiffness = 320f))
+            }
+        }
+    }
+
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(280.dp)
+            .graphicsLayer {
+                translationX = sin(shake.value * 38f) * 16f * shake.value
+                translationY = cos(shake.value * 31f) * 11f * shake.value
+            }
+            .drawBehind {
+                val r = ring.value
+                if (r > 0f && r < 1f) {
+                    val c = center
+                    val base = 110.dp.toPx()
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.55f * (1f - r)),
+                        radius = base + size.maxDimension * 0.6f * r,
+                        center = c,
+                        style = Stroke(width = 6.dp.toPx() * (1f - r) + 1f),
+                    )
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.3f * (1f - r)),
+                        radius = base + size.maxDimension * 0.45f * r,
+                        center = c,
+                        style = Stroke(width = 3.dp.toPx() * (1f - r) + 1f),
+                    )
+                    // radial burst
+                    for (i in 0 until 18) {
+                        val a = i * 2.0 * PI / 18
+                        val dx = cos(a).toFloat()
+                        val dy = sin(a).toFloat()
+                        val inner = base + 8.dp.toPx() + 46.dp.toPx() * r
+                        val outer = inner + 26.dp.toPx() * (1f - r)
+                        drawLine(
+                            color = Color.White.copy(alpha = 0.8f * (1f - r)),
+                            start = Offset(c.x + dx * inner, c.y + dy * inner),
+                            end = Offset(c.x + dx * outer, c.y + dy * outer),
+                            strokeWidth = 3.dp.toPx(),
+                        )
+                    }
+                }
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(
+            Modifier
+                .size(220.dp)
+                .graphicsLayer {
+                    scaleX = scale.value
+                    scaleY = scale.value
+                    rotationZ = tilt.value
+                    this.alpha = alpha.value
+                }
+                .background(Color.White.copy(alpha = 0.10f), CircleShape)
+                .border(5.dp, Color.White.copy(alpha = 0.95f), CircleShape)
+                .padding(11.dp)
+                .border(1.5.dp, Color.White.copy(alpha = 0.6f), CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "\u2605  \u2605  \u2605",
+                    fontSize = 11.sp,
+                    color = Color.White.copy(alpha = 0.7f),
+                )
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    text = "WELCOME TO",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.W800,
+                    letterSpacing = 4.sp,
+                    color = Color.White.copy(alpha = 0.88f),
+                    maxLines = 1,
+                )
+                Text(
+                    text = "SONORA",
+                    style = MaterialTheme.typography.displayLarge.copy(
+                        fontSize = 38.sp,
+                        lineHeight = 42.sp,
+                        letterSpacing = (-0.8).sp,
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "\u2764\uFE0F",
+                    fontSize = 34.sp,
+                    modifier = Modifier.graphicsLayer {
+                        scaleX = heart.value
+                        scaleY = heart.value
+                        this.alpha = heart.value.coerceIn(0f, 1f)
+                    },
+                )
+            }
+        }
+    }
+}
+
+/** Fades up from below once the stamp has landed; no per-character typing. */
+@Composable
+private fun RevealText(
     text: String,
     style: TextStyle,
     delayMillis: Int,
-    charDelayMillis: Int,
+    color: Color = Color.White.copy(alpha = 0.80f),
 ) {
-    var visibleLength by remember(text) { mutableIntStateOf(0) }
+    val progress = remember(text) { Animatable(0f) }
     LaunchedEffect(text) {
-        visibleLength = 0
-        kotlinx.coroutines.delay(delayMillis.toLong())
-        for (index in 1..text.length) {
-            visibleLength = index
-            kotlinx.coroutines.delay(charDelayMillis.toLong())
-        }
+        delay(delayMillis.toLong())
+        progress.animateTo(1f, tween(520, easing = FastOutSlowInEasing))
     }
     Text(
-        text = text.take(visibleLength) + if (visibleLength < text.length) "▌" else "",
+        text = text,
         style = style,
-        color = Color.White.copy(alpha = 0.80f),
+        color = color,
+        modifier = Modifier.graphicsLayer {
+            alpha = progress.value
+            translationY = (1f - progress.value) * 24.dp.toPx()
+        },
     )
 }
 
