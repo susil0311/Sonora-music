@@ -4,9 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -41,6 +38,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -69,6 +68,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -85,7 +85,7 @@ import com.susil.sonora.ui.player.MeshPalette
 import com.susil.sonora.ui.player.WelcomeMeshPalettes
 import com.susil.sonora.ui.player.cyclingMeshPalette
 
-private const val INSTAGRAM_URL = "https://www.instagram.com/imsusil25.exe"
+private const val INSTAGRAM_URL = "https://www.instagram.com/susil.archive_"
 private const val UPI_SUPPORT_URL =
     "upi://pay?pa=iamsusil@fam&pn=Susil%20Kumar&am=&tn=Thank%20You%20so%20much%20for%20this%20support"
 
@@ -281,62 +281,57 @@ private fun ColumnScope.WelcomePage(
     onLater: () -> Unit,
 ) {
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
-    val accentTransition = rememberInfiniteTransition(label = "welcomeAccent")
-    val accentScale by accentTransition.animateFloat(
-        initialValue = 0.96f,
-        targetValue = 1.04f,
-        animationSpec = infiniteRepeatable(tween(1800), RepeatMode.Reverse),
-        label = "welcomeAccentScale",
-    )
 
     Spacer(Modifier.height(16.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    BackButton(onBack)
+    Spacer(Modifier.height(16.dp))
+    Column(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
     ) {
-        BackButton(onBack)
-        Text(
-            text = stringResource(R.string.onboarding_welcome_eyebrow),
-            style = MaterialTheme.typography.labelLarge,
-            letterSpacing = 1.4.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White.copy(alpha = 0.62f),
+        TypewriterText(
+            text = stringResource(R.string.onboarding_welcome_title, name),
+            style = MaterialTheme.typography.displayLarge.copy(
+                fontSize = 34.sp,
+                lineHeight = 38.sp,
+                letterSpacing = (-0.9).sp,
+            ),
+            delayMillis = 120,
+            charDelayMillis = 34,
+        )
+        Spacer(Modifier.height(20.dp))
+        TypewriterText(
+            text = stringResource(R.string.onboarding_welcome_intro),
+            style = MaterialTheme.typography.bodyLarge,
+            delayMillis = 250,
+            charDelayMillis = 22,
+        )
+        Spacer(Modifier.height(14.dp))
+        TypewriterText(
+            text = stringResource(R.string.onboarding_welcome_promise),
+            style = MaterialTheme.typography.bodyLarge,
+            delayMillis = 400,
+            charDelayMillis = 16,
+        )
+        Spacer(Modifier.height(14.dp))
+        TypewriterText(
+            text = stringResource(R.string.onboarding_welcome_design),
+            style = MaterialTheme.typography.bodyLarge,
+            delayMillis = 550,
+            charDelayMillis = 19,
+        )
+        Spacer(Modifier.height(14.dp))
+        TypewriterText(
+            text = stringResource(R.string.onboarding_welcome_thanks),
+            style = MaterialTheme.typography.bodyLarge,
+            delayMillis = 700,
+            charDelayMillis = 28,
         )
     }
-    Spacer(Modifier.height(28.dp))
-    AnimatedVisibility(
-        visible = true,
-        enter = fadeIn(tween(520, delayMillis = 100)) +
-            slideInVertically(tween(520, delayMillis = 100)) { it / 4 },
-    ) {
-        Column {
-            Text(
-                text = stringResource(R.string.onboarding_welcome_kicker),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White.copy(alpha = 0.72f),
-            )
-            Spacer(Modifier.height(8.dp))
-            Title(
-                text = stringResource(R.string.onboarding_welcome_title, name),
-                modifier = Modifier.graphicsLayer {
-                    scaleX = accentScale
-                    scaleY = accentScale
-                },
-            )
-        }
-    }
-    Spacer(Modifier.height(24.dp))
-    WelcomeParagraph(stringResource(R.string.onboarding_welcome_intro), delayMillis = 220)
-    Spacer(Modifier.height(16.dp))
-    WelcomeParagraph(stringResource(R.string.onboarding_welcome_promise), delayMillis = 320)
-    Spacer(Modifier.height(16.dp))
-    WelcomeParagraph(stringResource(R.string.onboarding_welcome_design), delayMillis = 420)
-    Spacer(Modifier.height(16.dp))
-    WelcomeParagraph(stringResource(R.string.onboarding_welcome_thanks), delayMillis = 520)
 
-    Spacer(Modifier.weight(1f))
+    Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
         enter = fadeIn(tween(480, delayMillis = 360)) +
@@ -376,20 +371,26 @@ private fun ColumnScope.WelcomePage(
 }
 
 @Composable
-private fun WelcomeParagraph(text: String, delayMillis: Int) {
-    AnimatedVisibility(
-        visible = true,
-        enter = fadeIn(tween(500, delayMillis = delayMillis)) +
-            slideInVertically(tween(500, delayMillis = delayMillis)) { it / 5 },
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            fontSize = 17.sp,
-            lineHeight = 25.sp,
-            color = Color.White.copy(alpha = 0.80f),
-        )
+private fun TypewriterText(
+    text: String,
+    style: TextStyle,
+    delayMillis: Int,
+    charDelayMillis: Int,
+) {
+    var visibleLength by remember(text) { mutableIntStateOf(0) }
+    LaunchedEffect(text) {
+        visibleLength = 0
+        kotlinx.coroutines.delay(delayMillis.toLong())
+        for (index in 1..text.length) {
+            visibleLength = index
+            kotlinx.coroutines.delay(charDelayMillis.toLong())
+        }
     }
+    Text(
+        text = text.take(visibleLength) + if (visibleLength < text.length) "▌" else "",
+        style = style,
+        color = Color.White.copy(alpha = 0.80f),
+    )
 }
 
 @Composable

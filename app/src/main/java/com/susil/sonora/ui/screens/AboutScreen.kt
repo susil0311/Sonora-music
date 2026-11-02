@@ -48,7 +48,7 @@ import com.susil.sonora.BuildConfig
 import com.susil.sonora.R
 import com.susil.sonora.ui.components.lightweightLiquidGlass
 
-private const val INSTAGRAM_URL = "https://www.instagram.com/imsusil25.exe"
+private const val INSTAGRAM_URL = "https://www.instagram.com/susil.archive_"
 private const val TELEGRAM_URL = "https://t.me/mikey3op"
 private const val UPI_SUPPORT_URL =
     "upi://pay?pa=iamsusil@fam&pn=Susil%20Kumar&am=&tn=Thank%20You%20so%20much%20for%20this%20support"

@@ -141,7 +141,7 @@
     <string name="card_views_format">%1$s views</string>
     <string name="clear_search">Clear search</string>
     <string name="downloaded">Downloaded</string>
-    <string name="home_greeting">Welcome back, %1$s</string>
+    <string name="home_greeting">Welcome back, %1$s ❤️</string>
     <string name="home_continue_listening">Continue listening</string>
     <string name="home_history">History</string>
     <string name="home_downloads">Downloads</string>
