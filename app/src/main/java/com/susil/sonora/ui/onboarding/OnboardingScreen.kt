@@ -9,6 +9,8 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -28,6 +30,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -44,8 +47,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -66,8 +67,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.graphics.Brush
@@ -81,7 +85,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -300,43 +307,44 @@ private fun ColumnScope.WelcomePage(
 ) {
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(12.dp))
     BackButton(onBack)
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
+    val body = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, lineHeight = 22.sp)
     Column(
         modifier = Modifier
             .weight(1f)
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxWidth(),
     ) {
+        BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+            StampBanner(minOf(220.dp, maxHeight - 8.dp, maxWidth))
+        }
         Spacer(Modifier.height(8.dp))
-        StampBanner()
-        Spacer(Modifier.height(12.dp))
         RevealText(
             text = stringResource(R.string.onboarding_welcome_title, name),
             style = MaterialTheme.typography.displayLarge.copy(
-                fontSize = 28.sp,
-                lineHeight = 32.sp,
-                letterSpacing = (-0.7).sp,
+                fontSize = 26.sp,
+                lineHeight = 30.sp,
+                letterSpacing = (-0.6).sp,
             ),
             delayMillis = 950,
             color = Color.White,
         )
-        Spacer(Modifier.height(18.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_intro), MaterialTheme.typography.bodyLarge, 1150)
-        Spacer(Modifier.height(14.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_promise), MaterialTheme.typography.bodyLarge, 1300)
-        Spacer(Modifier.height(14.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_design), MaterialTheme.typography.bodyLarge, 1450)
-        Spacer(Modifier.height(14.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_thanks), MaterialTheme.typography.bodyLarge, 1600)
+        Spacer(Modifier.height(10.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_intro), body, 1100)
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_promise), body, 1220)
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_design), body, 1340)
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_thanks), body, 1460)
     }
 
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1750)) +
-            slideInVertically(tween(480, delayMillis = 1750)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1650)) +
+            slideInVertically(tween(480, delayMillis = 1650)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_support_developer),
@@ -347,8 +355,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1850)) +
-            slideInVertically(tween(480, delayMillis = 1850)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1740)) +
+            slideInVertically(tween(480, delayMillis = 1740)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_follow_instagram),
@@ -359,8 +367,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(10.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1950)) +
-            slideInVertically(tween(480, delayMillis = 1950)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = 1830)) +
+            slideInVertically(tween(480, delayMillis = 1830)) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_maybe_later),
@@ -371,23 +379,75 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(16.dp))
 }
 
+private class Spark(
+    val angle: Float,
+    val speed: Float,
+    val size: Float,
+    val kind: Int,
+    val spin: Float,
+    val color: Color,
+)
+
+private val SparkColors = listOf(
+    Color.White,
+    Color(0xFFFFD54F),
+    Color(0xFFFF6E9C),
+    Color(0xFF4DD0E1),
+    Color(0xFFFF9100),
+    Color(0xFFB388FF),
+)
+
 /**
- * A round seal punched onto the page: it comes in oversized and tilted, hits
- * hard (haptic thump, screen shake, shockwave rings, radial ink burst),
- * squashes under the impact, then the heart pops in on its own spring.
+ * The welcome seal is a vinyl record punched onto the page. It drops in
+ * oversized and tilted, smacks down with a haptic thump, a flash, shockwave
+ * rings, a squash-and-stretch and a burst of confetti and music notes, then
+ * spins up like a record and settles into a slow drift with a rotating glare.
+ * Tap it to punch it again.
  */
 @Composable
-private fun StampBanner() {
+private fun StampBanner(diameter: Dp) {
+    val k = diameter.value / 220f
     val scale = remember { Animatable(3.6f) }
     val alpha = remember { Animatable(0f) }
     val tilt = remember { Animatable(-24f) }
     val ring = remember { Animatable(0f) }
     val shake = remember { Animatable(0f) }
-    val heart = remember { Animatable(0f) }
+    val pop = remember { Animatable(0f) }
+    val squash = remember { Animatable(0f) }
+    val burst = remember { Animatable(0f) }
+    val flash = remember { Animatable(0f) }
+    val kick = remember { Animatable(0f) }
+    var round by remember { mutableIntStateOf(0) }
     val haptic = LocalHapticFeedback.current
+    val measurer = rememberTextMeasurer()
+    val notes = remember(measurer) {
+        listOf("♪", "♫").map { measurer.measure(it, TextStyle(fontSize = 22.sp)) }
+    }
+    val sparks = remember {
+        val rnd = kotlin.random.Random(11)
+        List(36) { i ->
+            Spark(
+                angle = (i / 36f) * 2f * PI.toFloat() + rnd.nextFloat() * 0.3f,
+                speed = 0.9f + rnd.nextFloat() * 1.3f,
+                size = 4f + rnd.nextFloat() * 5f,
+                kind = i % 3,
+                spin = rnd.nextFloat() * 720f - 360f,
+                color = SparkColors[i % SparkColors.size],
+            )
+        }
+    }
+    val drift by rememberInfiniteTransition(label = "vinyl").animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(tween(9000, easing = LinearEasing)),
+        label = "drift",
+    )
 
-    LaunchedEffect(Unit) {
-        delay(300)
+    LaunchedEffect(round) {
+        scale.snapTo(3.6f); alpha.snapTo(0f); tilt.snapTo(-24f); ring.snapTo(0f)
+        shake.snapTo(0f); pop.snapTo(0f); squash.snapTo(0f); burst.snapTo(0f)
+        flash.snapTo(0f); kick.snapTo(0f)
+        delay(if (round == 0) 300 else 80)
         coroutineScope {
             launch { alpha.animateTo(1f, tween(80)) }
             launch { tilt.animateTo(-8f, tween(140, easing = FastOutLinearInEasing)) }
@@ -395,48 +455,68 @@ private fun StampBanner() {
             // PUNCH
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
             launch { ring.animateTo(1f, tween(800, easing = LinearOutSlowInEasing)) }
+            launch { burst.animateTo(1f, tween(1300, easing = LinearEasing)) }
+            launch {
+                flash.snapTo(1f)
+                flash.animateTo(0f, tween(280))
+            }
             launch {
                 shake.snapTo(1f)
                 shake.animateTo(0f, tween(460, easing = LinearEasing))
             }
             launch {
-                scale.snapTo(0.84f)
-                scale.animateTo(1f, spring(dampingRatio = 0.3f, stiffness = 420f))
+                squash.snapTo(1f)
+                squash.animateTo(0f, spring(dampingRatio = 0.28f, stiffness = 380f))
             }
             launch { tilt.animateTo(-6f, spring(dampingRatio = 0.35f, stiffness = 300f)) }
+            launch { kick.animateTo(900f, tween(1800, easing = LinearOutSlowInEasing)) }
             launch {
                 delay(130)
-                heart.animateTo(1f, spring(dampingRatio = 0.36f, stiffness = 320f))
+                pop.animateTo(1f, spring(dampingRatio = 0.36f, stiffness = 320f))
+            }
+            launch {
+                delay(260)
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             }
         }
     }
 
     Box(
         Modifier
-            .fillMaxWidth()
-            .height(280.dp)
+            .fillMaxSize()
             .graphicsLayer {
                 translationX = sin(shake.value * 38f) * 16f * shake.value
                 translationY = cos(shake.value * 31f) * 11f * shake.value
             }
             .drawBehind {
+                val c = center
+                val base = (diameter / 2).toPx()
+                val f = flash.value
+                if (f > 0f) {
+                    drawCircle(
+                        brush = Brush.radialGradient(
+                            listOf(Color.White.copy(alpha = 0.6f * f), Color.Transparent),
+                            center = c,
+                            radius = base * 3.2f,
+                        ),
+                        radius = base * 3.2f,
+                        center = c,
+                    )
+                }
                 val r = ring.value
                 if (r > 0f && r < 1f) {
-                    val c = center
-                    val base = 110.dp.toPx()
                     drawCircle(
                         color = Color.White.copy(alpha = 0.55f * (1f - r)),
-                        radius = base + size.maxDimension * 0.6f * r,
+                        radius = base + this.size.maxDimension * 0.6f * r,
                         center = c,
                         style = Stroke(width = 6.dp.toPx() * (1f - r) + 1f),
                     )
                     drawCircle(
                         color = Color.White.copy(alpha = 0.3f * (1f - r)),
-                        radius = base + size.maxDimension * 0.45f * r,
+                        radius = base + this.size.maxDimension * 0.45f * r,
                         center = c,
                         style = Stroke(width = 3.dp.toPx() * (1f - r) + 1f),
                     )
-                    // radial burst
                     for (i in 0 until 18) {
                         val a = i * 2.0 * PI / 18
                         val dx = cos(a).toFloat()
@@ -451,19 +531,88 @@ private fun StampBanner() {
                         )
                     }
                 }
+                val t = burst.value
+                if (t > 0f && t < 1f) {
+                    val ease = 1f - (1f - t) * (1f - t) * (1f - t)
+                    val fade = (1f - t * t).coerceIn(0f, 1f)
+                    sparks.forEachIndexed { i, sp ->
+                        val dist = base * 0.9f + sp.speed * base * 1.1f * ease
+                        val pos = Offset(
+                            c.x + cos(sp.angle) * dist,
+                            c.y + sin(sp.angle) * dist + 220.dp.toPx() * t * t,
+                        )
+                        val u = sp.size * density
+                        when (sp.kind) {
+                            0 -> drawCircle(sp.color.copy(alpha = fade), radius = u * 0.7f, center = pos)
+                            1 -> rotate(sp.spin * t, pos) {
+                                drawRoundRect(
+                                    color = sp.color.copy(alpha = fade),
+                                    topLeft = Offset(pos.x - u, pos.y - u * 0.5f),
+                                    size = Size(u * 2f, u),
+                                    cornerRadius = CornerRadius(u * 0.4f),
+                                )
+                            }
+                            else -> {
+                                val layout = notes[i % 2]
+                                rotate(sp.spin * t * 0.3f, pos) {
+                                    drawText(
+                                        textLayoutResult = layout,
+                                        color = sp.color,
+                                        topLeft = Offset(
+                                            pos.x - layout.size.width / 2f,
+                                            pos.y - layout.size.height / 2f,
+                                        ),
+                                        alpha = fade,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             },
         contentAlignment = Alignment.Center,
     ) {
         Box(
             Modifier
-                .size(220.dp)
+                .size(diameter)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { round++ }
                 .graphicsLayer {
-                    scaleX = scale.value
-                    scaleY = scale.value
+                    scaleX = scale.value * (1f + 0.14f * squash.value)
+                    scaleY = scale.value * (1f - 0.16f * squash.value)
                     rotationZ = tilt.value
                     this.alpha = alpha.value
                 }
                 .background(Color.White.copy(alpha = 0.10f), CircleShape)
+                .drawBehind {
+                    val c = center
+                    val rad = this.size.minDimension / 2f
+                    var g = rad * 0.2f
+                    while (g < rad * 0.97f) {
+                        drawCircle(Color.White.copy(alpha = 0.06f), radius = g, style = Stroke(1.dp.toPx()))
+                        g += 5.dp.toPx()
+                    }
+                    rotate(kick.value + drift, c) {
+                        drawCircle(
+                            brush = Brush.sweepGradient(
+                                colorStops = arrayOf(
+                                    0f to Color.Transparent,
+                                    0.08f to Color.White.copy(alpha = 0.26f),
+                                    0.16f to Color.Transparent,
+                                    0.5f to Color.Transparent,
+                                    0.58f to Color.White.copy(alpha = 0.2f),
+                                    0.66f to Color.Transparent,
+                                    1f to Color.Transparent,
+                                ),
+                                center = c,
+                            ),
+                            radius = rad * 0.97f,
+                            center = c,
+                        )
+                    }
+                }
                 .border(5.dp, Color.White.copy(alpha = 0.95f), CircleShape)
                 .padding(11.dp)
                 .border(1.5.dp, Color.White.copy(alpha = 0.6f), CircleShape),
@@ -471,39 +620,41 @@ private fun StampBanner() {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "\u2605  \u2605  \u2605",
-                    fontSize = 11.sp,
+                    text = "★  ★  ★",
+                    fontSize = (11 * k).sp,
                     color = Color.White.copy(alpha = 0.7f),
                 )
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height((6 * k).dp))
                 Text(
                     text = "WELCOME TO",
-                    fontSize = 14.sp,
+                    fontSize = (14 * k).sp,
                     fontWeight = FontWeight.W800,
-                    letterSpacing = 4.sp,
+                    letterSpacing = (4 * k).sp,
                     color = Color.White.copy(alpha = 0.88f),
                     maxLines = 1,
                 )
-                Text(
-                    text = "SONORA",
-                    style = MaterialTheme.typography.displayLarge.copy(
-                        fontSize = 38.sp,
-                        lineHeight = 42.sp,
-                        letterSpacing = (-0.8).sp,
-                    ),
-                    color = Color.White,
-                    maxLines = 1,
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = "\u2764\uFE0F",
-                    fontSize = 34.sp,
-                    modifier = Modifier.graphicsLayer {
-                        scaleX = heart.value
-                        scaleY = heart.value
-                        this.alpha = heart.value.coerceIn(0f, 1f)
-                    },
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "SONORA!",
+                        style = MaterialTheme.typography.displayLarge.copy(
+                            fontSize = (31 * k).sp,
+                            lineHeight = (35 * k).sp,
+                            letterSpacing = (-0.6).sp,
+                        ),
+                        color = Color.White,
+                        maxLines = 1,
+                    )
+                    Spacer(Modifier.width((6 * k).dp))
+                    Text(
+                        text = "🎶",
+                        fontSize = (26 * k).sp,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = pop.value
+                            scaleY = pop.value
+                            this.alpha = pop.value.coerceIn(0f, 1f)
+                        },
+                    )
+                }
             }
         }
     }
