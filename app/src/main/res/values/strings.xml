@@ -20,6 +20,8 @@
     <string name="back">Back</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="onboarding_stamp_welcome_to">WELCOME TO</string>
+    <string name="onboarding_stamp_name">SONORA!</string>
     <string name="about_settings_subtitle">Version, developer, and support</string>
     <string name="onboarding_welcome_title">Hey %1$s ❤️,\nyou\'ve got great taste! 🎧</string>
     <string name="onboarding_welcome_intro">I\'m Susil Kumar, the developer behind Sonora.</string>
