@@ -196,7 +196,8 @@ private const val TINT_MIN_CHROMA = 0.08f
 @Composable
 private fun rememberArtworkSeed(imageUrl: String?, artPx: Int): Seed? {
     val context = LocalPlatformContext.current
-    var seed by remember(imageUrl) { mutableStateOf(imageUrl?.let(seedCache::get)) }
+    val cacheKey = imageUrl?.let { ArtworkSeedKey(it, artPx) }
+    var seed by remember(cacheKey) { mutableStateOf(cacheKey?.let(seedCache::get)) }
 
     LaunchedEffect(imageUrl, artPx) {
         if (imageUrl == null || seed != null) return@LaunchedEffect
@@ -208,7 +209,7 @@ private fun rememberArtworkSeed(imageUrl: String?, artPx: Int): Seed? {
         val result = SingletonImageLoader.get(context).execute(request)
         val bitmap = (result as? SuccessResult)?.image?.toImageBitmap() ?: return@LaunchedEffect
         val found = withContext(Dispatchers.Default) { seedOf(bitmap) } ?: return@LaunchedEffect
-        seedCache[imageUrl] = found
+        seedCache[ArtworkSeedKey(imageUrl, artPx)] = found
         seed = found
     }
     return seed
@@ -222,8 +223,10 @@ private fun rememberArtworkSeed(imageUrl: String?, artPx: Int): Seed? {
  * from composition and from the resumption of [rememberArtworkPalette]'s
  * effect, both on the main thread, so it needs no locking of its own.
  */
-private val seedCache = object : LinkedHashMap<String, Seed>(0, 0.75f, true) {
-    override fun removeEldestEntry(eldest: Map.Entry<String, Seed>) = size > SEED_CACHE_ENTRIES
+private data class ArtworkSeedKey(val url: String, val artPx: Int)
+
+private val seedCache = object : LinkedHashMap<ArtworkSeedKey, Seed>(0, 0.75f, true) {
+    override fun removeEldestEntry(eldest: Map.Entry<ArtworkSeedKey, Seed>) = size > SEED_CACHE_ENTRIES
 }
 
 /** Deep enough to cover a session's browsing without holding a screenful of colours. */
@@ -246,28 +249,21 @@ private data class Seed(
 )
 
 private fun seedOf(bitmap: ImageBitmap): Seed? {
-    fun swatches(clearFilters: Boolean) =
-        paletteSwatches(bitmap, SWATCH_COUNT, clearFilters)
-
-    // The default filter deliberately throws away near-black and near-white.
-    // That is useful while looking for an accent, but it is the wrong answer
-    // to "what colour is this page mostly made of?" A dark photograph would
-    // otherwise be reduced to whatever warm face or tiny coloured detail
-    // survived the filter, and a monochrome sleeve to an anti-aliased fringe.
-    // Both cases used to turn into the same maroon page.
-    val all = swatches(clearFilters = true)
+    // Run Palette once per cover. The previous two full quantization passes
+    // could compete with the first frame during page transitions.
+    val all = paletteSwatches(bitmap, SWATCH_COUNT, clearFilters = true)
     if (all.isEmpty()) return null
-    val accentCandidates = swatches(clearFilters = false).ifEmpty { all }
 
     val dominant = all.maxBy { it.population }
-    // The accent has to earn its place twice over: a colour nobody sees enough
-    // of reads as arbitrary, and a grey one isn't an accent at all. Scoring on
-    // saturation against the *square root* of population is what stops a sleeve
-    // that is four-fifths black sky from accenting in black.
-    val vibrant = accentCandidates.maxBy { swatch ->
-        val hsl = FloatArray(3).also { ColorUtils.colorToHSL(swatch.rgb, it) }
-        hsl[1] * sqrt(swatch.population.toFloat())
-    }
+    // RGB chroma keeps grayscale artwork neutral instead of manufacturing the
+    // red hue HSL assigns to low-saturation colors.
+    val vibrant = all.maxByOrNull { swatch ->
+        val red = (swatch.rgb shr 16) and 0xFF
+        val green = (swatch.rgb shr 8) and 0xFF
+        val blue = swatch.rgb and 0xFF
+        val chroma = (maxOf(red, green, blue) - minOf(red, green, blue)) / 255f
+        chroma * sqrt(swatch.population.toFloat())
+    } ?: dominant
     return Seed(
         dominant = Color(dominant.rgb),
         vibrant = Color(vibrant.rgb),

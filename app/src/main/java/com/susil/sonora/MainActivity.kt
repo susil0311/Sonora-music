@@ -3781,6 +3781,11 @@ private fun SonoraApp(
                     // circles over the shared gradient — no full-width pane.
                     transparentBackdrop = true,
                     artworkPageChrome = true,
+                    leadingTitle = if (route == null && detail == null && selectedTab == TAB_HOME) {
+                        stringResource(R.string.app_name)
+                    } else {
+                        null
+                    },
                     backButtonHazeState = hazeState,
                     trailingTitle = if (detail != null && detailActiveShelf != null) detail.title else null,
                     // Search has no large in-list header to hand the title back to —

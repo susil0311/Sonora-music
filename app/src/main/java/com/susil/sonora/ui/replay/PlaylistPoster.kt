@@ -20,17 +20,49 @@ internal enum class PlaylistPosterRatio(val labelRes: Int, val ratio: Float) {
     Story(R.string.playlist_share_ratio_story, 9f / 16f),
 }
 
-/** Border and panel treatments for the Spotify-inspired playlist card. */
-internal enum class PlaylistPosterPalette(
+/**
+ * Outline color only; the panel fill is always the cover-tinted fade (see [panelFade]).
+ * Build the three cover-derived options with [swatches] from the same
+ * `ArtworkPalette.background` the playlist screen paints with.
+ */
+internal data class PlaylistPosterPalette(
     val label: String,
+    /** Border color, also the swatch color. */
     val accent: Int,
-    val surfaceTop: Int,
-    val surfaceBottom: Int,
 ) {
-    Ruby("Ruby", 0xFFDF2638.toInt(), 0xFF7F101A.toInt(), 0xFF160B0D.toInt()),
-    Violet("Violet", 0xFFB47BFF.toInt(), 0xFF48266B.toInt(), 0xFF100D16.toInt()),
-    Teal("Teal", 0xFF56D6C3.toInt(), 0xFF14584F.toInt(), 0xFF0B1514.toInt()),
+    companion object {
+        private fun shade(base: Int, label: String, sat: Float, value: Float): PlaylistPosterPalette {
+            val h = FloatArray(3).also { Color.colorToHSV(base, it) }
+            // Greys stay grey; chromatic covers keep their hue, with saturation floored at [sat].
+            val s = if (h[1] >= 0.12f) maxOf(h[1], sat) else h[1]
+            return PlaylistPosterPalette(label, Color.HSVToColor(floatArrayOf(h[0], s, value)))
+        }
+
+        /** The cover's hue, bright and saturated. Default outline. */
+        fun vivid(base: Int) = shade(base, "Vivid", 0.85f, 0.90f)
+
+        /** Same hue, darker. */
+        fun deep(base: Int) = shade(base, "Deep", 0.90f, 0.60f)
+
+        /** Same hue, lighter and less saturated. */
+        fun light(base: Int) = shade(base, "Light", 0.55f, 1.00f)
+
+        /** The three outline options, all within the cover's hue: deep, vivid, light. */
+        fun swatches(base: Int) = listOf(deep(base), vivid(base), light(base))
+    }
 }
+
+/** Panel gradient endpoints for [base]: bright saturated top fading to near-black. */
+private fun panelFade(base: Int): Pair<Int, Int> {
+    val h = FloatArray(3).also { Color.colorToHSV(base, it) }
+    val s = if (h[1] >= 0.12f) maxOf(h[1], 0.85f) else h[1]
+    val top = Color.HSVToColor(floatArrayOf(h[0], s, 0.6f))
+    val bottom = Color.HSVToColor(floatArrayOf(h[0], h[1] * 0.8f, 0.06f))
+    return top to bottom
+}
+
+private fun averageColor(bitmap: Bitmap): Int =
+    Bitmap.createScaledBitmap(bitmap, 1, 1, true).getPixel(0, 0) or 0xFF000000.toInt()
 
 /** Data needed to make a stable, shareable picture of a playlist. */
 internal data class PlaylistShareRequest(
@@ -42,19 +74,19 @@ internal data class PlaylistShareRequest(
     val ownerAvatarUrl: String? = null,
 )
 
-/** A polished social card with metadata and a compact tracklist, not a page screenshot. */
+/** Spotify-style share card: cover + title + owner header, then a plain tracklist. */
 internal suspend fun renderPlaylistPoster(
     context: Context,
     request: PlaylistShareRequest,
     ratio: PlaylistPosterRatio = PlaylistPosterRatio.Portrait,
     showBranding: Boolean = true,
-    palette: PlaylistPosterPalette = PlaylistPosterPalette.Ruby,
+    /** Outline color. Null uses the vivid option from [surface]. */
+    palette: PlaylistPosterPalette? = null,
+    /** Cover color the panel fade is built from (the screen's `ArtworkPalette.background`). Null averages the cover. */
+    surface: Int? = null,
 ): Bitmap {
-    val previewCount = if (ratio == PlaylistPosterRatio.Story) {
-        STORY_TRACK_PREVIEW_COUNT
-    } else {
-        PORTRAIT_TRACK_PREVIEW_COUNT
-    }
+    val isStory = ratio == PlaylistPosterRatio.Story
+    val previewCount = if (isStory) STORY_TRACK_PREVIEW_COUNT else PORTRAIT_TRACK_PREVIEW_COUNT
     val previewSongs = request.songs.take(previewCount)
     val leadUrl = request.artworkUrl ?: previewSongs.firstOrNull()?.thumbnailUrl
     val imageUrls = (listOfNotNull(leadUrl, request.ownerAvatarUrl) + previewSongs.mapNotNull { it.thumbnailUrl }).distinct()
@@ -65,87 +97,80 @@ internal suspend fun renderPlaylistPoster(
 
     return withContext(Dispatchers.Default) {
         val width = POSTER_WIDTH
-        val height = if (ratio == PlaylistPosterRatio.Story) STORY_HEIGHT else PORTRAIT_HEIGHT
+        val height = if (isStory) STORY_HEIGHT else PORTRAIT_HEIGHT
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         val type = Fonts(context)
         val lead = leadUrl?.let(images::get)
-        val frame = drawPlaylistFrame(canvas, width, height, palette)
-        val isStory = ratio == PlaylistPosterRatio.Story
-        if (showBranding) drawBrandLockup(canvas, context, type, frame.right - 36f, frame.top + 68f)
+        val base = surface ?: lead?.let(::averageColor) ?: 0xFFAA0000.toInt()
+        val border = (palette ?: PlaylistPosterPalette.vivid(base)).accent
+        val (fadeTop, fadeBottom) = panelFade(base)
+        val frame = drawPlaylistFrame(canvas, width, height, fadeTop, fadeBottom, border)
+        val pad = 38f
 
-        // A two-column Spotify-inspired header: cover on the left, readable
-        // title, creator profile, and description on the right.
-        val coverSize = if (isStory) 360f else 280f
-        val coverLeft = frame.left + 38f
-        val coverTop = frame.top + 112f
+        // Header: cover left; title + owner row vertically centered beside it.
+        val coverSize = if (isStory) 330f else 260f
+        val coverLeft = frame.left + pad
+        val coverTop = frame.top + pad
         drawArtwork(canvas, lead, request.title, coverLeft, coverTop, coverSize, circular = false)
-        val coverStroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = 0x4DFFFFFF
-            style = Paint.Style.STROKE
-            strokeWidth = 2f
-        }
-        canvas.drawRoundRect(coverLeft, coverTop, coverLeft + coverSize, coverTop + coverSize, 26f, 26f, coverStroke)
 
-        val textLeft = coverLeft + coverSize + 38f
-        val textWidth = (frame.right - 38f - textLeft).coerceAtLeast(250f)
-        val titlePaint = type.heading(if (isStory) 58f else 50f, Color.WHITE)
-        val titleBase = coverTop + if (isStory) 70f else 64f
+        val textLeft = coverLeft + coverSize + 34f
+        val textWidth = (frame.right - pad - textLeft).coerceAtLeast(250f)
+        val titlePaint = type.heading(if (isStory) 56f else 50f, Color.WHITE)
         val titleLines = wrapPosterTitle(request.title, titlePaint, textWidth)
         val titleAdvance = titlePaint.textSize * TITLE_LINE_SPACING
-        titleLines.forEachIndexed { index, line ->
-            canvas.drawText(line, textLeft, titleBase + index * titleAdvance, titlePaint)
-        }
-        val titleBottom = titleBase + (titleLines.lastIndex.coerceAtLeast(0) * titleAdvance) + titlePaint.textSize * 0.76f
-
-        val owner = cleanPlaylistOwner(request.username.orEmpty()).ifBlank { "Playlist owner" }
-        val ownerAvatar = request.ownerAvatarUrl?.let(images::get)
         val avatarSize = if (isStory) 56f else 48f
-        val avatarTop = titleBottom + 22f
-        drawArtwork(canvas, ownerAvatar, owner, textLeft, avatarTop, avatarSize, circular = true)
-        val ownerLinePaint = type.body(if (isStory) 31f else 27f, 0xF0FFFFFF.toInt())
-        val count = context.resources.getQuantityString(
-            R.plurals.replay_song_count,
-            previewSongs.size,
-            previewSongs.size.toString(),
-        )
-        val countPaint = type.body(if (isStory) 28f else 24f, 0xD8FFFFFF.toInt(), bold = true).apply {
-            textAlign = Paint.Align.RIGHT
-        }
-        val ownerTextX = textLeft + avatarSize + 16f
-        val countRight = frame.right - 38f
-        val ownerPrefix = "Playlist by "
-        val ownerRoom = (
-            countRight - ownerTextX - countPaint.measureText(count) - 24f - ownerLinePaint.measureText(ownerPrefix)
-        ).coerceAtLeast(100f)
-        val ownerBaseline = avatarTop + avatarSize * 0.70f
-        canvas.drawText(ownerPrefix + ellipsised(owner, ownerLinePaint, ownerRoom), ownerTextX, ownerBaseline, ownerLinePaint)
-        canvas.drawText(count, countRight, ownerBaseline, countPaint)
-
-        val description = request.description?.replace(Regex("\\s+"), " ")?.trim().orEmpty()
-        val descriptionPaint = type.body(if (isStory) 27f else 23f, 0xD0FFFFFF.toInt())
-        val descriptionLines = if (description.isBlank()) emptyList() else wrapPosterDescription(
-            description,
-            descriptionPaint,
+        val gap = 10f
+        val titleBlock = titleLines.size * titleAdvance
+        val descPaint = type.body(if (isStory) 27f else 24f, 0xD0FFFFFF.toInt())
+        val descLines = wrapPosterDescription(
+            request.description.orEmpty(),
+            descPaint,
             textWidth,
             maxLines = if (isStory) 3 else 2,
         )
-        val descriptionAdvance = if (isStory) 38f else 31f
-        val descriptionBase = avatarTop + avatarSize + if (descriptionLines.isEmpty()) 0f else 32f
-        descriptionLines.forEachIndexed { index, line ->
-            canvas.drawText(line, textLeft, descriptionBase + index * descriptionAdvance, descriptionPaint)
+        val descAdvance = if (isStory) 38f else 32f
+        val descGap = if (descLines.isEmpty()) 0f else 16f
+        val descHeight = descLines.size * descAdvance
+        val blockHeight = titleBlock + gap + avatarSize + descGap + descHeight
+        val blockTop = maxOf(coverTop, coverTop + (coverSize - blockHeight) / 2f)
+        titleLines.forEachIndexed { index, line ->
+            canvas.drawText(line, textLeft, blockTop + titlePaint.textSize * 0.85f + index * titleAdvance, titlePaint)
         }
-        val descriptionBottom = if (descriptionLines.isEmpty()) avatarTop + avatarSize else
-            descriptionBase + descriptionLines.lastIndex * descriptionAdvance + descriptionPaint.textSize * 0.78f
 
-        val rowsTop = maxOf(coverTop + coverSize, descriptionBottom) + if (isStory) 42f else 36f
-        val rowsBottom = height - if (isStory) 112f else 88f
-        val rowHeight = if (previewSongs.isEmpty()) 0f else (rowsBottom - rowsTop) / previewSongs.size
-        val trackArtSize = minOf(if (isStory) 118f else 100f, rowHeight * 0.72f)
-        val divider = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = 0x24FFFFFF.toInt()
-            strokeWidth = 1.5f
+        val owner = cleanPlaylistOwner(request.username.orEmpty()).ifBlank { "Playlist owner" }
+        val ownerAvatar = request.ownerAvatarUrl?.let(images::get)
+        val avatarTop = blockTop + titleBlock + gap
+        drawArtwork(canvas, ownerAvatar, owner, textLeft, avatarTop, avatarSize, circular = true)
+        val ownerPaint = type.body(if (isStory) 31f else 28f, 0xF0FFFFFF.toInt())
+        val ownerX = textLeft + avatarSize + 16f
+        val total = request.songs.size
+        val count = context.resources.getQuantityString(R.plurals.track_count_plural, total, total)
+        val countPaint = type.body(if (isStory) 28f else 25f, 0xD8FFFFFF.toInt(), bold = true).apply {
+            textAlign = Paint.Align.RIGHT
         }
+        canvas.drawText(count, frame.right - pad, avatarTop + avatarSize * 0.70f, countPaint)
+        val ownerRoom = (frame.right - pad - ownerX - countPaint.measureText(count) - 24f).coerceAtLeast(100f)
+        canvas.drawText(
+            ellipsised(owner, ownerPaint, ownerRoom),
+            ownerX,
+            avatarTop + avatarSize * 0.70f,
+            ownerPaint,
+        )
+
+        val descTop = avatarTop + avatarSize + descGap
+        descLines.forEachIndexed { index, line ->
+            canvas.drawText(line, textLeft, descTop + descPaint.textSize * 0.85f + index * descAdvance, descPaint)
+        }
+        val headerBottom = maxOf(coverTop + coverSize, descTop + descHeight)
+
+        // Tracklist: no dividers, regular-weight white title, muted artist.
+        val rowsTop = headerBottom + if (isStory) 44f else 36f
+        val rowsBottom = frame.bottom - if (isStory) 118f else 96f
+        val rowHeight = if (previewSongs.isEmpty()) 0f else (rowsBottom - rowsTop) / previewSongs.size
+        val trackArtSize = minOf(if (isStory) 124f else 108f, rowHeight * 0.74f)
+        val rowTitlePaint = type.body(if (isStory) 40f else 36f, Color.WHITE)
+        val artistPaint = type.body(if (isStory) 32f else 29f, 0x99FFFFFF.toInt())
 
         previewSongs.forEachIndexed { index, song ->
             val rowTop = rowsTop + index * rowHeight
@@ -154,53 +179,47 @@ internal suspend fun renderPlaylistPoster(
                 canvas,
                 song.thumbnailUrl?.let(images::get),
                 song.title,
-                frame.left + 38f,
+                frame.left + pad,
                 artTop,
                 trackArtSize,
                 circular = false,
             )
-            val titleBaseline = rowTop + rowHeight * 0.42f
-            val textX = frame.left + 38f + trackArtSize + 28f
-            val rowTitlePaint = type.body(if (isStory) 38f else 33f, Color.WHITE, bold = true)
-            val artistPaint = type.body(if (isStory) 30f else 27f, 0xC8FFFFFF.toInt())
+            val textX = frame.left + pad + trackArtSize + 28f
+            val room = frame.right - pad - textX
+            val titleBaseline = artTop + trackArtSize * 0.42f
+            canvas.drawText(ellipsised(song.title, rowTitlePaint, room), textX, titleBaseline, rowTitlePaint)
             canvas.drawText(
-                ellipsised(song.title, rowTitlePaint, frame.right - 38f - textX),
+                ellipsised(song.artist, artistPaint, room),
                 textX,
-                titleBaseline,
-                rowTitlePaint,
-            )
-            canvas.drawText(
-                ellipsised(song.artist, artistPaint, frame.right - 38f - textX),
-                textX,
-                titleBaseline + if (isStory) 42f else 37f,
+                titleBaseline + if (isStory) 46f else 42f,
                 artistPaint,
             )
-            if (index < previewSongs.lastIndex) {
-                canvas.drawLine(
-                    frame.left + 38f,
-                    rowTop + rowHeight - 1f,
-                    frame.right - 38f,
-                    rowTop + rowHeight - 1f,
-                    divider,
-                )
+        }
+
+        // Quiet credit line, bottom center; no logo.
+        if (showBranding) {
+            val credit = type.body(if (isStory) 34f else 31f, 0xA6FFFFFF.toInt()).apply {
+                textAlign = Paint.Align.CENTER
             }
+            canvas.drawText("Shared from Sonora", (frame.left + frame.right) / 2f, frame.bottom - 44f, credit)
         }
 
         bitmap
     }
 }
 
-/** A dark outer mat, selected-color stroke, and subdued matching panel. */
+/** Dark outer mat with a borderless gradient panel. */
 private fun drawPlaylistFrame(
     canvas: Canvas,
     width: Int,
     height: Int,
-    palette: PlaylistPosterPalette,
+    fadeTop: Int,
+    fadeBottom: Int,
+    border: Int,
 ): RectF {
     canvas.drawColor(0xFF202124.toInt())
     val outer = RectF(30f, 40f, width - 30f, height - 40f)
-    val outerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF08090B.toInt() }
-    canvas.drawRoundRect(outer, 56f, 56f, outerPaint)
+    canvas.drawRoundRect(outer, 56f, 56f, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF0A0A0A.toInt() })
 
     val panel = RectF(70f, 80f, width - 70f, height - 80f)
     val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -209,18 +228,18 @@ private fun drawPlaylistFrame(
             panel.top,
             panel.left,
             panel.bottom,
-            intArrayOf(palette.surfaceTop, palette.surfaceBottom),
+            intArrayOf(fadeTop, fadeBottom),
             null,
             Shader.TileMode.CLAMP,
         )
     }
     canvas.drawRoundRect(panel, 34f, 34f, fill)
-    val border = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = palette.accent
+    val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = border
         style = Paint.Style.STROKE
         strokeWidth = 6f
     }
-    canvas.drawRoundRect(panel, 34f, 34f, border)
+    canvas.drawRoundRect(panel, 34f, 34f, stroke)
     return panel
 }
 
@@ -247,21 +266,15 @@ private fun wrapPosterTitle(text: String, paint: Paint, width: Float): List<Stri
     }
     if (current.isNotEmpty() && lines.size < 2) lines += current
     if (index < words.size && lines.isNotEmpty()) {
-        val last = lines.last()
-        val remainder = (listOf(last) + words.drop(index)).joinToString(" ")
+        val remainder = (listOf(lines.last()) + words.drop(index)).joinToString(" ")
         lines[lines.lastIndex] = ellipsised(remainder, paint, width)
     }
     return lines.ifEmpty { listOf(ellipsised(text, paint, width)) }
 }
 
-/** Wraps the description into a fixed number of lines without letting it collide with tracks. */
-private fun wrapPosterDescription(
-    text: String,
-    paint: Paint,
-    width: Float,
-    maxLines: Int,
-): List<String> {
-    val words = text.trim().split(Regex("\\s+")).filter(String::isNotEmpty)
+/** Wraps the description to [maxLines], ellipsising the last line; blank text gives no lines. */
+private fun wrapPosterDescription(text: String, paint: Paint, width: Float, maxLines: Int): List<String> {
+    val words = text.replace(Regex("\\s+"), " ").trim().split(' ').filter(String::isNotEmpty)
     if (words.isEmpty()) return emptyList()
     val lines = mutableListOf<String>()
     var current = ""

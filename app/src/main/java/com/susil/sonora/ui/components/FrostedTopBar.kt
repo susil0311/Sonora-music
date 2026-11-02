@@ -165,6 +165,8 @@ fun FrostedTopBar(
     transparentBackdrop: Boolean = false,
     /** Circular back surface and no collapsing title, for artwork-led pages. */
     artworkPageChrome: Boolean = false,
+    /** Optional fixed leading title, used by the home tab for the app name. */
+    leadingTitle: String? = null,
     /** Source sampled by floating top-bar surfaces when liquid glass is off. */
     backButtonHazeState: HazeState? = null,
     trailingTitle: String? = null,
@@ -312,8 +314,19 @@ fun FrostedTopBar(
                     }
                 }
             }
-            // No wordmark at the leading end: the root tabs carry it above
-            // their large heading instead (LargePageTitle in :sharedUi).
+            if (leadingTitle != null && onBack == null) {
+                Text(
+                    text = leadingTitle,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = if (useFloatingChrome) BAR_GUTTER else 16.dp),
+                )
+            }
             // The accessory takes everything from the leading gutter up to the
             // actions, which keep their own width at the trailing end.
             val edge = if (useFloatingChrome) BAR_GUTTER else 4.dp

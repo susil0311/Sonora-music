@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.susil.sonora.R
 import com.susil.sonora.ui.haptics.Haptic
 import com.susil.sonora.ui.haptics.rememberHaptics
+import com.susil.sonora.ui.theme.rememberArtworkPalette
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,13 +63,22 @@ internal fun PlaylistShareSheet(
     var saved by remember(request) { mutableStateOf(false) }
     var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
     var showBranding by remember(request) { mutableStateOf(true) }
-    var palette by remember(request) { mutableStateOf(PlaylistPosterPalette.Ruby) }
 
-    LaunchedEffect(request, ratio, showBranding, palette) {
+    // Same extraction the playlist screen paints with, so the card matches the page.
+    val art = rememberArtworkPalette(imageUrl = request.artworkUrl, keyColors = null)
+    // `background` is deliberately theme-darkened for in-app surfaces. The
+    // poster should preserve the cover's vivid extracted color instead of
+    // exporting a muddy gradient.
+    val base = art.accent.toArgb()
+    val swatches = remember(base) { PlaylistPosterPalette.swatches(base) }
+    var picked by remember(request) { mutableIntStateOf(1) }
+    val palette = swatches[picked.coerceIn(0, swatches.lastIndex)]
+
+    LaunchedEffect(request, ratio, showBranding, picked, base) {
         poster = null
         failed = false
         saved = false
-        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding, palette) }
+        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding, palette, base) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -128,8 +140,8 @@ internal fun PlaylistShareSheet(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f),
             )
-            PlaylistPosterPalette.entries.forEach { option ->
-                val selected = palette == option
+            swatches.forEachIndexed { index, option ->
+                val selected = picked == index
                 Box(
                     modifier = Modifier
                         .size(38.dp)
@@ -145,7 +157,7 @@ internal fun PlaylistShareSheet(
                             contentDescription = option.label
                             this.selected = selected
                         }
-                        .clickable { palette = option },
+                        .clickable { picked = index },
                 )
             }
         }

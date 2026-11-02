@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
@@ -81,13 +82,18 @@ import com.susil.sonora.ui.player.MeshPalette
 import com.susil.sonora.ui.player.WelcomeMeshPalettes
 import com.susil.sonora.ui.player.cyclingMeshPalette
 
+private const val INSTAGRAM_URL = "https://www.instagram.com/imsusil25.exe"
+private const val UPI_SUPPORT_URL =
+    "upi://pay?pa=iamsusil@fam&pn=Susil%20Kumar&am=&tn=Thank%20You%20so%20much%20for%20this%20support"
+
 /**
- * The two welcome pages: a name for Listen Together, then the YouTube sign-in.
+ * The first-run pages: a name for Listen Together, a personal welcome, then
+ * the optional YouTube sign-in.
  *
  * Shown once — to new installs and, because the flag it sets is new, to anyone
- * updating from a build without it. The second page is skipped for an account
- * that is already signed in; asking somebody to connect what is connected
- * reads as the app having forgotten them.
+ * updating from a build without it. The sign-in page is skipped for an account
+ * that is already signed in; asking somebody to connect what is connected reads
+ * as the app having forgotten them.
  *
  * Always drawn dark, whatever the theme, for the same reason Replay is: the
  * mesh is colour, and white type is what sits on colour.
@@ -107,7 +113,9 @@ fun OnboardingScreen(
     var name by rememberSaveable { mutableStateOf(initialName) }
     val focusManager = LocalFocusManager.current
 
-    BackHandler(enabled = page == PAGE_CONNECT) { page = PAGE_NAME }
+    BackHandler(enabled = page != PAGE_NAME) {
+        page = if (page == PAGE_CONNECT) PAGE_WELCOME else PAGE_NAME
+    }
     // "Sign in with Google" goes through the app's own sign-in WebView, raised
     // over this page; the account landing is what ends the welcome.
     LaunchedEffect(signedIn, page) {
@@ -116,7 +124,7 @@ fun OnboardingScreen(
 
     // The mesh never settles on one palette: each crossfade is as long as the
     // hold, so one runs straight into the next.
-    val palette = cyclingMeshPalette(if (page == PAGE_NAME) WelcomeMeshPalettes else ConnectPalettes)
+    val palette = cyclingMeshPalette(if (page == PAGE_CONNECT) ConnectPalettes else WelcomeMeshPalettes)
 
     Box(
         modifier
@@ -174,11 +182,16 @@ fun OnboardingScreen(
                             if (chosen.isEmpty()) return@next
                             focusManager.clearFocus()
                             onNameChosen(chosen)
-                            if (signedIn) onFinish() else page = PAGE_CONNECT
+                            page = PAGE_WELCOME
                         },
                     )
-                    else -> ConnectPage(
+                    PAGE_WELCOME -> WelcomePage(
+                        name = name.trim(),
                         onBack = { page = PAGE_NAME },
+                        onLater = { if (signedIn) onFinish() else page = PAGE_CONNECT },
+                    )
+                    else -> ConnectPage(
+                        onBack = { page = PAGE_WELCOME },
                         onSignIn = onSignIn,
                         onSkip = onFinish,
                     )
@@ -255,6 +268,78 @@ private fun ColumnScope.NamePage(
         enabled = name.isNotBlank(),
         primary = true,
     )
+    Spacer(Modifier.height(16.dp))
+}
+
+@Composable
+private fun ColumnScope.WelcomePage(
+    name: String,
+    onBack: () -> Unit,
+    onLater: () -> Unit,
+) {
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+
+    Spacer(Modifier.height(16.dp))
+    BackButton(onBack)
+    Spacer(Modifier.height(26.dp))
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(520, delayMillis = 100)) +
+            slideInVertically(tween(520, delayMillis = 100)) { it / 4 },
+    ) {
+        Title(stringResource(R.string.onboarding_welcome_title, name))
+    }
+    Spacer(Modifier.height(18.dp))
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(560, delayMillis = 220)) +
+            slideInVertically(tween(560, delayMillis = 220)) { it / 5 },
+    ) {
+        Text(
+            text = stringResource(R.string.onboarding_welcome_body),
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 17.sp,
+            lineHeight = 25.sp,
+            color = Color.White.copy(alpha = 0.78f),
+        )
+    }
+
+    Spacer(Modifier.weight(1f))
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(480, delayMillis = 360)) +
+            slideInVertically(tween(480, delayMillis = 360)) { it / 3 },
+    ) {
+        PillButton(
+            label = stringResource(R.string.onboarding_support_developer),
+            onClick = { runCatching { uriHandler.openUri(UPI_SUPPORT_URL) } },
+            primary = true,
+        )
+    }
+    Spacer(Modifier.height(12.dp))
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(480, delayMillis = 440)) +
+            slideInVertically(tween(480, delayMillis = 440)) { it / 3 },
+    ) {
+        PillButton(
+            label = stringResource(R.string.onboarding_follow_instagram),
+            onClick = { runCatching { uriHandler.openUri(INSTAGRAM_URL) } },
+            primary = false,
+        )
+    }
+    Spacer(Modifier.height(10.dp))
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(tween(480, delayMillis = 520)) +
+            slideInVertically(tween(480, delayMillis = 520)) { it / 3 },
+    ) {
+        PillButton(
+            label = stringResource(R.string.onboarding_maybe_later),
+            onClick = onLater,
+            primary = false,
+        )
+    }
     Spacer(Modifier.height(16.dp))
 }
 
@@ -435,7 +520,8 @@ private fun BackButton(onClick: () -> Unit) {
 }
 
 private const val PAGE_NAME = 0
-private const val PAGE_CONNECT = 1
+private const val PAGE_WELCOME = 1
+private const val PAGE_CONNECT = 2
 
 /** Long enough for a full name; the party server keeps the first 80. */
 private const val NAME_LIMIT = 40
