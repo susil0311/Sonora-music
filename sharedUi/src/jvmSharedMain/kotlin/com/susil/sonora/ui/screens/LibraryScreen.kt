@@ -33,6 +33,9 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -46,11 +49,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.susil.sonora.data.YtMusicRepository
 import com.susil.sonora.data.model.HomeShelf
+import com.susil.sonora.data.model.ROW_ART_PX
+import com.susil.sonora.data.model.artworkAt
 import com.susil.sonora.data.model.LibraryPage
 import com.susil.sonora.data.model.ShelfItem
 import com.susil.sonora.data.model.UiState
@@ -68,6 +75,7 @@ import com.susil.sonora.ui.components.librarySkeleton
 import com.susil.sonora.ui.components.longPressMenuClickable
 import com.susil.sonora.ui.components.contextClick
 import coil3.compose.AsyncImage
+import java.text.Collator
 
 /**
  * The signed-in library: the saved collections, as shelves of cards.
@@ -129,8 +137,9 @@ fun LibraryScreen(
     val pinnedPlaylists by AppUi.host.pinnedPlaylists.collectAsStateWithLifecycle()
     val onDevice = stringResource(Res.string.on_device)
     PullToRefresh(
-        refreshing = refreshing,
-        onRefresh = onRefresh,
+        // Nothing to refresh until there is an account.
+        refreshing = refreshing && signedIn,
+        onRefresh = { if (signedIn) onRefresh() },
         state = pullState,
         modifier = modifier,
     ) {
@@ -166,14 +175,12 @@ fun LibraryScreen(
             }
             if (!signedIn) {
                 item(key = "shelf:$PLAYLISTS") {
-                    val emptyPlaylists = HomeShelf(PLAYLISTS, emptyList())
-                    PlaylistShelf(
-                        shelf = emptyPlaylists,
+                    EmptyPlaylistShelf(
                         onItemClick = onShelfItemClick,
                         onItemLongPress = onShelfItemLongPress,
                         onNewPlaylist = onNewPlaylist,
                         onImportSpotifyPlaylist = onImportSpotifyPlaylist,
-                        onShowAll = { onShowAll(emptyPlaylists) },
+                        onShowAll = onShowAll,
                     )
                 }
                 item {
@@ -198,19 +205,17 @@ fun LibraryScreen(
                     val shelves = state.data.shelves
                     if (shelves.none { it.title == PLAYLISTS }) {
                         item(key = "shelf:$PLAYLISTS") {
-                            val emptyPlaylists = HomeShelf(PLAYLISTS, emptyList())
-                            PlaylistShelf(
-                                shelf = emptyPlaylists,
+                            EmptyPlaylistShelf(
                                 onItemClick = onShelfItemClick,
                                 onItemLongPress = onShelfItemLongPress,
                                 onNewPlaylist = onNewPlaylist,
                                 onImportSpotifyPlaylist = onImportSpotifyPlaylist,
-                                onShowAll = { onShowAll(emptyPlaylists) },
+                                onShowAll = onShowAll,
                             )
                         }
                     }
-                    shelves.forEach { shelf ->
-                        item(key = "shelf:${shelf.title}") {
+                    shelves.forEachIndexed { index, shelf ->
+                        item(key = "shelf:$index:${shelf.title}") {
                             if (shelf.title == PLAYLISTS) {
                                 val pinnedFirst = shelf.pinnedFirst(pinnedPlaylists)
                                 PlaylistShelf(
@@ -238,8 +243,10 @@ fun LibraryScreen(
     }
 }
 
-/** One of the Library's folder rows: the page [item] opens, behind [icon]. */
-/** [logo], when set, is drawn in place of [icon] — a service's own mark. */
+/**
+ * One of the Library's folder rows: the page [item] opens, behind [icon].
+ * [logo], when set, is drawn in place of [icon] — a service's own mark.
+ */
 data class LibraryLink(val item: ShelfItem, val icon: ImageVector, val logo: DrawableResource? = null)
 
 /**
@@ -256,7 +263,7 @@ private fun LibraryLinkList(links: List<LibraryLink>, onClick: (ShelfItem) -> Un
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 54.dp)
-                    .clickable { onClick(link.item) }
+                    .clickable(role = Role.Button) { onClick(link.item) }
                     .padding(horizontal = PAGE_GUTTER),
             ) {
                 if (link.logo != null) {
@@ -374,7 +381,9 @@ internal fun LibraryGridShelf(
     pinnedPlaylists: List<String> = emptyList(),
 ) {
     val leadingCount = leadingItemCount.coerceAtLeast(0)
-    val visibleItems = shelf.items.take((LIBRARY_ROW_MAX_ITEMS - leadingCount).coerceAtLeast(0))
+    val visibleItems = remember(shelf.items, leadingCount) {
+        shelf.items.take((LIBRARY_ROW_MAX_ITEMS - leadingCount).coerceAtLeast(0))
+    }
     Column(Modifier.padding(bottom = 26.dp)) {
         SectionHeader(
             title = shelf.title,
@@ -386,7 +395,7 @@ internal fun LibraryGridShelf(
             horizontalArrangement = Arrangement.spacedBy(LIBRARY_GRID_SPACING),
         ) {
             leadingCard?.let { card -> item(key = "leading") { card() } }
-            items(visibleItems) { item ->
+            itemsIndexed(visibleItems, key = { i, it -> "${it.browseId ?: it.title}#$i" }) { _, item ->
                 ShelfCard(
                     item = item,
                     onClick = { onItemClick(item) },
@@ -427,7 +436,7 @@ fun LibraryGridPage(
         val grid = libraryGrid(maxWidth - PAGE_GUTTER * 2)
         if (viewType == LibraryViewType.LIST) {
             LazyColumn(
-                state = remember { LazyListState() },
+                state = rememberLazyListState(),
                 contentPadding = contentPadding,
                 modifier = Modifier.fillMaxSize(),
             ) {
@@ -439,7 +448,7 @@ fun LibraryGridPage(
                         )
                     }
                 }
-                items(sortedShelf.items, key = { it.browseId ?: it.title }) { item ->
+                itemsIndexed(sortedShelf.items, key = { i, it -> "${it.browseId ?: it.title}#$i" }) { _, item ->
                     PlaylistListRow(
                         item = item,
                         onClick = { onItemClick(item) },
@@ -449,13 +458,22 @@ fun LibraryGridPage(
                     )
                 }
             }
-        } else LazyVerticalGrid(
+        } else {
+            // The gutter is content padding, not outer padding, so cards scroll
+            // to the screen edge instead of being cut off at the gutter.
+            val direction = LocalLayoutDirection.current
+            LazyVerticalGrid(
             columns = GridCells.Fixed(grid.columns),
             state = gridState,
-            contentPadding = contentPadding,
+            contentPadding = PaddingValues(
+                start = contentPadding.calculateStartPadding(direction) + PAGE_GUTTER,
+                end = contentPadding.calculateEndPadding(direction) + PAGE_GUTTER,
+                top = contentPadding.calculateTopPadding(),
+                bottom = contentPadding.calculateBottomPadding(),
+            ),
             horizontalArrangement = Arrangement.spacedBy(LIBRARY_GRID_SPACING),
             verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier.padding(horizontal = PAGE_GUTTER),
+            modifier = Modifier.fillMaxSize(),
         ) {
             if (onNewPlaylist != null) {
                 item(key = "leading") {
@@ -468,7 +486,7 @@ fun LibraryGridPage(
                     )
                 }
             }
-            items(sortedShelf.items, key = { it.browseId ?: it.title }) { item ->
+            itemsIndexed(sortedShelf.items, key = { i, it -> "${it.browseId ?: it.title}#$i" }) { _, item ->
                 ShelfCard(
                     item = item,
                     onClick = { onItemClick(item) },
@@ -477,6 +495,7 @@ fun LibraryGridPage(
                     isPinned = item.browseId != null && item.browseId in pinnedPlaylists,
                 )
             }
+        }
         }
     }
 }
@@ -489,7 +508,7 @@ private fun NewPlaylistListRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick, role = Role.Button)
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
@@ -560,7 +579,7 @@ private fun PlaylistListRow(
             )
             if (!item.thumbnailUrl.isNullOrBlank()) {
                 AsyncImage(
-                    model = item.thumbnailUrl,
+                    model = item.thumbnailUrl.artworkAt(ROW_ART_PX),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
@@ -609,11 +628,13 @@ private fun PlaylistListRow(
  */
 private fun HomeShelf.pinnedFirst(pinned: List<String>): HomeShelf {
     if (pinned.isEmpty()) return this
+    // distinct(): a repeated id would put the same card in the list twice.
+    val ids = pinned.distinct()
     val byId = items.filter { it.browseId != null }.associateBy { it.browseId }
-    val pinnedItems = pinned.mapNotNull { byId[it] }
+    val pinnedItems = ids.mapNotNull { byId[it] }
     if (pinnedItems.isEmpty()) return this
-    val pinnedSet = pinnedItems.toSet()
-    return copy(items = pinnedItems + items.filter { it !in pinnedSet })
+    val pinnedIds = pinnedItems.mapNotNull { it.browseId }.toHashSet()
+    return copy(items = pinnedItems + items.filter { it.browseId == null || it.browseId !in pinnedIds })
 }
 
 /**
@@ -622,11 +643,32 @@ private fun HomeShelf.pinnedFirst(pinned: List<String>): HomeShelf {
  */
 private fun HomeShelf.sortedForLibrary(sort: LibrarySort): HomeShelf = when (sort) {
     LibrarySort.DEFAULT -> this
-    LibrarySort.TITLE_ASC -> copy(items = items.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }))
-    LibrarySort.TITLE_DESC -> copy(
-        items = items.sortedWith(compareByDescending(String.CASE_INSENSITIVE_ORDER) { it.title }),
+    LibrarySort.TITLE_ASC -> copy(items = items.sortedWith(compareBy(titleCollator()) { it.title }))
+    LibrarySort.TITLE_DESC -> copy(items = items.sortedWith(compareByDescending(titleCollator()) { it.title }))
+}
+
+/** The Playlists row with nothing in it yet: just the tile(s) that make the first one. */
+@Composable
+private fun EmptyPlaylistShelf(
+    onItemClick: (ShelfItem) -> Unit,
+    onItemLongPress: (ShelfItem) -> Unit,
+    onNewPlaylist: () -> Unit,
+    onImportSpotifyPlaylist: (() -> Unit)?,
+    onShowAll: (HomeShelf) -> Unit,
+) {
+    val empty = remember { HomeShelf(PLAYLISTS, emptyList()) }
+    PlaylistShelf(
+        shelf = empty,
+        onItemClick = onItemClick,
+        onItemLongPress = onItemLongPress,
+        onNewPlaylist = onNewPlaylist,
+        onImportSpotifyPlaylist = onImportSpotifyPlaylist,
+        onShowAll = { onShowAll(empty) },
     )
 }
+
+/** Locale-aware and case-insensitive, so accented and non-Latin titles sort sensibly. */
+private fun titleCollator(): Collator = Collator.getInstance().apply { strength = Collator.SECONDARY }
 
 /** The library feed whose cards are the account's own — see [PlaylistShelf]. */
 private const val PLAYLISTS = YtMusicRepository.PLAYLISTS_SHELF
