@@ -1,5 +1,6 @@
 package com.susil.sonora.ui.onboarding
 
+import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -62,6 +63,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -80,6 +82,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -140,6 +143,9 @@ fun OnboardingScreen(
 ) {
     var page by rememberSaveable { mutableIntStateOf(PAGE_NAME) }
     var name by rememberSaveable { mutableStateOf(initialName) }
+    // Survives rotation and a trip to the next page and back, so the stamp
+    // punches once per first run rather than on every recomposition of the page.
+    var stampPlayed by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     BackHandler(enabled = page != PAGE_NAME) {
@@ -216,6 +222,8 @@ fun OnboardingScreen(
                     )
                     PAGE_WELCOME -> WelcomePage(
                         name = name.trim(),
+                        stampPlayed = stampPlayed,
+                        onStampPlayed = { stampPlayed = true },
                         onBack = { page = PAGE_NAME },
                         onLater = { if (signedIn) onFinish() else page = PAGE_CONNECT },
                     )
@@ -303,10 +311,20 @@ private fun ColumnScope.NamePage(
 @Composable
 private fun ColumnScope.WelcomePage(
     name: String,
+    stampPlayed: Boolean,
+    onStampPlayed: () -> Unit,
     onBack: () -> Unit,
     onLater: () -> Unit,
 ) {
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    // Read once on entry: a page that has already played shows its settled state.
+    val skipIntro = remember { stampPlayed }
+    fun d(ms: Int) = if (skipIntro) 0 else ms
+    // "Maybe later" sends the seal flying off toward the corner where it lands
+    // as a small badge on the next page, instead of vanishing with the page.
+    val scope = rememberCoroutineScope()
+    val exit = remember { Animatable(0f) }
+    val reduceMotion = rememberReduceMotion()
 
     Spacer(Modifier.height(12.dp))
     BackButton(onBack)
@@ -321,8 +339,8 @@ private fun ColumnScope.WelcomePage(
             // The keyboard from the name page is still sliding away on the first
             // frame, so the space can be tiny or negative; draw only once there
             // is room, and never hand a negative size to a modifier.
-            val d = minOf(220.dp, maxHeight - 8.dp, maxWidth)
-            if (d >= 96.dp) StampBanner(d)
+            val size = minOf(220.dp, maxHeight - 8.dp, maxWidth)
+            if (size >= 96.dp) StampBanner(size, skipIntro, onStampPlayed, exit = { exit.value })
         }
         Spacer(Modifier.height(8.dp))
         RevealText(
@@ -332,24 +350,24 @@ private fun ColumnScope.WelcomePage(
                 lineHeight = 30.sp,
                 letterSpacing = (-0.6).sp,
             ),
-            delayMillis = 950,
+            delayMillis = d(950),
             color = Color.White,
         )
         Spacer(Modifier.height(10.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_intro), body, 1100)
+        RevealText(stringResource(R.string.onboarding_welcome_intro), body, d(1100))
         Spacer(Modifier.height(8.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_promise), body, 1220)
+        RevealText(stringResource(R.string.onboarding_welcome_promise), body, d(1220))
         Spacer(Modifier.height(8.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_design), body, 1340)
+        RevealText(stringResource(R.string.onboarding_welcome_design), body, d(1340))
         Spacer(Modifier.height(8.dp))
-        RevealText(stringResource(R.string.onboarding_welcome_thanks), body, 1460)
+        RevealText(stringResource(R.string.onboarding_welcome_thanks), body, d(1460))
     }
 
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1650)) +
-            slideInVertically(tween(480, delayMillis = 1650)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1650))) +
+            slideInVertically(tween(480, delayMillis = d(1650))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_support_developer),
@@ -360,8 +378,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1740)) +
-            slideInVertically(tween(480, delayMillis = 1740)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1740))) +
+            slideInVertically(tween(480, delayMillis = d(1740))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_follow_instagram),
@@ -372,12 +390,21 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(10.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 1830)) +
-            slideInVertically(tween(480, delayMillis = 1830)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1830))) +
+            slideInVertically(tween(480, delayMillis = d(1830))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_maybe_later),
-            onClick = onLater,
+            onClick = {
+                if (reduceMotion) {
+                    onLater()
+                } else if (!exit.isRunning && exit.value == 0f) {
+                    scope.launch {
+                        exit.animateTo(1f, tween(340, easing = FastOutLinearInEasing))
+                        onLater()
+                    }
+                }
+            },
             primary = false,
         )
     }
@@ -410,7 +437,12 @@ private val SparkColors = listOf(
  * Tap it to punch it again.
  */
 @Composable
-private fun StampBanner(diameter: Dp) {
+private fun StampBanner(
+    diameter: Dp,
+    skipIntro: Boolean,
+    onPunched: () -> Unit,
+    exit: () -> Float = { 0f },
+) {
     val k = (diameter.value / 220f).coerceAtLeast(0.1f)
     val scale = remember { Animatable(3.6f) }
     val alpha = remember { Animatable(0f) }
@@ -424,15 +456,16 @@ private fun StampBanner(diameter: Dp) {
     val kick = remember { Animatable(0f) }
     var round by remember { mutableIntStateOf(0) }
     val haptic = LocalHapticFeedback.current
+    val reduceMotion = rememberReduceMotion()
     val measurer = rememberTextMeasurer()
     val notes = remember(measurer) {
         listOf("♪", "♫").map { measurer.measure(it, TextStyle(fontSize = 22.sp)) }
     }
     val sparks = remember {
         val rnd = kotlin.random.Random(11)
-        List(36) { i ->
+        List(24) { i ->
             Spark(
-                angle = (i / 36f) * 2f * PI.toFloat() + rnd.nextFloat() * 0.3f,
+                angle = (i / 24f) * 2f * PI.toFloat() + rnd.nextFloat() * 0.3f,
                 speed = 0.9f + rnd.nextFloat() * 1.3f,
                 size = 4f + rnd.nextFloat() * 5f,
                 kind = i % 3,
@@ -449,6 +482,12 @@ private fun StampBanner(diameter: Dp) {
     )
 
     LaunchedEffect(round) {
+        // Reduced motion, or a page that already played: show the settled seal.
+        if (reduceMotion || (skipIntro && round == 0)) {
+            scale.snapTo(1f); alpha.snapTo(1f); tilt.snapTo(-6f); pop.snapTo(1f)
+            onPunched()
+            return@LaunchedEffect
+        }
         scale.snapTo(3.6f); alpha.snapTo(0f); tilt.snapTo(-24f); ring.snapTo(0f)
         shake.snapTo(0f); pop.snapTo(0f); squash.snapTo(0f); burst.snapTo(0f)
         flash.snapTo(0f); kick.snapTo(0f)
@@ -459,6 +498,7 @@ private fun StampBanner(diameter: Dp) {
             scale.animateTo(1f, tween(140, easing = FastOutLinearInEasing))
             // PUNCH
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            onPunched()
             launch { ring.animateTo(1f, tween(800, easing = LinearOutSlowInEasing)) }
             launch { burst.animateTo(1f, tween(1300, easing = LinearEasing)) }
             launch {
@@ -585,10 +625,15 @@ private fun StampBanner(diameter: Dp) {
                     indication = null,
                 ) { round++ }
                 .graphicsLayer {
-                    scaleX = scale.value * (1f + 0.14f * squash.value)
-                    scaleY = scale.value * (1f - 0.16f * squash.value)
-                    rotationZ = tilt.value
-                    this.alpha = alpha.value
+                    val e = exit()
+                    val shrink = 1f - 0.82f * e
+                    scaleX = scale.value * (1f + 0.14f * squash.value) * shrink
+                    scaleY = scale.value * (1f - 0.16f * squash.value) * shrink
+                    // Up and to the right, toward where the badge lands.
+                    translationX = e * diameter.toPx() * 0.95f
+                    translationY = -e * diameter.toPx() * 0.85f
+                    rotationZ = tilt.value + e * 55f
+                    this.alpha = alpha.value * (1f - e * e)
                 }
                 .background(Color.White.copy(alpha = 0.10f), CircleShape)
                 .drawBehind {
@@ -631,7 +676,7 @@ private fun StampBanner(diameter: Dp) {
                 )
                 Spacer(Modifier.height((6 * k).dp))
                 Text(
-                    text = "WELCOME TO",
+                    text = stringResource(R.string.onboarding_stamp_welcome_to),
                     fontSize = (14 * k).sp,
                     fontWeight = FontWeight.W800,
                     letterSpacing = (4 * k).sp,
@@ -640,7 +685,7 @@ private fun StampBanner(diameter: Dp) {
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "SONORA!",
+                        text = stringResource(R.string.onboarding_stamp_name),
                         style = MaterialTheme.typography.displayLarge.copy(
                             fontSize = (31 * k).sp,
                             lineHeight = (35 * k).sp,
@@ -665,6 +710,54 @@ private fun StampBanner(diameter: Dp) {
     }
 }
 
+/** The seal again, small, landing in the corner of the sign-in page with a bounce. */
+@Composable
+private fun LandedSeal() {
+    val reduceMotion = rememberReduceMotion()
+    val grow = remember { Animatable(if (reduceMotion) 1f else 0f) }
+    val spin = remember { Animatable(if (reduceMotion) -8f else 50f) }
+    LaunchedEffect(Unit) {
+        if (reduceMotion) return@LaunchedEffect
+        delay(200)
+        coroutineScope {
+            launch { spin.animateTo(-8f, spring(dampingRatio = 0.4f, stiffness = 260f)) }
+            grow.animateTo(1f, spring(dampingRatio = 0.35f, stiffness = 380f))
+        }
+    }
+    Box(
+        Modifier
+            .size(44.dp)
+            .graphicsLayer {
+                scaleX = grow.value
+                scaleY = grow.value
+                rotationZ = spin.value
+            }
+            .background(Color.White.copy(alpha = 0.12f), CircleShape)
+            .border(2.5.dp, Color.White.copy(alpha = 0.95f), CircleShape)
+            .padding(5.dp)
+            .border(1.dp, Color.White.copy(alpha = 0.55f), CircleShape),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_logo),
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier.size(width = 18.dp, height = 15.dp),
+        )
+    }
+}
+
+/** True when the system's animation scale is off: the stamp should simply appear. */
+@Composable
+private fun rememberReduceMotion(): Boolean {
+    val resolver = LocalContext.current.contentResolver
+    return remember {
+        runCatching {
+            Settings.Global.getFloat(resolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        }.getOrDefault(false)
+    }
+}
+
 /** Fades up from below once the stamp has landed; no per-character typing. */
 @Composable
 private fun RevealText(
@@ -673,8 +766,13 @@ private fun RevealText(
     delayMillis: Int,
     color: Color = Color.White.copy(alpha = 0.80f),
 ) {
+    val reduceMotion = rememberReduceMotion()
     val progress = remember(text) { Animatable(0f) }
     LaunchedEffect(text) {
+        if (reduceMotion) {
+            progress.snapTo(1f)
+            return@LaunchedEffect
+        }
         delay(delayMillis.toLong())
         progress.animateTo(1f, tween(520, easing = FastOutSlowInEasing))
     }
@@ -696,7 +794,11 @@ private fun ColumnScope.ConnectPage(
     onSkip: () -> Unit,
 ) {
     Spacer(Modifier.height(16.dp))
-    BackButton(onBack)
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        BackButton(onBack)
+        Spacer(Modifier.weight(1f))
+        LandedSeal()
+    }
     Spacer(Modifier.height(20.dp))
     Title(stringResource(R.string.onboarding_connect_title))
     Spacer(Modifier.height(14.dp))
@@ -784,9 +886,9 @@ private fun NameField(value: String, onValueChange: (String) -> Unit, onDone: ()
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 autoCorrectEnabled = false,
-                imeAction = ImeAction.Next,
+                imeAction = ImeAction.Done,
             ),
-            keyboardActions = KeyboardActions(onNext = { onDone() }),
+            keyboardActions = KeyboardActions(onDone = { onDone() }),
             modifier = Modifier.fillMaxWidth(),
         )
     }
