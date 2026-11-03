@@ -31,6 +31,13 @@
     <string name="onboarding_support_developer">☕ Support the developer</string>
     <string name="onboarding_follow_instagram">☆ Follow me on Instagram</string>
     <string name="onboarding_maybe_later">Maybe later</string>
+    <string name="queue_lock_reorder">Lock queue order</string>
+    <string name="queue_unlock_reorder">Unlock to reorder</string>
+    <string name="queue_reorder_hint">Drag to reorder · swipe to remove</string>
+    <string name="queue_upcoming_count">%1$d up next</string>
+    <string name="queue_menu_more">More options</string>
+    <string name="queue_menu_play_now">Play now</string>
+    <string name="queue_menu_play_next">Play next</string>
     <string name="search">Search</string>
     <string name="clear_search">Clear search</string>
     <string name="library">Library</string>
