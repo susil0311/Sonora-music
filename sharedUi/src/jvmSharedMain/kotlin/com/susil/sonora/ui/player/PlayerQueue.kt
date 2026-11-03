@@ -8,7 +8,9 @@ import com.susil.sonora.ui.components.ExplicitSongTitle
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,12 +34,22 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.DeleteOutline
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.LockOpen
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.GraphicEq
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -48,6 +60,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.snapshotFlow
@@ -63,6 +77,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -214,6 +231,27 @@ internal fun splitQueue(queue: List<Song>, currentIndex: Int, showHistory: Boole
 private fun LazyItemScope.queueMotion(): Modifier =
     Modifier.animateItem(fadeInSpec = null, fadeOutSpec = null, placementSpec = QUEUE_ROW_MOTION)
 
+/**
+ * One entry the app adds to every row's "⋮" menu — add to playlist, go to the
+ * artist, share, track details. The queue supplies play next and
+ * remove itself; the rest is the caller's, since it owns those screens.
+ */
+internal class QueueMenuAction(
+    val label: String,
+    val icon: ImageVector,
+    val onClick: (song: Song, timelineIndex: Int) -> Unit,
+)
+
+/** What one row's menu offers. A null action is left out of the menu. */
+internal class QueueRowMenu(
+    val onPlayNext: (() -> Unit)?,
+    val extras: List<Pair<QueueMenuAction, () -> Unit>>,
+    val onRemove: (() -> Unit)?,
+) {
+    val isEmpty: Boolean
+        get() = onPlayNext == null && extras.isEmpty() && onRemove == null
+}
+
 /** The live queue, in the player itself. */
 @Composable
 internal fun InlineQueue(
@@ -229,6 +267,18 @@ internal fun InlineQueue(
     onRemove: (Int) -> Unit,
     onMove: (Int, Int) -> Unit,
     onClear: () -> Unit,
+    /**
+     * Whether reordering and swipe-to-remove are switched off. Locked by
+     * default, so a stray touch can't shuffle the queue; the header's lock
+     * button flips it. Hoist it with [onReorderLockedChange] to keep the choice
+     * between launches; left unhoisted it lasts as long as the screen does.
+     */
+    reorderLocked: Boolean = false,
+    onReorderLockedChange: ((Boolean) -> Unit)? = null,
+    /** Moves the row at that timeline index to just after the current track; null hides the item. */
+    onPlayNext: ((Int) -> Unit)? = null,
+    /** Extra items for every row's menu, drawn between Play next and Remove. */
+    extraMenuActions: List<QueueMenuAction> = emptyList(),
     onScrollingChange: (Boolean) -> Unit = {},
     onDragActiveChange: (Boolean) -> Unit = {},
     /** Phone only: let queue scrolling dismiss/restore the lower half player. */
@@ -250,6 +300,38 @@ internal fun InlineQueue(
     val showHistory by PlayerSettings.showQueueHistory.collectAsStateWithLifecycle()
     val tracks = remember(queue, currentIndex, showHistory) { splitQueue(queue, currentIndex, showHistory) }
     val drag = rememberQueueDrag(listState, tracks, onMove, onDragActiveChange)
+
+    var localLocked by rememberSaveable { mutableStateOf(reorderLocked) }
+    val reorderIsLocked = if (onReorderLockedChange != null) reorderLocked else localLocked
+    // Drag and swipe need both: the party's order is the host's, and the lock is the user's.
+    val editable = !controlsLocked && !reorderIsLocked
+    val haptic = LocalHapticFeedback.current
+    fun toggleLock() {
+        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        val next = !reorderIsLocked
+        if (onReorderLockedChange != null) {
+            onReorderLockedChange(next)
+        } else {
+            localLocked = next
+        }
+    }
+    // Locking mid-drag drops the row where it is rather than leaving it held.
+    LaunchedEffect(reorderIsLocked) {
+        if (reorderIsLocked) drag.held?.let { drag.end(it.key) }
+    }
+    val upcoming = tracks.user.size + tracks.context.size + tracks.autoplay.size
+
+    fun rowMenu(track: QueueTrack, isCurrent: Boolean) = QueueRowMenu(
+        onPlayNext = if (
+            onPlayNext != null && !controlsLocked && !isCurrent && track.timelineIndex != currentIndex + 1
+        ) {
+            { onPlayNext(track.timelineIndex) }
+        } else {
+            null
+        },
+        extras = extraMenuActions.map { action -> action to { action.onClick(track.song, track.timelineIndex) } },
+        onRemove = if (!controlsLocked) ({ onRemove(track.timelineIndex) }) else null,
+    )
     val nowPlaying = tracks.nowPlaying
     val contextSong = tracks.context.firstOrNull()?.song
     val contextTitle = contextSong?.playbackSource?.takeIf { it.isNotBlank() }
@@ -278,12 +360,28 @@ internal fun InlineQueue(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = stringResource(Res.string.queue),
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White,
-                modifier = Modifier.weight(1f),
-            )
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(Res.string.queue),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                )
+                val subtitle = when {
+                    editable -> stringResource(Res.string.queue_reorder_hint)
+                    upcoming > 0 -> stringResource(Res.string.queue_upcoming_count, upcoming)
+                    else -> null
+                }
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White.copy(alpha = 0.55f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+            QueueLockButton(locked = reorderIsLocked, enabled = !controlsLocked, onClick = ::toggleLock)
             if (tracks.user.isNotEmpty()) {
                 QueueClearButton(MaterialTheme.typography.titleMedium, controlsLocked, onClear)
             }
@@ -317,8 +415,10 @@ internal fun InlineQueue(
                             song = track.song,
                             isCurrent = false,
                             onClick = { onJumpTo(track.timelineIndex) },
-                            onRemove = { onRemove(track.timelineIndex) },
                             locked = controlsLocked,
+                            menu = rowMenu(track, isCurrent = false),
+                            swipeToRemove = editable,
+                            onSwipeRemove = { onRemove(track.timelineIndex) },
                             modifier = queueMotion(),
                         )
                     }
@@ -335,8 +435,8 @@ internal fun InlineQueue(
                             song = nowPlaying.song,
                             isCurrent = true,
                             onClick = { onJumpTo(nowPlaying.timelineIndex) },
-                            onRemove = { onRemove(nowPlaying.timelineIndex) },
                             locked = controlsLocked,
+                            menu = rowMenu(nowPlaying, isCurrent = true),
                             modifier = queueMotion(),
                         )
                     }
@@ -350,7 +450,7 @@ internal fun InlineQueue(
                             QueueClearButton(MaterialTheme.typography.labelLarge, controlsLocked, onClear)
                         }
                     }
-                    queueSection(tracks.user, QueueSection.USER, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.user, QueueSection.USER, drag, controlsLocked, editable, onJumpTo, ::rowMenu, onRemove)
                 }
                 if (tracks.context.isNotEmpty()) {
                     item(key = "header-context") {
@@ -363,13 +463,13 @@ internal fun InlineQueue(
                             modifier = Modifier.padding(top = 16.dp, bottom = 6.dp).then(queueMotion()),
                         )
                     }
-                    queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, editable, onJumpTo, ::rowMenu, onRemove)
                 }
                 if (autoplayEnabled || tracks.autoplay.isNotEmpty()) {
                     item(key = "autoplay-heading") {
                         AutoplayHeading(hasTracks = tracks.autoplay.isNotEmpty(), modifier = queueMotion())
                     }
-                    queueSection(tracks.autoplay, QueueSection.AUTOPLAY, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.autoplay, QueueSection.AUTOPLAY, drag, controlsLocked, editable, onJumpTo, ::rowMenu, onRemove)
                 }
             }
             // The held row, drawn over the list where the finger is. Positioned
@@ -381,7 +481,6 @@ internal fun InlineQueue(
                         song = held.song,
                         isCurrent = false,
                         onClick = {},
-                        onRemove = {},
                         draggable = true,
                         lifted = true,
                         modifier = Modifier.offset { IntOffset(0, drag.heldTop.roundToInt()) },
@@ -403,7 +502,9 @@ private fun LazyListScope.queueSection(
     section: QueueSection,
     drag: QueueDrag,
     locked: Boolean,
+    editable: Boolean,
     onJumpTo: (Int) -> Unit,
+    menuFor: (QueueTrack, Boolean) -> QueueRowMenu,
     onRemove: (Int) -> Unit,
 ) {
     items(rows, key = { it.key }) { track ->
@@ -417,9 +518,11 @@ private fun LazyListScope.queueSection(
             song = track.song,
             isCurrent = false,
             onClick = { onJumpTo(track.timelineIndex) },
-            onRemove = { onRemove(track.timelineIndex) },
             locked = locked,
-            draggable = !locked,
+            draggable = editable,
+            menu = menuFor(track, false),
+            swipeToRemove = editable && !held,
+            onSwipeRemove = { onRemove(track.timelineIndex) },
             onDragStart = { drag.start(track.key, section) },
             onDrag = drag::drag,
             onDragEnd = { drag.end(track.key) },
@@ -442,6 +545,29 @@ private fun QueueHeading(
             modifier = Modifier.weight(1f),
         )
         trailing()
+    }
+}
+
+/** Flips the queue between locked (look, tap, scroll) and editable (drag to reorder, swipe to remove). */
+@Composable
+private fun QueueLockButton(locked: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .padding(end = 4.dp)
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(Color.White.copy(alpha = if (locked) 0f else 0.14f))
+            .clickable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = if (locked) Icons.Rounded.Lock else Icons.Rounded.LockOpen,
+            contentDescription = stringResource(
+                if (locked) Res.string.queue_unlock_reorder else Res.string.queue_lock_reorder,
+            ),
+            tint = Color.White.copy(alpha = if (!enabled) 0.25f else if (locked) 0.6f else 1f),
+            modifier = Modifier.size(20.dp),
+        )
     }
 }
 
@@ -719,107 +845,189 @@ private class QueueDrag(private val listState: LazyListState) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun InlineQueueRow(
     song: Song,
     isCurrent: Boolean,
     onClick: () -> Unit,
-    onRemove: () -> Unit,
     modifier: Modifier = Modifier,
     /** @see InlineQueue */
     locked: Boolean = false,
-    /** Shows the handle; drags on it go to the callbacks below. */
+    /** Shows the handle at the end of the row; drags on it go to the callbacks below. */
     draggable: Boolean = false,
     /** The copy drawn under the finger while the row is being moved. */
     lifted: Boolean = false,
+    /** The "⋮" menu, also opened by holding the row; null for no menu. */
+    menu: QueueRowMenu? = null,
+    /** Swipe the row sideways to take it out of the queue. */
+    swipeToRemove: Boolean = false,
+    onSwipeRemove: () -> Unit = {},
     onDragStart: () -> Unit = {},
     onDrag: (Float) -> Unit = {},
     onDragEnd: () -> Unit = {},
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(if (lifted) Color.White.copy(alpha = 0.06f) else Color.Transparent)
-            // Disabled rather than ignored: a tap that ripples and then does
-            // nothing reads as the app having missed it.
-            .clickable(enabled = !locked, onClick = onClick)
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (draggable) {
-            Icon(
-                Icons.Rounded.DragHandle,
-                contentDescription = stringResource(Res.string.drag_to_reorder),
-                tint = Color.White.copy(alpha = 0.4f),
-                modifier = Modifier
-                    .size(20.dp)
-                    // The glyph sits well inset in its own box; this pulls it
-                    // back to the row's edge.
-                    .offset(x = (-4).dp)
-                    .pointerInput(Unit) {
-                        detectDragGestures(
-                            onDragStart = { onDragStart() },
-                            onDragEnd = { onDragEnd() },
-                            onDragCancel = { onDragEnd() },
-                            onDrag = { change, amount ->
-                                change.consume()
-                                onDrag(amount.y)
-                            },
-                        )
+    val haptic = LocalHapticFeedback.current
+    var menuOpen by remember { mutableStateOf(false) }
+    val hasMenu = menu != null && !menu.isEmpty
+
+    val body: @Composable (Modifier) -> Unit = { rowModifier ->
+        Row(
+            modifier = rowModifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(if (lifted) Color.White.copy(alpha = 0.06f) else Color.Transparent)
+                // Disabled rather than ignored: a tap that ripples and then does
+                // nothing reads as the app having missed it.
+                .combinedClickable(
+                    enabled = !locked,
+                    onClick = onClick,
+                    onLongClick = if (hasMenu) {
+                        {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            menuOpen = true
+                        }
+                    } else {
+                        null
                     },
-            )
-            Spacer(Modifier.width(4.dp))
-        }
-        AsyncImage(
-            model = rememberRemoteArtworkUrl(song),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .trackArtSize(44.dp, song.isVideo)
-                .clip(RoundedCornerShape(6.dp))
-                .thumbnailBorder(RoundedCornerShape(6.dp))
-                .background(Color.White.copy(alpha = 0.08f)),
-        )
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            ExplicitSongTitle(
-                song = song,
-                style = MaterialTheme.typography.titleMedium,
-                color = if (isCurrent) Color.White else Color.White.copy(alpha = 0.92f),
-            )
-            Text(
-                text = song.artist,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.55f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        if (isCurrent) {
-            Icon(
-                Icons.Rounded.GraphicEq,
-                contentDescription = stringResource(Res.string.now_playing),
-                tint = Color.White,
-                modifier = Modifier.size(18.dp),
-            )
-            Spacer(Modifier.width(10.dp))
-        }
-        if (!locked) {
-            Box(
+                )
+                .padding(vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                model = rememberRemoteArtworkUrl(song),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .clickable(onClick = onRemove),
-                contentAlignment = Alignment.Center,
-            ) {
+                    .trackArtSize(44.dp, song.isVideo)
+                    .clip(RoundedCornerShape(6.dp))
+                    .thumbnailBorder(RoundedCornerShape(6.dp))
+                    .background(Color.White.copy(alpha = 0.08f)),
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                ExplicitSongTitle(
+                    song = song,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isCurrent) Color.White else Color.White.copy(alpha = 0.92f),
+                )
+                Text(
+                    text = song.artist,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.55f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            if (isCurrent) {
                 Icon(
-                    Icons.Rounded.Close,
-                    contentDescription = stringResource(Res.string.remove_from_queue),
-                    tint = Color.White.copy(alpha = 0.55f),
+                    Icons.Rounded.GraphicEq,
+                    contentDescription = stringResource(Res.string.now_playing),
+                    tint = Color.White,
                     modifier = Modifier.size(18.dp),
                 )
+                Spacer(Modifier.width(6.dp))
+            }
+            if (hasMenu && menu != null) {
+                Box {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .clickable { menuOpen = true },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            Icons.Rounded.MoreVert,
+                            contentDescription = stringResource(Res.string.queue_menu_more),
+                            tint = Color.White.copy(alpha = 0.6f),
+                            modifier = Modifier.size(22.dp),
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menuOpen,
+                        onDismissRequest = { menuOpen = false },
+                        modifier = Modifier.background(Color(0xFF2B2B30), RoundedCornerShape(12.dp)),
+                    ) {
+                        menu.onPlayNext?.let { action ->
+                            QueueMenuItem(
+                                label = stringResource(Res.string.queue_menu_play_next),
+                                icon = Icons.Rounded.SkipNext,
+                            ) { menuOpen = false; action() }
+                        }
+                        menu.extras.forEach { (extra, invoke) ->
+                            QueueMenuItem(label = extra.label, icon = extra.icon) {
+                                menuOpen = false
+                                invoke()
+                            }
+                        }
+                        menu.onRemove?.let { action ->
+                            QueueMenuItem(
+                                label = stringResource(Res.string.remove_from_queue),
+                                icon = Icons.Rounded.DeleteOutline,
+                                tint = Color(0xFFFF6B6B),
+                            ) { menuOpen = false; action() }
+                        }
+                    }
+                }
+            }
+            if (draggable) {
+                Icon(
+                    Icons.Rounded.DragHandle,
+                    contentDescription = stringResource(Res.string.drag_to_reorder),
+                    tint = Color.White.copy(alpha = 0.55f),
+                    modifier = Modifier
+                        .size(40.dp)
+                        // Before the padding, so the whole 40.dp square takes the drag,
+                        // not only the glyph inside it.
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragStart = { onDragStart() },
+                                onDragEnd = { onDragEnd() },
+                                onDragCancel = { onDragEnd() },
+                                onDrag = { change, amount ->
+                                    change.consume()
+                                    onDrag(amount.y)
+                                },
+                            )
+                        }
+                        .padding(8.dp),
+                )
+            } else if (!hasMenu) {
+                Spacer(Modifier.width(4.dp))
             }
         }
     }
+
+    if (swipeToRemove) {
+        val currentRemove by rememberUpdatedState(onSwipeRemove)
+        val dismissState = rememberSwipeToDismissBoxState(
+            positionalThreshold = { total -> total * 0.6f },
+            confirmValueChange = { value ->
+                if (value != SwipeToDismissBoxValue.Settled) currentRemove()
+                true
+            },
+        )
+        SwipeToDismissBox(
+            state = dismissState,
+            backgroundContent = {},
+            modifier = modifier,
+        ) { body(Modifier) }
+    } else {
+        body(modifier)
+    }
+}
+
+@Composable
+private fun QueueMenuItem(
+    label: String,
+    icon: ImageVector,
+    tint: Color = Color.White,
+    onClick: () -> Unit,
+) {
+    DropdownMenuItem(
+        text = { Text(label, style = MaterialTheme.typography.bodyLarge, color = tint) },
+        leadingIcon = { Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(20.dp)) },
+        onClick = onClick,
+    )
 }

@@ -120,7 +120,11 @@ import java.util.concurrent.atomic.AtomicLong
 /** What the Search tab searches: YouTube Music, or the Local Music folder on this device. */
 enum class SearchSource { YOUTUBE, LIBRARY, ADDONS }
 
-private const val PLAYLIST_CACHE_TTL_MS = 10 * 60 * 1000L
+// Playlist metadata changes only through explicit account actions in this
+// app. Keep it across normal launches; successful mutations update the cache
+// immediately and library refreshes still happen when the account is marked
+// stale.
+private const val PLAYLIST_CACHE_TTL_MS = 24 * 60 * 60 * 1000L
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -991,6 +995,10 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             .apply()
     }
 
+    private fun cacheCurrentPlaylists() {
+        writeCachedPlaylists(listenerKey(), _playlists.value)
+    }
+
     /**
      * The library feed's Playlists shelf, rewritten by [edit].
      *
@@ -1039,6 +1047,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _playlists.value = _playlists.value.map {
             if (it.playlistId == playlist.playlistId) it.copy(title = title) else it
         }
+        cacheCurrentPlaylists()
         editPlaylistShelf { items ->
             items.map { if (it.browseId == playlist.browseId) it.copy(title = title) else it }
         }
@@ -1140,6 +1149,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     // newest, which is the order the feed itself comes in.
                     _playlists.value = listOf(created) +
                         _playlists.value.filterNot { it.playlistId == created.playlistId }
+                    cacheCurrentPlaylists()
                     editPlaylistShelf { items ->
                         listOf(
                             ShelfItem(
@@ -1190,6 +1200,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                         )
                         _playlists.value = listOf(created) +
                             _playlists.value.filterNot { it.playlistId == created.playlistId }
+                        cacheCurrentPlaylists()
                         editPlaylistShelf { items ->
                             listOf(
                                 ShelfItem(
@@ -1385,11 +1396,22 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         onResult: (Boolean) -> Unit = {},
     ) {
         if (!requireSignIn()) return onResult(false)
+        val currentIds = original.map { it.setVideoId }
+        val targetIds = reordered.map { it.setVideoId }
+        // Never mapNotNull here: dropping one row makes the request look like
+        // a valid shorter playlist and leaves the omitted songs out of the
+        // reorder operation.
+        if (currentIds.any { it.isNullOrBlank() } ||
+            targetIds.any { it.isNullOrBlank() } ||
+            currentIds.size != currentIds.distinct().size ||
+            targetIds.size != targetIds.distinct().size ||
+            currentIds.size != targetIds.size
+        ) return onResult(false)
         viewModelScope.launch {
             YtMusicRepository.reorderPlaylist(
                 playlist.playlistId,
-                current = original.mapNotNull { it.setVideoId },
-                target = reordered.mapNotNull { it.setVideoId },
+                current = currentIds.filterNotNull(),
+                target = targetIds.filterNotNull(),
             ).fold(
                 onSuccess = {
                     libraryStale = true
@@ -1414,6 +1436,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 onSuccess = {
                     _playlists.value = _playlists.value
                         .filterNot { it.playlistId == playlist.playlistId }
+                    cacheCurrentPlaylists()
                     // The card in the library tab, which is the surface the
                     // deletion was almost certainly ordered from — and which the
                     // re-fetch that used to stand in for this left in place; see

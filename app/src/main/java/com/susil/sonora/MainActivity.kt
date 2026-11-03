@@ -2619,6 +2619,15 @@ private fun SonoraApp(
                     c.play()
                 }
             },
+            onPlayNextInQueue = { index ->
+                controller?.let { c ->
+                    val current = c.currentMediaItemIndex
+                    val destination = current + 1
+                    if (index >= 0 && index < c.mediaItemCount && index != destination) {
+                        c.moveMediaItem(index, destination.coerceAtMost(c.mediaItemCount - 1))
+                    }
+                }
+            },
             onRemoveFromQueue = { controller?.removeMediaItem(it) },
             onMoveInQueue = { from, to -> controller?.moveMediaItem(from, to) },
             onQueueDragActiveChange = { active -> controller?.setQueueDragActive(active) },

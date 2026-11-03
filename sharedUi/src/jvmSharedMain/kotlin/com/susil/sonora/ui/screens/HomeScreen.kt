@@ -43,6 +43,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
@@ -55,6 +58,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Folder
@@ -494,12 +498,32 @@ private fun HomeTitle(
     val colors = MaterialTheme.colorScheme
     val name = listenerName?.trim().orEmpty()
     Column(modifier = modifier.padding(horizontal = PAGE_GUTTER, vertical = 8.dp)) {
+        val heading = if (name.isNotBlank()) stringResource(Res.string.home_greeting, name.substringBefore(' ')) else title
+        val base = MaterialTheme.typography.headlineLarge
+        // A long name used to be cut to "Welcome back, Surjith ...". Shrink the
+        // line to fit first; past the floor, wrap to a second line instead.
+        var fontScale by remember(heading) { mutableFloatStateOf(1f) }
+        var wrap by remember(heading) { mutableStateOf(false) }
         Text(
-            text = if (name.isNotBlank()) stringResource(Res.string.home_greeting, name) else title,
-            style = MaterialTheme.typography.headlineLarge,
+            text = heading,
+            style = base.copy(
+                fontSize = base.fontSize * fontScale,
+                lineHeight = if (base.lineHeight.isSpecified) base.lineHeight * fontScale else base.lineHeight,
+            ),
             color = colors.onBackground,
-            maxLines = 1,
+            maxLines = if (wrap) 2 else 1,
+            softWrap = wrap,
             overflow = TextOverflow.Ellipsis,
+            onTextLayout = { layout ->
+                if (layout.hasVisualOverflow && !wrap) {
+                    if (fontScale > 0.72f) {
+                        fontScale -= 0.07f
+                    } else {
+                        wrap = true
+                        fontScale = 0.85f
+                    }
+                }
+            },
         )
         if (name.isNotBlank()) {
             Text(

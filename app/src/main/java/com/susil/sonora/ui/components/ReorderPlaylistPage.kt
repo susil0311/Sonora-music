@@ -196,6 +196,13 @@ private fun ReorderableSongList(
     val density = LocalDensity.current
     val edgeZone = with(density) { 56.dp.toPx() }
     val edgeSpeed = with(density) { 900.dp.toPx() }
+    val duplicateKeys = remember(order.toList()) {
+        order.mapNotNull { it.setVideoId ?: it.videoId }
+            .groupingBy { it }
+            .eachCount()
+            .filterValues { it > 1 }
+            .keys
+    }
 
     fun settle() {
         val key = held ?: return
@@ -255,8 +262,12 @@ private fun ReorderableSongList(
     }
 
     LazyColumn(state = listState, modifier = Modifier.fillMaxSize(), contentPadding = contentPadding) {
-        itemsIndexed(order, key = { _, song -> song.setVideoId ?: song.videoId }) { _, song ->
-            val key = song.setVideoId ?: song.videoId
+        itemsIndexed(order, key = { index, song ->
+            val base = song.setVideoId ?: song.videoId
+            if (base in duplicateKeys) "$base#$index" else base
+        }) { index, song ->
+            val base = song.setVideoId ?: song.videoId
+            val key = if (base in duplicateKeys) "$base#$index" else base
             val dragging = held == key
             val start: () -> Unit = {
                 held = key

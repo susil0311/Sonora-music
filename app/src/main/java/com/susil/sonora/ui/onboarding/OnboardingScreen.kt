@@ -1,9 +1,18 @@
 package com.susil.sonora.ui.onboarding
 
+import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -16,12 +25,14 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -38,9 +49,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,26 +63,45 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.susil.sonora.R
 import com.susil.sonora.sharedui.resources.Res
 import com.susil.sonora.sharedui.resources.ic_google_g
@@ -114,6 +143,9 @@ fun OnboardingScreen(
 ) {
     var page by rememberSaveable { mutableIntStateOf(PAGE_NAME) }
     var name by rememberSaveable { mutableStateOf(initialName) }
+    // Survives rotation and a trip to the next page and back, so the stamp
+    // punches once per first run rather than on every recomposition of the page.
+    var stampPlayed by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     BackHandler(enabled = page != PAGE_NAME) {
@@ -190,6 +222,8 @@ fun OnboardingScreen(
                     )
                     PAGE_WELCOME -> WelcomePage(
                         name = name.trim(),
+                        stampPlayed = stampPlayed,
+                        onStampPlayed = { stampPlayed = true },
                         onBack = { page = PAGE_NAME },
                         onLater = { if (signedIn) onFinish() else page = PAGE_CONNECT },
                     )
@@ -277,65 +311,63 @@ private fun ColumnScope.NamePage(
 @Composable
 private fun ColumnScope.WelcomePage(
     name: String,
+    stampPlayed: Boolean,
+    onStampPlayed: () -> Unit,
     onBack: () -> Unit,
     onLater: () -> Unit,
 ) {
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    // Read once on entry: a page that has already played shows its settled state.
+    val skipIntro = remember { stampPlayed }
+    fun d(ms: Int) = if (skipIntro) 0 else ms
+    // "Maybe later" sends the seal flying off toward the corner where it lands
+    // as a small badge on the next page, instead of vanishing with the page.
+    val scope = rememberCoroutineScope()
+    val exit = remember { Animatable(0f) }
+    val reduceMotion = rememberReduceMotion()
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(12.dp))
     BackButton(onBack)
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
+    val body = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, lineHeight = 22.sp)
     Column(
         modifier = Modifier
             .weight(1f)
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxWidth(),
     ) {
-        TypewriterText(
+        BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+            // The keyboard from the name page is still sliding away on the first
+            // frame, so the space can be tiny or negative; draw only once there
+            // is room, and never hand a negative size to a modifier.
+            val size = minOf(220.dp, maxHeight - 8.dp, maxWidth)
+            if (size >= 96.dp) StampBanner(size, skipIntro, onStampPlayed, exit = { exit.value })
+        }
+        Spacer(Modifier.height(8.dp))
+        RevealText(
             text = stringResource(R.string.onboarding_welcome_title, name),
             style = MaterialTheme.typography.displayLarge.copy(
-                fontSize = 34.sp,
-                lineHeight = 38.sp,
-                letterSpacing = (-0.9).sp,
+                fontSize = 26.sp,
+                lineHeight = 30.sp,
+                letterSpacing = (-0.6).sp,
             ),
-            delayMillis = 120,
-            charDelayMillis = 34,
+            delayMillis = d(950),
+            color = Color.White,
         )
-        Spacer(Modifier.height(20.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_intro),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 250,
-            charDelayMillis = 22,
-        )
-        Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_promise),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 400,
-            charDelayMillis = 16,
-        )
-        Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_design),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 550,
-            charDelayMillis = 19,
-        )
-        Spacer(Modifier.height(14.dp))
-        TypewriterText(
-            text = stringResource(R.string.onboarding_welcome_thanks),
-            style = MaterialTheme.typography.bodyLarge,
-            delayMillis = 700,
-            charDelayMillis = 28,
-        )
+        Spacer(Modifier.height(10.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_intro), body, d(1100))
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_promise), body, d(1220))
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_design), body, d(1340))
+        Spacer(Modifier.height(8.dp))
+        RevealText(stringResource(R.string.onboarding_welcome_thanks), body, d(1460))
     }
 
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 360)) +
-            slideInVertically(tween(480, delayMillis = 360)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1650))) +
+            slideInVertically(tween(480, delayMillis = d(1650))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_support_developer),
@@ -346,8 +378,8 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(12.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 440)) +
-            slideInVertically(tween(480, delayMillis = 440)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1740))) +
+            slideInVertically(tween(480, delayMillis = d(1740))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_follow_instagram),
@@ -358,38 +390,400 @@ private fun ColumnScope.WelcomePage(
     Spacer(Modifier.height(10.dp))
     AnimatedVisibility(
         visible = true,
-        enter = fadeIn(tween(480, delayMillis = 520)) +
-            slideInVertically(tween(480, delayMillis = 520)) { it / 3 },
+        enter = fadeIn(tween(480, delayMillis = d(1830))) +
+            slideInVertically(tween(480, delayMillis = d(1830))) { it / 3 },
     ) {
         PillButton(
             label = stringResource(R.string.onboarding_maybe_later),
-            onClick = onLater,
+            onClick = {
+                if (reduceMotion) {
+                    onLater()
+                } else if (!exit.isRunning && exit.value == 0f) {
+                    scope.launch {
+                        exit.animateTo(1f, tween(340, easing = FastOutLinearInEasing))
+                        onLater()
+                    }
+                }
+            },
             primary = false,
         )
     }
     Spacer(Modifier.height(16.dp))
 }
 
+private class Spark(
+    val angle: Float,
+    val speed: Float,
+    val size: Float,
+    val kind: Int,
+    val spin: Float,
+    val color: Color,
+)
+
+private val SparkColors = listOf(
+    Color.White,
+    Color(0xFFFFD54F),
+    Color(0xFFFF6E9C),
+    Color(0xFF4DD0E1),
+    Color(0xFFFF9100),
+    Color(0xFFB388FF),
+)
+
+/**
+ * The welcome seal is a vinyl record punched onto the page. It drops in
+ * oversized and tilted, smacks down with a haptic thump, a flash, shockwave
+ * rings, a squash-and-stretch and a burst of confetti and music notes, then
+ * spins up like a record and settles into a slow drift with a rotating glare.
+ * Tap it to punch it again.
+ */
 @Composable
-private fun TypewriterText(
+private fun StampBanner(
+    diameter: Dp,
+    skipIntro: Boolean,
+    onPunched: () -> Unit,
+    exit: () -> Float = { 0f },
+) {
+    val k = (diameter.value / 220f).coerceAtLeast(0.1f)
+    val scale = remember { Animatable(3.6f) }
+    val alpha = remember { Animatable(0f) }
+    val tilt = remember { Animatable(-24f) }
+    val ring = remember { Animatable(0f) }
+    val shake = remember { Animatable(0f) }
+    val pop = remember { Animatable(0f) }
+    val squash = remember { Animatable(0f) }
+    val burst = remember { Animatable(0f) }
+    val flash = remember { Animatable(0f) }
+    val kick = remember { Animatable(0f) }
+    var round by remember { mutableIntStateOf(0) }
+    val haptic = LocalHapticFeedback.current
+    val reduceMotion = rememberReduceMotion()
+    val measurer = rememberTextMeasurer()
+    val notes = remember(measurer) {
+        listOf("♪", "♫").map { measurer.measure(it, TextStyle(fontSize = 22.sp)) }
+    }
+    val sparks = remember {
+        val rnd = kotlin.random.Random(11)
+        List(24) { i ->
+            Spark(
+                angle = (i / 24f) * 2f * PI.toFloat() + rnd.nextFloat() * 0.3f,
+                speed = 0.9f + rnd.nextFloat() * 1.3f,
+                size = 4f + rnd.nextFloat() * 5f,
+                kind = i % 3,
+                spin = rnd.nextFloat() * 720f - 360f,
+                color = SparkColors[i % SparkColors.size],
+            )
+        }
+    }
+    val drift by rememberInfiniteTransition(label = "vinyl").animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(tween(9000, easing = LinearEasing)),
+        label = "drift",
+    )
+
+    LaunchedEffect(round) {
+        // Reduced motion, or a page that already played: show the settled seal.
+        if (reduceMotion || (skipIntro && round == 0)) {
+            scale.snapTo(1f); alpha.snapTo(1f); tilt.snapTo(-6f); pop.snapTo(1f)
+            onPunched()
+            return@LaunchedEffect
+        }
+        scale.snapTo(3.6f); alpha.snapTo(0f); tilt.snapTo(-24f); ring.snapTo(0f)
+        shake.snapTo(0f); pop.snapTo(0f); squash.snapTo(0f); burst.snapTo(0f)
+        flash.snapTo(0f); kick.snapTo(0f)
+        delay(if (round == 0) 300 else 80)
+        coroutineScope {
+            launch { alpha.animateTo(1f, tween(80)) }
+            launch { tilt.animateTo(-8f, tween(140, easing = FastOutLinearInEasing)) }
+            scale.animateTo(1f, tween(140, easing = FastOutLinearInEasing))
+            // PUNCH
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            onPunched()
+            launch { ring.animateTo(1f, tween(800, easing = LinearOutSlowInEasing)) }
+            launch { burst.animateTo(1f, tween(1300, easing = LinearEasing)) }
+            launch {
+                flash.snapTo(1f)
+                flash.animateTo(0f, tween(280))
+            }
+            launch {
+                shake.snapTo(1f)
+                shake.animateTo(0f, tween(460, easing = LinearEasing))
+            }
+            launch {
+                squash.snapTo(1f)
+                squash.animateTo(0f, spring(dampingRatio = 0.28f, stiffness = 380f))
+            }
+            launch { tilt.animateTo(-6f, spring(dampingRatio = 0.35f, stiffness = 300f)) }
+            launch { kick.animateTo(900f, tween(1800, easing = LinearOutSlowInEasing)) }
+            launch {
+                delay(130)
+                pop.animateTo(1f, spring(dampingRatio = 0.36f, stiffness = 320f))
+            }
+            launch {
+                delay(260)
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            }
+        }
+    }
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .graphicsLayer {
+                translationX = sin(shake.value * 38f) * 16f * shake.value
+                translationY = cos(shake.value * 31f) * 11f * shake.value
+            }
+            .drawBehind {
+                val c = center
+                val base = (diameter / 2).toPx().coerceAtLeast(1f)
+                val f = flash.value
+                if (f > 0f) {
+                    drawCircle(
+                        brush = Brush.radialGradient(
+                            listOf(Color.White.copy(alpha = 0.6f * f), Color.Transparent),
+                            center = c,
+                            radius = base * 3.2f,
+                        ),
+                        radius = base * 3.2f,
+                        center = c,
+                    )
+                }
+                val r = ring.value
+                if (r > 0f && r < 1f) {
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.55f * (1f - r)),
+                        radius = base + this.size.maxDimension * 0.6f * r,
+                        center = c,
+                        style = Stroke(width = 6.dp.toPx() * (1f - r) + 1f),
+                    )
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.3f * (1f - r)),
+                        radius = base + this.size.maxDimension * 0.45f * r,
+                        center = c,
+                        style = Stroke(width = 3.dp.toPx() * (1f - r) + 1f),
+                    )
+                    for (i in 0 until 18) {
+                        val a = i * 2.0 * PI / 18
+                        val dx = cos(a).toFloat()
+                        val dy = sin(a).toFloat()
+                        val inner = base + 8.dp.toPx() + 46.dp.toPx() * r
+                        val outer = inner + 26.dp.toPx() * (1f - r)
+                        drawLine(
+                            color = Color.White.copy(alpha = 0.8f * (1f - r)),
+                            start = Offset(c.x + dx * inner, c.y + dy * inner),
+                            end = Offset(c.x + dx * outer, c.y + dy * outer),
+                            strokeWidth = 3.dp.toPx(),
+                        )
+                    }
+                }
+                val t = burst.value
+                if (t > 0f && t < 1f) {
+                    val ease = 1f - (1f - t) * (1f - t) * (1f - t)
+                    val fade = (1f - t * t).coerceIn(0f, 1f)
+                    sparks.forEachIndexed { i, sp ->
+                        val dist = base * 0.9f + sp.speed * base * 1.1f * ease
+                        val pos = Offset(
+                            c.x + cos(sp.angle) * dist,
+                            c.y + sin(sp.angle) * dist + 220.dp.toPx() * t * t,
+                        )
+                        val u = sp.size * density
+                        when (sp.kind) {
+                            0 -> drawCircle(sp.color.copy(alpha = fade), radius = u * 0.7f, center = pos)
+                            1 -> rotate(sp.spin * t, pos) {
+                                drawRoundRect(
+                                    color = sp.color.copy(alpha = fade),
+                                    topLeft = Offset(pos.x - u, pos.y - u * 0.5f),
+                                    size = Size(u * 2f, u),
+                                    cornerRadius = CornerRadius(u * 0.4f),
+                                )
+                            }
+                            else -> {
+                                val layout = notes[i % 2]
+                                rotate(sp.spin * t * 0.3f, pos) {
+                                    drawText(
+                                        textLayoutResult = layout,
+                                        color = sp.color,
+                                        topLeft = Offset(
+                                            pos.x - layout.size.width / 2f,
+                                            pos.y - layout.size.height / 2f,
+                                        ),
+                                        alpha = fade,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(
+            Modifier
+                .size(diameter)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { round++ }
+                .graphicsLayer {
+                    val e = exit()
+                    val shrink = 1f - 0.82f * e
+                    scaleX = scale.value * (1f + 0.14f * squash.value) * shrink
+                    scaleY = scale.value * (1f - 0.16f * squash.value) * shrink
+                    // Up and to the right, toward where the badge lands.
+                    translationX = e * diameter.toPx() * 0.95f
+                    translationY = -e * diameter.toPx() * 0.85f
+                    rotationZ = tilt.value + e * 55f
+                    this.alpha = alpha.value * (1f - e * e)
+                }
+                .background(Color.White.copy(alpha = 0.10f), CircleShape)
+                .drawBehind {
+                    val c = center
+                    val rad = this.size.minDimension / 2f
+                    var g = rad * 0.2f
+                    while (g < rad * 0.97f) {
+                        drawCircle(Color.White.copy(alpha = 0.06f), radius = g, style = Stroke(1.dp.toPx()))
+                        g += 5.dp.toPx()
+                    }
+                    rotate(kick.value + drift, c) {
+                        drawCircle(
+                            brush = Brush.sweepGradient(
+                                colorStops = arrayOf(
+                                    0f to Color.Transparent,
+                                    0.08f to Color.White.copy(alpha = 0.26f),
+                                    0.16f to Color.Transparent,
+                                    0.5f to Color.Transparent,
+                                    0.58f to Color.White.copy(alpha = 0.2f),
+                                    0.66f to Color.Transparent,
+                                    1f to Color.Transparent,
+                                ),
+                                center = c,
+                            ),
+                            radius = rad * 0.97f,
+                            center = c,
+                        )
+                    }
+                }
+                .border(5.dp, Color.White.copy(alpha = 0.95f), CircleShape)
+                .padding(11.dp)
+                .border(1.5.dp, Color.White.copy(alpha = 0.6f), CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "★  ★  ★",
+                    fontSize = (11 * k).sp,
+                    color = Color.White.copy(alpha = 0.7f),
+                )
+                Spacer(Modifier.height((6 * k).dp))
+                Text(
+                    text = stringResource(R.string.onboarding_stamp_welcome_to),
+                    fontSize = (14 * k).sp,
+                    fontWeight = FontWeight.W800,
+                    letterSpacing = (4 * k).sp,
+                    color = Color.White.copy(alpha = 0.88f),
+                    maxLines = 1,
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.onboarding_stamp_name),
+                        style = MaterialTheme.typography.displayLarge.copy(
+                            fontSize = (31 * k).sp,
+                            lineHeight = (35 * k).sp,
+                            letterSpacing = (-0.6).sp,
+                        ),
+                        color = Color.White,
+                        maxLines = 1,
+                    )
+                    Spacer(Modifier.width((6 * k).dp))
+                    Text(
+                        text = "🎶",
+                        fontSize = (26 * k).sp,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = pop.value
+                            scaleY = pop.value
+                            this.alpha = pop.value.coerceIn(0f, 1f)
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** The seal again, small, landing in the corner of the sign-in page with a bounce. */
+@Composable
+private fun LandedSeal() {
+    val reduceMotion = rememberReduceMotion()
+    val grow = remember { Animatable(if (reduceMotion) 1f else 0f) }
+    val spin = remember { Animatable(if (reduceMotion) -8f else 50f) }
+    LaunchedEffect(Unit) {
+        if (reduceMotion) return@LaunchedEffect
+        delay(200)
+        coroutineScope {
+            launch { spin.animateTo(-8f, spring(dampingRatio = 0.4f, stiffness = 260f)) }
+            grow.animateTo(1f, spring(dampingRatio = 0.35f, stiffness = 380f))
+        }
+    }
+    Box(
+        Modifier
+            .size(44.dp)
+            .graphicsLayer {
+                scaleX = grow.value
+                scaleY = grow.value
+                rotationZ = spin.value
+            }
+            .background(Color.White.copy(alpha = 0.12f), CircleShape)
+            .border(2.5.dp, Color.White.copy(alpha = 0.95f), CircleShape)
+            .padding(5.dp)
+            .border(1.dp, Color.White.copy(alpha = 0.55f), CircleShape),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_logo),
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier.size(width = 18.dp, height = 15.dp),
+        )
+    }
+}
+
+/** True when the system's animation scale is off: the stamp should simply appear. */
+@Composable
+private fun rememberReduceMotion(): Boolean {
+    val resolver = LocalContext.current.contentResolver
+    return remember {
+        runCatching {
+            Settings.Global.getFloat(resolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        }.getOrDefault(false)
+    }
+}
+
+/** Fades up from below once the stamp has landed; no per-character typing. */
+@Composable
+private fun RevealText(
     text: String,
     style: TextStyle,
     delayMillis: Int,
-    charDelayMillis: Int,
+    color: Color = Color.White.copy(alpha = 0.80f),
 ) {
-    var visibleLength by remember(text) { mutableIntStateOf(0) }
+    val reduceMotion = rememberReduceMotion()
+    val progress = remember(text) { Animatable(0f) }
     LaunchedEffect(text) {
-        visibleLength = 0
-        kotlinx.coroutines.delay(delayMillis.toLong())
-        for (index in 1..text.length) {
-            visibleLength = index
-            kotlinx.coroutines.delay(charDelayMillis.toLong())
+        if (reduceMotion) {
+            progress.snapTo(1f)
+            return@LaunchedEffect
         }
+        delay(delayMillis.toLong())
+        progress.animateTo(1f, tween(520, easing = FastOutSlowInEasing))
     }
     Text(
-        text = text.take(visibleLength) + if (visibleLength < text.length) "▌" else "",
+        text = text,
         style = style,
-        color = Color.White.copy(alpha = 0.80f),
+        color = color,
+        modifier = Modifier.graphicsLayer {
+            alpha = progress.value
+            translationY = (1f - progress.value) * 24.dp.toPx()
+        },
     )
 }
 
@@ -400,7 +794,11 @@ private fun ColumnScope.ConnectPage(
     onSkip: () -> Unit,
 ) {
     Spacer(Modifier.height(16.dp))
-    BackButton(onBack)
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        BackButton(onBack)
+        Spacer(Modifier.weight(1f))
+        LandedSeal()
+    }
     Spacer(Modifier.height(20.dp))
     Title(stringResource(R.string.onboarding_connect_title))
     Spacer(Modifier.height(14.dp))
@@ -488,9 +886,9 @@ private fun NameField(value: String, onValueChange: (String) -> Unit, onDone: ()
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 autoCorrectEnabled = false,
-                imeAction = ImeAction.Next,
+                imeAction = ImeAction.Done,
             ),
-            keyboardActions = KeyboardActions(onNext = { onDone() }),
+            keyboardActions = KeyboardActions(onDone = { onDone() }),
             modifier = Modifier.fillMaxWidth(),
         )
     }

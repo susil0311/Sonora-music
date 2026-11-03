@@ -1075,14 +1075,16 @@ object YtMusicRepository {
      * name, rather than offering to reorder something it can't.
      */
     suspend fun playlistEntries(browseId: String): Result<List<Song>> = call("entries:$browseId") {
-        val out = LinkedHashMap<String, Song>()
+        // Keep rows, not just ids. A playlist can contain the same video more
+        // than once, and using setVideoId as a map key silently dropped later
+        // copies from the reorder screen.
+        val out = ArrayList<Song>()
         var response = Innertube.browse(browseId)
         var page = 1
         while (true) {
             val shelf = InnertubeParser.parsePlaylistShelf(response) ?: break
             shelf.songs.forEach { song ->
-                val setVideoId = song.setVideoId ?: error("playlist entry without an id")
-                out.putIfAbsent(setVideoId, song)
+                out += song
             }
             val token = shelf.continuation ?: break
             // Same cap as [songsPaged] — a playlist past it can't be listed
@@ -1090,7 +1092,7 @@ object YtMusicRepository {
             if (page++ >= MAX_PAGES) error("playlist too long to reorder")
             response = Innertube.browseContinuation(token)
         }
-        out.values.toList()
+        out.toList()
     }
 
     /**

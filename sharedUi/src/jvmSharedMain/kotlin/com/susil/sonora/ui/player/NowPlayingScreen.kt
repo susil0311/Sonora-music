@@ -741,6 +741,7 @@ fun NowPlayingScreen(
     onCycleRepeat: () -> Unit,
     onToggleAutoplay: () -> Unit,
     onJumpTo: (Int) -> Unit,
+    onPlayNextInQueue: (Int) -> Unit = {},
     onRemoveFromQueue: (Int) -> Unit,
     onMoveInQueue: (Int, Int) -> Unit,
     /**
@@ -2318,6 +2319,7 @@ fun NowPlayingScreen(
                             autoplayEnabled = autoplayEnabled,
                             controlsLocked = controlsLocked,
                             onJumpTo = onJumpTo,
+                            onPlayNext = onPlayNextInQueue,
                             onRemove = onRemoveFromQueue,
                             onMove = onMoveInQueue,
                             onClear = onClearQueue,
@@ -3956,6 +3958,7 @@ fun NowPlayingScreen(
                                     autoplayEnabled = autoplayEnabled,
                                     controlsLocked = controlsLocked,
                                     onJumpTo = onJumpTo,
+                                    onPlayNext = onPlayNextInQueue,
                                     onRemove = onRemoveFromQueue,
                                     onMove = onMoveInQueue,
                                     onClear = onClearQueue,
