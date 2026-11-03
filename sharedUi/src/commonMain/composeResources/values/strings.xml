@@ -281,4 +281,12 @@
     <string name="mix_view_one_bar">1 Bar</string>
     <string name="mix_view_seconds">%1$d sec</string>
     <string name="mix_view_bpm">%1$d bpm</string>
+    <string name="queue_lock_reorder">Lock queue order</string>
+    <string name="queue_unlock_reorder">Unlock to reorder</string>
+    <string name="queue_reorder_hint">Drag to reorder · swipe to remove</string>
+    <string name="queue_upcoming_count">%1$d up next</string>
+    <string name="queue_menu_more">More options</string>
+    <string name="queue_menu_play_now">Play now</string>
+    <string name="queue_menu_play_next">Play next</string>
+
 </resources>
