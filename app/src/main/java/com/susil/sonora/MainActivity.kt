@@ -5186,6 +5186,7 @@ private fun SonoraApp(
                         ownerAvatarUrl = target.ownerAvatarUrl,
                         artworkUrl = target.thumbnailUrl,
                         songs = songs,
+                        playlistTrackCount = songs.size,
                     )
                 }.takeIf { target.type == BrowseType.PLAYLIST },
                 isPinned = pinnableId != null && pinnableId in pinnedPlaylists,
