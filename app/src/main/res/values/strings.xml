@@ -750,6 +750,13 @@
     <string name="playlist_share_as_image">Share as image</string>
     <string name="playlist_share_title">Share playlist</string>
     <string name="playlist_share_description">Preview the card, then save or share it.</string>
+    <string name="playlist_poster_choose_songs">Choose your five</string>
+    <string name="playlist_poster_choose_songs_description">Pick five songs and arrange them in the order you want on your Sonora poster.</string>
+    <string name="playlist_poster_selected_count">%1$d of %2$d selected</string>
+    <string name="playlist_poster_continue">Make poster</string>
+    <string name="playlist_poster_move_up">Move song up</string>
+    <string name="playlist_poster_move_down">Move song down</string>
+    <string name="playlist_poster_remove_song">Remove song from poster</string>
     <string name="playlist_share_ratio_portrait">Post · 4:5</string>
     <string name="playlist_share_ratio_story">Story · 9:16</string>
     <string name="playlist_share_border_color">Border color</string>

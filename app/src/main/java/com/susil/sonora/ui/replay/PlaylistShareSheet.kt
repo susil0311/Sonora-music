@@ -10,17 +10,28 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowDownward
+import androidx.compose.material.icons.rounded.ArrowUpward
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.IosShare
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +56,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.susil.sonora.R
+import com.susil.sonora.data.model.Song
 import com.susil.sonora.ui.haptics.Haptic
 import com.susil.sonora.ui.haptics.rememberHaptics
 import com.susil.sonora.ui.theme.rememberArtworkPalette
@@ -58,7 +70,39 @@ internal fun PlaylistShareSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val haptics = rememberHaptics()
-    var poster by remember(request) { mutableStateOf<Bitmap?>(null) }
+    val requiredSongs = minOf(5, request.songs.size)
+    var choosing by remember(request) { mutableStateOf(request.songs.size > 5) }
+    var selectedSongs by remember(request) {
+        mutableStateOf(if (request.songs.size <= 5) request.songs else emptyList())
+    }
+    if (choosing) {
+        PlaylistSongPicker(
+            songs = request.songs,
+            selectedSongs = selectedSongs,
+            requiredSongs = requiredSongs,
+            onToggle = { song ->
+                selectedSongs = if (song in selectedSongs) {
+                    selectedSongs - song
+                } else if (selectedSongs.size < requiredSongs) {
+                    selectedSongs + song
+                } else {
+                    selectedSongs
+                }
+            },
+            onMove = { from, to ->
+                selectedSongs = selectedSongs.toMutableList().apply {
+                    add(to, removeAt(from))
+                }
+            },
+            onContinue = {
+                selectedSongs = it
+                choosing = false
+            },
+        )
+        return
+    }
+    val posterRequest = request.copy(songs = selectedSongs)
+    var poster by remember(posterRequest) { mutableStateOf<Bitmap?>(null) }
     var failed by remember(request) { mutableStateOf(false) }
     var saved by remember(request) { mutableStateOf(false) }
     var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
@@ -74,11 +118,11 @@ internal fun PlaylistShareSheet(
     var picked by remember(request) { mutableIntStateOf(1) }
     val palette = swatches[picked.coerceIn(0, swatches.lastIndex)]
 
-    LaunchedEffect(request, ratio, showBranding, picked, base) {
+    LaunchedEffect(posterRequest, ratio, showBranding, picked, base) {
         poster = null
         failed = false
         saved = false
-        poster = runCatching { renderPlaylistPoster(context, request, ratio, showBranding, palette, base) }
+        poster = runCatching { renderPlaylistPoster(context, posterRequest, ratio, showBranding, palette, base) }
             .onFailure { failed = true }
             .getOrNull()
     }
@@ -239,6 +283,156 @@ internal fun PlaylistShareSheet(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun PlaylistSongPicker(
+    songs: List<Song>,
+    selectedSongs: List<Song>,
+    requiredSongs: Int,
+    onToggle: (Song) -> Unit,
+    onMove: (Int, Int) -> Unit,
+    onContinue: (List<Song>) -> Unit,
+) {
+    val colors = MaterialTheme.colorScheme
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.playlist_poster_choose_songs),
+            style = MaterialTheme.typography.headlineMedium,
+            color = colors.onBackground,
+        )
+        Text(
+            text = stringResource(R.string.playlist_poster_choose_songs_description),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colors.onSurfaceVariant,
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(colors.primaryContainer)
+                .padding(horizontal = 16.dp, vertical = 13.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(
+                    R.string.playlist_poster_selected_count,
+                    selectedSongs.size,
+                    requiredSongs,
+                ),
+                style = MaterialTheme.typography.titleSmall,
+                color = colors.onPrimaryContainer,
+                modifier = Modifier.weight(1f),
+            )
+            if (selectedSongs.size == requiredSongs) {
+                Icon(
+                    imageVector = Icons.Rounded.Check,
+                    contentDescription = null,
+                    tint = colors.onPrimaryContainer,
+                )
+            }
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 460.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            itemsIndexed(songs, key = { index, song -> "${song.videoId}-$index" }) { _, song ->
+                val selectedIndex = selectedSongs.indexOf(song)
+                val selected = selectedIndex >= 0
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(if (selected) colors.secondaryContainer else colors.surfaceVariant)
+                        .clickable { onToggle(song) }
+                        .padding(start = 12.dp, top = 8.dp, end = 4.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(CircleShape)
+                            .background(if (selected) colors.primary else colors.surface),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        if (selected) {
+                            Text(
+                                text = (selectedIndex + 1).toString(),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = colors.onPrimary,
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.Add,
+                                contentDescription = null,
+                                tint = colors.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = song.title,
+                            style = MaterialTheme.typography.titleSmall,
+                            color = colors.onSurface,
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            text = song.artist,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = colors.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                        )
+                    }
+                    if (selected) {
+                        IconButton(
+                            onClick = { onMove(selectedIndex, (selectedIndex - 1).coerceAtLeast(0)) },
+                            enabled = selectedIndex > 0,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowUpward,
+                                contentDescription = stringResource(R.string.playlist_poster_move_up),
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                onMove(
+                                    selectedIndex,
+                                    (selectedIndex + 1).coerceAtMost(selectedSongs.lastIndex),
+                                )
+                            },
+                            enabled = selectedIndex < selectedSongs.lastIndex,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowDownward,
+                                contentDescription = stringResource(R.string.playlist_poster_move_down),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        ShareAction(
+            label = stringResource(R.string.playlist_poster_continue),
+            icon = Icons.Rounded.Check,
+            accent = true,
+            enabled = selectedSongs.size == requiredSongs,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            onContinue(selectedSongs)
         }
     }
 }
