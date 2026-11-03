@@ -71,6 +71,8 @@ internal data class PlaylistShareRequest(
     val description: String? = null,
     val artworkUrl: String?,
     val songs: List<Song>,
+    /** Total tracks in the playlist, independent of the songs selected for the poster. */
+    val playlistTrackCount: Int = songs.size,
     val ownerAvatarUrl: String? = null,
 )
 
@@ -144,7 +146,7 @@ internal suspend fun renderPlaylistPoster(
         drawArtwork(canvas, ownerAvatar, owner, textLeft, avatarTop, avatarSize, circular = true)
         val ownerPaint = type.body(if (isStory) 31f else 28f, 0xF0FFFFFF.toInt())
         val ownerX = textLeft + avatarSize + 16f
-        val total = request.songs.size
+        val total = request.playlistTrackCount.coerceAtLeast(request.songs.size)
         val count = context.resources.getQuantityString(R.plurals.track_count_plural, total, total)
         val countPaint = type.body(if (isStory) 28f else 25f, 0xD8FFFFFF.toInt(), bold = true).apply {
             textAlign = Paint.Align.RIGHT
