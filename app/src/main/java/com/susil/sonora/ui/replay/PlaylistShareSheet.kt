@@ -377,7 +377,9 @@ private fun PlaylistSongPicker(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = 460.dp),
+                // Keep the action row inside the bottom-sheet viewport. The
+                // playlist remains fully browsable because this list scrolls.
+                .heightIn(min = 180.dp, max = 320.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             itemsIndexed(songs, key = { index, song -> "${song.videoId}-$index" }) { _, song ->
