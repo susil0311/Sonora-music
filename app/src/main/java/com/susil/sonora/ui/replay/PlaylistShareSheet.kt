@@ -70,7 +70,8 @@ internal fun PlaylistShareSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val haptics = rememberHaptics()
-    val requiredSongs = minOf(5, request.songs.size)
+    var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
+    val requiredSongs = minOf(if (ratio == PlaylistPosterRatio.Story) 7 else 5, request.songs.size)
     var choosing by remember(request) { mutableStateOf(request.songs.size > 5) }
     var selectedSongs by remember(request) {
         mutableStateOf(if (request.songs.size <= 5) request.songs else emptyList())
@@ -80,6 +81,12 @@ internal fun PlaylistShareSheet(
             songs = request.songs,
             selectedSongs = selectedSongs,
             requiredSongs = requiredSongs,
+            ratio = ratio,
+            onRatioChange = { nextRatio ->
+                ratio = nextRatio
+                val nextLimit = minOf(if (nextRatio == PlaylistPosterRatio.Story) 7 else 5, request.songs.size)
+                selectedSongs = selectedSongs.take(nextLimit)
+            },
             onToggle = { song ->
                 selectedSongs = if (song in selectedSongs) {
                     selectedSongs - song
@@ -105,7 +112,6 @@ internal fun PlaylistShareSheet(
     var poster by remember(posterRequest) { mutableStateOf<Bitmap?>(null) }
     var failed by remember(request) { mutableStateOf(false) }
     var saved by remember(request) { mutableStateOf(false) }
-    var ratio by remember(request) { mutableStateOf(PlaylistPosterRatio.Portrait) }
     var showBranding by remember(request) { mutableStateOf(true) }
 
     // Same extraction the playlist screen paints with, so the card matches the page.
@@ -292,6 +298,8 @@ private fun PlaylistSongPicker(
     songs: List<Song>,
     selectedSongs: List<Song>,
     requiredSongs: Int,
+    ratio: PlaylistPosterRatio,
+    onRatioChange: (PlaylistPosterRatio) -> Unit,
     onToggle: (Song) -> Unit,
     onMove: (Int, Int) -> Unit,
     onContinue: (List<Song>) -> Unit,
@@ -315,6 +323,31 @@ private fun PlaylistSongPicker(
             style = MaterialTheme.typography.bodyMedium,
             color = colors.onSurfaceVariant,
         )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surfaceVariant, RoundedCornerShape(14.dp))
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            PlaylistPosterRatio.entries.forEach { option ->
+                Text(
+                    text = stringResource(option.labelRes),
+                    color = if (ratio == option) colors.onPrimary else colors.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            if (ratio == option) colors.primary
+                            else androidx.compose.ui.graphics.Color.Transparent,
+                            RoundedCornerShape(10.dp),
+                        )
+                        .clickable { onRatioChange(option) }
+                        .padding(vertical = 10.dp),
+                )
+            }
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
