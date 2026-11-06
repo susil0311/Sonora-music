@@ -1,4 +1,4 @@
-﻿<resources>
+<resources>
     <string name="app_name">Sonora</string>
     <string name="playback_channel_name">ì§€ê¸ˆ ìž¬ìƒ ì¤‘</string>
     <string name="download_channel_name">ë‹¤ìš´ë¡œë“œ</string>
@@ -326,16 +326,6 @@
     <string name="app_icon_default">ê¸°ë³¸ê°’</string>
     <string name="app_icon_liquid_glass" translatable="false">Liquid Glass</string>
     <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark</string>
-    <string name="app_icon_liquid_glass_clear" translatable="false">Liquid Glass Clear</string>
-    <string name="app_icon_liquid_glass_clear_dark" translatable="false">Liquid Glass Clear Dark</string>
-    <string name="app_icon_samsung_glass" translatable="false">Samsung Glass</string>
-    <string name="app_icon_samsung_glass_dark" translatable="false">Samsung Glass Dark</string>
-    <string name="app_icon_samsung_glass_clear" translatable="false">Samsung Glass Clear</string>
-    <string name="app_icon_samsung_glass_clear_dark" translatable="false">Samsung Glass Clear Dark</string>
-    <string name="app_icon_pixel_glass" translatable="false">Pixel Glass</string>
-    <string name="app_icon_pixel_glass_dark" translatable="false">Pixel Glass Dark</string>
-    <string name="app_icon_pixel_glass_clear" translatable="false">Pixel Glass Clear</string>
-    <string name="app_icon_pixel_glass_clear_dark" translatable="false">Pixel Glass Clear Dark</string>
     <string name="theme">í…Œë§ˆ</string>
     <string name="reduce_animation">ì• ë‹ˆë©”ì´ì…˜ ì¤„ì´ê¸°</string>
     <string name="reduce_animation_subtitle">ë©”ì¸ í”Œë ˆì´ì–´ì˜ ê·¸ë¼ë°ì´ì…˜ ì›€ì§ìž„ì„ ë©ˆì¶¥ë‹ˆë‹¤</string>
