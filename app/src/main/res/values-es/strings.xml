@@ -1,0 +1,1433 @@
+﻿<resources>
+    <string name="app_name">Sonora</string>
+    <string name="playback_channel_name">Reproduciendo</string>
+    <string name="download_channel_name">Descargas</string>
+    <string name="download_channel_description">Canciones guardadas en tu carpeta MÃºsica</string>
+    <string name="download_notification_title">Descargando</string>
+    <string name="download_notification_starting">Iniciando</string>
+    <string name="download_notification_queued">%1$s Â· %2$d mÃ¡s en cola</string>
+    <string name="upload_channel_name">Subidas</string>
+    <string name="upload_channel_description">Canciones que se envÃ­an a tu servidor WebDAV</string>
+    <string name="upload_notification_title">Subiendo</string>
+    <string name="upload_notification_queued">%1$s Â· %2$d mÃ¡s en cola</string>
+    <plurals name="uploading_song_count">
+        <item quantity="one">Subiendo %1$d canciÃ³n</item>
+        <item quantity="many">Subiendo %1$d canciones</item>
+        <item quantity="other">Subiendo %1$d canciones</item>
+    </plurals>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="close">Cerrar</string>
+    <string name="back">Volver</string>
+    <string name="settings">Ajustes</string>
+    <string name="search">Buscar</string>
+    <string name="clear_search">Borrar bÃºsqueda</string>
+    <string name="library">Biblioteca</string>
+    <string name="home">Inicio</string>
+    <string name="play">Reproducir</string>
+    <string name="explore">Explorar</string>
+    <string name="listen_now">Escuchar ahora</string>
+    <string name="downloads">Descargas</string>
+    <string name="downloaded_songs">Canciones descargadas</string>
+    <string name="local_music">MÃºsica local</string>
+    <string name="audio_files_on_device">Archivos de audio del dispositivo</string>
+    <string name="on_device">En el dispositivo</string>
+    <string name="playlists">Listas de reproducciÃ³n</string>
+    <string name="new_playlist">Nueva lista</string>
+    <string name="saved_to_youtube_music">Guardada en YouTube Music</string>
+    <string name="sign_in">Iniciar sesiÃ³n</string>
+    <string name="sign_out">Cerrar sesiÃ³n</string>
+    <string name="signed_in">SesiÃ³n iniciada</string>
+    <string name="not_signed_in">SesiÃ³n no iniciada</string>
+    <string name="retry">Reintentar</string>
+    <string name="shuffle">Aleatorio</string>
+    <string name="more">MÃ¡s</string>
+    <string name="add_to_playlist">AÃ±adir a la lista</string>
+    <string name="add_to_library">AÃ±adir a la biblioteca</string>
+    <string name="remove_from_library">Quitar de la biblioteca</string>
+    <string name="download_all">Descargar todo</string>
+    <string name="top_songs">Canciones principales</string>
+    <string name="suggested">Sugerencias</string>
+    <string name="song_count">%1$d canciÃ³n</string>
+    <plurals name="song_count_plural">
+        <item quantity="one">%1$d canciÃ³n</item>
+        <item quantity="other">%1$d canciones</item>
+    </plurals>
+    <plurals name="artist_count">
+        <item quantity="one">%1$d artista</item>
+        <item quantity="other">%1$d artistas</item>
+    </plurals>
+    <plurals name="album_count">
+        <item quantity="one">%1$d Ã¡lbum</item>
+        <item quantity="other">%1$d Ã¡lbumes</item>
+    </plurals>
+    <string name="songs">Canciones</string>
+    <string name="artists">Artistas</string>
+    <string name="albums">Ãlbumes</string>
+    <string name="no_album_metadata">Ninguna de estas pistas indica a quÃ© Ã¡lbum pertenece.</string>
+    <string name="search_empty">Busca millones de canciones en YouTube Music.</string>
+    <string name="recent_searches">BÃºsquedas recientes</string>
+    <string name="clear">Borrar</string>
+    <string name="search_hint">Artistas, canciones, letras y mÃ¡s</string>
+    <string name="recent_search_edit">Editar â€œ%1$sâ€</string>
+    <string name="recent_search_remove">Quitar â€œ%1$sâ€ de las bÃºsquedas recientes</string>
+    <string name="storage_required_save">Se necesita acceso al almacenamiento para guardar canciones</string>
+    <string name="storage_required_read">Se necesita permiso de almacenamiento para leer archivos de audio locales</string>
+    <string name="sharing_coming_soon">Compartir estarÃ¡ disponible pronto</string>
+    <string name="already_downloaded">Ya se descargÃ³</string>
+    <plurals name="downloading_song_count">
+        <item quantity="one">Descargando %1$d canciÃ³n</item>
+        <item quantity="other">Descargando %1$d canciones</item>
+    </plurals>
+    <string name="source">Fuentes</string>
+    <string name="lossless_audio">Audio sin pÃ©rdida</string>
+    <string name="prefer_lossless">Preferir sin pÃ©rdida</string>
+    <string name="lossless_source_subtitle">FLAC y ALAC directamente desde la fuente</string>
+    <string name="overridden">Anulado</string>
+    <string name="add_module_source">AÃ±adir una fuente de mÃ³dulos</string>
+    <string name="remove_source">Eliminar esta fuente</string>
+    <string name="test">Probar</string>
+    <string name="testing">Probandoâ€¦</string>
+    <string name="connected">Conectado</string>
+    <string name="account_integrations">Cuenta e integraciones</string>
+    <string name="account_scrobbling">Cuenta y registro de reproducciones</string>
+    <string name="rich_presence">Presencia enriquecida</string>
+    <string name="scrobbling">Registro de reproducciones</string>
+    <string name="now_playing">Reproduciendo</string>
+    <string name="selected">Seleccionado</string>
+    <string name="password">ContraseÃ±a</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="login_failed">Error al iniciar sesiÃ³n</string>
+    <string name="song_cache_cleared">CachÃ© de canciones borrada</string>
+    <string name="image_cache_cleared">CachÃ© de imÃ¡genes borrada</string>
+    <string name="no_equalizer">No hay ecualizador del sistema en este dispositivo</string>
+    <string name="no_dolby_atmos">No hay panel de Dolby Atmos en este dispositivo</string>
+    <string name="dolby_atmos_open_failed">No se pudieron abrir los ajustes de Dolby Atmos</string>
+    <string name="update_available">ActualizaciÃ³n disponible: v%1$s</string>
+    <string name="software_update">ActualizaciÃ³n de software</string>
+    <string name="update_available_body">Sonora %1$s estÃ¡ disponible para descargar.</string>
+    <string name="update_downloading_body">Descargando Sonora %1$sâ€¦</string>
+    <string name="update_ready_body">Sonora %1$s estÃ¡ listo para instalar.</string>
+    <string name="update_failed_body">No se pudo descargar Sonora %1$s.</string>
+    <string name="download_now">Descargar ahora</string>
+    <string name="install_now">Instalar ahora</string>
+    <string name="later">MÃ¡s tarde</string>
+    <string name="remind_me_later">Recordar mÃ¡s tarde</string>
+    <string name="try_again">Intentar de nuevo</string>
+    <string name="open_releases_page">Abrir pÃ¡gina de lanzamientos</string>
+    <string name="whats_new">Novedades</string>
+    <string name="log_copied">Registro copiado Â· %1$d lÃ­neas</string>
+    <string name="sign_in_youtube_music">Iniciar sesiÃ³n en YouTube Music</string>
+    <string name="sign_in_discord">Iniciar sesiÃ³n en Discord</string>
+    <string name="personalized_recommendations">Recibe recomendaciones personalizadas</string>
+    <string name="play_next">Reproducir despuÃ©s</string>
+    <string name="queue">Cola</string>
+    <string name="source_setup_required">Toca para terminar la configuraciÃ³n</string>
+    <string name="source_unreachable">No se puede acceder ahora Â· %1$s</string>
+    <string name="checking">Comprobandoâ€¦</string>
+    <string name="failed">Error</string>
+    <string name="widget_square_label">Reproduciendo 2Ã—2</string>
+    <string name="widget_wide_label">Reproduciendo 4Ã—2</string>
+    <string name="widget_square_description">Portada del Ã¡lbum con controles de reproducciÃ³n en formato cuadrado.</string>
+    <string name="widget_wide_description">Portada, pista y controles de reproducciÃ³n a lo ancho.</string>
+    <string name="widget_play">Reproducir</string>
+    <string name="widget_pause">Pausar</string>
+    <string name="widget_next">Siguiente</string>
+    <string name="widget_previous">Anterior</string>
+    <string name="widget_artwork">Portada del Ã¡lbum</string>
+    <string name="widget_nothing_played">AÃºn no se ha reproducido nada</string>
+    <string name="widget_open_bitchord">Abrir Sonora</string>
+    <string name="widget_preview_title">TÃ­tulo de la canciÃ³n</string>
+    <string name="widget_preview_artist">Artista</string>
+    <string name="widget_pill_label">Reproduciendo 4Ã—1</string>
+    <string name="widget_pill_description">La pista con Me gusta, orden aleatorio y controles de reproducciÃ³n en una sola fila.</string>
+    <string name="widget_preview_pill">TÃ­tulo de la canciÃ³n - Artista</string>
+    <string name="download_quality">Calidad de descarga</string>
+    <string name="download_wifi_only">Descargar solo mediante Wi-Fi</string>
+    <string name="spatial_audio">Audio espacial</string>
+    <string name="spatial_audio_subtitle">AmplÃ­a las pistas estÃ©reo para una experiencia mÃ¡s inmersiva</string>
+    <string name="spatial_audio_atmos_subtitle">En pausa para esta pista: Dolby Atmos ya es espacial</string>
+    <string name="animated_cover_cellular">Reproducir portada animada con datos mÃ³viles</string>
+    <string name="replay">Resumen anual</string>
+    <string name="replay_subtitle">Tus canciones, artistas, Ã¡lbumes y gÃ©neros principales</string>
+    <string name="work_out_genres">Calcular gÃ©neros</string>
+    <string name="export_data">Exportar datos</string>
+    <string name="export_data_subtitle">Ajustes e historial de escucha en un archivo JSON</string>
+    <string name="import_data">Importar datos</string>
+    <string name="import_data_subtitle">Sustituye los ajustes y el historial de este dispositivo</string>
+    <string name="import_backup_title">Â¿Importar una copia de seguridad?</string>
+    <string name="choose_file">Elegir archivo</string>
+    <string name="top_artists">Artistas principales</string>
+    <string name="top_albums">Ãlbumes principales</string>
+    <string name="top_genres">GÃ©neros principales</string>
+    <string name="cancel_all">Cancelar todo</string>
+    <string name="language">Idioma</string>
+    <string name="app_language">Idioma de la aplicaciÃ³n</string>
+    <string name="app_language_description">Elige el idioma que usa Sonora.</string>
+    <string name="english">InglÃ©s</string>
+    <string name="spanish">EspaÃ±ol</string>
+    <string name="french">FrancÃ©s</string>
+    <string name="german">AlemÃ¡n</string>
+    <string name="polish">Polaco</string>
+    <string name="portuguese">PortuguÃ©s</string>
+    <string name="indonesian">Indonesio</string>
+    <string name="hindi">Hindi</string>
+    <string name="japanese">JaponÃ©s</string>
+    <string name="russian">Ruso</string>
+    <string name="chinese">Chino (simplificado)</string>
+    <string name="chinese_simplified">Chino (simplificado)</string>
+    <string name="chinese_traditional">Chino (tradicional)</string>
+    <string name="hebrew">Hebreo</string>
+    <string name="italian">Italiano</string>
+    <string name="turkish">Turco</string>
+    <string name="thai">TailandÃ©s</string>
+    <string name="korean">Coreano</string>
+    <string name="show_all">Ver todo</string>
+    <string name="grid_view">CuadrÃ­cula</string>
+    <string name="list_view">Lista</string>
+    <string name="switch_to_grid_view">Cambiar a vista de cuadrÃ­cula</string>
+    <string name="switch_to_list_view">Cambiar a vista de lista</string>
+    <string name="audio_quality">Calidad de audio</string>
+    <string name="playback">ReproducciÃ³n</string>
+    <string name="appearance">Apariencia</string>
+    <string name="storage">Almacenamiento</string>
+    <string name="your_data">Tus datos</string>
+    <string name="miscellaneous">Varios</string>
+    <string name="lossless_hq_audio">Audio sin pÃ©rdida / alta calidad</string>
+    <string name="on_wifi">Con Wi-Fi</string>
+    <string name="on_mobile_data">Con datos mÃ³viles</string>
+    <string name="in_use">En uso</string>
+    <string name="blocking">Bloqueando</string>
+    <string name="crossfade">Fundido cruzado</string>
+    <string name="crossfade_subtitle">Mezcla una pista con la siguiente</string>
+    <string name="automix">Mezcla automÃ¡tica [BETA]</string>
+    <string name="automix_performance">Rendimiento de mezcla automÃ¡tica</string>
+    <string name="automix_performance_subtitle">Define cuÃ¡nta CPU puede usar el anÃ¡lisis en segundo plano</string>
+    <string name="automix_performance_warning">El rendimiento alto analiza mÃ¡s rÃ¡pido, pero puede consumir mÃ¡s baterÃ­a y calentar el telÃ©fono.</string>
+    <string name="automix_mode_efficient">Eficiente</string>
+    <string name="automix_mode_efficient_subtitle">1 hilo Â· menor calor y consumo Â· el anÃ¡lisis puede tardar mÃ¡s</string>
+    <string name="automix_mode_balanced">Equilibrado</string>
+    <string name="automix_mode_balanced_subtitle">2 hilos Â· equilibrio recomendado entre velocidad, calor y baterÃ­a</string>
+    <string name="automix_mode_performance">Rendimiento</string>
+    <string name="automix_mode_performance_subtitle">4 hilos Â· anÃ¡lisis mÃ¡s rÃ¡pido Â· mayor calor y consumo</string>
+    <string name="skip_silence">Omitir silencios</string>
+    <string name="skip_silence_subtitle">Recorta pausas de mÃ¡s de un segundo</string>
+    <string name="skip_silence_float_subtitle">No disponible con salida float de 32 bits</string>
+    <string name="equalizer">Ecualizador</string>
+    <string name="equalizer_subtitle">El panel de audio del sistema</string>
+    <string name="show_nerd_stats">Mostrar datos tÃ©cnicos</string>
+    <string name="show_nerd_stats_subtitle">CÃ³dec, tasa de bits y frecuencia de muestreo en el reproductor</string>
+    <string name="theme">Tema</string>
+    <string name="reduce_animation">Reducir animaciones</string>
+    <string name="reduce_animation_subtitle">Detiene el degradado del reproductor principal</string>
+    <string name="reduce_dynamic_blur">Reducir desenfoque dinÃ¡mico</string>
+    <string name="reduce_dynamic_blur_subtitle">Cambia el cristal esmerilado por fondos sÃ³lidos</string>
+    <string name="disable_blend_effects">Desactivar efectos de fusiÃ³n</string>
+    <string name="disable_blend_effects_subtitle">Muestra los iconos, el texto y los menÃºs oscuros del reproductor en blanco, sin teÃ±irlos con la portada</string>
+    <string name="liquid_glass">Liquid Glass</string>
+    <string name="liquid_glass_subtitle">Cristal refractante real en la barra de navegaciÃ³n flotante. Solo Android 12+; usa mÃ¡s GPU.</string>
+    <string name="liquid_glass_unavailable">Requiere Android 12 o posterior</string>
+    <string name="full_screen_cover_art">Portada a pantalla completa</string>
+    <string name="animated_cover_art">Portada animada</string>
+    <string name="synced_lyrics">Letras sincronizadas</string>
+    <string name="synced_lyrics_subtitle">Ilumina las palabras mientras se cantan</string>
+    <string name="lyrics_sources">Fuentes de letras</string>
+    <string name="song_cache_limit">LÃ­mite de cachÃ© de canciones</string>
+    <string name="clear_song_cache">Borrar cachÃ© de canciones</string>
+    <string name="clear_song_cache_subtitle">Libera espacio usado por el audio descargado</string>
+    <string name="clear_image_cache">Borrar cachÃ© de imÃ¡genes</string>
+    <string name="clear_image_cache_subtitle">Libera espacio usado por las portadas</string>
+    <string name="play_next_on_swipe">Reproducir siguiente al deslizar</string>
+    <string name="dont_repeat_songs">No repetir canciones en esta sesiÃ³n</string>
+    <string name="stop_music_on_close">Detener mÃºsica al cerrar desde recientes</string>
+    <string name="stop_music_on_close_subtitle">Detiene la reproducciÃ³n al quitar la app de recientes</string>
+    <string name="hide_volume_bar">Ocultar barra de volumen</string>
+    <string name="hide_volume_bar_subtitle">Quita el control de volumen del reproductor principal</string>
+    <string name="hide_status_bar_in_player">Ocultar barra de estado en el reproductor</string>
+    <string name="hide_status_bar_in_player_subtitle">Oculta el reloj, la baterÃ­a y los iconos de notificaciÃ³n mientras el reproductor principal estÃ¡ abierto</string>
+    <string name="hide_song_status">Ocultar estado de la canciÃ³n</string>
+    <string name="hide_song_status_subtitle">Oculta el texto Â«Reproduciendo desdeÂ» o Â«Reproducido porÂ» en el reproductor principal</string>
+    <string name="off">Desactivado</string>
+    <string name="low">Baja</string>
+    <string name="medium">Media</string>
+    <string name="high">Alta</string>
+    <string name="standard">EstÃ¡ndar</string>
+    <string name="lossless">Sin pÃ©rdida</string>
+    <string name="system">Sistema</string>
+    <string name="light">Claro</string>
+    <string name="dark">Oscuro</string>
+    <string name="full_screen_cover_art_subtitle">Lleva la portada a los bordes del reproductor en lugar de mostrarla cuadrada</string>
+    <string name="full_screen_detail_cover">Portada de Ã¡lbum/lista a pantalla completa</string>
+    <string name="full_screen_detail_cover_subtitle">Lleva las portadas de Ã¡lbumes y listas a los bordes de la pÃ¡gina en lugar de enmarcarlas</string>
+    <string name="animated_cover_art_subtitle">Reproduce el video en bucle que incluyen algunos lanzamientos</string>
+    <string name="dont_repeat_songs_subtitle">La reproducciÃ³n automÃ¡tica no sugerirÃ¡ una canciÃ³n ya reproducida o sugerida en esta sesiÃ³n</string>
+    <string name="download_quality_subtitle">%1$s por pista, sin importar la conexiÃ³n</string>
+    <string name="filter_non_music_audio">Filtrar audios que no son mÃºsica</string>
+    <string name="filter_non_music_audio_subtitle">Oculta clips de menos de 30 segundos, archivos WAV, notas de voz, grabaciones y sonidos del sistema</string>
+    <string name="performance">Rendimiento</string>
+    <string name="high_performance_mode">Modo de alto rendimiento</string>
+    <string name="high_performance_subtitle">Usa las animaciones y el desenfoque completos, y solicita una frecuencia de pantalla mÃ¡s alta</string>
+    <string name="high_performance_active">Se solicitaron %1$d Hz. Android puede reducirlos cuando sea necesario.</string>
+    <string name="beta">Beta</string>
+    <string name="refresh_rate">Frecuencia de actualizaciÃ³n</string>
+    <string name="high_performance_before_enabling">Antes de activarlo</string>
+    <string name="high_performance_battery_warning">Primero configura el uso de baterÃ­a de Sonora como Sin restricciones. Las frecuencias altas usan mÃ¡s baterÃ­a, CPU y GPU, y pueden calentar el dispositivo.</string>
+    <string name="open_battery_settings">Abrir ajustes de baterÃ­a</string>
+    <string name="enable_high_performance_title">Â¿Activar el modo de alto rendimiento?</string>
+    <string name="enable_high_performance_confirmation">ActÃ­valo solo si el uso de baterÃ­a de Sonora estÃ¡ configurado como Sin restricciones. Android aÃºn puede limitar la frecuencia si el dispositivo estÃ¡ caliente o tiene poca baterÃ­a.</string>
+    <string name="enable">Activar</string>
+    <string name="not_yet">Ahora no</string>
+    <string name="activity">Actividad</string>
+    <string name="activity_competing">Compitiendo</string>
+    <string name="activity_dialog_message">El verbo que aparece encima de la tarjeta.</string>
+    <string name="activity_listening">Escuchando</string>
+    <string name="activity_name_message">El texto que sigue al verbo en el perfil. DÃ©jalo vacÃ­o para usar %1$s.</string>
+    <string name="activity_playing">Jugando</string>
+    <string name="activity_watching">Viendo</string>
+    <string name="add_to_queue">Agregar a la cola</string>
+    <string name="after_this_song">DespuÃ©s de esta canciÃ³n</string>
+    <string name="always_on">Siempre activo</string>
+    <string name="api_token">Token de API</string>
+    <string name="audio_quality_connection">Al usar %1$s</string>
+    <string name="back_in_future_version">VolverÃ¡ en una versiÃ³n futura</string>
+    <string name="buttons">Botones</string>
+    <string name="clear_name">Borrar nombre</string>
+    <string name="connect_account_first">Primero conecta una cuenta</string>
+    <string name="connected_presence_off">Conectado, presencia desactivada</string>
+    <string name="copy_log">Copiar registro</string>
+    <string name="couldnt_find">No se encontrÃ³ %1$s</string>
+    <string name="couldnt_open_link">No se pudo abrir ese enlace</string>
+    <string name="create_playlist">Crear playlist</string>
+    <string name="customize_card">Personalizar la tarjeta</string>
+    <string name="customize_card_subtitle">Estado, textos y ambos botones</string>
+    <string name="delete">Eliminar</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="discord">Discord</string>
+    <string name="discord_account">Cuenta de Discord</string>
+    <string name="discord_button_variables">{song_name}, {artist_name} y {album_name} se reemplazan por los datos de la canciÃ³n actual.</string>
+    <string name="discord_buttons_footer">{song_name}, {artist_name} y {album_name} se reemplazan por los datos de la canciÃ³n. El primer botÃ³n abre la canciÃ³n en YouTube Music y el segundo abre este proyecto.</string>
+    <string name="discord_presence_footer">La tarjeta se actualiza al cambiar la canciÃ³n, la posiciÃ³n o el estado de reproducciÃ³n. Se borra cuando la reproducciÃ³n se detiene.</string>
+    <string name="discord_show_audio_quality">Mostrar calidad de audio</string>
+    <string name="discord_show_audio_quality_subtitle">Especificaciones Hi-Res, sin pÃ©rdida y Dolby en la tarjeta de estado</string>
+    <string name="discord_sign_in_footer">El inicio de sesiÃ³n abre la pÃ¡gina de Discord. No se escribe nada dentro de Sonora.</string>
+    <string name="discord_token">Token de Discord</string>
+    <string name="discord_token_description">Pega el token de tu cuenta de Discord. Se guarda cifrado en este dispositivo y solo se envÃ­a a Discord.</string>
+    <string name="discord_token_rejected">Discord rechazÃ³ ese token.</string>
+    <string name="discord_token_warning">Discord no ofrece una API para que una app cambie tu presencia, asÃ­ que esta funciÃ³n inicia sesiÃ³n con tu cuenta y usa el protocolo de Discord. El token se guarda cifrado en este dispositivo y solo se envÃ­a a Discord. Da acceso a toda tu cuenta y automatizarla infringe los tÃ©rminos de Discord. Ãšsalo solo si aceptas ese riesgo.</string>
+    <string name="dislike">No me gusta</string>
+    <string name="done">Listo</string>
+    <string name="download">Descargar</string>
+    <string name="download_quality_dialog_subtitle">Para archivos guardados en este dispositivo</string>
+    <string name="downloaded">Descargada</string>
+    <string name="drag_to_reorder">Arrastrar para reordenar</string>
+    <string name="enabled">Activado</string>
+    <string name="enter_token_instead">Ingresar un token</string>
+    <string name="enter_token_instead_subtitle">Ãšsalo si la pÃ¡gina de inicio de sesiÃ³n no carga</string>
+    <string name="enter_token_to_enable">Ingresa un token para activarlo</string>
+    <string name="first_button">Primer botÃ³n</string>
+    <string name="got_it">Entendido</string>
+    <string name="pause">Pausar</string>
+    <string name="shuffle_on">Orden aleatorio activado</string>
+    <string name="shuffle_off">Orden aleatorio desactivado</string>
+    <string name="mono">Mono</string>
+    <string name="stereo">EstÃ©reo</string>
+    <string name="history">Historial</string>
+    <string name="sources">Fuentes</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="mobile_data">Datos mÃ³viles</string>
+    <string name="couldnt_load_tracks">No se pudieron cargar estas canciones</string>
+    <string name="wifi_only_download_refusal">Las descargas estÃ¡n limitadas a Wi-Fi. Desactiva esa opciÃ³n en Ajustes para usar datos mÃ³viles.</string>
+    <string name="pinned_playlist_limit">Solo se pueden fijar %1$d playlists</string>
+    <string name="downloaded_playlist">Playlist descargada</string>
+    <string name="library_sign_in_description">Inicia sesiÃ³n en tu cuenta de Google para ver tus canciones favoritas, playlists e historial de YouTube Music.</string>
+    <string name="downloads_progress">Descargas Â· %1$d%%</string>
+    <string name="downloads_finished">Descargas Â· finalizadas</string>
+    <string name="downloading_progress">Descargando Â· %1$d%%</string>
+    <string name="starting">Iniciando</string>
+    <string name="saved_to_bitchord_folder">Guardada en Music/BitChord</string>
+    <string name="nothing_downloading">No hay descargas activas</string>
+    <string name="nothing_to_explore">No hay nada para explorar ahora</string>
+    <string name="no_youtube_music_results">No hay resultados de YouTube Music</string>
+    <string name="library_empty">Tu biblioteca todavÃ­a estÃ¡ vacÃ­a</string>
+    <string name="history_sign_in_required">Inicia sesiÃ³n para ver lo que has escuchado</string>
+    <string name="history_empty">TodavÃ­a no has reproducido nada</string>
+    <string name="no_results">No hay resultados</string>
+    <string name="downloaded_playlist_empty">Ya no queda ninguna canciÃ³n de esta playlist en el dispositivo</string>
+    <string name="no_local_audio_found">No se encontraron archivos de audio en este dispositivo</string>
+    <string name="no_internet_connection">Sin conexiÃ³n a Internet</string>
+    <string name="youtube_request_rejected">YouTube Music rechazÃ³ la solicitud. Intenta iniciar sesiÃ³n de nuevo.</string>
+    <string name="something_went_wrong">Algo saliÃ³ mal</string>
+    <string name="unknown_artist">Artista desconocido</string>
+    <plurals name="downloads_failed_count">
+        <item quantity="one">Descargas Â· %1$d fallida</item>
+        <item quantity="other">Descargas Â· %1$d fallidas</item>
+    </plurals>
+    <plurals name="download_waiting_count">
+        <item quantity="one">%1$d en espera</item>
+        <item quantity="other">%1$d en espera</item>
+    </plurals>
+    <plurals name="download_done_count">
+        <item quantity="one">%1$d completada</item>
+        <item quantity="other">%1$d completadas</item>
+    </plurals>
+    <plurals name="download_failed_count">
+        <item quantity="one">%1$d fallida</item>
+        <item quantity="other">%1$d fallidas</item>
+    </plurals>
+    <plurals name="all_songs_downloaded">
+        <item quantity="one">Se descargÃ³ %1$d canciÃ³n</item>
+        <item quantity="other">Se descargaron %1$d canciones</item>
+    </plurals>
+    <string name="your_playlists">Tus playlists</string>
+    <string name="who_can_see_it">QuiÃ©n puede verla</string>
+    <string name="about_artist">Acerca del artista</string>
+    <string name="about_album">Acerca del Ã¡lbum</string>
+    <string name="nothing_matches">Nada coincide con â€œ%1$sâ€</string>
+    <string name="close_search">Cerrar bÃºsqueda</string>
+    <string name="less">Menos</string>
+    <string name="song_count_with_minutes">%1$s, %2$d minutos</string>
+    <string name="song_count_with_duration">%1$s, %2$s</string>
+    <string name="song_count_with_hours_minutes">%1$s, %2$s y %3$d minutos</string>
+    <plurals name="hour_count">
+        <item quantity="one">%1$d hora</item>
+        <item quantity="other">%1$d horas</item>
+    </plurals>
+    <plurals name="songs_will_play_next">
+        <item quantity="one">%1$d canciÃ³n se reproducirÃ¡ a continuaciÃ³n</item>
+        <item quantity="other">%1$d canciones se reproducirÃ¡n a continuaciÃ³n</item>
+    </plurals>
+    <plurals name="songs_added_to_queue">
+        <item quantity="one">Se aÃ±adiÃ³ %1$d canciÃ³n a la cola</item>
+        <item quantity="other">Se aÃ±adieron %1$d canciones a la cola</item>
+    </plurals>
+    <plurals name="log_copied_line_count">
+        <item quantity="one">Registro copiado Â· %1$d lÃ­nea</item>
+        <item quantity="other">Registro copiado Â· %1$d lÃ­neas</item>
+    </plurals>
+    <string name="integrate_spotify_canvas">Configurar Spotify Canvas</string>
+    <string name="lastfm_login">Inicio de sesiÃ³n en Last.fm</string>
+    <string name="lastfm_login_description">Inicia sesiÃ³n con tu cuenta de Last.fm para activar el scrobbling.</string>
+    <string name="lastfm_now_playing_subtitle">Actualiza Last.fm con lo que estÃ¡s escuchando</string>
+    <string name="lead_with_song">Mostrar primero la canciÃ³n</string>
+    <string name="lead_with_song_subtitle">Coloca el tÃ­tulo en la lÃ­nea destacada en vez del artista</string>
+    <string name="like">Me gusta</string>
+    <string name="listenbrainz_token">Token de ListenBrainz</string>
+    <string name="listenbrainz_token_description">Pega tu token de usuario de ListenBrainz para activar el scrobbling.</string>
+    <string name="listening_history">Historial de reproducciÃ³n</string>
+    <string name="lyrics_sources_order">Las fuentes se prueban en este orden. ArrÃ¡stralas para reordenarlas. Se usa la primera que encuentre una letra, salvo que priorices letras por sÃ­labas.</string>
+    <string name="max_delay">Retraso mÃ¡ximo</string>
+    <string name="max_delay_subtitle">Retraso mÃ¡ximo del scrobbling en segundos</string>
+    <string name="min_song_duration">DuraciÃ³n mÃ­nima de canciÃ³n</string>
+    <string name="min_song_duration_subtitle">Las canciones mÃ¡s cortas no se registrarÃ¡n</string>
+    <string name="monthly_listeners">%1$s oyentes mensuales</string>
+    <string name="name">Nombre</string>
+    <string name="no_playlists_yet">TodavÃ­a no hay playlists. Usa la fila superior para crear una.</string>
+    <string name="no_tracks_here">No hay canciones aquÃ­</string>
+    <string name="not_connected">Sin conexiÃ³n</string>
+    <string name="one_hour">1 hora</string>
+    <string name="open_album">Abrir Ã¡lbum</string>
+    <string name="open_artist">Abrir artista</string>
+    <string name="pause_after_a_while">Pausar la reproducciÃ³n despuÃ©s de un tiempo</string>
+    <string name="pause_after_song">Se pausarÃ¡ al terminar esta canciÃ³n</string>
+    <string name="pause_countdown">%1$s para pausar la reproducciÃ³n</string>
+    <string name="play_to_preview">Reproduce algo para completar la vista previa.</string>
+    <string name="playlist_name">Nombre de la playlist</string>
+    <string name="presence">Presencia</string>
+    <string name="preview">Vista previa</string>
+    <string name="prioritize_syllable_lyrics">Priorizar letras por sÃ­labas</string>
+    <string name="prioritize_syllable_lyrics_subtitle">Sigue buscando letras palabra por palabra aunque ya haya una sincronizada por lÃ­neas</string>
+    <string name="quality_hourly">%1$s Â· %2$s</string>
+    <string name="quality_per_track">%1$s Â· %2$s por canciÃ³n</string>
+    <string name="queued">En cola</string>
+    <string name="remove">Quitar</string>
+    <string name="remove_from_liked">Quitar de canciones favoritas</string>
+    <string name="remove_from_playlist">Quitar de esta playlist</string>
+    <string name="rename_playlist">Cambiar nombre de la playlist</string>
+    <string name="reorder_songs">Reordenar canciones</string>
+    <string name="reorder_failed">No se pudo guardar el nuevo orden</string>
+    <string name="playlist_reordered">Orden de la playlist guardado</string>
+    <string name="save_order">Guardar</string>
+    <string name="reset_to_default">Restablecer valores predeterminados</string>
+    <string name="rich_presence_footer">Muestra lo que estÃ¡s escuchando en tu perfil de Discord.</string>
+    <string name="save_name">Guardar nombre</string>
+    <string name="saved_to_downloads">Guardada en Descargas</string>
+    <string name="saved_to_youtube_music_account">Guardada en tu cuenta de YouTube Music</string>
+    <string name="scrobble_delay">Retraso del scrobbling</string>
+    <string name="scrobble_delay_subtitle">Momento de la canciÃ³n en el que se registra</string>
+    <string name="scrobble_timing">Tiempos del scrobbling</string>
+    <string name="scrobble_tracks">Registrar canciones</string>
+    <string name="scrobble_tracks_subtitle">Registra las reproducciones en tu historial de Last.fm</string>
+    <string name="scrobbling_footer">Registra tus reproducciones en Last.fm y ListenBrainz.</string>
+    <string name="scrobbling_paused_footer">Last.fm y ListenBrainz estÃ¡n pausados en esta versiÃ³n y volverÃ¡n mÃ¡s adelante. Las conexiones existentes seguirÃ¡n guardadas.</string>
+    <string name="search_this_folder">Buscar en esta carpeta</string>
+    <string name="search_this_list">Buscar en esta lista</string>
+    <string name="second_button">Segundo botÃ³n</string>
+    <string name="share">Compartir</string>
+    <string name="sharing_as">Compartiendo como @%1$s</string>
+    <string name="sharing_listens">Compartiendo tus reproducciones</string>
+    <string name="show_what_playing">Mostrar lo que estoy escuchando</string>
+    <string name="signed_in_as">SesiÃ³n iniciada como %1$s</string>
+    <string name="signing_in">Iniciando sesiÃ³nâ€¦</string>
+    <string name="sleep_timer">Temporizador</string>
+    <string name="sleep_timer_custom">Personalizado</string>
+    <string name="start_sleep_timer">Iniciar temporizador</string>
+    <string name="sources_no_lossless">Ninguna fuente activa ofrece audio sin pÃ©rdida. Agrega un mÃ³dulo personalizado para reproducir archivos sin pÃ©rdida disponibles sin transcodificarlos.</string>
+    <string name="sources_order_footer">Si una fuente no tiene una canciÃ³n o no responde, Sonora prueba la siguiente. Las fuentes situadas antes de YouTube pueden reemplazar su grabaciÃ³n si devuelven una versiÃ³n mejor.</string>
+    <string name="sources_order_header">Fuentes, en orden de prioridad</string>
+    <string name="sources_quality_capped">Esta conexiÃ³n estÃ¡ configurada por debajo de calidad Alta, asÃ­ que el audio se transcodifica para respetar ese lÃ­mite. Las descargas no cambian.</string>
+    <string name="jiosaavn_mismatch_warning">Puede elegir la versiÃ³n equivocada de una canciÃ³n. ActÃ­valo bajo tu propio riesgo.</string>
+    <string name="enable_jiosaavn">Â¿Activar JioSaavn?</string>
+    <string name="enable_anyway">Activar de todos modos</string>
+    <string name="sources_subtitle">Origen del audio y orden de prioridad</string>
+    <string name="source_matching">Coincidencia de fuentes</string>
+    <string name="upgrade_length_slack">Tolerancia de duraciÃ³n</string>
+    <string name="upgrade_length_slack_subtitle">Diferencia mÃ¡xima de duraciÃ³n permitida para un stream de reemplazo</string>
+    <string name="upgrade_length_slack_footer">Una tolerancia mayor acepta mÃ¡s coincidencias de fuentes; una menor es mÃ¡s estricta. El valor predeterminado es 5 segundos.</string>
+    <string name="seconds_short">%1$d s</string>
+    <string name="spdc_token">Token sp_dc</string>
+    <string name="spotify_canvas_setup">Configurar Spotify</string>
+    <string name="spotify_canvas_setup_description">Para usar Spotify Canvas, proporciona tu cookie sp_dc de Spotify.</string>
+    <string name="spotify_canvas_setup_steps">1. Inicia sesiÃ³n en open.spotify.com desde un navegador.\n2. Abre las herramientas de desarrollo, entra en AplicaciÃ³n y luego en Cookies.\n3. Copia el valor de la cookie sp_dc.\n4. PÃ©galo abajo.</string>
+    <string name="spotify_canvas_auto_hide">Ocultar controles automÃ¡ticamente</string>
+    <string name="spotify_canvas_auto_hide_subtitle">Contrae el medio reproductor tras 5 segundos mientras se reproduce Spotify Canvas</string>
+    <string name="prioritize_spotify_canvas">Priorizar Spotify Canvas</string>
+    <string name="prioritize_spotify_canvas_subtitle">Probar Spotify antes que Apple Music y otros proveedores de portadas animadas</string>
+    <string name="status">Estado</string>
+    <string name="status_dialog_message">Lo que muestra tu cuenta mientras la presencia estÃ¡ activa.</string>
+    <string name="status_dnd">No molestar</string>
+    <string name="status_dnd_detail">LÃ­nea roja. TambiÃ©n silencia las notificaciones.</string>
+    <string name="status_idle">Ausente</string>
+    <string name="status_idle_detail">Media luna Ã¡mbar, se muestra como ausente</string>
+    <string name="status_online">En lÃ­nea</string>
+    <string name="status_online_detail">Punto verde</string>
+    <string name="subscribers">%1$s suscriptores</string>
+    <string name="tap_to_connect">Toca para conectar</string>
+    <string name="tap_to_sign_in">Toca para iniciar sesiÃ³n</string>
+    <string name="tap_to_sign_in_discord">Toca para iniciar sesiÃ³n con Discord</string>
+    <string name="token">Token</string>
+    <string name="turn_off_timer">Desactivar temporizador</string>
+    <string name="undo_dislike">Deshacer No me gusta</string>
+    <string name="verb_competing">Compitiendo en</string>
+    <string name="verb_listening">Escuchando</string>
+    <string name="verb_playing">Jugando</string>
+    <string name="verb_watching">Viendo</string>
+    <plurals name="minute_count">
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="other">%1$d minutos</item>
+    </plurals>
+    <string name="biggest_day_note">Tu dÃ­a con mÃ¡s actividad fue el %1$s, con %2$s de reproducciÃ³n.</string>
+    <string name="close_replay">Cerrar Replay</string>
+    <string name="couldnt_draw_picture">No se pudo crear la imagen</string>
+    <string name="default_replay_holder">Oyente de Sonora</string>
+    <string name="different_albums">Ãlbumes diferentes</string>
+    <string name="genres_pending">Los gÃ©neros aparecerÃ¡n cuando aumente tu historial de reproducciÃ³n</string>
+    <string name="hour_am">%1$d a. m.</string>
+    <string name="hour_pm">%1$d p. m.</string>
+    <string name="hours_minutes_short">%1$dh %2$dmin</string>
+    <string name="listen_most_around">Sueles escuchar mÃ¡s cerca de las %1$s.</string>
+    <string name="lyrics_share_title">Compartir la letra</string>
+    <string name="lyrics_share_description">Las lÃ­neas que elegiste, maquetadas en una tarjeta con la portada.</string>
+    <string name="lyrics_share_story">Convertir en historia</string>
+    <string name="lyrics_share_story_revert">Volver a la tarjeta</string>
+    <string name="listening_shape">Tus hÃ¡bitos de reproducciÃ³n</string>
+    <string name="member_since">Miembro desde</string>
+    <string name="member_since_value">Miembro desde %1$s</string>
+    <string name="midday">mediodÃ­a</string>
+    <string name="midnight">medianoche</string>
+    <string name="minutes">Minutos</string>
+    <string name="minutes_grouped_short">%1$s min</string>
+    <string name="minutes_listened">Minutos escuchados</string>
+    <string name="minutes_short">%1$d min</string>
+    <string name="not_enough_listening">TodavÃ­a no hay suficientes reproducciones</string>
+    <string name="not_enough_this_month">Escucha algunas canciones mÃ¡s este mes para desbloquear tu Replay.</string>
+    <string name="pinned">Fijado</string>
+    <string name="replay_across"> repartidas en </string>
+    <string name="replay_album_end"> concentrÃ³ tu atenciÃ³n.</string>
+    <string name="replay_album_focus">Un Ã¡lbum</string>
+    <string name="replay_album_start">Esta vez, </string>
+    <string name="replay_artist_end"> no dejÃ³ de aparecer.</string>
+    <string name="replay_artist_focus">Un artista</string>
+    <string name="replay_artist_start">Durante todo el mes, </string>
+    <string name="replay_empty_description">Escucha un poco mÃ¡s y Sonora convertirÃ¡ tu historial en un Replay.</string>
+    <string name="replay_genre_end"> definieron tu sonido.</string>
+    <string name="replay_genre_focus">Tus gÃ©neros</string>
+    <string name="replay_genre_start">En conjunto, </string>
+    <string name="replay_habits_middle"> de </string>
+    <string name="replay_habits_start">Exploraste </string>
+    <string name="replay_hours_across">%1$s horas</string>
+    <string name="replay_intro_end"> ya estÃ¡ listo.</string>
+    <string name="replay_intro_start">Tu </string>
+    <string name="replay_minutes_end"> con mÃºsica.</string>
+    <string name="replay_minutes_start">Pasaste </string>
+    <string name="replay_minutes_value">%1$s</string>
+    <plurals name="replay_minutes_unit">
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="other">%1$s minutos</item>
+    </plurals>
+    <string name="replay_mostly_around">, sobre todo cerca de las %1$s.</string>
+    <string name="replay_private_counting">Creado de forma privada a partir del historial guardado en este dispositivo</string>
+    <string name="replay_share_card_description">Una tarjeta cuidada con los momentos principales de tus reproducciones.</string>
+    <string name="replay_share_summary_description">Una imagen completa con canciones, artistas, Ã¡lbumes, gÃ©neros y hÃ¡bitos.</string>
+    <string name="replay_songs_end"> llenaron tu mes.</string>
+    <string name="replay_songs_start">En total, </string>
+    <string name="replay_summary_start">Tus reproducciones tuvieron un estilo </string>
+    <string name="saved">Guardado</string>
+    <string name="saved_bang">Â¡Guardado!</string>
+    <string name="share_my_replay">Compartir mi Replay</string>
+    <string name="share_your_lyrics">Enviar tu tarjeta de letra</string>
+    <string name="share_your_replay">Comparte tu Replay</string>
+    <string name="tap_share_for_picture">Toca Compartir para crear una imagen</string>
+    <string name="top_album">Ãlbum principal</string>
+    <string name="top_artist">Artista principal</string>
+    <string name="top_genre">GÃ©nero principal</string>
+    <string name="top_song">CanciÃ³n principal</string>
+    <string name="when_you_listen_the_most">CuÃ¡ndo escuchas mÃ¡s</string>
+    <string name="your_biggest_day">Tu dÃ­a con mÃ¡s actividad: %1$s</string>
+    <string name="your_listening_experience">Tu experiencia musical</string>
+    <string name="your_lyrics_card">Tu tarjeta de letra</string>
+    <string name="your_replay">Tu Replay</string>
+    <plurals name="replay_artist_count">
+        <item quantity="one">%1$s artista</item>
+        <item quantity="other">%1$s artistas</item>
+    </plurals>
+    <plurals name="replay_play_count">
+        <item quantity="one">%1$s reproducciÃ³n</item>
+        <item quantity="other">%1$s reproducciones</item>
+    </plurals>
+    <plurals name="replay_song_count">
+        <item quantity="one">%1$s canciÃ³n</item>
+        <item quantity="other">%1$s canciones</item>
+    </plurals>
+    <string name="all_audio_folders">Todas las carpetas de audio</string>
+    <string name="local_music_folder">Carpeta de mÃºsica local</string>
+    <string name="sort_music">Ordenar mÃºsica</string>
+    <string name="sort_title_ascending">AlfabÃ©tico (A a Z)</string>
+    <string name="sort_title_descending">AlfabÃ©tico (Z a A)</string>
+    <string name="sort_date_added">Fecha de adiciÃ³n (mÃ¡s reciente primero)</string>
+    <string name="sort_date_modified">Fecha de modificaciÃ³n (mÃ¡s reciente primero)</string>
+    <string name="use_all_audio_folders">Usar todas las carpetas de audio</string>
+    <string name="use_all_audio_folders_subtitle">Quita el lÃ­mite de carpeta y busca mÃºsica en todo el dispositivo</string>
+    <string name="album">Ã¡lbum</string>
+    <string name="artist">artista</string>
+    <string name="webdav">WebDAV</string>
+    <string name="webdav_subtitle">MÃºsica en tu servidor</string>
+    <string name="webdav_not_configured">Conecta un servidor en Fuentes</string>
+    <string name="webdav_empty">No se encontraron archivos de audio en el servidor WebDAV. Revisa la URL en Ajustes.</string>
+    <string name="webdav_description">Conecta Sonora a una carpeta de mÃºsica WebDAV: tu directorio de mÃºsica de Nextcloud o cualquier servidor compatible con WebDAV.</string>
+    <string name="webdav_server_url">URL del servidor</string>
+    <string name="webdav_server_url_hint">https://cloud.example.com/remote.php/dav/files/user/Music</string>
+    <string name="webdav_disconnect">Desconectar</string>
+    <string name="webdav_test_failed">No se pudo conectar: %1$s</string>
+    <string name="upload_to_webdav">Subir a WebDAV</string>
+    <string name="webdav_conflict_title">Â«%1$sÂ» ya estÃ¡ en el servidor</string>
+    <string name="webdav_conflict_message">Â¿Sobrescribirlo o conservar ambas copias?</string>
+    <string name="webdav_overwrite">Sobrescribir</string>
+    <string name="webdav_keep_both">Conservar ambas</string>
+    <string name="webdav_skip">Omitir</string>
+    <string name="webdav_apply_to_all">Aplicar a todas</string>
+    <string name="webdav_upload_summary">%1$d subidas Â· %2$d omitidas Â· %3$d fallidas</string>
+    <string name="smb">SMB</string>
+    <string name="smb_subtitle">MÃºsica en una carpeta compartida</string>
+    <string name="smb_not_configured">Conecta una carpeta compartida en Fuentes</string>
+    <string name="smb_empty">No se encontraron archivos de audio en la carpeta SMB. Revisa el servidor en Fuentes.</string>
+    <string name="smb_description">Conecta Sonora a una carpeta de mÃºsica compartida: un NAS o una carpeta compartida de Windows por SMB.</string>
+    <string name="smb_server_hint">nas.local or 192.168.1.10:4445</string>
+    <string name="smb_share_hint">Nombre del recurso, p. ej. Music</string>
+    <string name="smb_folder_hint">Carpeta (opcional)</string>
+    <string name="smb_disconnect">Desconectar</string>
+    <string name="smb_test_failed">No se pudo conectar: %1$s</string>
+    <string name="playlist">playlist</string>
+    <string name="open">Abrir</string>
+    <string name="open_playlist">Abrir playlist</string>
+    <string name="pin">Fijar</string>
+    <string name="unpin">Desfijar</string>
+    <string name="rename">Cambiar nombre</string>
+    <string name="downloading">Descargando</string>
+    <string name="delete_playlist">Eliminar playlist</string>
+    <string name="delete_download">Eliminar descarga</string>
+    <string name="delete_playlist_confirmation">Â¿Eliminar â€œ%1$sâ€? Toca de nuevo para confirmar.</string>
+    <string name="delete_download_confirmation">Â¿Quitar â€œ%1$sâ€ de este dispositivo? Toca de nuevo para confirmar.</string>
+    <string name="running">Activo</string>
+    <string name="version_alignment_status">%1$s Â· %2$s</string>
+    <string name="version_cut_not_fetched">sin obtener</string>
+    <string name="version_cut_fetching">obteniendo</string>
+    <string name="version_cut_measuring">analizando</string>
+    <string name="version_cut_aligned">alineado</string>
+    <string name="automix_enabled_subtitle">Calcula y mezcla cada transiciÃ³n a partir de las propias canciones. DesactÃ­valo si el telÃ©fono se calienta o la reproducciÃ³n se entrecorta.</string>
+    <string name="automix_disabled_subtitle">Calcula y mezcla las transiciones automÃ¡ticamente, sin usar un control manual. El rendimiento puede variar en dispositivos lentos.</string>
+    <string name="advanced_automix">Mezcla automÃ¡tica avanzada</string>
+    <string name="advanced_automix_subtitle">Mezcla como un DJ: mantiene los ritmos sincronizados, hace cada cambio a tiempo y corta entre canciones que no encajan. Sin procesamiento adicional.</string>
+    <string name="no_lyrics_sources_enabled">Ninguna. No se buscarÃ¡n letras.</string>
+    <string name="song_cache_large_subtitle">Conserva hasta %1$s de audio descargado en el dispositivo. Puede ocupar una parte importante del espacio libre.</string>
+    <string name="song_cache_limit_subtitle">Conserva el audio descargado para bÃºsquedas instantÃ¡neas y nuevas reproducciones</string>
+    <string name="replay_genres_enabled_subtitle">Consulta en Last.fm los gÃ©neros de un artista. Solo se envÃ­a el nombre del artista.</string>
+    <string name="replay_genres_disabled_subtitle">El grÃ¡fico de gÃ©neros de Replay permanece oculto mientras esta opciÃ³n estÃ¡ desactivada</string>
+    <string name="swipe_plays_next">Al deslizar una canciÃ³n, se reproduce a continuaciÃ³n</string>
+    <string name="swipe_adds_to_queue">Cuando estÃ¡ desactivado, deslizar aÃ±ade la canciÃ³n al final de la cola</string>
+    <string name="import_backup_warning">Esto reemplaza los ajustes y el historial de reproducciÃ³n de este dispositivo con el contenido del archivo. Exporta primero los datos actuales si quieres conservarlos.</string>
+    <string name="youtube_music_account">Cuenta de YouTube Music</string>
+    <string name="tap_to_sign_in_google">Toca para iniciar sesiÃ³n con Google</string>
+    <string name="export_succeeded">Se exportaron los ajustes y %1$s</string>
+    <string name="export_failed">Error al exportar: %1$s</string>
+    <string name="import_succeeded">Se importÃ³ %1$s desde v%2$s</string>
+    <string name="import_failed">Error al importar: %1$s</string>
+    <string name="unknown_error">error desconocido</string>
+    <string name="no_listening_history">ningÃºn historial de reproducciÃ³n</string>
+    <plurals name="listening_month_count">
+        <item quantity="one">%1$d mes de reproducciones</item>
+        <item quantity="other">%1$d meses de reproducciones</item>
+    </plurals>
+    <string name="no_local_albums">TodavÃ­a no hay archivos asociados a un Ã¡lbum o playlist. Descarga un Ã¡lbum o una playlist completa para que aparezca aquÃ­.</string>
+    <string name="play_your_replay">Reproducir tu Replay</string>
+    <string name="counted_on_device_with_bitchord">Calculado en este dispositivo con Sonora</string>
+    <string name="this_month">Este mes</string>
+    <string name="this_year">Este aÃ±o</string>
+    <string name="all_time">Todo el tiempo</string>
+    <string name="switch_account">Cambiar cuenta</string>
+    <string name="accounts">Cuentas</string>
+    <string name="profiles">Perfiles</string>
+    <string name="personal">Personal</string>
+    <string name="brand_account">Cuenta de marca</string>
+    <string name="add_account">Agregar cuenta</string>
+    <string name="manage_accounts">Administrar cuentas</string>
+    <string name="current_account">Cuenta actual</string>
+    <string name="current_profile">Perfil actual</string>
+    <string name="selected_account">Cuenta seleccionada</string>
+    <string name="listen_as">Escuchar como</string>
+    <string name="default_youtube_profile">Perfil predeterminado de YouTube Music</string>
+    <string name="account_profiles_help">Una cuenta de Google puede tener perfiles Personal y de marca. Cada uno tiene su propia biblioteca, Me gusta e historial.</string>
+    <string name="choose_profile">Elegir un perfil</string>
+    <string name="use_this_profile">Usar este perfil</string>
+    <string name="switch_profile_hint">Cambia con el avatar y luego usa este perfil.</string>
+    <string name="profile_unavailable">AÃºn no hay un perfil con sesiÃ³n iniciada en esta pÃ¡gina.</string>
+
+    <!-- Listen together -->
+    <string name="listen_together">Escuchar juntos</string>
+    <string name="listen_together_subtitle">Comparte un cÃ³digo para escuchar la misma mÃºsica al mismo tiempo</string>
+    <string name="listen_together_in_party">En una fiesta Â· %1$s</string>
+    <string name="listen_together_sign_in_footer">Escuchar juntos requiere una cuenta, para que todos en la fiesta vean quiÃ©n mÃ¡s estÃ¡.</string>
+    <string name="listen_together_server">Servidor de la fiesta</string>
+    <string name="listen_together_server_online">En lÃ­nea Â· %1$d ms</string>
+    <string name="listen_together_server_online_fallback">En lÃ­nea (respaldo predeterminado) Â· %1$d ms</string>
+    <string name="listen_together_server_offline">Ahora mismo no responde</string>
+    <string name="listen_together_server_checking">Comprobandoâ€¦</string>
+    <string name="listen_together_server_unknown">Toca para comprobar</string>
+    <string name="listen_together_custom_server">Usar tu propio servidor</string>
+    <string name="listen_together_custom_server_footer">DÃ©jalo vacÃ­o para usar el servidor integrado. Si tienes tu propia copia, todos en la fiesta deben apuntar al mismo.</string>
+    <string name="listen_together_using_default">Usando el servidor integrado</string>
+    <string name="listen_together_remove_server">Quitar servidor</string>
+    <string name="listen_together_switched_to_default">Se cambiÃ³ al servidor predeterminado</string>
+    <string name="listen_together_custom_server_saved">Servidor personalizado guardado</string>
+    <string name="listen_together_create">Crear una fiesta</string>
+    <string name="listen_together_create_subtitle">Consigue un cÃ³digo para compartir con tus amigos</string>
+    <string name="listen_together_create_footer">Recibes un cÃ³digo de seis caracteres. Cualquiera que lo tenga puede unirse, hasta %1$d dispositivos incluido el tuyo.</string>
+    <string name="listen_together_profile">Tu perfil en la fiesta</string>
+    <string name="listen_together_nickname_hint">Apodo para esta fiesta</string>
+    <string name="listen_together_party_size">TamaÃ±o de la fiesta</string>
+    <string name="listen_together_party_size_subtitle">Elige de 2 a 10 oyentes</string>
+    <string name="listen_together_host_controls">Solo tÃº puedes cambiar la capacidad o quitar oyentes</string>
+    <string name="listen_together_remove">Quitar</string>
+    <string name="listen_together_activity">Actividad reciente</string>
+    <string name="listen_together_activity_footer">Solo esta sesiÃ³n Â· lo mÃ¡s reciente primero Â· hasta 100 acciones</string>
+    <string name="listen_together_activity_played">IniciÃ³ la reproducciÃ³n</string>
+    <string name="listen_together_activity_paused">PausÃ³ la reproducciÃ³n</string>
+    <string name="listen_together_activity_seeked">Se moviÃ³ en la pista</string>
+    <string name="listen_together_activity_skipped">SaltÃ³ hacia adelante</string>
+    <string name="listen_together_activity_went_back">VolviÃ³ atrÃ¡s</string>
+    <string name="listen_together_activity_added">AgregÃ³ a la cola</string>
+    <string name="listen_together_activity_removed_track">QuitÃ³ una pista de la cola</string>
+    <string name="listen_together_activity_cleared">VaciÃ³ las prÃ³ximas pistas</string>
+    <string name="listen_together_activity_reordered">ReordenÃ³ la cola</string>
+    <string name="listen_together_activity_removed_member">QuitÃ³ a un oyente</string>
+    <string name="listen_together_activity_changed_size">CambiÃ³ el tamaÃ±o de la fiesta</string>
+    <string name="listen_together_activity_updated">ActualizÃ³ la fiesta</string>
+    <string name="listen_together_join">Unirse a una fiesta</string>
+    <string name="listen_together_join_action">Unirse</string>
+    <string name="listen_together_code_hint">Seis letras o nÃºmeros</string>
+    <string name="listen_together_code">CÃ³digo de la fiesta</string>
+    <string name="listen_together_code_footer">Dilo en voz alta o envÃ­alo. La O y la I no se usan, asÃ­ que una Â«oÂ» siempre es un cero.</string>
+    <string name="copy_code">Copiar cÃ³digo</string>
+    <string name="listen_together_share_text">Escucha conmigo en Sonora â€” cÃ³digo de fiesta %1$s</string>
+    <string name="listen_together_now_playing">Reproduciendo</string>
+    <string name="listen_together_nothing_playing">TodavÃ­a no suena nada</string>
+    <string name="listen_together_listening">Escuchando Â· %1$d de %2$d</string>
+    <string name="listen_together_members_footer">Una fiesta admite %1$d dispositivos. Cualquiera que estÃ© en ella puede controlar la mÃºsica.</string>
+    <string name="listen_together_you">TÃº</string>
+    <string name="listen_together_host">AnfitriÃ³n</string>
+    <string name="listen_together_away">Ausente â€” su plaza estÃ¡ reservada</string>
+    <string name="listen_together_landing_title">Inicia una fiesta</string>
+    <string name="listen_together_landing_subtitle">Porque la mÃºsica suena mejor en compaÃ±Ã­a. Invita a tus amigos a escuchar y agregar canciones en tiempo real, estÃ©n donde estÃ©n.</string>
+    <string name="listen_together_create_action">Crear una fiesta</string>
+    <string name="listen_together_join_existing">Unirse a una existente</string>
+    <string name="listen_together_create_sheet_subtitle">Elige cÃ³mo aparecerÃ¡s y cuÃ¡ntos pueden unirse.</string>
+    <string name="listen_together_creating">Creandoâ€¦</string>
+    <string name="listen_together_joining">UniÃ©ndoseâ€¦</string>
+    <string name="listen_together_full">Esta fiesta estÃ¡ llena</string>
+    <string name="listen_together_join_question">Â¿Unirte a la fiesta de %1$s?</string>
+    <string name="listen_together_join_question_unnamed">Â¿Unirte a esta fiesta?</string>
+    <string name="listen_together_not_now">Ahora no</string>
+    <string name="listen_together_preview_footer">Las personas de la fiesta verÃ¡n tu nombre y tu foto de perfil.</string>
+    <string name="listen_together_invite_title">Invita amigos a tu fiesta</string>
+    <string name="listen_together_share_link">Compartir enlace</string>
+    <string name="listen_together_scan_qr">Escanear cÃ³digo QR</string>
+    <string name="listen_together_scan_qr_subtitle">Deja que tus amigos lo escaneen para unirse.</string>
+    <string name="listen_together_invite">Invitar</string>
+    <string name="listen_together_host_only">Solo yo controlo la mÃºsica</string>
+    <string name="listen_together_host_only_subtitle">Los demÃ¡s escuchan contigo y pueden pausar en su propio dispositivo</string>
+    <string name="listen_together_host_only_notice">Solo el anfitriÃ³n puede controlar la mÃºsica</string>
+    <string name="listen_together_leave">Salir de la fiesta</string>
+    <string name="listen_together_leave_subtitle">Los demÃ¡s siguen escuchando</string>
+    <string name="listen_together_reconnecting">Reconectandoâ€¦</string>
+    <string name="listen_together_syncing_clock">Midiendo el relojâ€¦</string>
+    <string name="listen_together_in_sync">Sincronizado Â· %1$d ms de ida y vuelta</string>
+    <string name="listen_together_custom_server_dialog_title">Â¿Unirte a una fiesta en un servidor personalizado?</string>
+    <string name="listen_together_custom_server_dialog_message">Esta fiesta estÃ¡ alojada en un servidor externo:\n\n%1$s\n\nÂ¿Quieres cambiar tu servidor de fiestas y unirte a la fiesta %2$s?</string>
+    <string name="listen_together_custom_server_switch_and_join">Cambiar y unirse</string>
+    <string name="listen_together_official_server_dialog_title">Â¿Cambiar al servidor oficial?</string>
+    <string name="listen_together_official_server_dialog_message">Esta fiesta estÃ¡ alojada en el servidor oficial de Sonora.\n\nÂ¿Quieres volver al servidor oficial y unirte a la fiesta %1$s?</string>
+    <string name="listen_together_switch_failed_stayed_in_party">No se pudo unir a la fiesta: %1$s. Sigues en la fiesta %2$s.</string>
+    <string name="listen_together_switch_failed">No se pudo unir a la fiesta: %1$s.</string>
+    <string name="listen_together_ping">%1$d ms</string>
+    <string name="listen_together_server_offline_dash">â€”</string>
+    <string name="listen_together_invalid_server_url">URL de servidor no vÃ¡lida. Introduce una direcciÃ³n vÃ¡lida (p. ej. https://your-server.com)</string>
+    <string name="listen_together_err_whitespace">Las URL del servidor no pueden contener espacios</string>
+    <string name="listen_together_err_invalid_path">La URL del servidor contiene una ruta no vÃ¡lida</string>
+    <string name="listen_together_err_no_path">La URL del servidor no debe incluir una ruta</string>
+    <string name="listen_together_err_no_query">La URL del servidor no debe incluir parÃ¡metros de consulta</string>
+    <string name="listen_together_err_no_fragment">La URL del servidor no debe incluir fragmentos</string>
+    <string name="listen_together_err_invalid_port">El puerto del servidor debe estar entre 1 y 65535</string>
+    <string name="listen_together_custom_server_connected">Conectado al servidor personalizado</string>
+    <string name="listen_together_custom_server_unreachable_fallback">Servidor personalizado inaccesible. Usando el servidor predeterminado de respaldo.</string>
+    <string name="listen_together_status_custom_online">Conectado al servidor personalizado Â· %1$d ms</string>
+    <string name="listen_together_status_custom_fallback">Servidor personalizado inaccesible Â· Usando respaldo predeterminado (%1$d ms)</string>
+    <string name="listen_together_status_all_offline">El servidor personalizado y el predeterminado estÃ¡n desconectados</string>
+    <string name="listen_together_top_bar_fallback">Respaldo Â· %1$s</string>
+
+    <string name="vietnamese">Vietnamita</string>
+
+    <string name="miscellaneous_footer">Al activarlo, cerrar la app desde recientes tambiÃ©n detiene la mÃºsica.</string>
+
+
+    <plurals name="track_count_plural">
+        <item quantity="one">%1$d pista</item>
+        <item quantity="other">%1$d pistas</item>
+    </plurals>
+
+    <string name="add_addon">AÃ±adir un complemento</string>
+
+    <string name="add_addon_detail">Apunta Sonora a un servidor de complementos que alojes o te hayan compartido</string>
+
+    <string name="addon_url_description">Pega la URL del complemento, ya sea la raÃ­z o manifest.json. Sonora leerÃ¡ quÃ© puede buscar y reproducir.</string>
+
+
+    <string name="blur_unfocused_lyrics">Desenfocar letras no activas</string>
+
+    <string name="blur_unfocused_lyrics_subtitle">Mantiene el foco en la lÃ­nea actual</string>
+
+    <string name="card_plays_format">%1$s reproducciones</string>
+
+    <string name="card_songs_format">%1$s canciones</string>
+
+    <string name="card_views_format">%1$s vistas</string>
+
+    <string name="dolby_atmos">Dolby Atmos</string>
+
+    <string name="dolby_atmos_subtitle">Reproduce la versiÃ³n envolvente y mÃ¡s inmersiva cuando estÃ© disponible.</string>
+
+    <string name="dolby_atmos_unavailable">Este dispositivo no admite Atmos, por lo que las canciones se reproducirÃ¡n en su versiÃ³n habitual</string>
+
+    <string name="export_compatible_downloads">Exportar descargas compatibles</string>
+    <string name="sync_downloaded_playlists">Mantener playlists actualizadas</string>
+    <string name="sync_downloaded_playlists_subtitle">Comprueba dos veces al dÃ­a y descarga las canciones nuevas de tus playlists descargadas</string>
+    <string name="playlist_sync_ask_title">Canciones nuevas en %1$s: %2$d</string>
+    <string name="playlist_sync_ask_text">Toca para descargar</string>
+    <string name="playlist_sync_done_title">AÃ±adidas a %1$s: %2$d</string>
+    <string name="playlist_updates_channel">Actualizaciones de playlists</string>
+
+    <string name="player_theme">Tema del reproductor</string>
+    <string name="player_theme_default">Predeterminado</string>
+    <string name="player_theme_legacy">ClÃ¡sico</string>
+    <string name="player_theme_simple">Simple</string>
+    <string name="player_theme_default_subtitle">Los colores de la portada continÃºan debajo de ella</string>
+    <string name="player_theme_simple_subtitle">La portada difuminada detrÃ¡s de todo el reproductor</string>
+
+    <string name="player_theme_legacy_subtitle">Recupera las manchas de color en movimiento detrÃ¡s del reproductor de la v1.5</string>
+
+    <string name="lyrics_debug_logs">Registros de depuraciÃ³n de letras</string>
+
+    <string name="lyrics_debug_logs_subtitle">Muestra consultas de API en vivo y actividad del extractor en el panel de letras</string>
+
+    <string name="output_precision">PrecisiÃ³n de salida</string>
+
+    <string name="prefer_usb_dac">Preferir DAC USB</string>
+    <string name="loudness_normalization">NormalizaciÃ³n de volumen</string>
+    <string name="loudness_normalization_subtitle">Iguala la sonoridad de todas las pistas</string>
+    <string name="loudness_off_on_speaker">Desactivar en el altavoz del telefono</string>
+    <string name="loudness_target">Sonoridad objetivo</string>
+    <string name="loudness_target_subtitle">MÃ¡s bajo va mejor con auriculares; mÃ¡s alto, en el coche o el altavoz del telÃ©fono</string>
+    <string name="loudness_target_value">%1$s LUFS</string>
+    <string name="pipeline_loudness">Sonoridad</string>
+    <string name="pipeline_loudness_gain">Ganancia</string>
+    <string name="pipeline_loudness_measured">Medida</string>
+    <string name="pipeline_bit_exact">Bit a bit exacto</string>
+    <string name="loudness_measuring">Midiendoâ€¦</string>
+    <string name="loudness_gain_db">%1$s dB</string>
+    <string name="loudness_lufs">%1$s LUFS</string>
+
+    <string name="shelf_100_on_repeat">100% en bucle</string>
+
+    <string name="shelf_artists_on_the_rise">Artistas en ascenso</string>
+
+    <string name="shelf_chart">Lista de Ã©xitos</string>
+
+    <string name="shelf_charts">Listas de Ã©xitos</string>
+
+    <string name="shelf_commute">De camino</string>
+
+    <string name="shelf_concerts">Conciertos</string>
+
+    <string name="shelf_energy_boosters">Para activarse</string>
+
+    <string name="shelf_featured_playlists_for_you">Listas destacadas para ti</string>
+
+    <string name="shelf_feel_good">Buen rollo</string>
+
+    <string name="shelf_focus">ConcentraciÃ³n</string>
+
+    <string name="shelf_for_you">Para ti</string>
+
+    <string name="shelf_forgotten_favorites">Favoritos olvidados</string>
+
+    <string name="shelf_from_the_community">De la comunidad</string>
+
+    <string name="shelf_from_your_library">De tu biblioteca</string>
+
+    <string name="shelf_hits_today">Ã‰xitos de hoy</string>
+
+    <string name="shelf_listen_again">Escuchar de nuevo</string>
+
+    <string name="shelf_mixed_for_you">Mixes para ti</string>
+
+    <string name="shelf_new_albums_singles">Nuevos Ã¡lbumes y sencillos</string>
+
+    <string name="shelf_new_releases">Novedades</string>
+
+    <string name="shelf_party">Fiesta</string>
+
+    <string name="shelf_quick_picks">SelecciÃ³n rÃ¡pida</string>
+
+    <string name="shelf_recents">Recientes</string>
+
+    <string name="shelf_recommended_music_videos">VÃ­deos musicales recomendados</string>
+
+    <string name="shelf_relax">Relax</string>
+
+    <string name="shelf_romance">Romance</string>
+
+    <string name="shelf_sad">MelancolÃ­a</string>
+
+    <string name="shelf_shorts">Shorts</string>
+
+    <string name="shelf_similar_to">Similar a %1$s</string>
+
+    <string name="shelf_single">Sencillo</string>
+
+    <string name="shelf_sleep">Dormir</string>
+
+    <string name="shelf_song_item">CanciÃ³n</string>
+
+    <string name="shelf_top_music_videos">VÃ­deos musicales principales</string>
+
+    <string name="shelf_top_tunes_right_now">Temas del momento</string>
+
+    <string name="shelf_trending">Tendencias</string>
+
+    <string name="shelf_trending_community_playlists">Listas populares de la comunidad</string>
+
+    <string name="shelf_workout">Entrenamiento</string>
+
+    <string name="shelf_youtube_charts">Listas de YouTube</string>
+
+    <string name="subscriptions">Suscripciones</string>
+
+
+    <string name="channel_session_unavailable">No hay sesiÃ³n en esta pÃ¡gina aÃºn â€” abre YouTube Music primero</string>
+
+    <string name="channel_switch_instructions">Cambia con el avatar y pulsa Usar este canal</string>
+
+    <string name="choose_a_channel">Elige un canal</string>
+
+    <string name="use_this_channel">Usar este canal</string>
+
+    <string name="source_already_added">Ya aÃ±adido como %1$s</string>
+
+    <string name="source_skipped_by_quality">No usado en %1$s Â· la calidad estÃ¡ establecida en %2$s</string>
+
+    <string name="source_unrecognised">Sonora no pudo reconocer ese enlace</string>
+
+    <string name="revert_to_original">Revertir al original</string>
+
+    <string name="upgrade_quality">Mejorar calidad</string>
+
+    <string name="sort_date_added_toggle">Fecha aÃ±adida</string>
+
+    <string name="scrobble_primary_artist_only">Solo hacer scrobble del artista principal</string>
+
+    <string name="scrobble_primary_artist_only_subtitle">Usar el primer artista cuando una pista acredite a varios</string>
+
+    <string name="start_radio">Iniciar radio</string>
+
+    <string name="sort_library">Ordenar</string>
+
+    <string name="radio_started">Radio %1$s iniciada</string>
+
+    <string name="convert_to_audio">Convertir a audio</string>
+    <string name="convert_to_video">Convertir a video</string>
+
+    <string name="converting_to_audio">Convirtiendo a audioâ€¦</string>
+
+    <string name="select_all">Seleccionar todo</string>
+
+    <string name="subscribe">Suscribirse</string>
+
+    <string name="sort_date_added_oldest">Fecha aÃ±adida (mÃ¡s antiguos primero)</string>
+
+
+    <string name="sort_songs">Ordenar canciones</string>
+
+    <string name="sort_default">Orden predeterminado</string>
+
+    <string name="unsubscribe">Cancelar suscripciÃ³n</string>
+
+    <string name="playlist_action">Lista de reproducciÃ³n</string>
+
+
+    <string name="lyrics_offset">Lyrics offset</string>
+
+
+
+
+
+    <string name="auto_quick_picks">Quick picks</string>
+
+    <string name="auto_recents">Recent</string>
+
+    <string name="auto_liked">Liked songs</string>
+
+    <string name="auto_login_title">Sign in to YouTube on your phone</string>
+
+    <string name="auto_login_subtitle">Open Sonora on your phone to sign in</string>
+
+    <string name="auto_empty_recents_title">No recent songs</string>
+
+    <string name="auto_empty_recents_subtitle">Songs you play will appear here</string>
+
+    <string name="auto_empty_quick_picks_title">No suggestions</string>
+
+    <string name="auto_empty_quick_picks_subtitle">Check your connection and try again</string>
+
+    <string name="auto_empty_playlists_title">No playlists available</string>
+
+    <string name="auto_empty_playlists_subtitle">Check your connection and try again</string>
+
+    <string name="auto_empty_liked_title">No liked songs</string>
+
+    <string name="auto_empty_liked_subtitle">Tap the heart on a song to save it here</string>
+
+    <string name="auto_empty_offline_title">No offline songs</string>
+
+    <string name="auto_empty_offline_subtitle">Download songs on your phone to listen here</string>
+
+    <string name="auto_unavailable_title">Content unavailable</string>
+
+    <string name="auto_unavailable_subtitle">Reopen the folder and try again</string>
+
+    <string name="settings_search_hint">Search settings</string>
+
+    <string name="settings_search_empty">No settings match â€œ%1$sâ€</string>
+
+
+    <string name="content_preferences">Content Preferences</string>
+    <string name="hide_recents">Hide Recents</string>
+    <string name="hide_home_videos">Hide videos from Home</string>
+    <string name="hide_home_videos_subtitle">Shelves of only videos go too. Search, artists and playlists still show them</string>
+    <string name="hide_top_picks">Hide Top Picks for You</string>
+    <string name="hide_home_moods">Hide Find Your Mood</string>
+    <string name="square_video_thumbnails">Square video thumbnails</string>
+    <string name="square_video_thumbnails_subtitle">Show music videos as squares everywhere, including the player</string>
+    <string name="prefer_music_only">Prefer music-only version</string>
+    <string name="prefer_music_only_subtitle">Music videos play as their audio version, and the next track in the queue is converted ahead of time so Automix and crossfade work</string>
+    <string name="smart_version_alignment">AlineaciÃ³n de audio inteligente</string>
+    <string name="smart_version_alignment_subtitle">Analiza las formas de onda para encontrar el momento exacto de reproducciÃ³n correspondiente</string>
+
+    <string name="equalizer_footer">Shapes the sound inside Sonora, before it reaches the system.</string>
+
+    <string name="equalizer_dynamic">Dynamic</string>
+
+    <string name="equalizer_manual">Manual</string>
+
+    <string name="equalizer_tone">Tone</string>
+
+    <string name="equalizer_tilt">Tilt</string>
+
+    <string name="equalizer_contour">Contour</string>
+
+    <string name="equalizer_broad">Broad</string>
+
+    <string name="equalizer_focused">Focused</string>
+
+    <string name="equalizer_broad_footer">Drag left for a warmer sound and right for a brighter one; down scoops the middle, up brings it forward. Broad moves wide stretches of the spectrum at once.</string>
+
+    <string name="equalizer_focused_footer">Drag left for a warmer sound and right for a brighter one; down scoops the middle, up brings it forward. Focused works on narrower stretches, so it changes less around what it moves.</string>
+
+    <string name="equalizer_preset">Preset</string>
+
+    <string name="equalizer_bands">Bands</string>
+
+    <string name="equalizer_bands_footer">Moving a band leaves the preset behind and the curve becomes your own.</string>
+
+    <string name="equalizer_reset">Reset all bands</string>
+
+    <string name="equalizer_balance">Balance</string>
+
+    <string name="equalizer_balance_left">L</string>
+
+    <string name="equalizer_balance_right">R</string>
+
+    <string name="equalizer_balance_footer">Shifts the sound towards one ear by quietening the other.</string>
+    <string name="equalizer_bitstream_title">No estÃ¡ activo ahora</string>
+    <string name="equalizer_bitstream_subtitle">Esta pista se envÃ­a a la salida sin decodificar</string>
+    <string name="equalizer_bitstream_footer">El ecualizador trabaja con audio decodificado. Esta pista pasa como bitstream para que tu dispositivo la decodifique, asÃ­ que aquÃ­ no hay muestras que filtrar.</string>
+
+    <string name="system_equalizer">System equalizer</string>
+
+    <string name="system_equalizer_subtitle">Your device\'s own panel</string>
+
+    <string name="system_equalizer_footer">Runs after Sonora\'s, on the whole audio session. Using both applies both.</string>
+
+    <string name="eq_preset_flat">Flat</string>
+
+    <string name="eq_preset_acoustic">Acoustic</string>
+
+    <string name="eq_preset_bass_boost">Bass boost</string>
+
+    <string name="eq_preset_bass_cut">Bass cut</string>
+
+    <string name="eq_preset_vocal">Vocal</string>
+
+    <string name="eq_preset_treble_boost">Treble boost</string>
+
+    <string name="eq_preset_treble_cut">Treble cut</string>
+
+    <string name="eq_preset_loudness">Loudness</string>
+
+    <string name="eq_preset_spoken_word">Spoken word</string>
+
+    <string name="eq_preset_electronic">Electronic</string>
+
+    <string name="eq_preset_rock">Rock</string>
+
+    <string name="eq_preset_hip_hop">Hip-hop</string>
+
+    <string name="eq_preset_jazz">Jazz</string>
+
+    <string name="eq_preset_classical">Classical</string>
+
+    <string name="eq_preset_small_speakers">Small speakers</string>
+
+    <string name="eq_preset_late_night">Late night</string>
+
+    <string name="eq_preset_custom">Custom</string>
+
+    <string name="translation_language">Translation language</string>
+
+    <string name="translation_language_description">The language the translate button turns lyrics into.</string>
+
+    <string name="translation_language_app_default">App language</string>
+
+    <string name="translation_language_subtitle">Follows the app language</string>
+
+    <string name="search_languages">Search languages</string>
+
+    <string name="no_languages_match">No languages match</string>
+
+
+
+    <string name="audio_pipeline">Audio Pipeline</string>
+    <string name="cast_dialog_title">Cast</string>
+    <string name="cast_dialog_subtitle">Play on a Chromecast or Google Cast speaker</string>
+    <string name="cast_searching">Looking for devicesâ€¦</string>
+    <string name="cast_searching_hint">Your phone and the receiver need to be on the same Wi-Fi network.</string>
+    <string name="cast_device_connecting">Connectingâ€¦</string>
+    <string name="cast_device_connected">Casting</string>
+    <string name="cast_stop">Stop casting</string>
+    <string name="cast_track_unsupported">This track can\'t be cast</string>
+    <string name="cast_connect_failed">Couldn\'t connect to the receiver</string>
+    <string name="audio_pipeline_subtitle">Ruta de la seÃ±al en vivo, del decodificador a la salida</string>
+
+    <string name="pipeline_track_info">Track Info</string>
+
+    <string name="pipeline_decoder">Decoder</string>
+
+    <string name="pipeline_resampler">Resampler</string>
+
+    <string name="pipeline_dsp">DSP</string>
+
+    <string name="pipeline_output_device">Output Device</string>
+
+    <string name="pipeline_source">Source</string>
+
+    <string name="pipeline_format">Format</string>
+
+    <string name="pipeline_bit_depth">Bit Depth</string>
+
+    <string name="pipeline_sample_rate">Sample Rate</string>
+
+    <string name="pipeline_bitrate">Bitrate</string>
+
+    <string name="pipeline_channels">Channels</string>
+
+    <string name="pipeline_decoder_name">Decoder Name</string>
+
+    <string name="pipeline_io_rate">I/O Rate</string>
+
+    <string name="pipeline_type">Type</string>
+
+    <string name="pipeline_cutoff">Cutoff</string>
+
+    <string name="pipeline_quality">Quality</string>
+
+    <string name="pipeline_pcm_format">PCM Format</string>
+
+    <string name="pipeline_eq_preset">EQ Preset</string>
+
+    <string name="pipeline_stereo_expand">Stereo Expand</string>
+
+    <string name="pipeline_buffers">Buffers</string>
+
+    <string name="pipeline_output_api">Output API</string>
+
+    <string name="pipeline_device_name">Device Name</string>
+
+
+
+    <string name="shared_link">Shared link</string>
+
+    <string name="song_will_play_next">Song will play next</string>
+
+    <string name="song_added_to_queue">Song added to queue</string>
+    <string name="song_added_to_playlist">Agregada a la playlist</string>
+    <string name="song_already_in_playlist">Ya estÃ¡ en la playlist</string>
+    <plurals name="add_to_playlists_count">
+        <item quantity="one">AÃ±adir a %1$d playlist</item>
+        <item quantity="other">AÃ±adir a %1$d playlists</item>
+    </plurals>
+    <plurals name="added_to_playlists_notice">
+        <item quantity="one">Agregada a %1$d playlist</item>
+        <item quantity="other">Agregada a %1$d playlists</item>
+    </plurals>
+    <string name="party_queue_full">La cola estÃ¡ llena (mÃ¡ximo %d canciones en la fiesta)</string>
+
+    <string name="paxsenix_api_key">PaxSenix API key</string>
+
+    <string name="paxsenix_api_key_configured">PaxSenix API key â€” configured</string>
+
+    <string name="paxsenix_api_key_missing">PaxSenix API key â€” optional, not configured</string>
+
+
+
+
+
+
+
+
+
+
+
+    <string name="source_needs_lossless_output">Necesita una salida sin pÃ©rdida Â· usa un dispositivo compatible con audio sin pÃ©rdida</string>
+    <string name="source_needs_update">Este complemento estÃ¡ desactualizado, asÃ­ que Sonora no puede usarlo. Pide a su desarrollador que lo actualice siguiendo la documentaciÃ³n mÃ¡s reciente de complementos de Sonora.</string>
+    <string name="source_needs_lossless_bt_codec">Necesita una salida sin pÃ©rdida Â· el Bluetooth usa %1$s; usa un dispositivo compatible con audio sin pÃ©rdida</string>
+    <string name="source_needs_lossless_bt_unknown">Necesita una salida sin pÃ©rdida Â· no se puede saber quÃ© cÃ³dec Bluetooth se usa</string>
+    <string name="source_downloads_on">Descargas permitidas</string>
+    <string name="source_downloads_off">Solo streaming</string>
+    <string name="lossless_output_permission">Comprobar cÃ³dec Bluetooth</string>
+    <string name="lossless_output_permission_detail">Permite Dispositivos cercanos para que los auriculares LDAC o LHDC desbloqueen los complementos sin pÃ©rdida</string>
+    <string name="cached_songs">Canciones en cachÃ©</string>
+    <string name="cached_songs_subtitle">Canciones de YouTube y JioSaavn en la cachÃ© de canciones</string>
+    <string name="cached_songs_empty">AÃºn no hay canciones en cachÃ©. Las canciones que reproduzcas desde YouTube o JioSaavn aparecerÃ¡n aquÃ­.</string>
+    <string name="cached_song_partial">Parcial</string>
+    <string name="remove_from_cache">Quitar de la cachÃ©</string>
+    <string name="cached_song_remove">Quitar</string>
+    <string name="removed_from_cache">Quitada de la cachÃ© de canciones</string>
+    <string name="show_cache_folder">Mostrar carpeta de canciones en cachÃ©</string>
+    <string name="show_cache_folder_subtitle">AÃ±ade a la Biblioteca una carpeta con las canciones de YouTube y JioSaavn guardadas en la cachÃ©</string>
+    <string name="song_cache_unlimited">Ilimitado</string>
+    <string name="song_cache_unlimited_subtitle">Sin lÃ­mite. El audio en cachÃ© puede crecer hasta llenar tu almacenamiento.</string>
+    <string name="clear_song_cache_title">Â¿Borrar cachÃ© de canciones?</string>
+    <string name="clear_song_cache_warning">Se eliminarÃ¡n todas las canciones en cachÃ© y la carpeta de canciones en cachÃ© quedarÃ¡ vacÃ­a. Se volverÃ¡n a transmitir la prÃ³xima vez que las reproduzcas.</string>
+    <string name="import_spotify">Importar de Spotify</string>
+    <string name="import_spotify_subtitle">Desde un enlace de playlist</string>
+    <string name="local_playlist_subtitle">%1$d canciones Â· En este dispositivo</string>
+    <string name="lossless_output_permission_denied">El permiso de dispositivos cercanos estÃ¡ desactivado</string>
+    <string name="lossless_output_permission_denied_detail">Toca para abrir Ajustes y permitir dispositivos cercanos; sin Ã©l no podemos leer tu cÃ³dec Bluetooth</string>
+    <string name="recent_album">Ãlbum reciente</string>
+    <string name="recent_ep">EP reciente</string>
+    <string name="recent_single">Sencillo reciente</string>
+    <string name="spotify">Spotify</string>
+    <string name="spotify_connect_subtitle">Inicia sesiÃ³n para cargar tus playlists. La reproducciÃ³n usa YouTube Music.</string>
+    <string name="spotify_disconnect">Desconectar</string>
+    <string name="spotify_empty_playlists">No hay playlists en esta cuenta</string>
+    <string name="spotify_empty_tracks">Esta playlist no tiene canciones</string>
+    <string name="spotify_import_button">Importar</string>
+    <string name="spotify_import_description">Pega un enlace pÃºblico de playlist. Las canciones se buscan en YouTube Music.</string>
+    <string name="spotify_import_description_local">Pega un enlace pÃºblico de playlist. Las canciones se buscan en YouTube Music y se guardan en este dispositivo.</string>
+    <string name="spotify_import_done">Se importÃ³ Â«%1$sÂ»</string>
+    <string name="spotify_import_empty_playlist">No hay canciones en esta playlist</string>
+    <string name="spotify_import_failed">No se pudo importar la playlist: %1$s</string>
+    <string name="spotify_import_fetching">Leyendo la playlist de Spotifyâ€¦</string>
+    <string name="spotify_import_hint">open.spotify.com/playlist/â€¦</string>
+    <string name="spotify_import_invalid">Ese no es un enlace de playlist de Spotify.</string>
+    <string name="spotify_import_local_fallback">No se pudo crear en YouTube Music, asÃ­ que Â«%1$sÂ» se guardÃ³ en este dispositivo.</string>
+    <string name="spotify_import_matching">Buscando canciones %1$d de %2$d</string>
+    <string name="spotify_import_none">No se encontrÃ³ ninguna de esas canciones en YouTube Music.</string>
+    <string name="spotify_import_title">Importar playlist de Spotify</string>
+    <string name="spotify_import_unmatched">%1$d canciones no se encontraron en YouTube Music</string>
+    <string name="spotify_library_subtitle">Tus playlists de Spotify</string>
+    <string name="spotify_sign_in">Iniciar sesiÃ³n con Spotify</string>
+    <string name="spotify_use_spdc_token">Usar token sp_dc</string>
+    <string name="spotify_track_unavailable">No se encontrÃ³ esa canciÃ³n en YouTube Music</string>
+    <string name="artist_signatures">Firmas de artistas</string>
+    <string name="artist_signatures_subtitle">Muestra una firma manuscrita cuando Apple Music no tiene logotipo de tÃ­tulo</string>
+    <string name="artist_signatures_url">URL de la API de firmas</string>
+    <string name="artist_signatures_url_hint">https://signatures.example.com</string>
+    <string name="artist_signatures_unconfigured">Sin configurar â€” toca para establecer la URL de la API</string>
+    <string name="artist_signatures_test_failed">No se pudo contactar con la API en esa URL</string>
+    <string name="search_source_addons">Addons</string>
+    <string name="search_addons_none">No hay addons activados. AÃ±ade uno en Ajustes â†’ Fuentes.</string>
+    <string name="app_icon">Icono de la app</string>
+    <string name="app_icon_default">Predeterminado</string>
+    <string name="show_queue_history">Mostrar historial de la cola</string>
+    <string name="show_queue_history_subtitle">Muestra hasta 25 canciones reproducidas antes de Â«Reproduciendo ahoraÂ» en la cola</string>
+    <string name="not_enough_this_week">Escucha unas cuantas canciones mÃ¡s esta semana para desbloquear tu Replay.</string>
+    <string name="replay_artist_start_week">Toda la semana, </string>
+    <string name="replay_songs_end_week"> llenaron tu semana.</string>
+    <string name="replay_summary_end_week">semana</string>
+    <string name="replay_this_week">Esta semana</string>
+    <string name="replay_period_weekly">Semanal</string>
+    <string name="replay_period_monthly">Mensual</string>
+    <string name="replay_period_yearly">Anual</string>
+    <string name="replay_period_lifetime">De siempre</string>
+    <string name="onboarding_title">Millones de canciones, en streaming en Sonora</string>
+    <string name="onboarding_name_prompt">Â¿CÃ³mo quieres que te llamemos?</string>
+    <string name="onboarding_name_hint">Tu nombre</string>
+    <string name="onboarding_name_footer">Tus amigos lo ven cuando usas Escuchar juntos. Puedes cambiarlo mÃ¡s tarde en Ajustes.</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_connect_title">Conecta tu cuenta de YouTube</string>
+    <string name="onboarding_connect_body">Trae contigo tu biblioteca, listas y mixes, y empieza una sesiÃ³n de Escuchar juntos con tus amigos.</string>
+    <string name="onboarding_sign_in_google">Iniciar sesiÃ³n con Google</string>
+    <string name="onboarding_skip_sign_in">Omitir inicio de sesiÃ³n</string>
+    <string name="onboarding_back">AtrÃ¡s</string>
+    <string name="wear_os_section">Sonora para Wear OS</string>
+    <string name="wear_os_page_title">Wear OS</string>
+    <string name="wear_os_your_watches">Tus relojes</string>
+    <string name="wear_os_value_none">Sin reloj</string>
+    <string name="wear_os_value_not_installed">No instalado</string>
+    <string name="wear_os_value_up_to_date">Actualizado</string>
+    <string name="wear_os_looking">Buscando relojesâ€¦</string>
+    <string name="wear_os_no_watch">NingÃºn reloj conectado</string>
+    <string name="wear_os_no_watch_subtitle">Primero vincula un reloj Wear OS con este telÃ©fono desde su app complementaria.</string>
+    <string name="wear_os_checking">Comprobandoâ€¦</string>
+    <string name="wear_os_not_installed">Sonora no estÃ¡ en este reloj</string>
+    <string name="wear_os_up_to_date">Actualizado Â· %1$s</string>
+    <string name="wear_os_update_available">ActualizaciÃ³n disponible</string>
+    <string name="wear_os_unknown">Instalado Â· no se pudo comprobar la versiÃ³n</string>
+    <string name="wear_os_sending">Enviando a tu relojâ€¦</string>
+    <string name="wear_os_sent">Enviado: termina en tu reloj si te lo pide</string>
+    <string name="wear_os_send_failed">No se pudo enviar la actualizaciÃ³n (%1$s)</string>
+    <string name="wear_os_install">Instalar</string>
+    <string name="wear_os_update">Actualizar</string>
+    <string name="wear_os_install_title">Instalar en tu reloj</string>
+    <string name="wear_os_step_wifi">Conecta tu reloj a la misma red Wi-Fi que este telÃ©fono.</string>
+    <string name="wear_os_step_developer">Activa las opciones de desarrollador en el reloj. Galaxy Watch: Ajustes â†’ Acerca del reloj â†’ InformaciÃ³n del software â†’ toca cinco veces VersiÃ³n del software. Pixel Watch: Ajustes â†’ Sistema â†’ Acerca de â†’ toca siete veces NÃºmero de compilaciÃ³n.</string>
+    <string name="wear_os_step_debugging">En las opciones de desarrollador, activa la depuraciÃ³n ADB y la depuraciÃ³n inalÃ¡mbrica.</string>
+    <string name="wear_os_step_pair">Toca Vincular dispositivo nuevo e introduce el cÃ³digo de seis dÃ­gitos que muestra el reloj.</string>
+    <string name="wear_os_searching">Buscando tu reloj en la red Wi-Fiâ€¦</string>
+    <string name="wear_os_found">Reloj encontrado</string>
+    <string name="wear_os_pairing">Vinculandoâ€¦</string>
+    <string name="wear_os_installing">Instalando Sonora en tu relojâ€¦</string>
+    <string name="wear_os_installed">Instalado. Ya puedes desactivar de nuevo la depuraciÃ³n inalÃ¡mbrica.</string>
+    <string name="wear_os_failed">No ha funcionado (%1$s). Comprueba el cÃ³digo e intÃ©ntalo de nuevo.</string>
+    <string name="wear_os_unsupported">Instalar en un reloj requiere Android 11 o posterior en este telÃ©fono.</string>
+    <string name="wear_os_code_hint">CÃ³digo de vinculaciÃ³n</string>
+    <string name="wear_os_done">Hecho</string>
+    <string name="signed_by">Firmado por %1$s</string>
+    <string name="song_info">InformaciÃ³n de la canciÃ³n</string>
+    <string name="song_info_album">Ãlbum</string>
+    <string name="song_info_release_date">Fecha de lanzamiento</string>
+    <string name="song_info_views">Reproducciones / visualizaciones</string>
+    <string name="song_info_likes">Me gusta</string>
+    <string name="song_info_comments">Comentarios</string>
+    <string name="song_info_unavailable">No disponible</string>
+    <string name="song_info_error">No se pudo cargar parte de la informaciÃ³n.</string>
+    <string name="song_info_retry">Reintentar</string>
+    <string name="no_audio_version">No audio version found for this video</string>
+    <string name="no_video_version">No video version found for this song</string>
+    <string name="version_switch_in_party">Everyone in Listen Together hears the same version</string>
+    <string name="opened_file">Archivo abierto</string>
+    <string name="folders">Carpetas</string>
+    <string name="folder">Carpeta</string>
+    <string name="no_local_folders">No hay carpetas con mÃºsica</string>
+    <string name="offline_playlist_empty">Esta lista aÃºn estÃ¡ vacÃ­a. AÃ±ade canciones desde su menÃº.</string>
+    <string name="offline_liked_empty">Las canciones que te gusten en este dispositivo aparecerÃ¡n aquÃ­</string>
+    <string name="saved_on_this_device">Guardada en este dispositivo</string>
+    <string name="direct_source_stream_in_party">Desactivado mientras estÃ¡s en una fiesta de Listen Together</string>
+    <string name="direct_source_stream">TransmisiÃ³n directa desde la fuente</string>
+    <string name="find_your_mood">Encuentra tu estado de Ã¡nimo</string>
+    <string name="progressive_blur">Desenfoque progresivo</string>
+    <string name="glass_performance">Mejor rendimiento del cristal</string>
+    <string name="remove_from_history">Quitar del historial</string>
+    <string name="remove_from_history_failed">No se pudo quitar del historial</string>
+    <string name="addon_blocked_title">No se puede reproducir esta canciÃ³n</string>
+    <string name="addon_blocked_quality">La calidad de audio con %1$s estÃ¡ en %2$s. Las canciones de %3$s solo se reproducen en Sin pÃ©rdida: cÃ¡mbiala en Ajustes â†’ Calidad de audio para reproducir esta.</string>
+    <string name="addon_blocked_watch">La mÃºsica se reproduce a travÃ©s de tu reloj, que limita el audio por debajo de Sin pÃ©rdida. Las canciones de %1$s volverÃ¡n a sonar cuando tu telÃ©fono recupere la mÃºsica.</string>
+    <string name="download_addon_left_out_title">Descargando sin %1$s</string>
+    <string name="download_addon_not_allowed">%1$s no permite descargas, asÃ­ que tus canciones se guardan desde tus otras fuentes.</string>
+    <string name="download_addon_needs_lossless_output">%1$s solo sirve mÃºsica con auriculares con cable, USB o de clase LDAC conectados. Las descargas lo omiten hasta que conectes unos, asÃ­ que tus canciones se guardan desde tus otras fuentes.</string>
+    <string name="show_listen_together_button">Mostrar botÃ³n de Escuchar juntos</string>
+    <string name="show_listen_together_button_subtitle">Si estÃ¡ desactivado, el reproductor solo muestra el botÃ³n de salida de audio entre la letra y la cola</string>
+    <string name="font">Fuente</string>
+    <string name="font_default">Predeterminada</string>
+    <string name="font_legacy">ClÃ¡sica</string>
+    <string name="font_default_subtitle">SF Pro Display Â· Pesos de Apple Music</string>
+    <string name="font_legacy_subtitle">SF Pro Display Â· Pesos gruesos originales</string>
+    <string name="font_footer">ClÃ¡sica recupera la tipografÃ­a mÃ¡s gruesa y compacta que usaba la app antes de adaptarla a Apple Music.</string>
+    <string name="bit_perfect_output">Salida bit-perfect</string>
+    <string name="bit_perfect_bypassed_footer">La salida bit-perfect estÃ¡ lista, por lo que se omiten los ajustes atenuados y no se solicitan versiones Dolby Atmos. Vuelven a funcionar al desconectar el DAC o desactivar el modo.</string>
+    <string name="bit_perfect_sheet_warning">EnvÃ­a la pista al DAC sin cambios. Se omiten el ecualizador, la normalizaciÃ³n de volumen, el fundido cruzado, la mezcla automÃ¡tica, la velocidad de reproducciÃ³n y el volumen de Sonora.</string>
+    <string name="bit_perfect_mode_off_subtitle">El audio pasa por el mezclador de Android y los efectos de Sonora.</string>
+    <string name="bit_perfect_mode_usb_android">DAC USB</string>
+    <string name="bit_perfect_mode_usb_android_subtitle">Android 14 abre el DAC con la frecuencia y la profundidad de bits de cada pista, sin mezclar ni remuestrear.</string>
+    <string name="bit_perfect_requires_android_14">Requiere Android 14 o posterior</string>
+    <string name="bit_perfect_mode_dap_exclusive">DAC integrado (AAudio exclusivo)</string>
+    <string name="bit_perfect_mode_dap_exclusive_subtitle">Para reproductores de mÃºsica con DAC propio. Abre la salida de auriculares o de lÃ­nea en exclusiva con la frecuencia de cada pista. No todos los dispositivos conceden el modo exclusivo.</string>
+    <string name="bit_perfect_requires_android_8_1">Requiere Android 8.1 o posterior</string>
+    <string name="bit_perfect_mode_usb_direct">DAC USB (controlador directo)</string>
+    <string name="bit_perfect_mode_usb_direct_subtitle">Sonora controla el DAC directamente, en cualquier versiÃ³n de Android, y ajusta el volumen en el DAC. Pide permiso USB. Puede sonar mucho mÃ¡s alto que la salida normal.</string>
+    <string name="dac_volume">Volumen del DAC</string>
+    <string name="dac_volume_subtitle">Se ajusta en el propio DAC; la mÃºsica no se escala</string>
+    <string name="usb_allow_fixed_volume">Permitir DAC sin control de volumen</string>
+    <string name="usb_allow_fixed_volume_subtitle">Si no, ese DAC reproduce por la salida normal</string>
+    <string name="usb_allow_fixed_volume_confirm_title">Â¿Reproducir a escala completa?</string>
+    <string name="usb_allow_fixed_volume_confirm_message">Sonora no puede ajustar el volumen de este tipo de DAC, asÃ­ que reproduce a escala completa y solo su propio mando, si lo tiene, controla el nivel. Puede sonar peligrosamente alto con auriculares sensibles.</string>
+    <string name="convert_for_limited_dac">Convertir para DAC mÃ¡s limitados</string>
+    <string name="convert_for_limited_dac_subtitle">Convierte las pistas que superan el lÃ­mite de tu DAC a su formato mÃ¡s alto. Pueden tardar mÃ¡s en empezar y no serÃ¡n bit-perfect respecto al original.</string>
+    <string name="bit_perfect_confirm_title">Â¿Activar la salida bit-perfect?</string>
+    <string name="bit_perfect_confirm_message">El DAC recibe la mÃºsica a escala completa y es posible que los botones de volumen del telÃ©fono dejen de funcionar. Baja el volumen del DAC o del amplificador antes de reproducir.</string>
+    <string name="bit_perfect_status_active">%1$s Â· %2$s kHz Â· %3$d bits</string>
+    <string name="bit_perfect_status_dac_limited">%1$s Â· %2$s kHz Â· %3$d bits Â· mÃ¡ximo del DAC, convertido desde el formato de esta pista</string>
+    <string name="bit_perfect_status_inexact">%1$s Â· no exacto: esta fuente no es PCM sin pÃ©rdida</string>
+    <string name="bit_perfect_status_waiting">Esperando una pista sin pÃ©rdida en una salida compatible</string>
+    <string name="bit_perfect_status_unavailable">No disponible para esta pista (%1$s)</string>
+</resources>
+
+

@@ -1,0 +1,1855 @@
+From bc121f5747448abc792163fa4a816e9b5c56f2f3 Mon Sep 17 00:00:00 2001
+From: Kushagra Singh <kushagrasinghx@gmail.com>
+Date: Thu, 5 Nov 2026 23:56:41 +0530
+Subject: [PATCH] security upgrade
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ app/build.gradle.kts                          |  17 +
+ .../com/music/bitchord/BitChordApplication.kt |   7 +
+ .../java/com/music/bitchord/MainActivity.kt   |   2 +
+ .../bitchord/data/sources/AddonSource.kt      |  63 +++-
+ .../bitchord/data/sources/SourceRegistry.kt   |  60 ++-
+ .../bitchord/data/sources/addon/AddonAuth.kt  | 341 ++++++++++++++++++
+ .../data/sources/addon/AddonClient.kt         |  59 +++
+ .../data/sources/addon/AddonModels.kt         |  10 +
+ .../bitchord/ui/screens/SourcesScreen.kt      |  84 +++--
+ app/src/main/res/values-b+zh+Hant/strings.xml |   2 +
+ app/src/main/res/values-de/strings.xml        |   2 +
+ app/src/main/res/values-es/strings.xml        |   2 +
+ app/src/main/res/values-fr/strings.xml        |   2 +
+ app/src/main/res/values-he/strings.xml        |   2 +
+ app/src/main/res/values-hi/strings.xml        |   2 +
+ app/src/main/res/values-id/strings.xml        |   2 +
+ app/src/main/res/values-it/strings.xml        |   2 +
+ app/src/main/res/values-ja/strings.xml        |   2 +
+ app/src/main/res/values-ko/strings.xml        |   2 +
+ app/src/main/res/values-pl/strings.xml        |   2 +
+ app/src/main/res/values-pt/strings.xml        |   2 +
+ app/src/main/res/values-ru/strings.xml        |   2 +
+ app/src/main/res/values-th/strings.xml        |   2 +
+ app/src/main/res/values-tr/strings.xml        |   2 +
+ app/src/main/res/values-vi/strings.xml        |   2 +
+ app/src/main/res/values-zh-rHK/strings.xml    |   2 +
+ app/src/main/res/values-zh-rTW/strings.xml    |   2 +
+ app/src/main/res/values-zh/strings.xml        |   2 +
+ app/src/main/res/values/strings.xml           |   2 +
+ .../java/com/music/bitchord/AddonAuthTest.kt  | 155 ++++++++
+ .../com/music/bitchord/AddonSourceTest.kt     | 104 +++++-
+ build.gradle.kts                              |   4 +-
+ 32 files changed, 887 insertions(+), 59 deletions(-)
+ create mode 100644 app/src/main/java/com/music/bitchord/data/sources/addon/AddonAuth.kt
+ create mode 100644 app/src/test/java/com/music/bitchord/AddonAuthTest.kt
+
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+index 8c068c6e4f..dbf52e58b4 100644
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -53,6 +53,18 @@ val listenTogetherServer: String = (
+         ?: "https://bitchord-listen-together.onrender.com"
+     ).trim().trimEnd('/')
+ 
++/*
++ * The service that checks this app's hardware key attestation and issues addon
++ * tokens. See AddonAuth. Overridable for a staging deployment. A fork that
++ * points this at its own server gains nothing: addons only trust tokens signed
++ * by the official service's key.
++ */
++val addonAuthServer: String = (
++    localProps.getProperty("ADDON_AUTH_SERVER")
++        ?: System.getenv("ADDON_AUTH_SERVER")
++        ?: "https://bitchord-auth.kushagrasingh.in"
++    ).trim().trimEnd('/')
++
+ // See the root build.gradle.kts: one version for the phone and its watch app.
+ val betaSuffix = rootProject.extra["bitchordBetaSuffix"] as String
+ 
+@@ -80,6 +92,11 @@ android {
+             "LISTEN_TOGETHER_SERVER",
+             "\"${listenTogetherServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
+         )
++        buildConfigField(
++            "String",
++            "ADDON_AUTH_URL",
++            "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
++        )
+         // Which release assets are this app's: the phone and TV APKs ship in
+         // the same GitHub release, told apart by file name. See
+         // AppUpdateChecker.apkAssetUrl.
+diff --git a/app/src/main/java/com/music/bitchord/BitChordApplication.kt b/app/src/main/java/com/music/bitchord/BitChordApplication.kt
+index ddca282c47..9e012ab837 100644
+--- a/app/src/main/java/com/music/bitchord/BitChordApplication.kt
++++ b/app/src/main/java/com/music/bitchord/BitChordApplication.kt
+@@ -142,6 +142,9 @@ class BitChordApplication : Application(), SingletonImageLoader.Factory, Configu
+             CoroutineScope(Dispatchers.IO).launch { Innertube.ensureSessionScope() }
+         }
+         AppSettings.init(this, authStore)
++        // Restores the addon token, so the first search after a process restart
++        // doesn't have to attest the device again.
++        com.music.bitchord.data.sources.addon.AddonAuth.init(this)
+         // Before anything resolves a track: an addon with `checkValidLossless`
+         // is gated on this, and the gate reads "no" until it has looked.
+         com.music.bitchord.playback.audio.LosslessOutput.init(this)
+@@ -198,6 +201,10 @@ class BitChordApplication : Application(), SingletonImageLoader.Factory, Configu
+         // The public "apps open right now" count; see Presence.
+         com.music.bitchord.data.presence.AndroidPresence.install(this)
+         backgroundInit.join()
++        // An addon marked out of date is left out of every search, so nothing
++        // else would notice its developer updating it. One manifest read each,
++        // and only for the addons not already known to be current.
++        CoroutineScope(Dispatchers.IO).launch { SourceRegistry.refreshOutdatedAddons() }
+     }
+ 
+     /**
+diff --git a/app/src/main/java/com/music/bitchord/MainActivity.kt b/app/src/main/java/com/music/bitchord/MainActivity.kt
+index c7a013173b..eac5f79ee4 100644
+--- a/app/src/main/java/com/music/bitchord/MainActivity.kt
++++ b/app/src/main/java/com/music/bitchord/MainActivity.kt
+@@ -5902,6 +5902,8 @@ private fun BitChordApp(
+                         stringResource(R.string.download_addon_not_allowed, addon)
+                     SourceRegistry.DownloadExclusion.NEEDS_LOSSLESS_OUTPUT ->
+                         stringResource(R.string.download_addon_needs_lossless_output, addon)
++                    SourceRegistry.DownloadExclusion.NEEDS_ADDON_UPDATE ->
++                        stringResource(R.string.download_addon_needs_update, addon)
+                 },
+                 onDismiss = { addonLeftOutOfDownload = null },
+                 // A download can be asked for from the player or from either
+diff --git a/app/src/main/java/com/music/bitchord/data/sources/AddonSource.kt b/app/src/main/java/com/music/bitchord/data/sources/AddonSource.kt
+index dd242af83f..5def8920a2 100644
+--- a/app/src/main/java/com/music/bitchord/data/sources/AddonSource.kt
++++ b/app/src/main/java/com/music/bitchord/data/sources/AddonSource.kt
+@@ -84,19 +84,55 @@ class AddonSource(
+      * an addon that has just turned the switch on is stopped before the request
+      * rather than after it. The manifest is the client's shared, cached copy,
+      * which the request was about to read for its settings anyway.
++     *
++     * Then the addon has to be up to date: only an addon whose manifest
++     * declares `bitchordAuth` is asked for anything. When the manifest can't be
++     * read right now, the stored answer decides, and an addon never yet seen
++     * declaring it is refused.
+      */
+     private suspend fun admitted(what: String): Boolean {
+         if (shutOut(what)) return false
+-        client.manifest().getOrNull()?.let(::recordPolicy)
+-        return !shutOut(what)
++        val declared = refreshPolicy()
++        if (shutOut(what)) return false
++        if ((declared ?: live.bitchordAuth) != true) {
++            TrackLog.d(TAG, "${config.displayName}: addon is out of date (no bitchordAuth); not asking it for $what")
++            return false
++        }
++        return true
+     }
+ 
++    /**
++     * Reads the manifest (the client's cached copy when there is one) and
++     * stores what it says. An addon with no usable manifest is recorded as out
++     * of date, since it has nowhere to declare `bitchordAuth`; a manifest that
++     * merely couldn't be fetched just now changes nothing.
++     *
++     * Returns whether the addon is up to date by what was just read, or null
++     * when nothing could be read and the stored answer has to stand.
++     */
++    suspend fun refreshPolicy(): Boolean? =
++        client.manifest().fold(
++            onSuccess = { manifest ->
++                recordPolicy(manifest)
++                manifest.requiresBitChordAuth
++            },
++            onFailure = { failure ->
++                if (failure is AddonException) {
++                    SourceRegistry.markAddonOutdated(config.id)
++                    false
++                } else {
++                    null
++                }
++            },
++        )
++
+     private fun recordPolicy(manifest: AddonManifest) =
+         SourceRegistry.updatePolicy(
+             config.id,
+             manifest.downloadsAllowed,
+             manifest.requiresLosslessOutput,
+             manifest.qualityOptions,
++            manifest.requiresBitChordAuth,
+         )
+ 
+     // ── Health ────────────────────────────────────────────────────────────
+@@ -121,6 +157,9 @@ class AddonSource(
+         client.manifest().fold(
+             onSuccess = { manifest ->
+                 recordPolicy(manifest)
++                if (!manifest.requiresBitChordAuth) {
++                    return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
++                }
+                 SourceHealth.Ok(
+                     listOfNotNull(
+                         manifest.displayName.takeIf { it.isNotBlank() },
+@@ -129,15 +168,14 @@ class AddonSource(
+                 )
+             },
+             onFailure = { failure ->
+-                // No readable manifest is not the same as no addon. The
+-                // endpoints are what this app uses; the manifest only describes
+-                // them, and an addon that never published one is healthy the
+-                // moment it answers a search. Reported plainly rather than as a
+-                // success with a hidden caveat, so the row says which of the two
+-                // kinds of working this is.
++                // No readable manifest is not the same as no addon: one that
++                // never published a manifest still answers a search. But it has
++                // nowhere to declare `bitchordAuth`, so it is out of date, and
++                // is told so rather than reported as a broken URL.
++                if (failure is AddonException) SourceRegistry.markAddonOutdated(config.id)
+                 if (client.probeSearch().isSuccess) {
+-                    TrackLog.d(TAG, "${config.displayName}: no manifest, but search answers")
+-                    return@fold SourceHealth.Ok("No manifest · search works")
++                    TrackLog.d(TAG, "${config.displayName}: no manifest, but search answers; out of date")
++                    return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
+                 }
+                 val reason = failure.message ?: "Could not reach the addon"
+                 if (failure is AddonException) {
+@@ -437,6 +475,11 @@ class AddonSource(
+         const val NEEDS_LOSSLESS_OUTPUT =
+             "This addon only works with a lossless output — use a lossless supported device"
+ 
++        /** Same, for an addon whose manifest doesn't declare `bitchordAuth`. Matches `source_needs_update`. */
++        const val NEEDS_ADDON_UPDATE =
++            "This addon is out of date, so BitChord can't use it. " +
++                "Ask its developer to update it by following the latest BitChord addon docs."
++
+         /** How many search rows to remember. A long queue's worth, several times over. */
+         const val MAX_ROWS = 256
+ 
+diff --git a/app/src/main/java/com/music/bitchord/data/sources/SourceRegistry.kt b/app/src/main/java/com/music/bitchord/data/sources/SourceRegistry.kt
+index c4a74b12fb..ec9f7abbec 100644
+--- a/app/src/main/java/com/music/bitchord/data/sources/SourceRegistry.kt
++++ b/app/src/main/java/com/music/bitchord/data/sources/SourceRegistry.kt
+@@ -60,6 +60,15 @@ data class SourceConfig(
+     val qualityOptions: List<AddonQualityOption> = emptyList(),
+     /** Which of [qualityOptions] the user chose, or null for the first one listed. */
+     val pickedQuality: String? = null,
++    /**
++     * Whether the addon's manifest declares `bitchordAuth`, as it last said;
++     * null until it has been read. Addons that don't are out of date: BitChord
++     * no longer searches or streams from them, and the sources screen tells
++     * the user to ask the developer to update. Stored so that the source walks
++     * can leave such an addon out without contacting it, and refreshed
++     * whenever the manifest is next read — see [SourceRegistry.refreshOutdatedAddons].
++     */
++    val bitchordAuth: Boolean? = null,
+ ) {
+     /** The entry of [qualityOptions] in force: the pick while the addon still lists it, else its first. */
+     val activeQuality: AddonQualityOption?
+@@ -69,12 +78,22 @@ data class SourceConfig(
+     val awaitsLosslessOutput: Boolean
+         get() = checkValidLossless && !LosslessOutput.capable
+ 
++    /**
++     * Whether this is an addon known to be out of date: its manifest doesn't
++     * declare `bitchordAuth`, or it has no manifest at all. Not yet knowing
++     * (null) doesn't count; [AddonSource] checks the manifest before the first
++     * request in that case.
++     */
++    val needsAddonUpdate: Boolean
++        get() = kind == SourceKind.ADDON && bitchordAuth == false
++
+     /** What the manifest last said, without the parts of the config the user set. */
+     internal fun withPolicyOf(other: SourceConfig) =
+         copy(
+             allowDownloads = other.allowDownloads,
+             checkValidLossless = other.checkValidLossless,
+             qualityOptions = other.qualityOptions,
++            bitchordAuth = other.bitchordAuth,
+         )
+ 
+     /** What the sources screen and the player show. Never blank. */
+@@ -206,6 +225,8 @@ object SourceRegistry {
+             // that asked for a lossless output costs nothing — not even a timed
+             // out search — while there isn't one. See [SourceConfig.checkValidLossless].
+             .filterNot { it.awaitsLosslessOutput }
++            // Nor while it is out of date: it would be refused anyway.
++            .filterNot { it.needsAddonUpdate }
+             .sortedBy { it.kind.rank }
+             .mapNotNull { instances[it.id] }
+ 
+@@ -223,6 +244,9 @@ object SourceRegistry {
+ 
+         /** It asks for a lossless output (`checkValidLossless`) and none is connected. */
+         NEEDS_LOSSLESS_OUTPUT,
++
++        /** It is out of date: its manifest doesn't declare `bitchordAuth`. */
++        NEEDS_ADDON_UPDATE,
+     }
+ 
+     /**
+@@ -239,6 +263,7 @@ object SourceRegistry {
+             .filter { it.kind == SourceKind.ADDON }
+             .mapNotNull { config ->
+                 when {
++                    config.needsAddonUpdate -> config to DownloadExclusion.NEEDS_ADDON_UPDATE
+                     !config.allowDownloads -> config to DownloadExclusion.DOWNLOADS_NOT_ALLOWED
+                     config.awaitsLosslessOutput -> config to DownloadExclusion.NEEDS_LOSSLESS_OUTPUT
+                     else -> null
+@@ -258,18 +283,21 @@ object SourceRegistry {
+         allowDownloads: Boolean,
+         checkValidLossless: Boolean,
+         qualityOptions: List<AddonQualityOption>,
++        bitchordAuth: Boolean,
+     ) {
+         val current = config(configId) ?: return
+         if (current.allowDownloads == allowDownloads &&
+             current.checkValidLossless == checkValidLossless &&
+-            current.qualityOptions == qualityOptions
++            current.qualityOptions == qualityOptions &&
++            current.bitchordAuth == bitchordAuth
+         ) {
+             return
+         }
+         TrackLog.d(
+             TAG,
+             "${current.displayName}: manifest now says allowDownloads=$allowDownloads " +
+-                "checkValidLossless=$checkValidLossless qualityOptions=${qualityOptions.map { it.value }}",
++                "checkValidLossless=$checkValidLossless qualityOptions=${qualityOptions.map { it.value }} " +
++                "bitchordAuth=$bitchordAuth",
+         )
+         publish(
+             configs.value.map {
+@@ -278,6 +306,7 @@ object SourceRegistry {
+                         allowDownloads = allowDownloads,
+                         checkValidLossless = checkValidLossless,
+                         qualityOptions = qualityOptions,
++                        bitchordAuth = bitchordAuth,
+                     )
+                 } else {
+                     it
+@@ -286,6 +315,32 @@ object SourceRegistry {
+         )
+     }
+ 
++    /**
++     * Records that an addon is out of date because it has no usable manifest,
++     * and so cannot declare `bitchordAuth`. The other stored policy is left as
++     * it was: there is nothing new to replace it with.
++     */
++    fun markAddonOutdated(configId: String) {
++        val current = config(configId) ?: return
++        if (current.bitchordAuth == false) return
++        TrackLog.d(TAG, "${current.displayName}: no usable manifest, so it can't declare bitchordAuth")
++        publish(configs.value.map { if (it.id == configId) it.copy(bitchordAuth = false) else it })
++    }
++
++    /**
++     * Rereads the manifest of every enabled addon not yet known to be up to
++     * date. [active] leaves an out-of-date addon out of every walk, so without
++     * this an addon its developer has since updated would only be noticed the
++     * next time the sources screen is opened. Called once at startup, off the
++     * main thread; each is one manifest request.
++     */
++    suspend fun refreshOutdatedAddons() {
++        enabledConfigs(configs.value)
++            .filter { it.kind == SourceKind.ADDON && it.bitchordAuth != true }
++            .mapNotNull { instances[it.id] as? AddonSource }
++            .forEach { source -> runCatching { source.refreshPolicy() } }
++    }
++
+     /** The common eligibility gate used by playback and download source walks. */
+     internal fun enabledConfigs(configs: List<SourceConfig>): List<SourceConfig> =
+         configs.filter { it.enabled && it.isComplete }
+@@ -468,6 +523,7 @@ object SourceRegistry {
+                     allowDownloads = detected.manifest.downloadsAllowed,
+                     checkValidLossless = detected.manifest.requiresLosslessOutput,
+                     qualityOptions = detected.manifest.qualityOptions,
++                    bitchordAuth = detected.manifest.requiresBitChordAuth,
+                     // The address may now name a different addon, whose list
+                     // this pick was never on.
+                     pickedQuality = existing?.pickedQuality?.takeIf { picked ->
+diff --git a/app/src/main/java/com/music/bitchord/data/sources/addon/AddonAuth.kt b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonAuth.kt
+new file mode 100644
+index 0000000000..1c8679fdd5
+--- /dev/null
++++ b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonAuth.kt
+@@ -0,0 +1,341 @@
++package com.music.bitchord.data.sources.addon
++
++import android.content.Context
++import android.content.SharedPreferences
++import android.security.keystore.KeyGenParameterSpec
++import android.security.keystore.KeyProperties
++import com.music.bitchord.BuildConfig
++import com.music.bitchord.data.Http
++import com.music.bitchord.data.TrackLog
++import kotlinx.coroutines.CancellationException
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.sync.Mutex
++import kotlinx.coroutines.sync.withLock
++import kotlinx.coroutines.withContext
++import kotlinx.serialization.Serializable
++import kotlinx.serialization.json.Json
++import okhttp3.MediaType.Companion.toMediaType
++import okhttp3.OkHttpClient
++import okhttp3.Request
++import okhttp3.RequestBody.Companion.toRequestBody
++import java.security.KeyPairGenerator
++import java.security.KeyStore
++import java.security.MessageDigest
++import java.security.PrivateKey
++import java.security.Signature
++import java.security.spec.ECGenParameterSpec
++import java.util.Base64
++import java.util.UUID
++import java.util.concurrent.ConcurrentHashMap
++import java.util.concurrent.TimeUnit
++
++/**
++ * Proof, for the addons that ask for it, that a request comes from the genuine
++ * BitChord app and not a fork, another app or a script.
++ *
++ * The client name and User-Agent cannot do this: this app is open source, so
++ * anything it sends can be copied. The one thing a copy cannot have is the
++ * release signing key, and Android will vouch for that itself. A key generated
++ * in the device's secure hardware comes with a certificate chain, rooted at
++ * Google, in which Android states the package name and signing certificate of
++ * the app that asked for the key, and whether the OS was booted verified. The
++ * BitChord auth service checks that chain once and returns a short-lived token
++ * bound to the key. Each addon request then carries the token and a signature
++ * made with the hardware key, which never leaves the device. A token copied off
++ * a phone is therefore useless anywhere else.
++ *
++ * Opt-in per addon. Nothing is sent unless the addon's manifest declares
++ * `bitchordAuth`, or it answers a request with `401` and
++ * `WWW-Authenticate: BitChord`. Other addons never see the token. Even when
++ * they do, a proof is bound to one host, so it cannot be replayed to another.
++ *
++ * Wire format: "Addon auth" in the BitChord addon docs, protocol version 1.
++ */
++object AddonAuth {
++    const val TOKEN_HEADER = "X-BitChord-Token"
++    const val PROOF_HEADER = "X-BitChord-Proof"
++    private const val PROOF_CONTEXT = "bitchord-addon-proof/v1"
++
++    private const val TAG = "BitChord"
++    private const val KEYSTORE = "AndroidKeyStore"
++    private const val ALIAS_PREFIX = "bitchord_addon_auth_"
++
++    /** Refreshed this long before expiry, so an in-flight search never carries a token about to lapse. */
++    private const val REFRESH_BEFORE_MS = 5 * 60_000L
++
++    /**
++     * A proof is reused for this long per host. Signing in the TEE costs a few
++     * milliseconds, and a search fans out several requests at once, so one
++     * signature covers the burst. Addons accept a proof for 120 s.
++     */
++    private const val PROOF_REUSE_MS = 30_000L
++
++    /** After the service or the device says no. Retrying sooner would get the same answer. */
++    private const val REFUSED_BACKOFF_MS = 15 * 60_000L
++
++    /** After a network failure or a busy service. */
++    private const val TRANSIENT_BACKOFF_MS = 30_000L
++
++    private val json = Json { ignoreUnknownKeys = true; explicitNulls = false }
++    private val mutex = Mutex()
++
++    private class Session(val token: String, val expiresAtMs: Long, val alias: String) {
++        val tokenHash: String = b64url(MessageDigest.getInstance("SHA-256").digest(token.toByteArray()))
++    }
++
++    private class Refusal(val message: String, val untilMs: Long, val transient: Boolean) {
++        /** Transient ones are [AddonUnavailable], so the sources screen shows an outage, not a broken addon. */
++        fun raise(): Nothing = throw if (transient) AddonUnavailable(message) else AddonException(message)
++    }
++
++    @Volatile private var prefs: SharedPreferences? = null
++    @Volatile private var session: Session? = null
++    @Volatile private var refusal: Refusal? = null
++    @Volatile private var clockOffsetMs = 0L
++
++    /** JVM tests only: stands in for attestation, which needs real secure hardware. */
++    @Volatile
++    internal var testHeaders: (suspend (host: String, rejectedToken: String?) -> Map<String, String>)? = null
++
++    /** `host|tokenHash` to (made at, header value). */
++    private val proofs = ConcurrentHashMap<String, Pair<Long, String>>()
++
++    /** Restores the last token, so a process restart doesn't cost a fresh attestation. */
++    fun init(context: Context) {
++        val p = context.getSharedPreferences("bitchord_addon_auth", Context.MODE_PRIVATE)
++        prefs = p
++        val token = p.getString("token", null)
++        val alias = p.getString("alias", null)
++        val expiresAt = p.getLong("expiresAt", 0L)
++        clockOffsetMs = p.getLong("clockOffset", 0L)
++        if (token != null && alias != null && expiresAt > System.currentTimeMillis()) {
++            session = Session(token, expiresAt, alias)
++        }
++    }
++
++    /**
++     * The two headers for one request to [host].
++     *
++     * [rejectedToken] is the token an addon just answered `expired` or
++     * `invalid_token` to. A new one is fetched only if the current session
++     * still holds that token, so a burst of rejected requests triggers one
++     * refresh between them, not one each.
++     *
++     * Throws [AddonException] with a reason the sources screen can show when
++     * this device cannot get a token at all.
++     */
++    suspend fun headersFor(host: String, rejectedToken: String? = null): Map<String, String> {
++        val normalized = normalizeHost(host)
++        testHeaders?.let { return it(normalized, rejectedToken) }
++        repeat(2) {
++            val current = session(rejectedToken)
++            try {
++                return mapOf(TOKEN_HEADER to current.token, PROOF_HEADER to proof(current, normalized))
++            } catch (e: KeyGone) {
++                // Keystore wiped under a restored token (restore from backup, new device): start over.
++                TrackLog.w(TAG, "addon auth: hardware key missing, attesting again")
++                drop(current)
++            }
++        }
++        throw AddonException("BitChord couldn't use this device's secure key store")
++    }
++
++    /** What to tell the listener when an addon refused credentials that were sent. */
++    fun rejectionMessage(code: String?): String = when (code) {
++        "stale_proof" -> "This addon rejected the request because this phone's clock is wrong"
++        "unavailable" -> "This addon couldn't check BitChord's verification right now"
++        else -> "This addon didn't accept BitChord's verification" + (code?.let { " ($it)" } ?: "")
++    }
++
++    // ── Session ───────────────────────────────────────────────────────────
++
++    private fun usable(s: Session?, rejectedToken: String?): Session? =
++        s?.takeIf { it.token != rejectedToken && it.expiresAtMs - REFRESH_BEFORE_MS > System.currentTimeMillis() }
++
++    private suspend fun session(rejectedToken: String?): Session {
++        usable(session, rejectedToken)?.let { return it }
++        return mutex.withLock {
++            usable(session, rejectedToken)?.let { return@withLock it }
++            refusal?.takeIf { it.untilMs > System.currentTimeMillis() }?.raise()
++            val fresh = try {
++                attest()
++            } catch (e: CancellationException) {
++                throw e
++            } catch (e: AttestRefused) {
++                TrackLog.w(TAG, "addon auth: ${e.message}")
++                Refusal(e.message ?: "Verification refused", System.currentTimeMillis() + e.backoffMs, transient = false)
++                    .also { refusal = it }.raise()
++            } catch (e: Exception) {
++                val message = "Couldn't reach BitChord's addon verification service"
++                TrackLog.w(TAG, "addon auth: $message", e)
++                Refusal(message, System.currentTimeMillis() + TRANSIENT_BACKOFF_MS, transient = true)
++                    .also { refusal = it }.raise()
++            }
++            refusal = null
++            session?.let { old -> if (old.alias != fresh.alias) deleteKey(old.alias) }
++            session = fresh
++            proofs.clear()
++            prefs?.edit()
++                ?.putString("token", fresh.token)
++                ?.putString("alias", fresh.alias)
++                ?.putLong("expiresAt", fresh.expiresAtMs)
++                ?.putLong("clockOffset", clockOffsetMs)
++                ?.apply()
++            fresh
++        }
++    }
++
++    private fun drop(s: Session) {
++        if (session === s) {
++            session = null
++            prefs?.edit()?.clear()?.apply()
++        }
++        deleteKey(s.alias)
++    }
++
++    // ── Attestation ───────────────────────────────────────────────────────
++
++    private class AttestRefused(message: String, val backoffMs: Long = REFUSED_BACKOFF_MS) : Exception(message)
++
++    private class KeyGone : Exception()
++
++    @Serializable private data class ChallengeResponse(val challenge: String, val serverTime: Long)
++
++    @Serializable private data class AttestRequest(val challenge: String, val chain: List<String>)
++
++    @Serializable private data class AttestResponse(val token: String, val expiresAt: Long, val serverTime: Long? = null)
++
++    @Serializable private data class ServiceError(val error: String = "", val message: String = "")
++
++    private suspend fun attest(): Session = withContext(Dispatchers.IO) {
++        val base = BuildConfig.ADDON_AUTH_URL
++        val started = System.currentTimeMillis()
++        val challenge = json.decodeFromString<ChallengeResponse>(call(Request.Builder().url("$base/v1/challenge").build()))
++        // NTP-style midpoint: the proof's timestamp is checked against the addon's
++        // clock, and phones are often minutes out.
++        clockOffsetMs = challenge.serverTime - (started + System.currentTimeMillis()) / 2
++
++        val alias = ALIAS_PREFIX + UUID.randomUUID()
++        val chain = try {
++            generateAttestedKey(alias, Base64.getUrlDecoder().decode(challenge.challenge))
++        } catch (e: Exception) {
++            deleteKey(alias)
++            throw AttestRefused("This device can't prove it is running the official BitChord app (no hardware key attestation)")
++        }
++        try {
++            val body = json.encodeToString(
++                AttestRequest.serializer(),
++                AttestRequest(challenge.challenge, chain.map { Base64.getEncoder().encodeToString(it) }),
++            )
++            val request = Request.Builder().url("$base/v1/attest")
++                .post(body.toRequestBody("application/json".toMediaType()))
++                .build()
++            val answer = json.decodeFromString<AttestResponse>(call(request))
++            TrackLog.i(TAG, "addon auth: device verified, token valid until ${answer.expiresAt}")
++            Session(answer.token, answer.expiresAt, alias)
++        } catch (e: Exception) {
++            deleteKey(alias)
++            throw e
++        }
++    }
++
++    /** One call to the auth service. Its refusals are [AttestRefused]; anything else is transient. */
++    private fun call(request: Request): String =
++        client.newCall(request.newBuilder().header("Accept", "application/json").build()).execute().use { response ->
++            val text = response.body?.string().orEmpty()
++            when {
++                response.isSuccessful -> text
++                response.code == 429 || response.code >= 500 -> throw java.io.IOException("auth service HTTP ${response.code}")
++                else -> {
++                    val error = runCatching { json.decodeFromString<ServiceError>(text) }.getOrNull()
++                    // Fixable by updating rather than waiting: check again soon after.
++                    val backoff = if (error?.error == "outdated_app") TRANSIENT_BACKOFF_MS else REFUSED_BACKOFF_MS
++                    throw AttestRefused(
++                        "BitChord couldn't verify this device: " + (error?.message?.ifBlank { null } ?: "HTTP ${response.code}"),
++                        backoff,
++                    )
++                }
++            }
++        }
++
++    private fun keyStore(): KeyStore = KeyStore.getInstance(KEYSTORE).apply { load(null) }
++
++    private fun generateAttestedKey(alias: String, challenge: ByteArray): List<ByteArray> {
++        val spec = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_SIGN)
++            .setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
++            .setDigests(KeyProperties.DIGEST_SHA256)
++            .setAttestationChallenge(challenge)
++            .build()
++        KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, KEYSTORE).apply { initialize(spec) }.generateKeyPair()
++        val chain = keyStore().getCertificateChain(alias)
++        require(!chain.isNullOrEmpty() && chain.size >= 2) { "no attestation chain" }
++        return chain.map { it.encoded }
++    }
++
++    private fun deleteKey(alias: String) {
++        runCatching { keyStore().deleteEntry(alias) }
++    }
++
++    // ── Proof ─────────────────────────────────────────────────────────────
++
++    private fun proof(s: Session, host: String): String {
++        val cacheKey = "$host|${s.tokenHash}"
++        val now = System.currentTimeMillis()
++        proofs[cacheKey]?.let { (madeAt, header) -> if (now - madeAt < PROOF_REUSE_MS) return header }
++
++        val privateKey = runCatching { keyStore().getKey(s.alias, null) as? PrivateKey }.getOrNull() ?: throw KeyGone()
++        val timestamp = now + clockOffsetMs
++        val message = proofMessage(host, timestamp, s.tokenHash)
++        val der = Signature.getInstance("SHA256withECDSA").run {
++            initSign(privateKey)
++            update(message.toByteArray())
++            sign()
++        }
++        val header = "v1.$timestamp.${b64url(derToRaw(der))}"
++        if (proofs.size > 64) proofs.clear()
++        proofs[cacheKey] = now to header
++        return header
++    }
++
++    internal fun proofMessage(host: String, timestampMs: Long, tokenHash: String) =
++        "$PROOF_CONTEXT\n$host\n$timestampMs\n$tokenHash"
++
++    /** Lowercase, no port, no trailing dot: the same normalisation the addon-side verifiers apply. */
++    internal fun normalizeHost(host: String): String =
++        host.trim().lowercase().removePrefix("[").removeSuffix("]").trimEnd('.')
++
++    internal fun b64url(bytes: ByteArray): String = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
++
++    /**
++     * An ECDSA P-256 signature from DER (`SEQUENCE { INTEGER r, INTEGER s }`,
++     * which is what Android's `Signature` produces) to the fixed 64-byte `r || s`
++     * that JOSE and WebCrypto verify.
++     */
++    internal fun derToRaw(der: ByteArray): ByteArray {
++        var i = 0
++        fun byte(): Int = der[i++].toInt() and 0xff
++        fun length(): Int {
++            val first = byte()
++            if (first < 0x80) return first
++            var n = 0
++            repeat(first and 0x7f) { n = (n shl 8) or byte() }
++            return n
++        }
++        fun integer(): ByteArray {
++            require(byte() == 0x02) { "expected INTEGER" }
++            val len = length()
++            val value = der.copyOfRange(i, i + len)
++            i += len
++            val trimmed = value.dropWhile { it == 0.toByte() }.toByteArray()
++            require(trimmed.size <= 32) { "integer too large for P-256" }
++            return ByteArray(32 - trimmed.size) + trimmed
++        }
++        require(byte() == 0x30) { "expected SEQUENCE" }
++        length()
++        return integer() + integer()
++    }
++
++    private val client: OkHttpClient by lazy {
++        Http.client.newBuilder().callTimeout(20, TimeUnit.SECONDS).build()
++    }
++}
+diff --git a/app/src/main/java/com/music/bitchord/data/sources/addon/AddonClient.kt b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonClient.kt
+index 40dfa762fc..6670030a39 100644
+--- a/app/src/main/java/com/music/bitchord/data/sources/addon/AddonClient.kt
++++ b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonClient.kt
+@@ -69,6 +69,17 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+     @Volatile
+     private var quietUntilMs = 0L
+ 
++    /**
++     * Whether this addon only answers the genuine app, so every request has to
++     * carry [AddonAuth]'s token and proof.
++     *
++     * Learned rather than configured: the manifest declares `bitchordAuth`, or
++     * a request comes back `401` with `WWW-Authenticate: BitChord`. Until then
++     * nothing is sent, so an addon that never asked never sees a credential.
++     */
++    @Volatile
++    private var authRequired = false
++
+     // ── Manifest ──────────────────────────────────────────────────────────
+ 
+     /**
+@@ -94,6 +105,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+                 val declared = manifest.resources.joinToString(", ")
+                 throw AddonException("This addon declares $declared — BitChord needs search")
+             }
++            if (manifest.requiresBitChordAuth) authRequired = true
+             manifest
+         }.recoverCatching { failure ->
+             // A manifest 404 is not "no such track", it is "no addon here" —
+@@ -344,22 +356,46 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+      * protocol's way of saying this addon does not hold that recording, which
+      * is precisely the miss the caller is equipped to handle and not something
+      * to log as a fault.
++     *
++     * A `401` carrying `WWW-Authenticate: BitChord` is the addon asking for
++     * [AddonAuth]. The request is sent again at once with credentials. If an
++     * addon reports the token `expired` or `invalid_token`, one fresh token is
++     * fetched and the request tried once more. Any other refusal is final and
++     * says why. None of these retries count against the 429 budget.
+      */
+     private suspend fun body(url: String): String = withContext(Dispatchers.IO) {
+         var attempt = 0
++        var authRetries = 0
++        var rejectedToken: String? = null
+         while (true) {
+             (quietUntilMs - System.currentTimeMillis()).takeIf { it > 0 }?.let { delay(it) }
+ 
++            val auth = if (authRequired) authHeaders(url, rejectedToken) else emptyMap()
+             val request = Request.Builder().url(url)
+                 .header("Accept", "application/json")
+                 .header("User-Agent", USER_AGENT)
++                .apply { auth.forEach { (name, value) -> header(name, value) } }
+                 .build()
+ 
+             val wait = client.newCall(request).execute().use { response ->
++                val authChallenge = response.takeIf { it.code == 401 }
++                    ?.header("WWW-Authenticate")
++                    ?.takeIf { it.trimStart().startsWith("BitChord", ignoreCase = true) }
+                 when {
+                     response.isSuccessful ->
+                         return@withContext response.body?.string()?.takeIf { it.isNotBlank() }
+                             ?: throw AddonException("Empty response")
++                    authChallenge != null -> {
++                        val code = AUTH_ERROR.find(authChallenge)?.groupValues?.get(1)
++                        when {
++                            authRetries >= 2 -> throw AddonException(AddonAuth.rejectionMessage(code))
++                            auth.isEmpty() -> authRequired = true
++                            code == "expired" || code == "invalid_token" -> rejectedToken = auth[AddonAuth.TOKEN_HEADER]
++                            else -> throw AddonException(AddonAuth.rejectionMessage(code))
++                        }
++                        authRetries++
++                        RETRY_NOW
++                    }
+                     response.code == 404 -> throw AddonNotFound()
+                     // A 5xx is a server having a bad minute and will be tried
+                     // again on the next track; a 4xx is this app asking for
+@@ -374,6 +410,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+                     else -> retryAfterMs(response.header("Retry-After"), attempt)
+                 }
+             }
++            if (wait == RETRY_NOW) continue
+             quietUntilMs = System.currentTimeMillis() + wait
+             attempt++
+         }
+@@ -382,6 +419,21 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+         throw AddonException("unreachable")
+     }
+ 
++    /**
++     * [AddonAuth]'s headers for [url]'s host. HTTPS only: over plain HTTP anyone
++     * on the network could lift the token and a proof and replay them to this
++     * addon within the proof's lifetime. The one exception is loopback, which
++     * never leaves the machine, so an addon developer can test locally.
++     */
++    private suspend fun authHeaders(url: String, rejectedToken: String?): Map<String, String> {
++        val parsed = url.toHttpUrlOrNull() ?: throw AddonException("Invalid addon URL")
++        val loopback = parsed.host == "localhost" || parsed.host == "127.0.0.1" || parsed.host == "::1"
++        if (!parsed.isHttps && !loopback) {
++            throw AddonException("This addon asks for BitChord verification but isn't using HTTPS")
++        }
++        return AddonAuth.headersFor(parsed.host, rejectedToken)
++    }
++
+     /** How long to wait after a 429, from the header when it sent one. */
+     private fun retryAfterMs(header: String?, attempt: Int): Long {
+         val stated = header?.trim()?.toDoubleOrNull()?.times(1000)?.toLong()
+@@ -402,6 +454,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+         searches.clear()
+         streams.clear()
+         quietUntilMs = 0L
++        authRequired = false
+     }
+ 
+     /**
+@@ -508,6 +561,12 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
+         const val STREAM_TTL_MS = 5 * 60 * 1000L
+ 
+         private const val MAX_RETRIES = 2
++
++        /** [body]'s "send again now": an auth handshake, not back-pressure. */
++        private const val RETRY_NOW = -1L
++
++        /** The `error="..."` parameter of a `WWW-Authenticate: BitChord` challenge. */
++        private val AUTH_ERROR = Regex("""error="([^"]*)"""")
+         private const val BACKOFF_BASE_MS = 500L
+         private const val BACKOFF_CAP_MS = 8_000L
+ 
+diff --git a/app/src/main/java/com/music/bitchord/data/sources/addon/AddonModels.kt b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonModels.kt
+index 95a2aee319..cfb27307b8 100644
+--- a/app/src/main/java/com/music/bitchord/data/sources/addon/AddonModels.kt
++++ b/app/src/main/java/com/music/bitchord/data/sources/addon/AddonModels.kt
+@@ -72,7 +72,17 @@ data class AddonManifest(
+      * Read through [requiresLosslessOutput].
+      */
+     @SerialName("checkValidLossless") val checkValidLossless: JsonElement? = null,
++    /**
++     * `bitchordAuth`: the addon only serves the genuine BitChord app, so every
++     * request has to carry [AddonAuth]'s token and proof. Absent means nothing
++     * is sent. An addon that leaves it out but answers `401` with
++     * `WWW-Authenticate: BitChord` is handled the same way, one round trip
++     * later. Read through [requiresBitChordAuth].
++     */
++    @SerialName("bitchordAuth") val bitchordAuth: JsonElement? = null,
+ ) {
++    val requiresBitChordAuth: Boolean get() = bitchordAuth.asFlag() ?: false
++
+     val downloadsAllowed: Boolean get() = allowDownloads.asFlag() ?: true
+ 
+     val requiresLosslessOutput: Boolean get() = checkValidLossless.asFlag() ?: false
+diff --git a/app/src/main/java/com/music/bitchord/ui/screens/SourcesScreen.kt b/app/src/main/java/com/music/bitchord/ui/screens/SourcesScreen.kt
+index 01d3c7f8c0..d0c03476d6 100644
+--- a/app/src/main/java/com/music/bitchord/ui/screens/SourcesScreen.kt
++++ b/app/src/main/java/com/music/bitchord/ui/screens/SourcesScreen.kt
+@@ -243,6 +243,9 @@ fun SourcesScreen(
+                         // today".
+                         skippedByQuality = config.enabled && !ceiling.permits(config.kind),
+                         awaitingOutput = if (config.enabled && config.awaitsLosslessOutput) losslessOutput else null,
++                        // Read off the stored manifest, so it shows before the
++                        // probe below answers, and on a server that is down.
++                        needsUpdate = config.needsAddonUpdate,
+                         onMetered = metered == true,
+                         ceiling = ceiling,
+                         // Anything the user configured is theirs to edit or
+@@ -495,12 +498,17 @@ private fun ReorderableAddons(
+     /** Which slot of [liveOrder] it began on. */
+     var startIndex by remember { mutableIntStateOf(0) }
+ 
+-    // The distance from one row's top to the next — the row plus the hairline
+-    // above it, measured off the wrapper holding both. Frozen for the duration
+-    // of a gesture so a relayout mid-drag cannot move the boundaries the drag
+-    // is being measured against underneath it.
+-    var pitchPx by remember { mutableFloatStateOf(0f) }
+-    var lockedPitchPx by remember { mutableFloatStateOf(0f) }
++    // Each row's height — the row plus its trailing hairline, measured off the
++    // wrapper holding both — by addon id. Per row rather than one shared pitch,
++    // because a row's status line wraps to as many lines as its message needs,
++    // so an addon with an error stands taller than its neighbours. Frozen for
++    // the duration of a gesture so a relayout mid-drag cannot move the
++    // boundaries the drag is being measured against underneath it.
++    val heights = remember { mutableStateMapOf<String, Float>() }
++    var lockedHeights by remember { mutableStateOf<Map<String, Float>>(emptyMap()) }
++
++    /** How far the dragged row's slot has moved since the gesture began: the heights of the rows it has passed. */
++    var slotShift by remember { mutableFloatStateOf(0f) }
+ 
+     liveOrder.forEachIndexed { index, config ->
+         // Keyed on the config's id so this composable — gesture and all —
+@@ -514,7 +522,7 @@ private fun ReorderableAddons(
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .zIndex(if (isDragging) 1f else 0f)
+-                    .onSizeChanged { pitchPx = it.height.toFloat() }
++                    .onSizeChanged { heights[config.id] = it.height.toFloat() }
+                     .graphicsLayer {
+                         // Read in the draw phase, so a drag moves the row
+                         // without recomposing the list at all. The row sits
+@@ -522,12 +530,7 @@ private fun ReorderableAddons(
+                         // picked up, less whatever the swaps have already moved
+                         // its slot — so a swap relocates the slot and shortens
+                         // this by exactly as much, and the row does not budge.
+-                        translationY = if (isDragging) {
+-                            totalDrag -
+-                                (liveOrder.indexOfFirst { it.id == config.id } - startIndex) * lockedPitchPx
+-                        } else {
+-                            0f
+-                        }
++                        translationY = if (isDragging) totalDrag - slotShift else 0f
+                     },
+             ) {
+                 row(index + 1, config) {
+@@ -545,39 +548,50 @@ private fun ReorderableAddons(
+                                     onDragStart = {
+                                         dragged = config.id
+                                         totalDrag = 0f
++                                        slotShift = 0f
+                                         startIndex = liveOrder.indexOfFirst { it.id == config.id }
+-                                        lockedPitchPx = pitchPx
++                                        lockedHeights = heights.toMap()
+                                     },
+                                     onDrag = { change, delta ->
+                                         change.consume()
+-                                        val pitch = lockedPitchPx
+-                                        if (pitch <= 0f) return@detectDragGestures
++                                        val height = { id: String -> lockedHeights[id] ?: 0f }
+                                         var at = liveOrder.indexOfFirst { it.id == config.id }
+-                                        if (at < 0) return@detectDragGestures
++                                        if (at < 0 || lockedHeights.isEmpty()) return@detectDragGestures
+ 
+                                         // Held past either end the row stops
+                                         // there under the finger, rather than
+                                         // running off the list and having to be
+-                                        // dragged all the way back.
++                                        // dragged all the way back. The ends are
++                                        // the rows above and below the slot it
++                                        // started in, taken from the current
++                                        // order with the swaps undone.
++                                        val others = liveOrder.filterNot { it.id == config.id }
+                                         totalDrag = (totalDrag + delta.y).coerceIn(
+-                                            -startIndex * pitch,
+-                                            (liveOrder.lastIndex - startIndex) * pitch,
++                                            -others.take(startIndex).sumOf { height(it.id).toDouble() }.toFloat(),
++                                            others.drop(startIndex).sumOf { height(it.id).toDouble() }.toFloat(),
+                                         )
+ 
+                                         // A loop, not an `if`: one pointer event
+                                         // can cover several rows when the finger
+                                         // is quick, and settling one row per
+                                         // event would leave the list trailing.
++                                        // A swap with a neighbour moves the slot
++                                        // by that neighbour's height, so the
++                                        // threshold is a share of the row being
++                                        // passed, whatever height either row is.
+                                         while (true) {
+-                                            val travelled = totalDrag / pitch
+-                                            val moved = (at - startIndex).toFloat()
+-                                            if (travelled > moved + SWAP_THRESHOLD && at < liveOrder.lastIndex) {
++                                            val offset = totalDrag - slotShift
++                                            val below = liveOrder.getOrNull(at + 1)?.let { height(it.id) }
++                                            val above = liveOrder.getOrNull(at - 1)?.let { height(it.id) }
++                                            if (below != null && below > 0f && offset > below * SWAP_THRESHOLD) {
+                                                 liveOrder = liveOrder.toMutableList()
+                                                     .apply { add(at + 1, removeAt(at)) }
++                                                slotShift += below
+                                                 at++
+-                                            } else if (travelled < moved - SWAP_THRESHOLD && at > 0) {
++                                            } else if (above != null && above > 0f && offset < -above * SWAP_THRESHOLD) {
+                                                 liveOrder = liveOrder.toMutableList()
+                                                     .apply { add(at - 1, removeAt(at)) }
++                                                slotShift -= above
+                                                 at--
+                                             } else {
+                                                 break
+@@ -587,11 +601,13 @@ private fun ReorderableAddons(
+                                     onDragEnd = {
+                                         dragged = null
+                                         totalDrag = 0f
++                                        slotShift = 0f
+                                         onReorder(liveOrder)
+                                     },
+                                     onDragCancel = {
+                                         dragged = null
+                                         totalDrag = 0f
++                                        slotShift = 0f
+                                         liveOrder = addons
+                                     },
+                                 )
+@@ -599,10 +615,9 @@ private fun ReorderableAddons(
+                     )
+                 }
+                 // After the row, not before it, so every wrapper is exactly one
+-                // row plus one hairline — the pitch the drag measures against.
++                // row plus one hairline — the height the drag measures it by.
+                 // With the divider leading, the first wrapper was short by a
+-                // rule and whichever row reported its size last decided the
+-                // pitch for all of them.
++                // rule.
+                 RowDivider()
+             }
+         }
+@@ -611,7 +626,7 @@ private fun ReorderableAddons(
+ 
+ /**
+  * How far past a neighbour the finger has to carry a row before the two trade
+- * places, as a share of one row's pitch.
++ * places, as a share of the height of the row being passed.
+  *
+  * Deliberately more than half, for the reason spelled out in
+  * [LyricsSourcesDialog][com.music.bitchord.ui.components.LyricsSourcesDialog]:
+@@ -740,7 +755,6 @@ private fun BluetoothCodecPermissionRow() {
+                 ),
+                 style = MaterialTheme.typography.bodyMedium,
+                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+-                maxLines = 2,
+             )
+         }
+     }
+@@ -759,6 +773,8 @@ private fun SourceRow(
+     skippedByQuality: Boolean = false,
+     /** On, but its addon needs a lossless output and this is what is connected instead. Null when not waiting. */
+     awaitingOutput: LosslessOutput.State? = null,
++    /** An addon that is out of date (no `bitchordAuth` in its manifest), so BitChord won't use it. */
++    needsUpdate: Boolean = false,
+     /** Which of the two ceilings [ceiling] is, so the row can name it. */
+     onMetered: Boolean = false,
+     ceiling: AudioQuality = AudioQuality.LOSSLESS,
+@@ -773,7 +789,7 @@ private fun SourceRow(
+     // Dimmed for the same reason an off source is: it is not in the walk. The
+     // switch stays where the user left it, so the row reads "on, but not
+     // today" rather than "off".
+-    val dimmed = !config.enabled || skippedByQuality || awaitingOutput != null
++    val dimmed = !config.enabled || skippedByQuality || awaitingOutput != null || needsUpdate
+     Row(
+         modifier = Modifier
+             .fillMaxWidth()
+@@ -862,6 +878,9 @@ private fun SourceRow(
+                 // going to be asked at all is not usefully described by
+                 // whether its server answered a probe.
+                 text = when {
++                    // Outranks everything: until its developer updates it, this
++                    // addon is not used on any connection or output.
++                    needsUpdate -> stringResource(R.string.source_needs_update)
+                     // Outranks the ceiling: this one is not reached on *any*
+                     // connection until the output changes.
+                     awaitingOutput != null -> when {
+@@ -880,6 +899,7 @@ private fun SourceRow(
+                 },
+                 style = MaterialTheme.typography.bodyMedium,
+                 color = when {
++                    needsUpdate -> MaterialTheme.colorScheme.error
+                     // A warning, not a fault: the addon is fine, the output is
+                     // what has to change — but it is something to act on.
+                     awaitingOutput != null -> MaterialTheme.colorScheme.error
+@@ -892,7 +912,9 @@ private fun SourceRow(
+                     health is SourceHealth.Rejected -> MaterialTheme.colorScheme.error
+                     else -> MaterialTheme.colorScheme.onSurfaceVariant
+                 },
+-                maxLines = 2,
++                // No line limit: an error is only useful read in full, so the
++                // row grows to fit it. [ReorderableAddons] measures each row's
++                // own height, so a tall row still drags correctly.
+             )
+             // The addon's own `allowDownloads`, on a line of its own and both
+             // ways round, so whether downloads come from it is answered here
+diff --git a/app/src/main/res/values-b+zh+Hant/strings.xml b/app/src/main/res/values-b+zh+Hant/strings.xml
+index e1487c191c..fec893e80d 100644
+--- a/app/src/main/res/values-b+zh+Hant/strings.xml
++++ b/app/src/main/res/values-b+zh+Hant/strings.xml
+@@ -1249,6 +1249,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">需要無損輸出 · 請使用支援無損的裝置</string>
++    <string name="source_needs_update">此附加元件已過時，BitChord 無法使用。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="source_needs_lossless_bt_codec">需要無損輸出 · 藍芽當前為 %1$s；請使用支援無損的裝置</string>
+     <string name="source_needs_lossless_bt_unknown">需要無損輸出 · 無法識別正在使用的藍芽編解碼器</string>
+     <string name="source_downloads_off">僅限線上播放</string>
+@@ -1431,5 +1432,6 @@
+     <string name="download_addon_left_out_title">正在下載（不使用 %1$s）</string>
+     <string name="download_addon_not_allowed">%1$s 不允許下載，因此你的歌曲將從其他來源儲存。</string>
+     <string name="download_addon_needs_lossless_output">%1$s 僅在連接有線、USB 或 LDAC 等級耳機時提供音樂。在連接此類耳機前，下載會略過它，因此你的歌曲將從其他來源儲存。</string>
++    <string name="download_addon_needs_update">%1$s 已過時，BitChord 無法使用。你的歌曲將從其他來源儲存。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="source_downloads_on">允許下載</string>
+ </resources>
+diff --git a/app/src/main/res/values-de/strings.xml b/app/src/main/res/values-de/strings.xml
+index 923421844d..399ca80950 100644
+--- a/app/src/main/res/values-de/strings.xml
++++ b/app/src/main/res/values-de/strings.xml
+@@ -1273,6 +1273,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Braucht eine verlustfreie Ausgabe · nutze ein Gerät, das Lossless unterstützt</string>
++    <string name="source_needs_update">Dieses Add-on ist veraltet, deshalb kann BitChord es nicht verwenden. Bitte den Entwickler, es nach der aktuellen BitChord-Add-on-Dokumentation zu aktualisieren.</string>
+     <string name="source_needs_lossless_bt_codec">Braucht eine verlustfreie Ausgabe · Bluetooth nutzt %1$s; nutze ein Gerät, das Lossless unterstützt</string>
+     <string name="source_needs_lossless_bt_unknown">Braucht eine verlustfreie Ausgabe · der Bluetooth-Codec ist nicht erkennbar</string>
+     <string name="source_downloads_on">Downloads erlaubt</string>
+@@ -1420,6 +1421,7 @@
+     <string name="download_addon_left_out_title">Download ohne %1$s</string>
+     <string name="download_addon_not_allowed">%1$s erlaubt keine Downloads, deshalb werden deine Songs aus deinen anderen Quellen gespeichert.</string>
+     <string name="download_addon_needs_lossless_output">%1$s liefert Musik nur, solange kabelgebundene, USB- oder LDAC-Kopfhörer verbunden sind. Downloads überspringen es, bis welche verbunden sind, deshalb werden deine Songs aus deinen anderen Quellen gespeichert.</string>
++    <string name="download_addon_needs_update">%1$s ist veraltet, deshalb kann BitChord es nicht verwenden. Deine Songs werden stattdessen aus deinen anderen Quellen gespeichert. Bitte den Entwickler, es nach der aktuellen BitChord-Add-on-Dokumentation zu aktualisieren.</string>
+     <string name="show_listen_together_button">Schaltfläche „Gemeinsam hören“ anzeigen</string>
+     <string name="show_listen_together_button_subtitle">Wenn aus, zeigt der Player zwischen Liedtexten und Warteschlange nur die Schaltfläche für die Audioausgabe</string>
+     <string name="font">Schriftart</string>
+diff --git a/app/src/main/res/values-es/strings.xml b/app/src/main/res/values-es/strings.xml
+index 30d183bb7e..49b5fed33f 100644
+--- a/app/src/main/res/values-es/strings.xml
++++ b/app/src/main/res/values-es/strings.xml
+@@ -1245,6 +1245,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Necesita una salida sin pérdida · usa un dispositivo compatible con audio sin pérdida</string>
++    <string name="source_needs_update">Este complemento está desactualizado, así que BitChord no puede usarlo. Pide a su desarrollador que lo actualice siguiendo la documentación más reciente de complementos de BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Necesita una salida sin pérdida · el Bluetooth usa %1$s; usa un dispositivo compatible con audio sin pérdida</string>
+     <string name="source_needs_lossless_bt_unknown">Necesita una salida sin pérdida · no se puede saber qué códec Bluetooth se usa</string>
+     <string name="source_downloads_on">Descargas permitidas</string>
+@@ -1392,6 +1393,7 @@
+     <string name="download_addon_left_out_title">Descargando sin %1$s</string>
+     <string name="download_addon_not_allowed">%1$s no permite descargas, así que tus canciones se guardan desde tus otras fuentes.</string>
+     <string name="download_addon_needs_lossless_output">%1$s solo sirve música con auriculares con cable, USB o de clase LDAC conectados. Las descargas lo omiten hasta que conectes unos, así que tus canciones se guardan desde tus otras fuentes.</string>
++    <string name="download_addon_needs_update">%1$s está desactualizado, así que BitChord no puede usarlo. Tus canciones se guardan desde tus otras fuentes. Pide a su desarrollador que lo actualice siguiendo la documentación más reciente de complementos de BitChord.</string>
+     <string name="show_listen_together_button">Mostrar botón de Escuchar juntos</string>
+     <string name="show_listen_together_button_subtitle">Si está desactivado, el reproductor solo muestra el botón de salida de audio entre la letra y la cola</string>
+     <string name="font">Fuente</string>
+diff --git a/app/src/main/res/values-fr/strings.xml b/app/src/main/res/values-fr/strings.xml
+index c30c09ea13..f4508ac88d 100644
+--- a/app/src/main/res/values-fr/strings.xml
++++ b/app/src/main/res/values-fr/strings.xml
+@@ -1274,6 +1274,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Nécessite une sortie sans perte · utilisez un appareil compatible sans perte</string>
++    <string name="source_needs_update">Cet add-on n\'est plus à jour, BitChord ne peut donc pas l\'utiliser. Demandez à son développeur de le mettre à jour en suivant la dernière documentation des add-ons BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Nécessite une sortie sans perte · le Bluetooth utilise %1$s ; utilisez un appareil compatible sans perte</string>
+     <string name="source_needs_lossless_bt_unknown">Nécessite une sortie sans perte · impossible de savoir quel codec Bluetooth est utilisé</string>
+     <string name="source_downloads_on">Téléchargements autorisés</string>
+@@ -1421,6 +1422,7 @@
+     <string name="download_addon_left_out_title">Téléchargement sans %1$s</string>
+     <string name="download_addon_not_allowed">%1$s n\'autorise pas les téléchargements : vos titres sont donc enregistrés depuis vos autres sources.</string>
+     <string name="download_addon_needs_lossless_output">%1$s ne diffuse de la musique que lorsqu\'un casque filaire, USB ou de classe LDAC est connecté. Les téléchargements l\'ignorent tant qu\'aucun ne l\'est : vos titres sont donc enregistrés depuis vos autres sources.</string>
++    <string name="download_addon_needs_update">%1$s n\'est plus à jour, BitChord ne peut donc pas l\'utiliser. Vos titres sont enregistrés depuis vos autres sources. Demandez à son développeur de le mettre à jour en suivant la dernière documentation des add-ons BitChord.</string>
+     <string name="show_listen_together_button">Afficher le bouton Écouter ensemble</string>
+     <string name="show_listen_together_button_subtitle">Si désactivé, le lecteur n\'affiche que le bouton de sortie audio entre les paroles et la file d\'attente</string>
+     <string name="font">Police</string>
+diff --git a/app/src/main/res/values-he/strings.xml b/app/src/main/res/values-he/strings.xml
+index a38a0529d4..9580a83e28 100644
+--- a/app/src/main/res/values-he/strings.xml
++++ b/app/src/main/res/values-he/strings.xml
+@@ -1278,6 +1278,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">דורש פלט ללא אובדן · השתמשו במכשיר שתומך באודיו ללא אובדן</string>
++    <string name="source_needs_update">התוסף הזה אינו מעודכן, ולכן BitChord לא יכול להשתמש בו. בקשו מהמפתח לעדכן אותו לפי מסמכי התוספים העדכניים של BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">דורש פלט ללא אובדן · ה‑Bluetooth משתמש ב‑%1$s; השתמשו במכשיר שתומך באודיו ללא אובדן</string>
+     <string name="source_needs_lossless_bt_unknown">דורש פלט ללא אובדן · לא ניתן לדעת באיזה קודק Bluetooth נעשה שימוש</string>
+     <string name="source_downloads_on">הורדות מותרות</string>
+@@ -1425,6 +1426,7 @@
+     <string name="download_addon_left_out_title">מוריד בלי %1$s</string>
+     <string name="download_addon_not_allowed">%1$s לא מאפשר הורדות, ולכן השירים שלך נשמרים מהמקורות האחרים שלך.</string>
+     <string name="download_addon_needs_lossless_output">%1$s מספק מוזיקה רק כשמחוברות אוזניות חוטיות, USB או ברמת LDAC. ההורדות מדלגות עליו עד שיתחברו אוזניות כאלה, ולכן השירים שלך נשמרים מהמקורות האחרים שלך.</string>
++    <string name="download_addon_needs_update">%1$s אינו מעודכן, ולכן BitChord לא יכול להשתמש בו. השירים שלך נשמרים מהמקורות האחרים שלך. בקשו מהמפתח לעדכן אותו לפי מסמכי התוספים העדכניים של BitChord.</string>
+     <string name="show_listen_together_button">הצגת הכפתור להאזין ביחד</string>
+     <string name="show_listen_together_button_subtitle">כשהאפשרות כבויה, הנגן מציג רק את כפתור פלט השמע בין המילים לתור ההשמעה</string>
+     <string name="font">גופן</string>
+diff --git a/app/src/main/res/values-hi/strings.xml b/app/src/main/res/values-hi/strings.xml
+index 218cc96df4..983c5f15c5 100644
+--- a/app/src/main/res/values-hi/strings.xml
++++ b/app/src/main/res/values-hi/strings.xml
+@@ -1273,6 +1273,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">लॉसलेस आउटपुट चाहिए · लॉसलेस सपोर्ट करने वाला डिवाइस इस्तेमाल करें</string>
++    <string name="source_needs_update">यह ऐडऑन पुराना है, इसलिए BitChord इसका इस्तेमाल नहीं कर सकता। इसके डेवलपर से कहें कि वे BitChord के नए ऐडऑन डॉक्स के अनुसार इसे अपडेट करें।</string>
+     <string name="source_needs_lossless_bt_codec">लॉसलेस आउटपुट चाहिए · Bluetooth %1$s पर है; लॉसलेस सपोर्ट करने वाला डिवाइस इस्तेमाल करें</string>
+     <string name="source_needs_lossless_bt_unknown">लॉसलेस आउटपुट चाहिए · पता नहीं चल रहा कि कौन-सा Bluetooth कोडेक चल रहा है</string>
+     <string name="source_downloads_on">डाउनलोड की अनुमति है</string>
+@@ -1420,6 +1421,7 @@
+     <string name="download_addon_left_out_title">%1$s के बिना डाउनलोड हो रहा है</string>
+     <string name="download_addon_not_allowed">%1$s डाउनलोड की अनुमति नहीं देता, इसलिए आपके गाने आपके दूसरे सोर्स से सेव हो रहे हैं।</string>
+     <string name="download_addon_needs_lossless_output">%1$s सिर्फ़ तभी संगीत देता है जब वायर्ड, USB या LDAC-क्लास हेडफ़ोन जुड़े हों। जब तक कोई न जुड़े, डाउनलोड इसे छोड़ देते हैं, इसलिए आपके गाने आपके दूसरे सोर्स से सेव हो रहे हैं।</string>
++    <string name="download_addon_needs_update">%1$s पुराना है, इसलिए BitChord इसका इस्तेमाल नहीं कर सकता। आपके गाने आपके दूसरे सोर्स से सेव हो रहे हैं। इसके डेवलपर से कहें कि वे BitChord के नए ऐडऑन डॉक्स के अनुसार इसे अपडेट करें।</string>
+     <string name="show_listen_together_button">साथ में सुनें बटन दिखाएँ</string>
+     <string name="show_listen_together_button_subtitle">बंद होने पर, प्लेयर लिरिक्स और कतार के बीच सिर्फ़ ऑडियो आउटपुट बटन दिखाता है</string>
+     <string name="font">फ़ॉन्ट</string>
+diff --git a/app/src/main/res/values-id/strings.xml b/app/src/main/res/values-id/strings.xml
+index 9b238c47c9..3961f1f806 100644
+--- a/app/src/main/res/values-id/strings.xml
++++ b/app/src/main/res/values-id/strings.xml
+@@ -1250,6 +1250,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Perlu output lossless · gunakan perangkat yang mendukung lossless</string>
++    <string name="source_needs_update">Addon ini sudah usang, jadi BitChord tidak dapat menggunakannya. Minta pengembangnya memperbaruinya dengan mengikuti dokumentasi addon BitChord terbaru.</string>
+     <string name="source_needs_lossless_bt_codec">Perlu output lossless · Bluetooth memakai %1$s; gunakan perangkat yang mendukung lossless</string>
+     <string name="source_needs_lossless_bt_unknown">Perlu output lossless · codec Bluetooth yang dipakai tidak bisa diketahui</string>
+     <string name="source_downloads_on">Unduhan diizinkan</string>
+@@ -1397,6 +1398,7 @@
+     <string name="download_addon_left_out_title">Mengunduh tanpa %1$s</string>
+     <string name="download_addon_not_allowed">%1$s tidak mengizinkan unduhan, jadi lagu Anda disimpan dari sumber Anda yang lain.</string>
+     <string name="download_addon_needs_lossless_output">%1$s hanya menyajikan musik saat headphone kabel, USB, atau kelas LDAC terhubung. Unduhan melewatinya sampai ada yang terhubung, jadi lagu Anda disimpan dari sumber Anda yang lain.</string>
++    <string name="download_addon_needs_update">%1$s sudah usang, jadi BitChord tidak dapat menggunakannya. Lagu Anda disimpan dari sumber Anda yang lain. Minta pengembangnya memperbaruinya dengan mengikuti dokumentasi addon BitChord terbaru.</string>
+     <string name="show_listen_together_button">Tampilkan tombol Dengar bersama</string>
+     <string name="show_listen_together_button_subtitle">Jika nonaktif, pemutar hanya menampilkan tombol output audio di antara lirik dan antrean</string>
+     <string name="font">Font</string>
+diff --git a/app/src/main/res/values-it/strings.xml b/app/src/main/res/values-it/strings.xml
+index 26e42d8b82..e088769565 100644
+--- a/app/src/main/res/values-it/strings.xml
++++ b/app/src/main/res/values-it/strings.xml
+@@ -1212,6 +1212,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Richiede un’uscita lossless · usa un dispositivo compatibile con il lossless</string>
++    <string name="source_needs_update">Questo add-on non è aggiornato, quindi BitChord non può usarlo. Chiedi al suo sviluppatore di aggiornarlo seguendo la documentazione più recente degli add-on BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Richiede un’uscita lossless · il Bluetooth usa %1$s; usa un dispositivo compatibile con il lossless</string>
+     <string name="source_needs_lossless_bt_unknown">Richiede un’uscita lossless · impossibile sapere quale codec Bluetooth è in uso</string>
+     <string name="source_downloads_on">Download consentiti</string>
+@@ -1359,6 +1360,7 @@
+     <string name="download_addon_left_out_title">Download senza %1$s</string>
+     <string name="download_addon_not_allowed">%1$s non consente i download, quindi i tuoi brani vengono salvati dalle altre fonti.</string>
+     <string name="download_addon_needs_lossless_output">%1$s fornisce musica solo con cuffie cablate, USB o di classe LDAC collegate. I download lo saltano finché non ne colleghi una, quindi i tuoi brani vengono salvati dalle altre fonti.</string>
++    <string name="download_addon_needs_update">%1$s non è aggiornato, quindi BitChord non può usarlo. I tuoi brani vengono salvati dalle altre fonti. Chiedi al suo sviluppatore di aggiornarlo seguendo la documentazione più recente degli add-on BitChord.</string>
+     <string name="show_listen_together_button">Mostra il pulsante Ascoltare insieme</string>
+     <string name="show_listen_together_button_subtitle">Se disattivato, il lettore mostra solo il pulsante dell\'uscita audio tra il testo e la coda</string>
+     <string name="font">Carattere</string>
+diff --git a/app/src/main/res/values-ja/strings.xml b/app/src/main/res/values-ja/strings.xml
+index f7ca12d511..162cfff1c6 100644
+--- a/app/src/main/res/values-ja/strings.xml
++++ b/app/src/main/res/values-ja/strings.xml
+@@ -1251,6 +1251,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">ロスレス出力が必要 · ロスレス対応のデバイスを使用してください</string>
++    <string name="source_needs_update">このアドオンは古いため、BitChordでは使用できません。最新のBitChordアドオンドキュメントに沿って更新するよう開発者に依頼してください。</string>
+     <string name="source_needs_lossless_bt_codec">ロスレス出力が必要 · Bluetoothは%1$sです。ロスレス対応のデバイスを使用してください</string>
+     <string name="source_needs_lossless_bt_unknown">ロスレス出力が必要 · 使用中のBluetoothコーデックを判別できません</string>
+     <string name="source_downloads_on">ダウンロード可</string>
+@@ -1398,6 +1399,7 @@
+     <string name="download_addon_left_out_title">%1$sを使わずにダウンロード中</string>
+     <string name="download_addon_not_allowed">%1$sはダウンロードを許可していないため、曲は他のソースから保存されます。</string>
+     <string name="download_addon_needs_lossless_output">%1$sは有線、USB、またはLDACクラスのヘッドホンが接続されているときのみ音楽を提供します。接続されるまでダウンロードでは使用されないため、曲は他のソースから保存されます。</string>
++    <string name="download_addon_needs_update">%1$sは古いため、BitChordでは使用できません。曲は他のソースから保存されます。最新のBitChordアドオンドキュメントに沿って更新するよう開発者に依頼してください。</string>
+     <string name="show_listen_together_button">「一緒に聴く」ボタンを表示</string>
+     <string name="show_listen_together_button_subtitle">オフにすると、プレーヤーの歌詞と再生キューの間にはオーディオ出力ボタンだけが表示されます</string>
+     <string name="font">フォント</string>
+diff --git a/app/src/main/res/values-ko/strings.xml b/app/src/main/res/values-ko/strings.xml
+index 3c887abc67..e30bae7ae8 100644
+--- a/app/src/main/res/values-ko/strings.xml
++++ b/app/src/main/res/values-ko/strings.xml
+@@ -1148,6 +1148,7 @@
+     <string name="card_songs_format">음악 %1$s곡</string>
+ 
+     <string name="source_needs_lossless_output">무손실 출력 필요 · 무손실 지원 기기를 사용하세요</string>
++    <string name="source_needs_update">이 애드온은 오래된 버전이라 BitChord에서 사용할 수 없습니다. 최신 BitChord 애드온 문서에 따라 업데이트하도록 개발자에게 요청하세요.</string>
+     <string name="source_needs_lossless_bt_codec">무손실 출력 필요 · %1$s 코덱 블루투스가 켜졌습니다. 무손실 지원 기기를 사용하세요</string>
+     <string name="source_needs_lossless_bt_unknown">무손실 출력 필요 · 어떤 블루투스 코덱을 사용 중인지 알 수 없습니다</string>
+     <string name="source_downloads_on">다운로드 허용</string>
+@@ -1270,6 +1271,7 @@
+     <string name="download_addon_left_out_title">%1$s 없이 다운로드 중</string>
+     <string name="download_addon_not_allowed">%1$s에서 다운로드를 허용하지 않아 다른 소스에서 노래를 저장합니다.</string>
+     <string name="download_addon_needs_lossless_output">%1$s은(는) 유선, USB 또는 LDAC급 헤드폰이 연결된 경우에만 음악을 제공합니다. 연결될 때까지 다운로드에서 제외되므로 다른 소스에서 노래를 저장합니다.</string>
++    <string name="download_addon_needs_update">%1$s은(는) 오래된 버전이라 BitChord에서 사용할 수 없습니다. 다른 소스에서 노래를 저장합니다. 최신 BitChord 애드온 문서에 따라 업데이트하도록 개발자에게 요청하세요.</string>
+     <string name="show_listen_together_button">함께 듣기 버튼 표시</string>
+     <string name="show_listen_together_button_subtitle">끄면 플레이어의 가사와 대기열 사이에 오디오 출력 버튼만 표시됩니다</string>
+     <string name="font">글꼴</string>
+diff --git a/app/src/main/res/values-pl/strings.xml b/app/src/main/res/values-pl/strings.xml
+index 96501b2c63..0478b54471 100644
+--- a/app/src/main/res/values-pl/strings.xml
++++ b/app/src/main/res/values-pl/strings.xml
+@@ -1313,6 +1313,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Wymaga wyjścia bezstratnego · użyj urządzenia obsługującego dźwięk bezstratny</string>
++    <string name="source_needs_update">Ten dodatek jest nieaktualny, więc BitChord nie może z niego korzystać. Poproś jego twórcę o aktualizację zgodnie z najnowszą dokumentacją dodatków BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Wymaga wyjścia bezstratnego · Bluetooth używa %1$s; użyj urządzenia obsługującego dźwięk bezstratny</string>
+     <string name="source_needs_lossless_bt_unknown">Wymaga wyjścia bezstratnego · nie można ustalić, jaki kodek Bluetooth jest używany</string>
+     <string name="source_downloads_on">Pobieranie dozwolone</string>
+@@ -1460,6 +1461,7 @@
+     <string name="download_addon_left_out_title">Pobieranie bez %1$s</string>
+     <string name="download_addon_not_allowed">%1$s nie pozwala na pobieranie, więc utwory są zapisywane z innych źródeł.</string>
+     <string name="download_addon_needs_lossless_output">%1$s udostępnia muzykę tylko przy podłączonych słuchawkach przewodowych, USB lub klasy LDAC. Pobieranie je pomija, dopóki takich nie podłączysz, więc utwory są zapisywane z innych źródeł.</string>
++    <string name="download_addon_needs_update">%1$s jest nieaktualny, więc BitChord nie może z niego korzystać. Utwory są zapisywane z innych źródeł. Poproś jego twórcę o aktualizację zgodnie z najnowszą dokumentacją dodatków BitChord.</string>
+     <string name="show_listen_together_button">Pokaż przycisk Słuchajcie razem</string>
+     <string name="show_listen_together_button_subtitle">Gdy wyłączone, odtwarzacz pokazuje między tekstem a kolejką tylko przycisk wyjścia audio</string>
+     <string name="font">Czcionka</string>
+diff --git a/app/src/main/res/values-pt/strings.xml b/app/src/main/res/values-pt/strings.xml
+index 9962ade137..ddb484a780 100644
+--- a/app/src/main/res/values-pt/strings.xml
++++ b/app/src/main/res/values-pt/strings.xml
+@@ -1278,6 +1278,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Precisa de uma saída sem perdas · use um dispositivo compatível com áudio sem perdas</string>
++    <string name="source_needs_update">Este addon está desatualizado, então o BitChord não pode usá-lo. Peça ao desenvolvedor para atualizá-lo seguindo a documentação de addons mais recente do BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Precisa de uma saída sem perdas · o Bluetooth está em %1$s; use um dispositivo compatível com áudio sem perdas</string>
+     <string name="source_needs_lossless_bt_unknown">Precisa de uma saída sem perdas · não é possível saber qual codec Bluetooth está em uso</string>
+     <string name="source_downloads_on">Downloads permitidos</string>
+@@ -1425,6 +1426,7 @@
+     <string name="download_addon_left_out_title">Baixando sem %1$s</string>
+     <string name="download_addon_not_allowed">%1$s não permite downloads, então suas músicas estão sendo salvas das suas outras fontes.</string>
+     <string name="download_addon_needs_lossless_output">%1$s só envia música com fones com fio, USB ou de classe LDAC conectados. Os downloads o ignoram até que um esteja conectado, então suas músicas estão sendo salvas das suas outras fontes.</string>
++    <string name="download_addon_needs_update">%1$s está desatualizado, então o BitChord não pode usá-lo. Suas músicas estão sendo salvas das suas outras fontes. Peça ao desenvolvedor para atualizá-lo seguindo a documentação de addons mais recente do BitChord.</string>
+     <string name="show_listen_together_button">Mostrar botão Ouvir junto</string>
+     <string name="show_listen_together_button_subtitle">Desativado, o player mostra apenas o botão de saída de áudio entre a letra e a fila</string>
+     <string name="font">Fonte</string>
+diff --git a/app/src/main/res/values-ru/strings.xml b/app/src/main/res/values-ru/strings.xml
+index 130f734f58..7e647fadf6 100644
+--- a/app/src/main/res/values-ru/strings.xml
++++ b/app/src/main/res/values-ru/strings.xml
+@@ -1305,6 +1305,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Нужен выход без потерь · используйте устройство с поддержкой звука без потерь</string>
++    <string name="source_needs_update">Это дополнение устарело, поэтому BitChord не может его использовать. Попросите разработчика обновить его по актуальной документации для дополнений BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Нужен выход без потерь · Bluetooth работает на %1$s; используйте устройство с поддержкой звука без потерь</string>
+     <string name="source_needs_lossless_bt_unknown">Нужен выход без потерь · не удаётся определить используемый Bluetooth-кодек</string>
+     <string name="source_downloads_on">Загрузки разрешены</string>
+@@ -1452,6 +1453,7 @@
+     <string name="download_addon_left_out_title">Загрузка без %1$s</string>
+     <string name="download_addon_not_allowed">%1$s не разрешает загрузки, поэтому треки сохраняются из других ваших источников.</string>
+     <string name="download_addon_needs_lossless_output">%1$s отдаёт музыку, только когда подключены проводные, USB или LDAC-наушники. Пока их нет, загрузки его пропускают, поэтому треки сохраняются из других ваших источников.</string>
++    <string name="download_addon_needs_update">%1$s устарело, поэтому BitChord не может его использовать. Треки сохраняются из других ваших источников. Попросите разработчика обновить его по актуальной документации для дополнений BitChord.</string>
+     <string name="show_listen_together_button">Показывать кнопку «Слушать вместе»</string>
+     <string name="show_listen_together_button_subtitle">Если выключено, плеер показывает между текстом песни и очередью только кнопку аудиовыхода</string>
+     <string name="font">Шрифт</string>
+diff --git a/app/src/main/res/values-th/strings.xml b/app/src/main/res/values-th/strings.xml
+index f11c0af656..e8c1aad2eb 100644
+--- a/app/src/main/res/values-th/strings.xml
++++ b/app/src/main/res/values-th/strings.xml
+@@ -1256,6 +1256,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">ต้องใช้เอาต์พุตแบบ lossless · ใช้อุปกรณ์ที่รองรับ lossless</string>
++    <string name="source_needs_update">แอดออนนี้ล้าสมัย BitChord จึงใช้งานไม่ได้ โปรดขอให้นักพัฒนาอัปเดตตามเอกสารแอดออน BitChord ล่าสุด</string>
+     <string name="source_needs_lossless_bt_codec">ต้องใช้เอาต์พุตแบบ lossless · Bluetooth ใช้ %1$s อยู่ ใช้อุปกรณ์ที่รองรับ lossless</string>
+     <string name="source_needs_lossless_bt_unknown">ต้องใช้เอาต์พุตแบบ lossless · ไม่ทราบว่ากำลังใช้ตัวแปลงสัญญาณ Bluetooth ใด</string>
+     <string name="source_downloads_on">อนุญาตให้ดาวน์โหลด</string>
+@@ -1403,6 +1404,7 @@
+     <string name="download_addon_left_out_title">กำลังดาวน์โหลดโดยไม่ใช้ %1$s</string>
+     <string name="download_addon_not_allowed">%1$s ไม่อนุญาตให้ดาวน์โหลด เพลงของคุณจึงถูกบันทึกจากแหล่งอื่นแทน</string>
+     <string name="download_addon_needs_lossless_output">%1$s ให้บริการเพลงเฉพาะเมื่อเชื่อมต่อหูฟังแบบมีสาย USB หรือระดับ LDAC เท่านั้น การดาวน์โหลดจะข้ามไปจนกว่าจะเชื่อมต่อ เพลงของคุณจึงถูกบันทึกจากแหล่งอื่นแทน</string>
++    <string name="download_addon_needs_update">%1$s ล้าสมัย BitChord จึงใช้งานไม่ได้ เพลงของคุณจึงถูกบันทึกจากแหล่งอื่นแทน โปรดขอให้นักพัฒนาอัปเดตตามเอกสารแอดออน BitChord ล่าสุด</string>
+     <string name="show_listen_together_button">แสดงปุ่มฟังด้วยกัน</string>
+     <string name="show_listen_together_button_subtitle">เมื่อปิด เครื่องเล่นจะแสดงเฉพาะปุ่มเอาต์พุตเสียงระหว่างเนื้อเพลงกับคิว</string>
+     <string name="font">ฟอนต์</string>
+diff --git a/app/src/main/res/values-tr/strings.xml b/app/src/main/res/values-tr/strings.xml
+index ceaba40966..01223dc3a0 100644
+--- a/app/src/main/res/values-tr/strings.xml
++++ b/app/src/main/res/values-tr/strings.xml
+@@ -1230,6 +1230,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">Kayıpsız çıkış gerekir · kayıpsız sesi destekleyen bir cihaz kullanın</string>
++    <string name="source_needs_update">Bu eklenti güncel değil, bu yüzden BitChord onu kullanamıyor. Geliştiricisinden en son BitChord eklenti belgelerine göre güncellemesini isteyin.</string>
+     <string name="source_needs_lossless_bt_codec">Kayıpsız çıkış gerekir · Bluetooth %1$s kullanıyor; kayıpsız sesi destekleyen bir cihaz kullanın</string>
+     <string name="source_needs_lossless_bt_unknown">Kayıpsız çıkış gerekir · hangi Bluetooth kodeğinin kullanıldığı anlaşılamıyor</string>
+     <string name="source_downloads_on">İndirmeye izin veriliyor</string>
+@@ -1377,6 +1378,7 @@
+     <string name="download_addon_left_out_title">%1$s olmadan indiriliyor</string>
+     <string name="download_addon_not_allowed">%1$s indirmeye izin vermiyor, bu yüzden şarkılarınız diğer kaynaklarınızdan kaydediliyor.</string>
+     <string name="download_addon_needs_lossless_output">%1$s yalnızca kablolu, USB veya LDAC sınıfı kulaklık bağlıyken müzik sunar. Biri bağlanana kadar indirmeler onu atlar, bu yüzden şarkılarınız diğer kaynaklarınızdan kaydediliyor.</string>
++    <string name="download_addon_needs_update">%1$s güncel değil, bu yüzden BitChord onu kullanamıyor. Şarkılarınız diğer kaynaklarınızdan kaydediliyor. Geliştiricisinden en son BitChord eklenti belgelerine göre güncellemesini isteyin.</string>
+     <string name="show_listen_together_button">Birlikte dinle düğmesini göster</string>
+     <string name="show_listen_together_button_subtitle">Kapalıyken oynatıcı, şarkı sözleri ile sıra arasında yalnızca ses çıkışı düğmesini gösterir</string>
+     <string name="font">Yazı tipi</string>
+diff --git a/app/src/main/res/values-vi/strings.xml b/app/src/main/res/values-vi/strings.xml
+index defc97767b..ef8dc93442 100644
+--- a/app/src/main/res/values-vi/strings.xml
++++ b/app/src/main/res/values-vi/strings.xml
+@@ -1190,6 +1190,7 @@
+     <string name="prioritize_spotify_canvas_subtitle">Thử Spotify trước Apple Music và các nhà cung cấp ảnh bìa động khác</string>
+ 
+     <string name="source_needs_lossless_output">Cần đầu ra lossless · hãy dùng thiết bị hỗ trợ lossless</string>
++    <string name="source_needs_update">Tiện ích này đã lỗi thời nên BitChord không thể sử dụng. Hãy nhờ nhà phát triển cập nhật theo tài liệu tiện ích mới nhất của BitChord.</string>
+     <string name="source_needs_lossless_bt_codec">Cần đầu ra lossless · Bluetooth đang dùng %1$s; hãy dùng thiết bị hỗ trợ lossless</string>
+     <string name="source_needs_lossless_bt_unknown">Cần đầu ra lossless · không xác định được codec Bluetooth đang dùng</string>
+     <string name="source_downloads_on">Cho phép tải xuống</string>
+@@ -1337,6 +1338,7 @@
+     <string name="download_addon_left_out_title">Đang tải xuống không dùng %1$s</string>
+     <string name="download_addon_not_allowed">%1$s không cho phép tải xuống, nên bài hát của bạn được lưu từ các nguồn khác.</string>
+     <string name="download_addon_needs_lossless_output">%1$s chỉ phát nhạc khi có tai nghe có dây, USB hoặc chuẩn LDAC được kết nối. Lượt tải xuống sẽ bỏ qua nó cho đến khi có tai nghe như vậy, nên bài hát của bạn được lưu từ các nguồn khác.</string>
++    <string name="download_addon_needs_update">%1$s đã lỗi thời nên BitChord không thể sử dụng. Bài hát của bạn được lưu từ các nguồn khác. Hãy nhờ nhà phát triển cập nhật theo tài liệu tiện ích mới nhất của BitChord.</string>
+     <string name="show_listen_together_button">Hiện nút Listen together</string>
+     <string name="show_listen_together_button_subtitle">Khi tắt, trình phát chỉ hiện nút đầu ra âm thanh giữa lời bài hát và hàng đợi</string>
+     <string name="font">Phông chữ</string>
+diff --git a/app/src/main/res/values-zh-rHK/strings.xml b/app/src/main/res/values-zh-rHK/strings.xml
+index baadd05ba7..9571355f55 100644
+--- a/app/src/main/res/values-zh-rHK/strings.xml
++++ b/app/src/main/res/values-zh-rHK/strings.xml
+@@ -1250,6 +1250,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">需要無損輸出 · 請使用支援無損的裝置</string>
++    <string name="source_needs_update">此附加元件已過時，BitChord 無法使用。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="source_needs_lossless_bt_codec">需要無損輸出 · 藍芽當前為 %1$s；請使用支援無損的裝置</string>
+     <string name="source_needs_lossless_bt_unknown">需要無損輸出 · 無法識別正在使用的藍芽編解碼器</string>
+     <string name="source_downloads_off">僅限線上播放</string>
+@@ -1431,5 +1432,6 @@
+     <string name="download_addon_left_out_title">正在下載（不使用 %1$s）</string>
+     <string name="download_addon_not_allowed">%1$s 不允許下載，因此你的歌曲將從其他來源儲存。</string>
+     <string name="download_addon_needs_lossless_output">%1$s 僅在連接有線、USB 或 LDAC 等級耳機時提供音樂。在連接此類耳機前，下載會略過它，因此你的歌曲將從其他來源儲存。</string>
++    <string name="download_addon_needs_update">%1$s 已過時，BitChord 無法使用。你的歌曲將從其他來源儲存。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="source_downloads_on">允許下載</string>
+ </resources>
+diff --git a/app/src/main/res/values-zh-rTW/strings.xml b/app/src/main/res/values-zh-rTW/strings.xml
+index 8e5c923eff..8183bbd6e1 100644
+--- a/app/src/main/res/values-zh-rTW/strings.xml
++++ b/app/src/main/res/values-zh-rTW/strings.xml
+@@ -1250,6 +1250,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">需要無損輸出 · 請使用支援無損的裝置</string>
++    <string name="source_needs_update">此附加元件已過時，BitChord 無法使用。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="source_needs_lossless_bt_codec">需要無損輸出 · 藍芽當前為 %1$s；請使用支援無損的裝置</string>
+     <string name="source_needs_lossless_bt_unknown">需要無損輸出 · 無法識別正在使用的藍芽編解碼器</string>
+     <string name="source_downloads_on">允許下載</string>
+@@ -1397,6 +1398,7 @@
+     <string name="download_addon_left_out_title">正在下載（不使用 %1$s）</string>
+     <string name="download_addon_not_allowed">%1$s 不允許下載，因此你的歌曲將從其他來源儲存。</string>
+     <string name="download_addon_needs_lossless_output">%1$s 僅在連接有線、USB 或 LDAC 等級耳機時提供音樂。在連接此類耳機前，下載會略過它，因此你的歌曲將從其他來源儲存。</string>
++    <string name="download_addon_needs_update">%1$s 已過時，BitChord 無法使用。你的歌曲將從其他來源儲存。請要求開發者依照最新的 BitChord 附加元件文件進行更新。</string>
+     <string name="show_listen_together_button">顯示「一起聽」按鈕</string>
+     <string name="show_listen_together_button_subtitle">關閉後，播放器在歌詞和播放佇列之間只顯示音訊輸出按鈕</string>
+     <string name="font">字型</string>
+diff --git a/app/src/main/res/values-zh/strings.xml b/app/src/main/res/values-zh/strings.xml
+index 7bce1231e1..4c68f3e1f1 100644
+--- a/app/src/main/res/values-zh/strings.xml
++++ b/app/src/main/res/values-zh/strings.xml
+@@ -1250,6 +1250,7 @@
+ 
+ 
+     <string name="source_needs_lossless_output">需要无损输出 · 请使用支持无损的设备</string>
++    <string name="source_needs_update">此插件已过时，BitChord 无法使用。请让开发者按照最新的 BitChord 插件文档进行更新。</string>
+     <string name="source_needs_lossless_bt_codec">需要无损输出 · 蓝牙当前为 %1$s；请使用支持无损的设备</string>
+     <string name="source_needs_lossless_bt_unknown">需要无损输出 · 无法识别正在使用的蓝牙编解码器</string>
+     <string name="source_downloads_on">允许下载</string>
+@@ -1397,6 +1398,7 @@
+     <string name="download_addon_left_out_title">正在下载（不使用 %1$s）</string>
+     <string name="download_addon_not_allowed">%1$s 不允许下载，因此你的歌曲将从其他来源保存。</string>
+     <string name="download_addon_needs_lossless_output">%1$s 仅在连接有线、USB 或 LDAC 级耳机时提供音乐。在连接此类耳机前，下载会跳过它，因此你的歌曲将从其他来源保存。</string>
++    <string name="download_addon_needs_update">%1$s 已过时，BitChord 无法使用。你的歌曲将从其他来源保存。请让开发者按照最新的 BitChord 插件文档进行更新。</string>
+     <string name="show_listen_together_button">显示“一起听”按钮</string>
+     <string name="show_listen_together_button_subtitle">关闭后，播放器在歌词和播放队列之间只显示音频输出按钮</string>
+     <string name="font">字体</string>
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index b39810d361..d4ae341630 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -38,6 +38,7 @@
+     <string name="download_addon_left_out_title">Downloading without %1$s</string>
+     <string name="download_addon_not_allowed">%1$s doesn\'t allow downloads, so your songs are being saved from your other sources instead.</string>
+     <string name="download_addon_needs_lossless_output">%1$s only serves music while wired, USB or LDAC-class headphones are connected. Downloads skip it until one is, so your songs are being saved from your other sources instead.</string>
++    <string name="download_addon_needs_update">%1$s is out of date, so BitChord can\'t use it. Your songs are being saved from your other sources instead. Ask its developer to update it by following the latest BitChord addon docs.</string>
+     <string name="audio_files_on_device">Audio files on device</string>
+     <string name="on_device">On Device</string>
+     <string name="playlists">Playlists</string>
+@@ -1212,6 +1213,7 @@
+     <string name="card_songs_format">%1$s songs</string>
+ 
+     <string name="source_needs_lossless_output">Needs a lossless output · use a lossless supported device</string>
++    <string name="source_needs_update">This addon is out of date, so BitChord can\'t use it. Ask its developer to update it by following the latest BitChord addon docs.</string>
+     <string name="source_needs_lossless_bt_codec">Needs a lossless output · Bluetooth is on %1$s; use a lossless supported device</string>
+     <string name="source_needs_lossless_bt_unknown">Needs a lossless output · can’t tell which Bluetooth codec is in use</string>
+     <string name="source_downloads_on">Downloads allowed</string>
+diff --git a/app/src/test/java/com/music/bitchord/AddonAuthTest.kt b/app/src/test/java/com/music/bitchord/AddonAuthTest.kt
+new file mode 100644
+index 0000000000..e09c1f4230
+--- /dev/null
++++ b/app/src/test/java/com/music/bitchord/AddonAuthTest.kt
+@@ -0,0 +1,155 @@
++package com.music.bitchord
++
++import com.music.bitchord.data.sources.DeviceCodecs
++import com.music.bitchord.data.sources.addon.AddonAuth
++import com.music.bitchord.data.sources.addon.AddonClient
++import kotlinx.coroutines.runBlocking
++import okhttp3.mockwebserver.Dispatcher
++import okhttp3.mockwebserver.MockResponse
++import okhttp3.mockwebserver.MockWebServer
++import okhttp3.mockwebserver.RecordedRequest
++import org.junit.After
++import org.junit.Assert.assertEquals
++import org.junit.Assert.assertNull
++import org.junit.Assert.assertTrue
++import org.junit.Before
++import org.junit.Test
++import java.security.KeyPairGenerator
++import java.security.Signature
++import java.security.spec.ECGenParameterSpec
++
++/**
++ * The app's half of addon auth, without a device. Real attestation needs
++ * secure hardware, so [AddonAuth.testHeaders] stands in for it. What is tested
++ * is the wire: who receives credentials, when, and how refusals are handled.
++ * The signature encoding is also checked, since addons verify it in other
++ * languages.
++ */
++class AddonAuthTest {
++
++    private lateinit var server: MockWebServer
++    private val seen = mutableListOf<RecordedRequest>()
++    private var manifest = """{"id":"t","name":"T","resources":["search","stream"]}"""
++
++    /** How /search answers: given the token it got (or null), the response. */
++    private var search: (String?) -> MockResponse = { ok() }
++
++    /** Tokens handed out by the stand-in, in order. */
++    private val issued = mutableListOf<String>()
++
++    private fun ok() = MockResponse().setBody("""{"tracks":[{"id":"1","title":"Song","artist":"Artist"}]}""")
++
++    private fun challenge(code: String) = MockResponse().setResponseCode(401)
++        .setHeader("WWW-Authenticate", """BitChord realm="bitchord-addons", error="$code", error_description="x"""")
++        .setBody("""{"error":"bitchord_auth","code":"$code"}""")
++
++    @Before
++    fun setUp() {
++        server = MockWebServer()
++        server.dispatcher = object : Dispatcher() {
++            override fun dispatch(request: RecordedRequest): MockResponse {
++                synchronized(seen) { seen += request }
++                return when (request.requestUrl?.encodedPath) {
++                    "/manifest.json" -> MockResponse().setBody(manifest)
++                    "/search" -> search(request.getHeader(AddonAuth.TOKEN_HEADER))
++                    else -> MockResponse().setResponseCode(404)
++                }
++            }
++        }
++        server.start()
++        DeviceCodecs.forced = true
++        AddonAuth.testHeaders = { _, rejected ->
++            val token = if (rejected == null && issued.isNotEmpty()) issued.last() else "token-${issued.size + 1}"
++            if (issued.lastOrNull() != token) issued += token
++            mapOf(AddonAuth.TOKEN_HEADER to token, AddonAuth.PROOF_HEADER to "proof-for-$token")
++        }
++    }
++
++    @After
++    fun tearDown() {
++        server.shutdown()
++        DeviceCodecs.forced = null
++        AddonAuth.testHeaders = null
++    }
++
++    private fun client() = AddonClient(server.url("/").toString())
++
++    private fun searches() = synchronized(seen) { seen.filter { it.requestUrl?.encodedPath == "/search" } }
++
++    @Test
++    fun `an addon that never asks never sees a credential`() = runBlocking {
++        assertTrue(client().search("song", AddonClient.TIER_LOSSLESS).isSuccess)
++        synchronized(seen) { seen.forEach { assertNull(it.getHeader(AddonAuth.TOKEN_HEADER)) } }
++        assertTrue(issued.isEmpty())
++    }
++
++    @Test
++    fun `a 401 BitChord challenge is answered with credentials, once`() = runBlocking {
++        search = { token -> if (token == null) challenge("missing") else ok() }
++        val result = client().search("song", AddonClient.TIER_LOSSLESS)
++        assertTrue(result.exceptionOrNull()?.message, result.isSuccess)
++        val calls = searches()
++        assertEquals(2, calls.size)
++        assertNull(calls[0].getHeader(AddonAuth.TOKEN_HEADER))
++        assertEquals("token-1", calls[1].getHeader(AddonAuth.TOKEN_HEADER))
++        assertEquals("proof-for-token-1", calls[1].getHeader(AddonAuth.PROOF_HEADER))
++    }
++
++    @Test
++    fun `a manifest declaring bitchordAuth gets credentials from the first request`() = runBlocking {
++        manifest = """{"id":"t","name":"T","resources":["search","stream"],"bitchordAuth":true}"""
++        search = { token -> if (token == null) challenge("missing") else ok() }
++        assertTrue(client().search("song", AddonClient.TIER_LOSSLESS).isSuccess)
++        assertEquals(1, searches().size)
++        // The manifest itself stays public: it is how the app learns to authenticate at all.
++        assertNull(seen.first { it.requestUrl?.encodedPath == "/manifest.json" }.getHeader(AddonAuth.TOKEN_HEADER))
++    }
++
++    @Test
++    fun `an expired token is replaced once and the request retried`() = runBlocking {
++        manifest = """{"id":"t","name":"T","resources":["search","stream"],"bitchordAuth":1}"""
++        search = { token -> if (token == "token-1") challenge("expired") else ok() }
++        assertTrue(client().search("song", AddonClient.TIER_LOSSLESS).isSuccess)
++        assertEquals(listOf("token-1", "token-2"), searches().map { it.getHeader(AddonAuth.TOKEN_HEADER) })
++    }
++
++    @Test
++    fun `a final refusal says why instead of looping`() = runBlocking {
++        search = { challenge("invalid_proof") }
++        val failure = client().search("song", AddonClient.TIER_LOSSLESS).exceptionOrNull()
++        assertEquals("This addon didn't accept BitChord's verification (invalid_proof)", failure?.message)
++        assertEquals(2, searches().size)
++    }
++
++    @Test
++    fun `a 401 from some other auth scheme is not treated as ours`() = runBlocking {
++        search = { MockResponse().setResponseCode(401).setHeader("WWW-Authenticate", "Bearer") }
++        assertEquals("HTTP 401", client().search("song", AddonClient.TIER_LOSSLESS).exceptionOrNull()?.message)
++        assertTrue(issued.isEmpty())
++    }
++
++    @Test
++    fun `DER signatures become the 64-byte r-s form WebCrypto and JOSE verify`() {
++        val pair = KeyPairGenerator.getInstance("EC").apply { initialize(ECGenParameterSpec("secp256r1")) }.generateKeyPair()
++        // Enough rounds to hit r and s with leading zero bytes, the case naive conversions get wrong.
++        repeat(300) { i ->
++            val message = "bitchord-addon-proof/v1\naddon.example.com\n$i\nhash".toByteArray()
++            val der = Signature.getInstance("SHA256withECDSA").run { initSign(pair.private); update(message); sign() }
++            val raw = AddonAuth.derToRaw(der)
++            assertEquals(64, raw.size)
++            val verified = Signature.getInstance("SHA256withECDSAinP1363Format").run {
++                initVerify(pair.public); update(message); verify(raw)
++            }
++            assertTrue("round $i", verified)
++        }
++    }
++
++    @Test
++    fun `the signed message matches the protocol exactly`() {
++        assertEquals(
++            "bitchord-addon-proof/v1\naddon.example.com\n1762300000000\nabc",
++            AddonAuth.proofMessage("addon.example.com", 1762300000000, "abc"),
++        )
++        assertEquals("addon.example.com", AddonAuth.normalizeHost(" Addon.Example.COM. "))
++    }
++}
+diff --git a/app/src/test/java/com/music/bitchord/AddonSourceTest.kt b/app/src/test/java/com/music/bitchord/AddonSourceTest.kt
+index 01fb1571d4..42fa66ce9c 100644
+--- a/app/src/test/java/com/music/bitchord/AddonSourceTest.kt
++++ b/app/src/test/java/com/music/bitchord/AddonSourceTest.kt
+@@ -8,6 +8,7 @@ import com.music.bitchord.data.sources.SourceHealth
+ import com.music.bitchord.data.sources.SourceKind
+ import com.music.bitchord.data.sources.SourceRegistry
+ import com.music.bitchord.data.sources.StreamRequest
++import com.music.bitchord.data.sources.addon.AddonAuth
+ import com.music.bitchord.data.sources.addon.AddonClient
+ import com.music.bitchord.data.sources.addon.AddonQualityOption
+ import com.music.bitchord.playback.StreamContainer
+@@ -60,6 +61,9 @@ class AddonSourceTest {
+         // format never depends on what the machine running it can decode.
+         DeviceCodecs.forced = true
+         AppSettings.dolbyAtmos.value = true
++        // Every fixture manifest declares `bitchordAuth`, as an up-to-date
++        // addon must. Attestation needs secure hardware, so this stands in.
++        AddonAuth.testHeaders = { _, _ -> mapOf(AddonAuth.TOKEN_HEADER to "test-token", AddonAuth.PROOF_HEADER to "test-proof") }
+     }
+ 
+     @After
+@@ -67,6 +71,7 @@ class AddonSourceTest {
+         server.shutdown()
+         DeviceCodecs.forced = null
+         AppSettings.dolbyAtmos.value = true
++        AddonAuth.testHeaders = null
+     }
+ 
+     // ── URL handling ──────────────────────────────────────────────────────
+@@ -131,7 +136,7 @@ class AddonSourceTest {
+      */
+     @Test
+     fun `an addon that cannot be searched is rejected, not merely unreachable`() = runBlocking {
+-        route("/manifest.json", json("""{"id":"x","name":"X","resources":["stream"]}"""))
++        route("/manifest.json", json("""{"id":"x","name":"X","bitchordAuth":true,"resources":["stream"]}"""))
+         // No search endpoint either, so the behavioural fallback cannot save it.
+         val health = source().health()
+         assertTrue("expected Rejected, got $health", health is SourceHealth.Rejected)
+@@ -145,23 +150,92 @@ class AddonSourceTest {
+      */
+     @Test
+     fun `an addon that declares search but not stream is accepted`() = runBlocking {
+-        route("/manifest.json", json("""{"id":"x","name":"X","resources":["search"]}"""))
++        route("/manifest.json", json("""{"id":"x","name":"X","bitchordAuth":true,"resources":["search"]}"""))
+         assertTrue(source().health() is SourceHealth.Ok)
+     }
+ 
+     /**
+-     * The manifest is a description; the endpoints are the addon. One that
+-     * never published a manifest is healthy the moment it answers a search, and
+-     * refusing it over a missing document refuses it for the wrong reason.
++     * An addon that never published a manifest still answers a search, but it
++     * has nowhere to declare `bitchordAuth`, so it is out of date — and is told
++     * so, rather than reported as a broken URL.
+      */
+     @Test
+-    fun `an addon with no manifest is healthy when its search endpoint answers`() = runBlocking {
++    fun `an addon with no manifest is out of date even when its search endpoint answers`() = runBlocking {
+         route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
+ 
+         val health = source().health()
+ 
+-        assertTrue("expected Ok, got $health", health is SourceHealth.Ok)
+-        assertEquals("No manifest · search works", (health as SourceHealth.Ok).detail)
++        assertTrue("expected Rejected, got $health", health is SourceHealth.Rejected)
++        assertTrue((health as SourceHealth.Rejected).reason.contains("out of date"))
++    }
++
++    // ── Out-of-date addons (no `bitchordAuth`) ────────────────────────────
++
++    private fun outdatedManifest() = json(
++        """{"id":"com.test.old","name":"Old Addon","version":"1.0.0","resources":["search","stream"]}""",
++    )
++
++    @Test
++    fun `a manifest without bitchordAuth is reported out of date`() = runBlocking {
++        route("/manifest.json", outdatedManifest())
++
++        val health = source().health()
++
++        assertTrue("expected Rejected, got $health", health is SourceHealth.Rejected)
++        assertTrue((health as SourceHealth.Rejected).reason.contains("latest BitChord addon docs"))
++    }
++
++    @Test
++    fun `an out-of-date addon is never asked to search or stream`() = runBlocking {
++        route("/manifest.json", outdatedManifest())
++        route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
++        route("/stream/t1", json("""{"url":"https://cdn/a.flac"}"""))
++        val source = source()
++
++        assertTrue(source.search("S", 10, false, null).isEmpty())
++        assertNull(source.stream("t1", StreamRequest.Lossless))
++        val asked = synchronized(seen) { seen.map { it.requestUrl?.encodedPath } }
++        assertEquals(listOf("/manifest.json"), asked.distinct())
++    }
++
++    /** A manifest that says `false` is the same as one that says nothing. */
++    @Test
++    fun `bitchordAuth false is out of date too`() = runBlocking {
++        route(
++            "/manifest.json",
++            json("""{"id":"x","name":"X","bitchordAuth":false,"resources":["search","stream"]}"""),
++        )
++        route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
++
++        assertTrue(source().search("S", 10, false, null).isEmpty())
++    }
++
++    /** Never seen declaring it, and the manifest can't be read: refused rather than guessed at. */
++    @Test
++    fun `an addon never seen up to date is refused while its manifest is down`() = runBlocking {
++        route("/manifest.json", MockResponse().setResponseCode(503))
++        route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
++
++        assertTrue(source().search("S", 10, false, null).isEmpty())
++    }
++
++    @Test
++    fun `identify records whether the manifest declares bitchordAuth`() = runBlocking {
++        route("/manifest.json", manifest())
++        assertEquals(true, SourceRegistry.identify(config().baseUrl).getOrThrow().bitchordAuth)
++
++        route("/manifest.json", outdatedManifest())
++        assertEquals(false, SourceRegistry.identify(config().baseUrl).getOrThrow().bitchordAuth)
++    }
++
++    @Test
++    fun `only an addon known to lack bitchordAuth counts as needing an update`() {
++        assertTrue(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = false).needsAddonUpdate)
++        assertFalse(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = true).needsAddonUpdate)
++        // Not read yet: the manifest is checked before the first request instead.
++        assertFalse(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = null).needsAddonUpdate)
++        // Module indexes are a different protocol and aren't gated.
++        assertFalse(SourceConfig(kind = SourceKind.CUSTOM_MODULE, bitchordAuth = false).needsAddonUpdate)
+     }
+ 
+     @Test
+@@ -302,7 +376,7 @@ class AddonSourceTest {
+             "/manifest.json",
+             json(
+                 """
+-                {"id":"a","name":"A","resources":["search","stream","settings"],
++                {"id":"a","name":"A","bitchordAuth":true,"resources":["search","stream","settings"],
+                  "settings":[
+                    {"key":"quality","type":"select","default":"normal",
+                     "options":[{"value":"lossless"},{"value":"high"},{"value":"normal"}]},
+@@ -343,7 +417,7 @@ class AddonSourceTest {
+     /** "lossless" on this list is CD quality, so asking for that word would never reach "max". */
+     private fun qualityManifest() = json(
+         """
+-        {"id":"a","name":"A","resources":["search","stream"],
++        {"id":"a","name":"A","bitchordAuth":true,"resources":["search","stream"],
+          "settings":[{"key":"quality","type":"select","default":"max","perNetwork":true,
+            "options":[{"value":"max","label":"MAX"},{"value":"hires","label":"HiRes"},
+                       {"value":"lossless","label":"CD"},{"value":"low","label":"Low"}]}]}
+@@ -431,9 +505,11 @@ class AddonSourceTest {
+ 
+     @Test
+     fun `a pick still goes out while the manifest is unreachable`() = runBlocking {
++        route("/manifest.json", MockResponse().setResponseCode(503))
+         route("/stream/t1", json("""{"url":"https://cdn/a.flac"}"""))
+ 
+-        AddonSource(config().copy(pickedQuality = "hires")).stream("t1", StreamRequest.Lossless)
++        // Seen up to date before, so a manifest that is down right now doesn't shut it out.
++        AddonSource(config().copy(pickedQuality = "hires", bitchordAuth = true)).stream("t1", StreamRequest.Lossless)
+ 
+         assertEquals("hires", requestFor("/stream/t1").queryParameter("quality"))
+     }
+@@ -544,7 +620,7 @@ class AddonSourceTest {
+             "/manifest.json",
+             json(
+                 """
+-                {"id":"a","name":"A","resources":["search","stream","settings"],
++                {"id":"a","name":"A","bitchordAuth":true,"resources":["search","stream","settings"],
+                  "settings":[{"key":"atmos","type":"select","default":"only",
+                               "options":[{"value":"only"},{"value":"auto"},{"value":"off"}]}]}
+                 """.trimIndent(),
+@@ -740,7 +816,7 @@ class AddonSourceTest {
+             "/manifest.json",
+             json(
+                 """
+-                {"id":"a","name":"A","resources":["search","stream","settings"],
++                {"id":"a","name":"A","bitchordAuth":true,"resources":["search","stream","settings"],
+                  "settings":[{"key":"atmos","type":"select","default":"auto",
+                               "options":[{"value":"only"},{"value":"auto"},{"value":"off"}]}]}
+                 """.trimIndent(),
+@@ -1170,7 +1246,7 @@ class AddonSourceTest {
+         .setBody(body)
+ 
+     private fun manifest() = json(
+-        """{"id":"com.test.addon","name":"Test Addon","version":"2.1.0","resources":["search","stream"]}""",
++        """{"id":"com.test.addon","name":"Test Addon","version":"2.1.0","bitchordAuth":true,"resources":["search","stream"]}""",
+     )
+ 
+     private fun config() = SourceConfig(
+diff --git a/build.gradle.kts b/build.gradle.kts
+index bae41ab531..82358ab945 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -41,7 +41,7 @@ buildscript {
+  * No "v" in the name — the in-app updater reads it as a number; the "v" is the
+  * release tag's alone.
+  */
+-extra["bitchordVersionCode"] = 37
++extra["bitchordVersionCode"] = 38
+ extra["bitchordVersionName"] = "1.9.1"
+ 
+ /*
+@@ -63,7 +63,7 @@ extra["bitchordVersionName"] = "1.9.1"
+  * the phone compares the watch's installed APK with the one it carries, so a
+  * beta watch app shows "Update available" as soon as the phone has the release.
+  */
+-extra["bitchordBetaSuffix"] = "beta1"
++extra["bitchordBetaSuffix"] = "beta2"
+ 
+ plugins {
+     id("com.android.application") version "8.10.1" apply false

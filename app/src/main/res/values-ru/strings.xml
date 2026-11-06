@@ -1,0 +1,1493 @@
+﻿<resources>
+    <string name="app_name">Sonora</string>
+    <string name="playback_channel_name">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="download_channel_name">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸</string>
+    <string name="download_channel_description">ÐŸÐµÑÐ½Ð¸ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‚ÑÑ Ð² Ð¿Ð°Ð¿ÐºÑƒ Â«ÐœÑƒÐ·Ñ‹ÐºÐ°Â»</string>
+    <string name="download_notification_title">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ°</string>
+    <string name="download_notification_starting">ÐÐ°Ñ‡Ð°Ð»Ð¾</string>
+    <string name="download_notification_queued">%1$s Â· ÐµÑ‰Ñ‘ %2$d Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="upload_channel_name">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Ð½Ð° ÑÐµÑ€Ð²ÐµÑ€</string>
+    <string name="upload_channel_description">ÐŸÐµÑÐ½Ð¸, Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼Ñ‹Ðµ Ð½Ð° Ð²Ð°Ñˆ ÑÐµÑ€Ð²ÐµÑ€ WebDAV</string>
+    <string name="upload_notification_title">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ°</string>
+    <string name="upload_notification_queued">%1$s Â· ÐµÑ‰Ñ‘ %2$d Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <plurals name="uploading_song_count">
+        <item quantity="one">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° %1$d Ð¿ÐµÑÐ½Ð¸</item>
+        <item quantity="few">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° %1$d Ð¿ÐµÑÐµÐ½</item>
+        <item quantity="many">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° %1$d Ð¿ÐµÑÐµÐ½</item>
+        <item quantity="other">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° %1$d Ð¿ÐµÑÐ½Ð¸</item>
+    </plurals>
+    <string name="cancel">ÐžÑ‚Ð¼ÐµÐ½Ð°</string>
+    <string name="save">Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ</string>
+    <string name="close">Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ</string>
+    <string name="back">ÐÐ°Ð·Ð°Ð´</string>
+    <string name="settings">ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸</string>
+    <string name="search">ÐŸÐ¾Ð¸ÑÐº</string>
+    <string name="clear_search">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð¸ÑÐº</string>
+    <string name="library">Ð‘Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ°</string>
+    <string name="home">Ð“Ð»Ð°Ð²Ð½Ð°Ñ</string>
+    <string name="play">Ð˜Ð³Ñ€Ð°Ñ‚ÑŒ</string>
+    <string name="explore">ÐžÐ±Ð·Ð¾Ñ€</string>
+    <string name="listen_now">Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+    <string name="downloads">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸</string>
+    <string name="downloaded_songs">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ñ‹Ðµ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="local_music">Ð›Ð¾ÐºÐ°Ð»ÑŒÐ½Ð°Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°</string>
+    <string name="audio_files_on_device">ÐÑƒÐ´Ð¸Ð¾Ñ„Ð°Ð¹Ð»Ñ‹ Ð½Ð° ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="on_device">ÐÐ° ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="playlists">ÐŸÐ»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹</string>
+    <string name="new_playlist">ÐÐ¾Ð²Ñ‹Ð¹ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="saved_to_youtube_music">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² YouTube Music</string>
+    <string name="sign_in">Ð’Ð¾Ð¹Ñ‚Ð¸</string>
+    <string name="sign_out">Ð’Ñ‹Ð¹Ñ‚Ð¸</string>
+    <string name="signed_in">Ð’Ñ…Ð¾Ð´ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½</string>
+    <string name="not_signed_in">Ð’Ñ…Ð¾Ð´ Ð½Ðµ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½</string>
+    <string name="retry">ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€Ð¸Ñ‚ÑŒ</string>
+    <string name="shuffle">ÐŸÐµÑ€ÐµÐ¼ÐµÑˆÐ°Ñ‚ÑŒ</string>
+    <string name="more">Ð•Ñ‰Ñ‘</string>
+    <string name="add_to_playlist">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="add_to_library">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÑƒ</string>
+    <string name="remove_from_library">Ð£Ð±Ñ€Ð°Ñ‚ÑŒ Ð¸Ð· Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ¸</string>
+    <string name="download_all">Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ Ð²ÑÑ‘</string>
+    <string name="top_songs">Ð¢Ð¾Ð¿ Ð¿ÐµÑÐµÐ½</string>
+    <string name="suggested">Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¸</string>
+    <string name="song_count">%1$d Ð¿ÐµÑÐ½Ñ</string>
+    <plurals name="song_count_plural">
+        <item quantity="one">%1$d Ð¿ÐµÑÐ½Ñ</item>
+        <item quantity="few">%1$d Ð¿ÐµÑÐ½Ð¸</item>
+        <item quantity="many">%1$d Ð¿ÐµÑÐµÐ½</item>
+        <item quantity="other">%1$d Ð¿ÐµÑÐ½Ð¸</item>
+    </plurals>
+    <plurals name="artist_count">
+        <item quantity="one">%1$d Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</item>
+        <item quantity="few">%1$d Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</item>
+        <item quantity="many">%1$d Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹</item>
+        <item quantity="other">%1$d Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</item>
+    </plurals>
+    <plurals name="album_count">
+        <item quantity="one">%1$d Ð°Ð»ÑŒÐ±Ð¾Ð¼</item>
+        <item quantity="few">%1$d Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð°</item>
+        <item quantity="many">%1$d Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð¾Ð²</item>
+        <item quantity="other">%1$d Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð°</item>
+    </plurals>
+    <string name="songs">ÐŸÐµÑÐ½Ð¸</string>
+    <string name="artists">Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ð¸</string>
+    <string name="albums">ÐÐ»ÑŒÐ±Ð¾Ð¼Ñ‹</string>
+    <string name="no_album_metadata">ÐÐ¸ Ð¾Ð´Ð¸Ð½ Ð¸Ð· ÑÑ‚Ð¸Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð½Ðµ ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ ÑÐ²Ð¾Ð¹ Ð°Ð»ÑŒÐ±Ð¾Ð¼.</string>
+    <string name="search_empty">Ð˜Ñ‰Ð¸Ñ‚Ðµ Ð¼Ð¸Ð»Ð»Ð¸Ð¾Ð½Ñ‹ Ð¿ÐµÑÐµÐ½ Ð½Ð° YouTube Music.</string>
+    <string name="recent_searches">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ðµ Ð·Ð°Ð¿Ñ€Ð¾ÑÑ‹</string>
+    <string name="clear">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ</string>
+    <string name="search_hint">Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ð¸, Ð¿ÐµÑÐ½Ð¸, Ñ‚ÐµÐºÑÑ‚Ñ‹ Ð¸ Ð¼Ð½Ð¾Ð³Ð¾Ðµ Ð´Ñ€ÑƒÐ³Ð¾Ðµ</string>
+    <string name="recent_search_edit">Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Â«%1$sÂ»</string>
+    <string name="recent_search_remove">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Â«%1$sÂ» Ð¸Ð· Ð½ÐµÐ´Ð°Ð²Ð½Ð¸Ñ… Ð·Ð°Ð¿Ñ€Ð¾ÑÐ¾Ð²</string>
+    <string name="storage_required_save">Ð”Ð»Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð¿ÐµÑÐµÐ½ Ð½ÑƒÐ¶ÐµÐ½ Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ðº Ñ…Ñ€Ð°Ð½Ð¸Ð»Ð¸Ñ‰Ñƒ</string>
+    <string name="storage_required_read">Ð”Ð»Ñ Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð°ÑƒÐ´Ð¸Ð¾Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð½ÑƒÐ¶Ð½Ð¾ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Ð½Ð° Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ðº Ñ…Ñ€Ð°Ð½Ð¸Ð»Ð¸Ñ‰Ñƒ</string>
+    <string name="sharing_coming_soon">Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Â«ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑÂ» ÑÐºÐ¾Ñ€Ð¾ Ð¿Ð¾ÑÐ²Ð¸Ñ‚ÑÑ</string>
+    <string name="already_downloaded">Ð£Ð¶Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾</string>
+    <plurals name="downloading_song_count">
+        <item quantity="one">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° %1$d Ð¿ÐµÑÐ½Ð¸</item>
+        <item quantity="few">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° %1$d Ð¿ÐµÑÐµÐ½</item>
+        <item quantity="many">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° %1$d Ð¿ÐµÑÐµÐ½</item>
+        <item quantity="other">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° %1$d Ð¿ÐµÑÐ½Ð¸</item>
+    </plurals>
+    <string name="source">Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸</string>
+    <string name="lossless_audio">ÐÑƒÐ´Ð¸Ð¾ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="prefer_lossless">ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="lossless_source_subtitle">FLAC Ð¸ ALAC Ð¿Ñ€ÑÐ¼Ð¾ Ð¸Ð· Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ°</string>
+    <string name="overridden">ÐŸÐµÑ€ÐµÐ¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¾</string>
+    <string name="add_module_source">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº-Ð¼Ð¾Ð´ÑƒÐ»ÑŒ</string>
+    <string name="remove_source">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÑ‚Ð¾Ñ‚ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº</string>
+    <string name="test">ÐŸÑ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ</string>
+    <string name="testing">ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ°â€¦</string>
+    <string name="connected">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="account_integrations">ÐÐºÐºÐ°ÑƒÐ½Ñ‚ Ð¸ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ð¸</string>
+    <string name="account_scrobbling">ÐÐºÐºÐ°ÑƒÐ½Ñ‚ Ð¸ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³</string>
+    <string name="rich_presence">Rich Presence</string>
+    <string name="scrobbling">Ð¡ÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³</string>
+    <string name="now_playing">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="selected">Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð¾</string>
+    <string name="password">ÐŸÐ°Ñ€Ð¾Ð»ÑŒ</string>
+    <string name="username">Ð˜Ð¼Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ</string>
+    <string name="login_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð²Ð¾Ð¹Ñ‚Ð¸</string>
+    <string name="song_cache_cleared">ÐšÑÑˆ Ð¿ÐµÑÐµÐ½ Ð¾Ñ‡Ð¸Ñ‰ÐµÐ½</string>
+    <string name="image_cache_cleared">ÐšÑÑˆ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ð¹ Ð¾Ñ‡Ð¸Ñ‰ÐµÐ½</string>
+    <string name="no_equalizer">ÐÐ° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð½ÐµÑ‚ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ð¾Ð³Ð¾ ÑÐºÐ²Ð°Ð»Ð°Ð¹Ð·ÐµÑ€Ð°</string>
+    <string name="no_dolby_atmos">ÐÐ° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð½ÐµÑ‚ Ð¿Ð°Ð½ÐµÐ»Ð¸ Dolby Atmos</string>
+    <string name="dolby_atmos_open_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Dolby Atmos</string>
+    <string name="update_available">Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: v%1$s</string>
+    <string name="software_update">ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ÐŸÐž</string>
+    <string name="update_available_body">Sonora %1$s Ð´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½ Ð´Ð»Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸.</string>
+    <string name="update_downloading_body">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Sonora %1$sâ€¦</string>
+    <string name="update_ready_body">Sonora %1$s Ð³Ð¾Ñ‚Ð¾Ð² Ðº ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐµ.</string>
+    <string name="update_failed_body">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ Sonora %1$s.</string>
+    <string name="download_now">Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+    <string name="install_now">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+    <string name="later">ÐŸÐ¾Ð·Ð¶Ðµ</string>
+    <string name="remind_me_later">ÐÐ°Ð¿Ð¾Ð¼Ð½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð·Ð¶Ðµ</string>
+    <string name="try_again">ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð¿Ñ‹Ñ‚ÐºÑƒ</string>
+    <string name="open_releases_page">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñƒ Ñ€ÐµÐ»Ð¸Ð·Ð¾Ð²</string>
+    <string name="whats_new">Ð§Ñ‚Ð¾ Ð½Ð¾Ð²Ð¾Ð³Ð¾</string>
+    <string name="log_copied">Ð–ÑƒÑ€Ð½Ð°Ð» ÑÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½ Â· %1$d ÑÑ‚Ñ€Ð¾Ðº</string>
+    <string name="sign_in_youtube_music">Ð’Ð¾Ð¹Ñ‚Ð¸ Ð² YouTube Music</string>
+    <string name="sign_in_discord">Ð’Ð¾Ð¹Ñ‚Ð¸ Ð² Discord</string>
+    <string name="personalized_recommendations">ÐŸÐ¾Ð»ÑƒÑ‡Ð°Ð¹Ñ‚Ðµ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¸</string>
+    <string name="play_next">Ð¡Ð»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¼</string>
+    <string name="queue">ÐžÑ‡ÐµÑ€ÐµÐ´ÑŒ</string>
+    <string name="source_setup_required">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÑƒ</string>
+    <string name="source_unreachable">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Â· %1$s</string>
+    <string name="checking">ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ°â€¦</string>
+    <string name="failed">ÐžÑˆÐ¸Ð±ÐºÐ°</string>
+    <string name="widget_square_label">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚ 2Ã—2</string>
+    <string name="widget_wide_label">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚ 4Ã—2</string>
+    <string name="widget_square_description">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð° Ñ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°Ð¼Ð¸ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸ÐµÐ¼, ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð½Ð°Ñ.</string>
+    <string name="widget_wide_description">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð° Ñ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ Ñ‚Ñ€ÐµÐºÐ° Ð¸ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°Ð¼Ð¸ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ, Ð²Ð¾ Ð²ÑÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ.</string>
+    <string name="widget_play">Ð˜Ð³Ñ€Ð°Ñ‚ÑŒ</string>
+    <string name="widget_pause">ÐŸÐ°ÑƒÐ·Ð°</string>
+    <string name="widget_next">Ð”Ð°Ð»ÐµÐµ</string>
+    <string name="widget_previous">ÐÐ°Ð·Ð°Ð´</string>
+    <string name="widget_artwork">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð°</string>
+    <string name="widget_nothing_played">ÐŸÐ¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ð»Ð¾ÑÑŒ</string>
+    <string name="widget_open_bitchord">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Sonora</string>
+    <string name="widget_preview_title">ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="widget_preview_artist">Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <string name="widget_pill_label">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚ 4Ã—1</string>
+    <string name="widget_pill_description">Ð¢Ñ€ÐµÐº Ñ Ð»Ð°Ð¹ÐºÐ¾Ð¼, Ð¿ÐµÑ€ÐµÐ¼ÐµÑˆÐ¸Ð²Ð°Ð½Ð¸ÐµÐ¼ Ð¸ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸ÐµÐ¼ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸ÐµÐ¼ Ð² Ð¾Ð´Ð½Ñƒ ÑÑ‚Ñ€Ð¾ÐºÑƒ.</string>
+    <string name="widget_preview_pill">ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¿ÐµÑÐ½Ð¸ - Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <string name="download_quality">ÐšÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸</string>
+    <string name="download_wifi_only">Ð—Ð°Ð³Ñ€ÑƒÐ¶Ð°Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¿Ð¾ Wi-Fi</string>
+    <string name="spatial_audio">ÐŸÑ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¹ Ð·Ð²ÑƒÐº</string>
+    <string name="spatial_audio_subtitle">Ð Ð°ÑÑˆÐ¸Ñ€ÑÐµÑ‚ ÑÑ‚ÐµÑ€ÐµÐ¾Ð´Ð¾Ñ€Ð¾Ð¶ÐºÐ¸ Ð´Ð»Ñ Ð±Ð¾Ð»ÐµÐµ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð³Ð¾ Ð¿Ð¾Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¸Ñ</string>
+    <string name="spatial_audio_atmos_subtitle">ÐŸÑ€Ð¸Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ° â€” Dolby Atmos ÑƒÐ¶Ðµ Ð¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¹</string>
+    <string name="animated_cover_cellular">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ Ð°Ð½Ð¸Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½ÑƒÑŽ Ð¾Ð±Ð»Ð¾Ð¶ÐºÑƒ Ñ‡ÐµÑ€ÐµÐ· Ð¼Ð¾Ð±Ð¸Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ</string>
+    <string name="replay">Replay</string>
+    <string name="replay_subtitle">Ð’Ð°ÑˆÐ¸ Ð»ÑŽÐ±Ð¸Ð¼Ñ‹Ðµ Ð¿ÐµÑÐ½Ð¸, Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ð¸, Ð°Ð»ÑŒÐ±Ð¾Ð¼Ñ‹ Ð¸ Ð¶Ð°Ð½Ñ€Ñ‹</string>
+    <string name="work_out_genres">ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÑ‚ÑŒ Ð¶Ð°Ð½Ñ€Ñ‹</string>
+    <string name="export_data">Ð­ÐºÑÐ¿Ð¾Ñ€Ñ‚ Ð´Ð°Ð½Ð½Ñ‹Ñ…</string>
+    <string name="export_data_subtitle">ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ñ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð² Ð¾Ð´Ð½Ð¾Ð¼ Ñ„Ð°Ð¹Ð»Ðµ JSON</string>
+    <string name="import_data">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð´Ð°Ð½Ð½Ñ‹Ñ…</string>
+    <string name="import_data_subtitle">Ð—Ð°Ð¼ÐµÐ½ÑÐµÑ‚ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="import_backup_title">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½ÑƒÑŽ ÐºÐ¾Ð¿Ð¸ÑŽ?</string>
+    <string name="choose_file">Ð’Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ñ„Ð°Ð¹Ð»</string>
+    <string name="top_artists">Ð¢Ð¾Ð¿ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹</string>
+    <string name="top_albums">Ð¢Ð¾Ð¿ Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð¾Ð²</string>
+    <string name="top_genres">Ð¢Ð¾Ð¿ Ð¶Ð°Ð½Ñ€Ð¾Ð²</string>
+    <string name="cancel_all">ÐžÑ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð²ÑÑ‘</string>
+    <string name="language">Ð¯Ð·Ñ‹Ðº</string>
+    <string name="app_language">Ð¯Ð·Ñ‹Ðº Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ</string>
+    <string name="app_language_description">Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ·Ñ‹Ðº, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ð¹ Ð² Sonora.</string>
+    <string name="english">ÐÐ½Ð³Ð»Ð¸Ð¹ÑÐºÐ¸Ð¹</string>
+    <string name="spanish">Ð˜ÑÐ¿Ð°Ð½ÑÐºÐ¸Ð¹</string>
+    <string name="french">Ð¤Ñ€Ð°Ð½Ñ†ÑƒÐ·ÑÐºÐ¸Ð¹</string>
+    <string name="german">ÐÐµÐ¼ÐµÑ†ÐºÐ¸Ð¹</string>
+    <string name="polish">ÐŸÐ¾Ð»ÑŒÑÐºÐ¸Ð¹</string>
+    <string name="portuguese">ÐŸÐ¾Ñ€Ñ‚ÑƒÐ³Ð°Ð»ÑŒÑÐºÐ¸Ð¹</string>
+    <string name="indonesian">Ð˜Ð½Ð´Ð¾Ð½ÐµÐ·Ð¸Ð¹ÑÐºÐ¸Ð¹</string>
+    <string name="hindi">Ð¥Ð¸Ð½Ð´Ð¸</string>
+    <string name="japanese">Ð¯Ð¿Ð¾Ð½ÑÐºÐ¸Ð¹</string>
+    <string name="russian">Ð ÑƒÑÑÐºÐ¸Ð¹</string>
+    <string name="chinese">ÐšÐ¸Ñ‚Ð°Ð¹ÑÐºÐ¸Ð¹ (ÑƒÐ¿Ñ€Ð¾Ñ‰Ñ‘Ð½Ð½Ñ‹Ð¹)</string>
+    <string name="chinese_simplified">ÐšÐ¸Ñ‚Ð°Ð¹ÑÐºÐ¸Ð¹ (ÑƒÐ¿Ñ€Ð¾Ñ‰Ñ‘Ð½Ð½Ñ‹Ð¹)</string>
+    <string name="chinese_traditional">ÐšÐ¸Ñ‚Ð°Ð¹ÑÐºÐ¸Ð¹ (Ñ‚Ñ€Ð°Ð´Ð¸Ñ†Ð¸Ð¾Ð½Ð½Ñ‹Ð¹)</string>
+    <string name="hebrew">Ð˜Ð²Ñ€Ð¸Ñ‚</string>
+    <string name="italian">Ð˜Ñ‚Ð°Ð»ÑŒÑÐ½ÑÐºÐ¸Ð¹</string>
+    <string name="turkish">Ð¢ÑƒÑ€ÐµÑ†ÐºÐ¸Ð¹</string>
+    <string name="thai">Ð¢Ð°Ð¹ÑÐºÐ¸Ð¹</string>
+    <string name="korean">ÐšÐ¾Ñ€ÐµÐ¹ÑÐºÐ¸Ð¹</string>
+    <string name="show_all">ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð²ÑÐµ</string>
+    <string name="grid_view">Ð¡ÐµÑ‚ÐºÐ°</string>
+    <string name="list_view">Ð¡Ð¿Ð¸ÑÐ¾Ðº</string>
+    <string name="switch_to_grid_view">ÐŸÐµÑ€ÐµÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð½Ð° ÑÐµÑ‚ÐºÑƒ</string>
+    <string name="switch_to_list_view">ÐŸÐµÑ€ÐµÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð½Ð° ÑÐ¿Ð¸ÑÐ¾Ðº</string>
+    <string name="audio_quality">ÐšÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð²ÑƒÐºÐ°</string>
+    <string name="playback">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ</string>
+    <string name="appearance">Ð’Ð½ÐµÑˆÐ½Ð¸Ð¹ Ð²Ð¸Ð´</string>
+    <string name="storage">Ð¥Ñ€Ð°Ð½Ð¸Ð»Ð¸Ñ‰Ðµ</string>
+    <string name="your_data">Ð’Ð°ÑˆÐ¸ Ð´Ð°Ð½Ð½Ñ‹Ðµ</string>
+    <string name="miscellaneous">Ð Ð°Ð·Ð½Ð¾Ðµ</string>
+    <string name="lossless_hq_audio">Ð‘ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ / HQ-Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="on_wifi">ÐŸÐ¾ Wi-Fi</string>
+    <string name="on_mobile_data">ÐŸÐ¾ Ð¼Ð¾Ð±Ð¸Ð»ÑŒÐ½Ñ‹Ð¼ Ð´Ð°Ð½Ð½Ñ‹Ð¼</string>
+    <string name="in_use">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ</string>
+    <string name="blocking">Ð‘Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÑ‚</string>
+    <string name="crossfade">ÐšÑ€Ð¾ÑÑÑ„ÐµÐ¹Ð´</string>
+    <string name="crossfade_subtitle">ÐŸÐ»Ð°Ð²Ð½Ð¾ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´Ð¸Ñ‚ Ð¾Ñ‚ Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ° Ðº Ð´Ñ€ÑƒÐ³Ð¾Ð¼Ñƒ</string>
+    <string name="automix">ÐÐ²Ñ‚Ð¾Ð¼Ð¸ÐºÑ [Ð‘Ð•Ð¢Ð]</string>
+    <string name="skip_silence">ÐŸÑ€Ð¾Ð¿ÑƒÑÐºÐ°Ñ‚ÑŒ Ñ‚Ð¸ÑˆÐ¸Ð½Ñƒ</string>
+    <string name="skip_silence_subtitle">ÐžÐ±Ñ€ÐµÐ·Ð°ÐµÑ‚ Ð¿Ð°ÑƒÐ·Ñ‹ Ð´Ð»Ð¸Ð½Ð½ÐµÐµ ÑÐµÐºÑƒÐ½Ð´Ñ‹</string>
+    <string name="skip_silence_float_subtitle">ÐÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð¿Ñ€Ð¸ 32-Ð±Ð¸Ñ‚Ð½Ð¾Ð¼ Ð²Ñ‹Ð²Ð¾Ð´Ðµ Ñ Ð¿Ð»Ð°Ð²Ð°ÑŽÑ‰ÐµÐ¹ Ñ‚Ð¾Ñ‡ÐºÐ¾Ð¹</string>
+    <string name="equalizer">Ð­ÐºÐ²Ð°Ð»Ð°Ð¹Ð·ÐµÑ€</string>
+    <string name="equalizer_subtitle">Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð°Ñ Ð¿Ð°Ð½ÐµÐ»ÑŒ Ð²Ð°ÑˆÐµÐ³Ð¾ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°</string>
+    <string name="show_nerd_stats">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÑƒÑŽ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÑƒ</string>
+    <string name="show_nerd_stats_subtitle">ÐšÐ¾Ð´ÐµÐº, Ð±Ð¸Ñ‚Ñ€ÐµÐ¹Ñ‚ Ð¸ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð° Ð´Ð¸ÑÐºÑ€ÐµÑ‚Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð² Ð¿Ð»ÐµÐµÑ€Ðµ</string>
+    <string name="theme">Ð¢ÐµÐ¼Ð°</string>
+    <string name="reduce_animation">Ð£Ð¼ÐµÐ½ÑŒÑˆÐ¸Ñ‚ÑŒ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÑŽ</string>
+    <string name="reduce_animation_subtitle">ÐžÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ Ð³Ñ€Ð°Ð´Ð¸ÐµÐ½Ñ‚ Ð³Ð»Ð°Ð²Ð½Ð¾Ð³Ð¾ Ð¿Ð»ÐµÐµÑ€Ð° Ð²Ð¼ÐµÑÑ‚Ð¾ Ð¿Ð»Ð°Ð²Ð½Ð¾Ð³Ð¾ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ</string>
+    <string name="reduce_dynamic_blur">Ð£Ð¼ÐµÐ½ÑŒÑˆÐ¸Ñ‚ÑŒ Ð´Ð¸Ð½Ð°Ð¼Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ñ€Ð°Ð·Ð¼Ñ‹Ñ‚Ð¸Ðµ</string>
+    <string name="reduce_dynamic_blur_subtitle">Ð—Ð°Ð¼ÐµÐ½ÑÐµÑ‚ Ð¼Ð°Ñ‚Ð¾Ð²Ð¾Ðµ ÑÑ‚ÐµÐºÐ»Ð¾ ÑÐ¿Ð»Ð¾ÑˆÐ½Ð¾Ð¹ Ð·Ð°Ð»Ð¸Ð²ÐºÐ¾Ð¹ Ð²Ð¾ Ð²ÑÑ‘Ð¼ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ð¸</string>
+    <string name="disable_blend_effects">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ ÑÑ„Ñ„ÐµÐºÑ‚Ñ‹ ÑÐ¼ÐµÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="disable_blend_effects_subtitle">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð·Ð½Ð°Ñ‡ÐºÐ¸, Ñ‚ÐµÐºÑÑ‚ Ð¸ Ñ‚Ñ‘Ð¼Ð½Ñ‹Ðµ Ð¼ÐµÐ½ÑŽ Ð¿Ð»ÐµÐµÑ€Ð° Ñ‡Ð¸ÑÑ‚Ð¾ Ð±ÐµÐ»Ñ‹Ð¼Ð¸, Ð½Ðµ Ð¾ÐºÑ€Ð°ÑˆÐ¸Ð²Ð°Ñ Ð¸Ñ… Ð² Ñ†Ð²ÐµÑ‚Ð° Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ¸</string>
+    <string name="full_screen_cover_art">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð½Ð° Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½</string>
+    <string name="animated_cover_art">ÐÐ½Ð¸Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ°</string>
+    <string name="synced_lyrics">Ð¡Ð¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ñ‚ÐµÐºÑÑ‚</string>
+    <string name="synced_lyrics_subtitle">ÐŸÐ¾Ð´ÑÐ²ÐµÑ‡Ð¸Ð²Ð°ÐµÑ‚ ÑÐ»Ð¾Ð²Ð° Ð² Ð¿Ð»ÐµÐµÑ€Ðµ Ð¿Ð¾ Ð¼ÐµÑ€Ðµ Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ</string>
+    <string name="lyrics_sources">Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸ Ñ‚ÐµÐºÑÑ‚Ð¾Ð²</string>
+    <string name="song_cache_limit">Ð›Ð¸Ð¼Ð¸Ñ‚ ÐºÑÑˆÐ° Ð¿ÐµÑÐµÐ½</string>
+    <string name="clear_song_cache">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑÑˆ Ð¿ÐµÑÐµÐ½</string>
+    <string name="clear_song_cache_subtitle">ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´Ð°ÐµÑ‚ Ð¼ÐµÑÑ‚Ð¾, Ð·Ð°Ð½ÑÑ‚Ð¾Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ñ‹Ð¼ Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="clear_image_cache">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑÑˆ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ð¹</string>
+    <string name="clear_image_cache_subtitle">ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´Ð°ÐµÑ‚ Ð¼ÐµÑÑ‚Ð¾, Ð·Ð°Ð½ÑÑ‚Ð¾Ðµ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ°Ð¼Ð¸ Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð¾Ð²</string>
+    <string name="play_next_on_swipe">Ð˜Ð³Ñ€Ð°Ñ‚ÑŒ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¼ Ð¿Ñ€Ð¸ ÑÐ²Ð°Ð¹Ð¿Ðµ</string>
+    <string name="dont_repeat_songs">ÐÐµ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑ‚ÑŒ Ð¿ÐµÑÐ½Ð¸ Ð² Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÑÐµÑÑÐ¸Ð¸</string>
+    <string name="stop_music_on_close">ÐžÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°Ñ‚ÑŒ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ Ð¿Ñ€Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ð¸ Ð¸Ð· Ð½ÐµÐ´Ð°Ð²Ð½Ð¸Ñ…</string>
+    <string name="stop_music_on_close_subtitle">ÐžÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¸ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ð¸ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¸Ð· Ð½ÐµÐ´Ð°Ð²Ð½Ð¸Ñ…</string>
+    <string name="hide_volume_bar">Ð¡ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð»Ð¾ÑÑƒ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸</string>
+    <string name="hide_volume_bar_subtitle">Ð£Ð±Ð¸Ñ€Ð°ÐµÑ‚ Ð¿Ð¾Ð»Ð·ÑƒÐ½Ð¾Ðº Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸ Ñ Ð³Ð»Ð°Ð²Ð½Ð¾Ð³Ð¾ Ð¿Ð»ÐµÐµÑ€Ð°</string>
+    <string name="hide_status_bar_in_player">Ð¡ÐºÑ€Ñ‹Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ñ€Ð¾ÐºÑƒ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ Ð² Ð¿Ð»ÐµÐµÑ€Ðµ</string>
+    <string name="hide_status_bar_in_player_subtitle">Ð¡ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ñ‡Ð°ÑÑ‹, Ð±Ð°Ñ‚Ð°Ñ€ÐµÑŽ Ð¸ Ð·Ð½Ð°Ñ‡ÐºÐ¸ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ð¹, Ð¿Ð¾ÐºÐ° Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ Ð³Ð»Ð°Ð²Ð½Ñ‹Ð¹ Ð¿Ð»ÐµÐµÑ€</string>
+    <string name="hide_song_status">Ð¡ÐºÑ€Ñ‹Ñ‚ÑŒ ÑÑ‚Ð°Ñ‚ÑƒÑ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="hide_song_status_subtitle">Ð¡ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ñ‚ÐµÐºÑÑ‚ Â«Ð˜Ð³Ñ€Ð°ÐµÑ‚ Ð¸Ð·Â» Ð¸Ð»Ð¸ Â«Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚Â» Ð² Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¼ Ð¿Ð»ÐµÐµÑ€Ðµ</string>
+    <string name="off">Ð’Ñ‹ÐºÐ»</string>
+    <string name="low">ÐÐ¸Ð·ÐºÐ¾Ðµ</string>
+    <string name="medium">Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ</string>
+    <string name="high">Ð’Ñ‹ÑÐ¾ÐºÐ¾Ðµ</string>
+    <string name="standard">Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ð¾Ðµ</string>
+    <string name="lossless">Ð‘ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="system">Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð°Ñ</string>
+    <string name="light">Ð¡Ð²ÐµÑ‚Ð»Ð°Ñ</string>
+    <string name="dark">Ð¢Ñ‘Ð¼Ð½Ð°Ñ</string>
+    <string name="full_screen_cover_art_subtitle">Ð Ð°ÑÑ‚ÑÐ³Ð¸Ð²Ð°ÐµÑ‚ Ð¾Ð±Ð»Ð¾Ð¶ÐºÑƒ Ð´Ð¾ ÐºÑ€Ð°Ñ‘Ð² Ð¿Ð»ÐµÐµÑ€Ð° Ð²Ð¼ÐµÑÑ‚Ð¾ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð½Ð¾Ð³Ð¾ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ð°</string>
+    <string name="full_screen_detail_cover">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð°/Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð° Ð½Ð° Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½</string>
+    <string name="full_screen_detail_cover_subtitle">Ð Ð°ÑÑ‚ÑÐ³Ð¸Ð²Ð°ÐµÑ‚ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ¸ Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð¾Ð² Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð² Ð´Ð¾ ÐºÑ€Ð°Ñ‘Ð² ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ Ð²Ð¼ÐµÑÑ‚Ð¾ Ñ€Ð°Ð¼ÐºÐ¸</string>
+    <string name="animated_cover_art_subtitle">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ Ð·Ð°Ñ†Ð¸ÐºÐ»ÐµÐ½Ð½Ð¾Ðµ Ð²Ð¸Ð´ÐµÐ¾, ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ ÐµÑÑ‚ÑŒ Ñƒ Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ñ€ÐµÐ»Ð¸Ð·Ð¾Ð² Ð²Ð¼ÐµÑÑ‚Ð¾ Ð½ÐµÐ¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾Ð¹ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ¸</string>
+    <string name="dont_repeat_songs_subtitle">ÐÐ²Ñ‚Ð¾Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ Ð¿Ñ€ÐµÐ´Ð»Ð°Ð³Ð°Ñ‚ÑŒ ÑƒÐ¶Ðµ ÑÑ‹Ð³Ñ€Ð°Ð½Ð½ÑƒÑŽ Ð¸Ð»Ð¸ Ð¿Ñ€ÐµÐ´Ð»Ð¾Ð¶ÐµÐ½Ð½ÑƒÑŽ Ð² ÑÑ‚Ð¾Ð¹ ÑÐµÑÑÐ¸Ð¸ Ð¿ÐµÑÐ½ÑŽ</string>
+    <string name="download_quality_subtitle">%1$s Ð·Ð° Ñ‚Ñ€ÐµÐº, Ð½ÐµÐ·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ Ð¾Ñ‚ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ</string>
+    <string name="filter_non_music_audio">Ð¤Ð¸Ð»ÑŒÑ‚Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð½ÐµÐ¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="filter_non_music_audio_subtitle">Ð¡ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ ÐºÐ»Ð¸Ð¿Ñ‹ ÐºÐ¾Ñ€Ð¾Ñ‡Ðµ 30 ÑÐµÐºÑƒÐ½Ð´, Ñ„Ð°Ð¹Ð»Ñ‹ WAV, Ð³Ð¾Ð»Ð¾ÑÐ¾Ð²Ñ‹Ðµ Ð·Ð°Ð¼ÐµÑ‚ÐºÐ¸, Ð·Ð°Ð¿Ð¸ÑÐ¸ Ð¸ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ðµ Ð·Ð²ÑƒÐºÐ¸</string>
+    <string name="performance">ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ</string>
+    <string name="high_performance_mode">Ð ÐµÐ¶Ð¸Ð¼ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð¹ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸</string>
+    <string name="high_performance_subtitle">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ Ð¿Ð¾Ð»Ð½ÑƒÑŽ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÑŽ Ð¸ Ñ€Ð°Ð·Ð¼Ñ‹Ñ‚Ð¸Ðµ, Ð° Ñ‚Ð°ÐºÐ¶Ðµ Ð·Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÑ‚ Ð±Ð¾Ð»ÐµÐµ Ð²Ñ‹ÑÐ¾ÐºÑƒÑŽ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ñƒ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ ÑÐºÑ€Ð°Ð½Ð°</string>
+    <string name="high_performance_active">Ð—Ð°Ð¿Ñ€Ð¾ÑˆÐµÐ½Ð° Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð° %1$d Ð“Ñ†. Android Ð¼Ð¾Ð¶ÐµÑ‚ ÑÐ½Ð¸Ð·Ð¸Ñ‚ÑŒ ÐµÑ‘ Ð¿Ñ€Ð¸ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸.</string>
+    <string name="beta">Ð‘ÐµÑ‚Ð°</string>
+    <string name="refresh_rate">Ð§Ð°ÑÑ‚Ð¾Ñ‚Ð° Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ</string>
+    <string name="high_performance_before_enabling">ÐŸÐµÑ€ÐµÐ´ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸ÐµÐ¼</string>
+    <string name="high_performance_battery_warning">Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ Ð´Ð»Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸ Sonora Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Â«Ð‘ÐµÐ· Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ð¹Â». Ð‘Ð¾Ð»ÐµÐµ Ð²Ñ‹ÑÐ¾ÐºÐ°Ñ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð° Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ñ€Ð°ÑÑ…Ð¾Ð´ÑƒÐµÑ‚ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð·Ð°Ñ€ÑÐ´Ð° Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸, Ñ€ÐµÑÑƒÑ€ÑÐ¾Ð² Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€Ð° Ð¸ Ð³Ñ€Ð°Ñ„Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€Ð° Ð¸ Ð¼Ð¾Ð¶ÐµÑ‚ Ð½Ð°Ð³Ñ€ÐµÐ²Ð°Ñ‚ÑŒ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾.</string>
+    <string name="open_battery_settings">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸</string>
+    <string name="enable_high_performance_title">Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ñ€ÐµÐ¶Ð¸Ð¼ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð¹ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸?</string>
+    <string name="enable_high_performance_confirmation">Ð’ÐºÐ»ÑŽÑ‡Ð°Ð¹Ñ‚Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ð´Ð»Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸ Sonora ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Â«Ð‘ÐµÐ· Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ð¹Â». Android Ð²ÑÑ‘ Ñ€Ð°Ð²Ð½Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°Ñ‚ÑŒ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ñƒ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ, ÐµÑÐ»Ð¸ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾ Ð½Ð°Ð³Ñ€ÐµÐ²Ð°ÐµÑ‚ÑÑ Ð¸Ð»Ð¸ Ð·Ð°Ñ€ÑÐ´ Ð½Ð¸Ð·ÐºÐ¸Ð¹.</string>
+    <string name="enable">Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="not_yet">ÐÐµ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+    <string name="activity">ÐÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ</string>
+    <string name="activity_competing">Ð¡Ð¾Ñ€ÐµÐ²Ð½ÑƒÐµÑ‚ÑÑ</string>
+    <string name="activity_dialog_message">Ð“Ð»Ð°Ð³Ð¾Ð», Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÐ¼Ñ‹Ð¹ Ð½Ð°Ð´ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ¾Ð¹.</string>
+    <string name="activity_listening">Ð¡Ð»ÑƒÑˆÐ°ÐµÑ‚</string>
+    <string name="activity_name_message">Ð¢Ð¾, Ñ‡Ñ‚Ð¾ ÑÑ‚Ð¾Ð¸Ñ‚ Ð¿Ð¾ÑÐ»Ðµ Ð³Ð»Ð°Ð³Ð¾Ð»Ð° Ð² Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ðµ. ÐžÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ Ð¿ÑƒÑÑ‚Ñ‹Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ %1$s.</string>
+    <string name="activity_playing">Ð˜Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="activity_watching">Ð¡Ð¼Ð¾Ñ‚Ñ€Ð¸Ñ‚</string>
+    <string name="add_to_queue">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ</string>
+    <string name="after_this_song">ÐŸÐ¾ÑÐ»Ðµ ÑÑ‚Ð¾Ð¹ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="always_on">Ð’ÑÐµÐ³Ð´Ð° Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="api_token">API-Ñ‚Ð¾ÐºÐµÐ½</string>
+    <string name="audio_quality_connection">Ð§ÐµÑ€ÐµÐ· %1$s</string>
+    <string name="back_in_future_version">Ð’ÐµÑ€Ð½Ñ‘Ñ‚ÑÑ Ð² Ð±ÑƒÐ´ÑƒÑ‰ÐµÐ¹ Ð²ÐµÑ€ÑÐ¸Ð¸</string>
+    <string name="buttons">ÐšÐ½Ð¾Ð¿ÐºÐ¸</string>
+    <string name="clear_name">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ Ð¸Ð¼Ñ</string>
+    <string name="connect_account_first">Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+    <string name="connected_presence_off">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾, Presence Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ñ‘Ð½</string>
+    <string name="copy_log">Ð¡ÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¶ÑƒÑ€Ð½Ð°Ð»</string>
+    <string name="couldnt_find">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð½Ð°Ð¹Ñ‚Ð¸ %1$s</string>
+    <string name="couldnt_open_link">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ ÑÑ‚Ñƒ ÑÑÑ‹Ð»ÐºÑƒ</string>
+    <string name="create_playlist">Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="customize_card">ÐÐ°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÑƒ</string>
+    <string name="customize_card_subtitle">Ð¡Ñ‚Ð°Ñ‚ÑƒÑ, Ñ‚ÐµÐºÑÑ‚ Ð¸ Ð¾Ð±Ðµ ÐºÐ½Ð¾Ð¿ÐºÐ¸</string>
+    <string name="delete">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ</string>
+    <string name="disconnect">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="discord">Discord</string>
+    <string name="discord_account">ÐÐºÐºÐ°ÑƒÐ½Ñ‚ Discord</string>
+    <string name="discord_button_variables">{song_name}, {artist_name} Ð¸ {album_name} Ð·Ð°Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ñ‚Ñ€ÐµÐºÐ°.</string>
+    <string name="discord_buttons_footer">{song_name}, {artist_name} Ð¸ {album_name} Ð·Ð°Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ñ‚Ñ€ÐµÐºÐ°. ÐŸÐµÑ€Ð²Ð°Ñ ÐºÐ½Ð¾Ð¿ÐºÐ° Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ð¿ÐµÑÐ½ÑŽ Ð² YouTube Music, Ð° Ð²Ñ‚Ð¾Ñ€Ð°Ñ â€” ÑÑ‚Ð¾Ñ‚ Ð¿Ñ€Ð¾ÐµÐºÑ‚.</string>
+    <string name="discord_presence_footer">ÐšÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ° Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÑ‚ÑÑ Ð¿Ñ€Ð¸ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ð¸ Ñ‚Ñ€ÐµÐºÐ°, Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ ÐµÐ³Ð¾ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ. ÐžÐ½Ð° Ð¸ÑÑ‡ÐµÐ·Ð°ÐµÑ‚, ÐºÐ¾Ð³Ð´Ð° Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð¾ÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ÑÑ.</string>
+    <string name="discord_show_audio_quality">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð²ÑƒÐºÐ°</string>
+    <string name="discord_show_audio_quality_subtitle">Ð¥Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð¸ÑÑ‚Ð¸ÐºÐ¸ Hi-Res, lossless Ð¸ Dolby Ð² ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐµ ÑÑ‚Ð°Ñ‚ÑƒÑÐ°</string>
+    <string name="discord_sign_in_footer">Ð’Ñ…Ð¾Ð´ Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñƒ Ð²Ñ…Ð¾Ð´Ð° Discord. Ð’ Sonora Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð²Ð¾Ð´Ð¸Ñ‚ÑÑ.</string>
+    <string name="discord_token">Ð¢Ð¾ÐºÐµÐ½ Discord</string>
+    <string name="discord_token_description">Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ Ñ‚Ð¾ÐºÐµÐ½ ÑÐ²Ð¾ÐµÐ³Ð¾ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ð° Discord. ÐžÐ½ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð² Ð·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð¼ Ð²Ð¸Ð´Ðµ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² Discord.</string>
+    <string name="discord_token_rejected">Discord Ð¾Ñ‚ÐºÐ»Ð¾Ð½Ð¸Ð» ÑÑ‚Ð¾Ñ‚ Ñ‚Ð¾ÐºÐµÐ½.</string>
+    <string name="discord_token_warning">Discord Ð½Ðµ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÑ‚ API, Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸ÑÐ¼ Ð·Ð°Ð´Ð°Ð²Ð°Ñ‚ÑŒ Ð²Ð°Ñˆ ÑÑ‚Ð°Ñ‚ÑƒÑ, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ ÑÑ‚Ð° Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÑ‚ Ð²Ñ…Ð¾Ð´ Ð² Ð²Ð°Ñˆ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚ Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð» Discord. Ð’Ð°Ñˆ Ñ‚Ð¾ÐºÐµÐ½ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð² Ð·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð¼ Ð²Ð¸Ð´Ðµ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² Discord. ÐžÐ½ Ð´Ð°Ñ‘Ñ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿ ÐºÐ¾ Ð²ÑÐµÐ¼Ñƒ Ð²Ð°ÑˆÐµÐ¼Ñƒ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ñƒ, Ð° Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ð° Ð½Ð°Ñ€ÑƒÑˆÐ°ÐµÑ‚ ÑƒÑÐ»Ð¾Ð²Ð¸Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Discord. Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ñƒ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ, Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚Ðµ ÑÑ‚Ð¾Ñ‚ Ñ€Ð¸ÑÐº.</string>
+    <string name="dislike">ÐÐµ Ð½Ñ€Ð°Ð²Ð¸Ñ‚ÑÑ</string>
+    <string name="done">Ð“Ð¾Ñ‚Ð¾Ð²Ð¾</string>
+    <string name="download">Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ</string>
+    <string name="download_quality_dialog_subtitle">Ð”Ð»Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð², Ñ…Ñ€Ð°Ð½ÑÑ‰Ð¸Ñ…ÑÑ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="downloaded">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾</string>
+    <string name="drag_to_reorder">ÐŸÐµÑ€ÐµÑ‚Ð°Ñ‰Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº</string>
+    <string name="enabled">Ð’ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="enter_token_instead">Ð’Ð²ÐµÑÑ‚Ð¸ Ñ‚Ð¾ÐºÐµÐ½ Ð²Ñ€ÑƒÑ‡Ð½ÑƒÑŽ</string>
+    <string name="enter_token_instead_subtitle">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ð¾, ÐµÑÐ»Ð¸ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð° Ð²Ñ…Ð¾Ð´Ð° Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÑ‚ÑÑ</string>
+    <string name="enter_token_to_enable">Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‚Ð¾ÐºÐµÐ½, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="first_button">ÐŸÐµÑ€Ð²Ð°Ñ ÐºÐ½Ð¾Ð¿ÐºÐ°</string>
+    <string name="got_it">ÐŸÐ¾Ð½ÑÑ‚Ð½Ð¾</string>
+    <string name="pause">ÐŸÐ°ÑƒÐ·Ð°</string>
+    <string name="shuffle_on">ÐŸÐµÑ€ÐµÐ¼ÐµÑˆÐ¸Ð²Ð°Ð½Ð¸Ðµ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="shuffle_off">ÐŸÐµÑ€ÐµÐ¼ÐµÑˆÐ¸Ð²Ð°Ð½Ð¸Ðµ Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="mono">ÐœÐ¾Ð½Ð¾</string>
+    <string name="stereo">Ð¡Ñ‚ÐµÑ€ÐµÐ¾</string>
+    <string name="history">Ð˜ÑÑ‚Ð¾Ñ€Ð¸Ñ</string>
+    <string name="sources">Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="mobile_data">ÐœÐ¾Ð±Ð¸Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ</string>
+    <string name="couldnt_load_tracks">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ ÑÑ‚Ð¸ Ñ‚Ñ€ÐµÐºÐ¸</string>
+    <string name="wifi_only_download_refusal">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ñ‹ ÑÐµÑ‚ÑŒÑŽ Wi-Fi. ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ ÑÑ‚Ð¾ Ð² Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°Ñ…, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¼Ð¾Ð±Ð¸Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ.</string>
+    <string name="pinned_playlist_limit">ÐœÐ¾Ð¶Ð½Ð¾ Ð·Ð°ÐºÑ€ÐµÐ¿Ð¸Ñ‚ÑŒ Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð²</string>
+    <string name="downloaded_playlist">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ñ‹Ð¹ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="library_sign_in_description">Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ Ð² ÑÐ²Ð¾Ð¹ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚ Google, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¸Ð´ÐµÑ‚ÑŒ Ð¿Ð¾Ð½Ñ€Ð°Ð²Ð¸Ð²ÑˆÐ¸ÐµÑÑ Ð¿ÐµÑÐ½Ð¸, Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹ Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ YouTube Music.</string>
+    <string name="downloads_progress">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· %1$d%%</string>
+    <string name="downloads_finished">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¾</string>
+    <string name="downloading_progress">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Â· %1$d%%</string>
+    <string name="starting">ÐÐ°Ñ‡Ð°Ð»Ð¾</string>
+    <string name="saved_to_bitchord_folder">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² ÐœÑƒÐ·Ñ‹ÐºÐ°/BitChord</string>
+    <string name="nothing_downloading">ÐÐ¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÑ‚ÑÑ</string>
+    <string name="nothing_to_explore">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð½ÐµÑ‡ÐµÐ³Ð¾ ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð² Ð¾Ð±Ð·Ð¾Ñ€Ðµ</string>
+    <string name="no_youtube_music_results">ÐÐµÑ‚ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð² Ð¸Ð· YouTube Music</string>
+    <string name="library_empty">Ð’ Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐµ Ð¿Ð¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½ÐµÑ‚</string>
+    <string name="history_sign_in_required">Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑƒÐ²Ð¸Ð´ÐµÑ‚ÑŒ, Ñ‡Ñ‚Ð¾ Ð²Ñ‹ ÑÐ»ÑƒÑˆÐ°Ð»Ð¸</string>
+    <string name="history_empty">ÐŸÐ¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ð»Ð¾ÑÑŒ</string>
+    <string name="no_results">ÐÐµÑ‚ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð²</string>
+    <string name="downloaded_playlist_empty">ÐÐ° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð½Ðµ Ð¾ÑÑ‚Ð°Ð»Ð¾ÑÑŒ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð¸Ð· ÑÑ‚Ð¾Ð³Ð¾ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</string>
+    <string name="no_local_audio_found">ÐÐ° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð°ÑƒÐ´Ð¸Ð¾Ñ„Ð°Ð¹Ð»Ð¾Ð²</string>
+    <string name="no_internet_connection">ÐÐµÑ‚ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ðº Ð¸Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚Ñƒ</string>
+    <string name="youtube_request_rejected">YouTube Music Ð¾Ñ‚ÐºÐ»Ð¾Ð½Ð¸Ð» Ð·Ð°Ð¿Ñ€Ð¾Ñ. ÐŸÐ¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ Ð²Ð¾Ð¹Ñ‚Ð¸ ÑÐ½Ð¾Ð²Ð°.</string>
+    <string name="something_went_wrong">Ð§Ñ‚Ð¾-Ñ‚Ð¾ Ð¿Ð¾ÑˆÐ»Ð¾ Ð½Ðµ Ñ‚Ð°Ðº</string>
+    <string name="unknown_artist">ÐÐµÐ¸Ð·Ð²ÐµÑÑ‚Ð½Ñ‹Ð¹ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <plurals name="downloads_failed_count">
+        <item quantity="one">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· %1$d Ñ„Ð°Ð¹Ð» Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½</item>
+        <item quantity="few">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· %1$d Ñ„Ð°Ð¹Ð»Ð° Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹</item>
+        <item quantity="many">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· %1$d Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾</item>
+    </plurals>
+    <plurals name="download_waiting_count">
+        <item quantity="one">%1$d Ñ„Ð°Ð¹Ð» Ð¾Ð¶Ð¸Ð´Ð°ÐµÑ‚</item>
+        <item quantity="few">%1$d Ñ„Ð°Ð¹Ð»Ð° Ð¾Ð¶Ð¸Ð´Ð°ÑŽÑ‚</item>
+        <item quantity="many">%1$d Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð¾Ð¶Ð¸Ð´Ð°ÐµÑ‚</item>
+    </plurals>
+    <plurals name="download_done_count">
+        <item quantity="one">%1$d Ñ„Ð°Ð¹Ð» Ð³Ð¾Ñ‚Ð¾Ð²</item>
+        <item quantity="few">%1$d Ñ„Ð°Ð¹Ð»Ð° Ð³Ð¾Ñ‚Ð¾Ð²Ñ‹</item>
+        <item quantity="many">%1$d Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð³Ð¾Ñ‚Ð¾Ð²Ð¾</item>
+    </plurals>
+    <plurals name="download_failed_count">
+        <item quantity="one">%1$d Ñ„Ð°Ð¹Ð» Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½</item>
+        <item quantity="few">%1$d Ñ„Ð°Ð¹Ð»Ð° Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹</item>
+        <item quantity="many">%1$d Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾</item>
+    </plurals>
+    <plurals name="all_songs_downloaded">
+        <item quantity="one">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð° %1$d Ð¿ÐµÑÐ½Ñ</item>
+        <item quantity="few">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹ Ð²ÑÐµ %1$d Ð¿ÐµÑÐ½Ð¸</item>
+        <item quantity="many">Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹ Ð²ÑÐµ %1$d Ð¿ÐµÑÐµÐ½</item>
+    </plurals>
+    <string name="your_playlists">Ð’Ð°ÑˆÐ¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹</string>
+    <string name="who_can_see_it">ÐšÑ‚Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ ÑÑ‚Ð¾ Ð²Ð¸Ð´ÐµÑ‚ÑŒ</string>
+    <string name="about_artist">ÐžÐ± Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ðµ</string>
+    <string name="about_album">ÐžÐ± Ð°Ð»ÑŒÐ±Ð¾Ð¼Ðµ</string>
+    <string name="nothing_matches">Ð—Ð´ÐµÑÑŒ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð·Ð°Ð¿Ñ€Ð¾ÑÑƒ Â«%1$sÂ»</string>
+    <string name="close_search">Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð¸ÑÐº</string>
+    <string name="less">ÐœÐµÐ½ÑŒÑˆÐµ</string>
+    <string name="song_count_with_minutes">%1$s, %2$d Ð¼Ð¸Ð½</string>
+    <string name="song_count_with_duration">%1$s, %2$s</string>
+    <string name="song_count_with_hours_minutes">%1$s, %2$s %3$d Ð¼Ð¸Ð½</string>
+    <plurals name="hour_count">
+        <item quantity="one">%1$d Ñ‡Ð°Ñ</item>
+        <item quantity="few">%1$d Ñ‡Ð°ÑÐ°</item>
+        <item quantity="many">%1$d Ñ‡Ð°ÑÐ¾Ð²</item>
+    </plurals>
+    <plurals name="songs_will_play_next">
+        <item quantity="one">%1$d Ð¿ÐµÑÐ½Ñ Ð±ÑƒÐ´ÐµÑ‚ ÑÑ‹Ð³Ñ€Ð°Ð½Ð° ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹</item>
+        <item quantity="few">%1$d Ð¿ÐµÑÐ½Ð¸ Ð±ÑƒÐ´ÑƒÑ‚ ÑÑ‹Ð³Ñ€Ð°Ð½Ñ‹ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¼Ð¸</item>
+        <item quantity="many">%1$d Ð¿ÐµÑÐµÐ½ Ð±ÑƒÐ´ÑƒÑ‚ ÑÑ‹Ð³Ñ€Ð°Ð½Ñ‹ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¼Ð¸</item>
+    </plurals>
+    <plurals name="songs_added_to_queue">
+        <item quantity="one">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð° %1$d Ð¿ÐµÑÐ½Ñ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ</item>
+        <item quantity="few">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ %1$d Ð¿ÐµÑÐ½Ð¸ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ</item>
+        <item quantity="many">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ %1$d Ð¿ÐµÑÐµÐ½ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ</item>
+    </plurals>
+    <plurals name="log_copied_line_count">
+        <item quantity="one">Ð–ÑƒÑ€Ð½Ð°Ð» ÑÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½ Â· %1$d ÑÑ‚Ñ€Ð¾ÐºÐ°</item>
+        <item quantity="few">Ð–ÑƒÑ€Ð½Ð°Ð» ÑÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½ Â· %1$d ÑÑ‚Ñ€Ð¾ÐºÐ¸</item>
+        <item quantity="many">Ð–ÑƒÑ€Ð½Ð°Ð» ÑÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½ Â· %1$d ÑÑ‚Ñ€Ð¾Ðº</item>
+    </plurals>
+    <string name="integrate_spotify_canvas">ÐÐ°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Spotify Canvas</string>
+    <string name="lastfm_login">Ð’Ñ…Ð¾Ð´ Ð² Last.fm</string>
+    <string name="lastfm_login_description">Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ Ð² ÑÐ²Ð¾Ð¹ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚ Last.fm, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³.</string>
+    <string name="lastfm_now_playing_subtitle">ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÑ‚ Last.fm Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÐµÐ¹ Ð¾ Ñ‚Ð¾Ð¼, Ñ‡Ñ‚Ð¾ Ð²Ñ‹ ÑÐµÐ¹Ñ‡Ð°Ñ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚Ðµ</string>
+    <string name="lead_with_song">Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¿ÐµÑÐ½Ñ</string>
+    <string name="lead_with_song_subtitle">ÐŸÐ¾Ð¼ÐµÑ‰Ð°ÐµÑ‚ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð½Ð° Ð¶Ð¸Ñ€Ð½ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð²Ð¼ÐµÑÑ‚Ð¾ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</string>
+    <string name="like">ÐÑ€Ð°Ð²Ð¸Ñ‚ÑÑ</string>
+    <string name="listenbrainz_token">Ð¢Ð¾ÐºÐµÐ½ ListenBrainz</string>
+    <string name="listenbrainz_token_description">Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ Ñ‚Ð¾ÐºÐµÐ½ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ ListenBrainz, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³.</string>
+    <string name="listening_history">Ð˜ÑÑ‚Ð¾Ñ€Ð¸Ñ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="lyrics_sources_order">Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸ Ð¿Ñ€Ð¾Ð±ÑƒÑŽÑ‚ÑÑ Ð² ÑÑ‚Ð¾Ð¼ Ð¿Ð¾Ñ€ÑÐ´ÐºÐµ. ÐŸÐµÑ€ÐµÑ‚Ð°Ñ‰Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº. ÐŸÐ¾Ð±ÐµÐ¶Ð´Ð°ÐµÑ‚ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº Ñ Ñ‚ÐµÐºÑÑ‚Ð¾Ð¼, ÐµÑÐ»Ð¸ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ðµ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½ Ñ‚ÐµÐºÑÑ‚ Ð¿Ð¾ ÑÐ»Ð¾Ð³Ð°Ð¼.</string>
+    <string name="max_delay">ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ°</string>
+    <string name="max_delay_subtitle">ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ° ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³Ð° Ð² ÑÐµÐºÑƒÐ½Ð´Ð°Ñ…</string>
+    <string name="min_song_duration">ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="min_song_duration_subtitle">Ð‘Ð¾Ð»ÐµÐµ ÐºÐ¾Ñ€Ð¾Ñ‚ÐºÐ¸Ðµ Ð¿ÐµÑÐ½Ð¸ Ð½Ðµ Ð±ÑƒÐ´ÑƒÑ‚ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ñ‚ÑŒÑÑ</string>
+    <string name="monthly_listeners">%1$s ÑÐ»ÑƒÑˆÐ°Ñ‚ÐµÐ»ÐµÐ¹ Ð² Ð¼ÐµÑÑÑ†</string>
+    <string name="name">ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ</string>
+    <string name="no_playlists_yet">ÐŸÐ¾ÐºÐ° Ð½ÐµÑ‚ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð². Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð²Ñ‹ÑˆÐµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ð½Ð¾Ð²Ñ‹Ð¹.</string>
+    <string name="no_tracks_here">Ð—Ð´ÐµÑÑŒ Ð½ÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="not_connected">ÐÐµ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="one_hour">1 Ñ‡Ð°Ñ</string>
+    <string name="open_album">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð°Ð»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="open_artist">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</string>
+    <string name="pause_after_a_while">ÐŸÑ€Ð¸Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ñ‡ÐµÑ€ÐµÐ· Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ</string>
+    <string name="pause_after_song">ÐŸÐ°ÑƒÐ·Ð° Ð¿Ð¾ÑÐ»Ðµ Ð¾ÐºÐ¾Ð½Ñ‡Ð°Ð½Ð¸Ñ ÑÑ‚Ð¾Ð¹ Ð¿ÐµÑÐ½Ð¸</string>
+    <string name="pause_countdown">%1$s Ð´Ð¾ Ð¿Ð°ÑƒÐ·Ñ‹</string>
+    <string name="play_to_preview">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ñ‚Ð¾-Ð½Ð¸Ð±ÑƒÐ´ÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€.</string>
+    <string name="playlist_name">ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</string>
+    <string name="presence">Presence</string>
+    <string name="preview">ÐŸÑ€ÐµÐ´Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€</string>
+    <string name="prioritize_syllable_lyrics">ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑÑ‚ Ð¿Ð¾ ÑÐ»Ð¾Ð³Ð°Ð¼</string>
+    <string name="prioritize_syllable_lyrics_subtitle">ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð°Ñ‚ÑŒ Ð¿Ð¾Ð¸ÑÐº Ð¿Ð¾ÑÐ»Ðµ Ð½Ð°Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ ÑÐ¾Ð²Ð¿Ð°Ð´ÐµÐ½Ð¸Ñ Ð¿Ð¾ ÑÑ‚Ñ€Ð¾ÐºÐ°Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°Ð¹Ñ‚Ð¸ Ñ‚ÐµÐºÑÑ‚ Ð¿Ð¾ ÑÐ»Ð¾Ð²Ð°Ð¼</string>
+    <string name="quality_hourly">%1$s Â· %2$s</string>
+    <string name="quality_per_track">%1$s Â· %2$s Ð·Ð° Ñ‚Ñ€ÐµÐº</string>
+    <string name="queued">Ð’ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="remove">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ</string>
+    <string name="remove_from_liked">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· Ð¿Ð¾Ð½Ñ€Ð°Ð²Ð¸Ð²ÑˆÐµÐ¹ÑÑ Ð¼ÑƒÐ·Ñ‹ÐºÐ¸</string>
+    <string name="remove_from_playlist">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· ÑÑ‚Ð¾Ð³Ð¾ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</string>
+    <string name="rename_playlist">ÐŸÐµÑ€ÐµÐ¸Ð¼ÐµÐ½Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="reorder_songs">Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="reorder_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð½Ð¾Ð²Ñ‹Ð¹ Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº</string>
+    <string name="playlist_reordered">ÐŸÐ¾Ñ€ÑÐ´Ð¾Ðº Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð° ÑÐ¾Ñ…Ñ€Ð°Ð½Ñ‘Ð½</string>
+    <string name="save_order">Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ</string>
+    <string name="reset_to_default">Ð¡Ð±Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+    <string name="rich_presence_footer">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ, Ñ‡Ñ‚Ð¾ Ð²Ñ‹ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚Ðµ, Ð² Ð²Ð°ÑˆÐµÐ¼ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ðµ Discord.</string>
+    <string name="save_name">Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ</string>
+    <string name="saved_to_downloads">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸</string>
+    <string name="saved_to_youtube_music_account">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² Ð²Ð°ÑˆÐµÐ¼ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ðµ YouTube Music</string>
+    <string name="scrobble_delay">Ð—Ð°Ð´ÐµÑ€Ð¶ÐºÐ° ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³Ð°</string>
+    <string name="scrobble_delay_subtitle">ÐÐ°ÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð´Ð°Ð»ÐµÐºÐ¾ Ð² Ð¿ÐµÑÐ½ÑŽ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ñ‚ÑŒ</string>
+    <string name="scrobble_timing">Ð’Ñ€ÐµÐ¼Ñ ÑÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ð½Ð³Ð°</string>
+    <string name="scrobble_tracks">Ð¡ÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ñ‚ÑŒ Ñ‚Ñ€ÐµÐºÐ¸</string>
+    <string name="scrobble_tracks_subtitle">Ð—Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð² Ð²Ð°ÑˆÑƒ Ð»ÐµÐ½Ñ‚Ñƒ Last.fm</string>
+    <string name="scrobbling_footer">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐ¹Ñ‚Ðµ ÑÐ²Ð¾Ð¸ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð² Last.fm Ð¸ ListenBrainz.</string>
+    <string name="scrobbling_paused_footer">Last.fm Ð¸ ListenBrainz Ð¿Ñ€Ð¸Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ñ‹ Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ñ€ÐµÐ»Ð¸Ð·Ð° Ð¸ Ð²ÐµÑ€Ð½ÑƒÑ‚ÑÑ Ð¿Ð¾Ð·Ð¶Ðµ. Ð¡ÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð¾ÑÑ‚Ð°ÑŽÑ‚ÑÑ ÑÐ¾Ñ…Ñ€Ð°Ð½Ñ‘Ð½Ð½Ñ‹Ð¼Ð¸.</string>
+    <string name="search_this_folder">Ð˜ÑÐºÐ°Ñ‚ÑŒ Ð² ÑÑ‚Ð¾Ð¹ Ð¿Ð°Ð¿ÐºÐµ</string>
+    <string name="search_this_list">Ð˜ÑÐºÐ°Ñ‚ÑŒ Ð² ÑÑ‚Ð¾Ð¼ ÑÐ¿Ð¸ÑÐºÐµ</string>
+    <string name="second_button">Ð’Ñ‚Ð¾Ñ€Ð°Ñ ÐºÐ½Ð¾Ð¿ÐºÐ°</string>
+    <string name="share">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ</string>
+    <string name="sharing_as">ÐŸÑƒÐ±Ð»Ð¸ÐºÐ°Ñ†Ð¸Ñ Ð¾Ñ‚ Ð¸Ð¼ÐµÐ½Ð¸ @%1$s</string>
+    <string name="sharing_listens">ÐŸÑƒÐ±Ð»Ð¸ÐºÐ°Ñ†Ð¸Ñ Ð²Ð°ÑˆÐ¸Ñ… Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ð¹</string>
+    <string name="show_what_playing">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ, Ñ‡Ñ‚Ð¾ Ñ ÑÐµÐ¹Ñ‡Ð°Ñ ÑÐ»ÑƒÑˆÐ°ÑŽ</string>
+    <string name="signed_in_as">Ð’Ñ…Ð¾Ð´ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½ ÐºÐ°Ðº %1$s</string>
+    <string name="signing_in">Ð’Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÑ‚ÑÑ Ð²Ñ…Ð¾Ð´â€¦</string>
+    <string name="sleep_timer">Ð¢Ð°Ð¹Ð¼ÐµÑ€ ÑÐ½Ð°</string>
+    <string name="sleep_timer_custom">Ð¡Ð²Ð¾Ð¹</string>
+    <string name="start_sleep_timer">Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ Ñ‚Ð°Ð¹Ð¼ÐµÑ€</string>
+    <string name="sources_no_lossless">ÐÐ¸ Ð¾Ð´Ð¸Ð½ Ð²ÐºÐ»ÑŽÑ‡Ñ‘Ð½Ð½Ñ‹Ð¹ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð°ÑƒÐ´Ð¸Ð¾ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ. Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÑÐºÐ¸Ð¹ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹Ðµ Ñ„Ð°Ð¹Ð»Ñ‹ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Ð±ÐµÐ· Ð¿ÐµÑ€ÐµÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ.</string>
+    <string name="sources_order_footer">Ð•ÑÐ»Ð¸ Ñƒ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ° Ð½ÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ° Ð¸Ð»Ð¸ Ð¾Ð½ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½, Sonora Ð¿Ñ€Ð¾Ð±ÑƒÐµÑ‚ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹. Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸ Ð²Ñ‹ÑˆÐµ YouTube Ð¼Ð¾Ð³ÑƒÑ‚ Ð·Ð°Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÐµÐ³Ð¾ Ð·Ð°Ð¿Ð¸ÑÑŒ, ÐµÑÐ»Ð¸ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÑŽÑ‚ Ð±Ð¾Ð»ÐµÐµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²ÐµÐ½Ð½ÑƒÑŽ Ð²ÐµÑ€ÑÐ¸ÑŽ.</string>
+    <string name="sources_order_header">Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸, Ð¿Ñ€Ð¾Ð±ÑƒÑŽÑ‚ÑÑ Ð² ÑÑ‚Ð¾Ð¼ Ð¿Ð¾Ñ€ÑÐ´ÐºÐµ</string>
+    <string name="sources_quality_capped">Ð­Ñ‚Ð¾ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð½Ð¸Ð¶Ðµ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð³Ð¾ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð°, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ð¿Ð¾Ñ‚Ð¾ÐºÐ¸ Ð¿ÐµÑ€ÐµÐºÐ¾Ð´Ð¸Ñ€ÑƒÑŽÑ‚ÑÑ Ð¿Ð¾Ð´ ÑÑ‚Ð¾ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ. ÐÐ° Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ ÑÑ‚Ð¾ Ð½Ðµ Ð²Ð»Ð¸ÑÐµÑ‚.</string>
+    <string name="jiosaavn_mismatch_warning">ÐœÐ¾Ð¶ÐµÑ‚ Ð¿Ð¾Ð´Ð¾Ð±Ñ€Ð°Ñ‚ÑŒ Ð½Ðµ Ñ‚Ñƒ Ð²ÐµÑ€ÑÐ¸ÑŽ Ð¿ÐµÑÐ½Ð¸. Ð’ÐºÐ»ÑŽÑ‡Ð°Ð¹Ñ‚Ðµ Ð½Ð° ÑÐ²Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ñ… Ð¸ Ñ€Ð¸ÑÐº.</string>
+    <string name="enable_jiosaavn">Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ JioSaavn?</string>
+    <string name="enable_anyway">Ð’ÑÑ‘ Ñ€Ð°Ð²Ð½Ð¾ Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="sources_subtitle">ÐžÑ‚ÐºÑƒÐ´Ð° Ð¿Ð¾ÑÑ‚ÑƒÐ¿Ð°ÐµÑ‚ Ð°ÑƒÐ´Ð¸Ð¾ Ð¸ Ð² ÐºÐ°ÐºÐ¾Ð¼ Ð¿Ð¾Ñ€ÑÐ´ÐºÐµ</string>
+    <string name="source_matching">Ð¡Ð¾Ð¿Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð²</string>
+    <string name="upgrade_length_slack">Ð”Ð¾Ð¿ÑƒÑÐº Ð¿Ð¾ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸</string>
+    <string name="upgrade_length_slack_subtitle">ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€Ð°Ð·Ð½Ð¸Ñ†Ð° Ð² Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð´Ð»Ñ Ð·Ð°Ð¼ÐµÑ‰Ð°ÑŽÑ‰ÐµÐ³Ð¾ Ð¿Ð¾Ñ‚Ð¾ÐºÐ°</string>
+    <string name="upgrade_length_slack_footer">Ð‘Ð¾Ð»ÑŒÑˆÐ¸Ð¹ Ð´Ð¾Ð¿ÑƒÑÐº Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚ Ð±Ð¾Ð»ÑŒÑˆÐµ ÑÐ¾Ð²Ð¿Ð°Ð´ÐµÐ½Ð¸Ð¹ Ð¸Ð· Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð²; Ð¼ÐµÐ½ÑŒÑˆÐ¸Ð¹ â€” ÑÑ‚Ñ€Ð¾Ð¶Ðµ. ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ 5 ÑÐµÐºÑƒÐ½Ð´Ñ‹.</string>
+    <string name="seconds_short">%1$d Ñ</string>
+    <string name="spdc_token">Ð¢Ð¾ÐºÐµÐ½ sp_dc</string>
+    <string name="spotify_canvas_setup">ÐÐ°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Spotify</string>
+    <string name="spotify_canvas_setup_description">Ð§Ñ‚Ð¾Ð±Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Spotify Canvas, ÑƒÐºÐ°Ð¶Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ð¹ cookie sp_dc Ð¾Ñ‚ Spotify.</string>
+    <string name="spotify_canvas_setup_steps">1. Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ Ð½Ð° open.spotify.com Ð² Ð±Ñ€Ð°ÑƒÐ·ÐµÑ€Ðµ.\n2. ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ñ‹ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ°, Ð·Ð°Ñ‚ÐµÐ¼ Application Ð¸ Cookies.\n3. Ð¡ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ cookie sp_dc.\n4. Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ ÐµÐ³Ð¾ Ð½Ð¸Ð¶Ðµ.</string>
+    <string name="spotify_canvas_auto_hide">ÐÐ²Ñ‚Ð¾ÑÐºÑ€Ñ‹Ñ‚Ð¸Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ</string>
+    <string name="spotify_canvas_auto_hide_subtitle">Ð¡Ð²Ð¾Ñ€Ð°Ñ‡Ð¸Ð²Ð°ÐµÑ‚ Ð¿Ð¾Ð»Ð¾Ð²Ð¸Ð½Ñƒ Ð¿Ð»ÐµÐµÑ€Ð° Ñ‡ÐµÑ€ÐµÐ· 5 ÑÐµÐºÑƒÐ½Ð´, Ð¿Ð¾ÐºÐ° Ð¸Ð³Ñ€Ð°ÐµÑ‚ Spotify Canvas</string>
+    <string name="prioritize_spotify_canvas">ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Spotify Canvas</string>
+    <string name="prioritize_spotify_canvas_subtitle">ÐŸÑ€Ð¾Ð±Ð¾Ð²Ð°Ñ‚ÑŒ Spotify Ñ€Ð°Ð½ÑŒÑˆÐµ Apple Music Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð² Ð°Ð½Ð¸Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð¾Ð±Ð»Ð¾Ð¶ÐµÐº</string>
+    <string name="status">Ð¡Ñ‚Ð°Ñ‚ÑƒÑ</string>
+    <string name="status_dialog_message">Ð§Ñ‚Ð¾ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð²Ð°Ñˆ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚, Ð¿Ð¾ÐºÐ° Presence Ð°ÐºÑ‚Ð¸Ð²ÐµÐ½.</string>
+    <string name="status_dnd">ÐÐµ Ð±ÐµÑÐ¿Ð¾ÐºÐ¾Ð¸Ñ‚ÑŒ</string>
+    <string name="status_dnd_detail">ÐšÑ€Ð°ÑÐ½Ñ‹Ð¹ Ð·Ð½Ð°Ñ‡Ð¾Ðº. Ð¢Ð°ÐºÐ¶Ðµ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð°ÐµÑ‚ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ñ.</string>
+    <string name="status_idle">ÐÐµÑ‚ Ð½Ð° Ð¼ÐµÑÑ‚Ðµ</string>
+    <string name="status_idle_detail">Ð¯Ð½Ñ‚Ð°Ñ€Ð½Ñ‹Ð¹ Ð¿Ð¾Ð»ÑƒÐ¼ÐµÑÑÑ†, Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÑ‚ÑÑ ÐºÐ°Ðº Â«Ð¾Ñ‚Ð¾ÑˆÑ‘Ð»Â»</string>
+    <string name="status_online">Ð’ ÑÐµÑ‚Ð¸</string>
+    <string name="status_online_detail">Ð—ÐµÐ»Ñ‘Ð½Ð°Ñ Ñ‚Ð¾Ñ‡ÐºÐ°</string>
+    <string name="subscribers">%1$s Ð¿Ð¾Ð´Ð¿Ð¸ÑÑ‡Ð¸ÐºÐ¾Ð²</string>
+    <string name="tap_to_connect">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="tap_to_sign_in">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¾Ð¹Ñ‚Ð¸</string>
+    <string name="tap_to_sign_in_discord">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¾Ð¹Ñ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· Discord</string>
+    <string name="token">Ð¢Ð¾ÐºÐµÐ½</string>
+    <string name="turn_off_timer">Ð’Ñ‹ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ñ‚Ð°Ð¹Ð¼ÐµÑ€</string>
+    <string name="undo_dislike">ÐžÑ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Â«Ð½Ðµ Ð½Ñ€Ð°Ð²Ð¸Ñ‚ÑÑÂ»</string>
+    <string name="verb_competing">Ð£Ñ‡Ð°ÑÑ‚Ð²ÑƒÐµÑ‚ Ð²</string>
+    <string name="verb_listening">Ð¡Ð»ÑƒÑˆÐ°ÐµÑ‚</string>
+    <string name="verb_playing">Ð˜Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="verb_watching">Ð¡Ð¼Ð¾Ñ‚Ñ€Ð¸Ñ‚</string>
+    <plurals name="minute_count">
+        <item quantity="one">%1$d Ð¼Ð¸Ð½ÑƒÑ‚Ð°</item>
+        <item quantity="few">%1$d Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹</item>
+        <item quantity="many">%1$d Ð¼Ð¸Ð½ÑƒÑ‚</item>
+    </plurals>
+    <string name="biggest_day_note">Ð’Ð°Ñˆ ÑÐ°Ð¼Ñ‹Ð¹ Ð½Ð°ÑÑ‹Ñ‰ÐµÐ½Ð½Ñ‹Ð¹ Ð´ÐµÐ½ÑŒ Ð±Ñ‹Ð» %1$s â€” %2$s Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ.</string>
+    <string name="close_replay">Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ Replay</string>
+    <string name="couldnt_draw_picture">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ</string>
+    <string name="default_replay_holder">Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÐµÐ»ÑŒ Sonora</string>
+    <string name="different_albums">Ð Ð°Ð·Ð½Ñ‹Ðµ Ð°Ð»ÑŒÐ±Ð¾Ð¼Ñ‹</string>
+    <string name="genres_pending">Ð–Ð°Ð½Ñ€Ñ‹ Ð¿Ð¾ÑÐ²ÑÑ‚ÑÑ Ð¿Ð¾ Ð¼ÐµÑ€Ðµ Ñ€Ð¾ÑÑ‚Ð° Ð²Ð°ÑˆÐµÐ¹ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="hour_am">%1$d ÑƒÑ‚Ñ€Ð°</string>
+    <string name="hour_pm">%1$d Ð²ÐµÑ‡ÐµÑ€Ð°</string>
+    <string name="hours_minutes_short">%1$dÑ‡ %2$dÐ¼</string>
+    <string name="listen_most_around">Ð§Ð°Ñ‰Ðµ Ð²ÑÐµÐ³Ð¾ Ð²Ñ‹ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚Ðµ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ Ð¾ÐºÐ¾Ð»Ð¾ %1$s.</string>
+    <string name="lyrics_share_title">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ Ñ‚ÐµÐºÑÑ‚Ð¾Ð¼</string>
+    <string name="lyrics_share_description">Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ðµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð½Ð° ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐµ Ð²Ð¼ÐµÑÑ‚Ðµ Ñ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ¾Ð¹.</string>
+    <string name="lyrics_share_story">Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð´Ð»Ñ ÑÑ‚Ð¾Ñ€Ð¸Ñ</string>
+    <string name="lyrics_share_story_revert">Ð’ÐµÑ€Ð½ÑƒÑ‚ÑŒ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÑƒ</string>
+    <string name="listening_shape">Ð’Ð°ÑˆÐ° Ð¼Ð¾Ð´ÐµÐ»ÑŒ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="member_since">Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸Ðº Ñ</string>
+    <string name="member_since_value">Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸Ðº Ñ %1$s</string>
+    <string name="midday">Ð¿Ð¾Ð»Ð´ÐµÐ½ÑŒ</string>
+    <string name="midnight">Ð¿Ð¾Ð»Ð½Ð¾Ñ‡ÑŒ</string>
+    <string name="minutes">ÐœÐ¸Ð½ÑƒÑ‚Ñ‹</string>
+    <string name="minutes_grouped_short">%1$s Ð¼Ð¸Ð½</string>
+    <string name="minutes_listened">ÐœÐ¸Ð½ÑƒÑ‚ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ°Ð½Ð¾</string>
+    <string name="minutes_short">%1$d Ð¼Ð¸Ð½</string>
+    <string name="not_enough_listening">ÐŸÐ¾ÐºÐ° Ð½ÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¾ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ð¸</string>
+    <string name="not_enough_this_month">ÐŸÑ€Ð¾ÑÐ»ÑƒÑˆÐ°Ð¹Ñ‚Ðµ ÐµÑ‰Ñ‘ Ð½ÐµÐ¼Ð½Ð¾Ð³Ð¾ Ð¿ÐµÑÐµÐ½ Ð² ÑÑ‚Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Replay.</string>
+    <string name="pinned">Ð—Ð°ÐºÑ€ÐµÐ¿Ð»ÐµÐ½Ð¾</string>
+    <string name="replay_across"> Ð² </string>
+    <string name="replay_album_end"> Ð¿Ñ€Ð¸ÐºÐ¾Ð²Ð°Ð» Ð²Ð°ÑˆÐµ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ.</string>
+    <string name="replay_album_focus">ÐžÐ´Ð¸Ð½ Ð°Ð»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="replay_album_start">ÐÐ° ÑÑ‚Ð¾Ñ‚ Ñ€Ð°Ð· </string>
+    <string name="replay_artist_end"> Ð½Ðµ Ð¾Ñ‚Ð¿ÑƒÑÐºÐ°Ð» Ð²Ð°Ñ.</string>
+    <string name="replay_artist_focus">ÐžÐ´Ð¸Ð½ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <string name="replay_artist_start">Ð’ÐµÑÑŒ Ð¼ÐµÑÑÑ† </string>
+    <string name="replay_empty_description">Ð¡Ð»ÑƒÑˆÐ°Ð¹Ñ‚Ðµ Ð½ÐµÐ¼Ð½Ð¾Ð³Ð¾ Ð±Ð¾Ð»ÑŒÑˆÐµ, Ð¸ Sonora Ð¿Ñ€ÐµÐ²Ñ€Ð°Ñ‚Ð¸Ñ‚ Ð²Ð°ÑˆÑƒ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ Ð² Replay.</string>
+    <string name="replay_genre_end"> Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ð»Ð¸ Ð²Ð°ÑˆÐµ Ð·Ð²ÑƒÑ‡Ð°Ð½Ð¸Ðµ.</string>
+    <string name="replay_genre_focus">Ð’Ð°ÑˆÐ¸ Ð¶Ð°Ð½Ñ€Ñ‹</string>
+    <string name="replay_genre_start">Ð’Ð¼ÐµÑÑ‚Ðµ </string>
+    <string name="replay_habits_middle"> Ð¸Ð· </string>
+    <string name="replay_habits_start">Ð’Ñ‹ Ð¸ÑÑÐ»ÐµÐ´Ð¾Ð²Ð°Ð»Ð¸ </string>
+    <string name="replay_hours_across">%1$s Ñ‡Ð°ÑÐ¾Ð²</string>
+    <string name="replay_intro_end"> Ð³Ð¾Ñ‚Ð¾Ð².</string>
+    <string name="replay_intro_start">Ð’Ð°Ñˆ </string>
+    <string name="replay_minutes_end"> Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ¾Ð¹.</string>
+    <string name="replay_minutes_start">Ð’Ñ‹ Ð¿Ñ€Ð¾Ð²ÐµÐ»Ð¸ </string>
+    <string name="replay_minutes_value">%1$s</string>
+    <plurals name="replay_minutes_unit">
+        <item quantity="one">%1$s Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ</item>
+        <item quantity="few">%1$s Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹</item>
+        <item quantity="many">%1$s Ð¼Ð¸Ð½ÑƒÑ‚</item>
+        <item quantity="other">%1$s Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹</item>
+    </plurals>
+    <string name="replay_mostly_around">, Ð² Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¼ Ð¾ÐºÐ¾Ð»Ð¾ %1$s.</string>
+    <string name="replay_private_counting">Ð¤Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÑ‚ÑÑ Ð¿Ñ€Ð¸Ð²Ð°Ñ‚Ð½Ð¾ Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="replay_share_card_description">ÐÐºÐºÑƒÑ€Ð°Ñ‚Ð½Ð°Ñ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ° Ñ Ð³Ð»Ð°Ð²Ð½Ñ‹Ð¼Ð¸ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚Ð°Ð¼Ð¸ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ.</string>
+    <string name="replay_share_summary_description">ÐŸÐ¾Ð»Ð½Ð°Ñ ÐºÐ°Ñ€Ñ‚Ð¸Ð½Ð°: Ð¿ÐµÑÐ½Ð¸, Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ð¸, Ð°Ð»ÑŒÐ±Ð¾Ð¼Ñ‹, Ð¶Ð°Ð½Ñ€Ñ‹ Ð¸ Ð¿Ñ€Ð¸Ð²Ñ‹Ñ‡ÐºÐ¸.</string>
+    <string name="replay_songs_end"> Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ð»Ð¸ Ð²Ð°Ñˆ Ð¼ÐµÑÑÑ†.</string>
+    <string name="replay_songs_start">Ð’ÑÐµÐ³Ð¾ </string>
+    <string name="replay_summary_start">Ð’ Ñ†ÐµÐ½Ñ‚Ñ€Ðµ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð±Ñ‹Ð» </string>
+    <string name="saved">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾</string>
+    <string name="saved_bang">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾!</string>
+    <string name="share_my_replay">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ Ð¼Ð¾Ð¸Ð¼ Replay</string>
+    <string name="share_your_lyrics">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÑƒ Ñ Ñ‚ÐµÐºÑÑ‚Ð¾Ð¼</string>
+    <string name="share_your_replay">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ ÑÐ²Ð¾Ð¸Ð¼ Replay</string>
+    <string name="tap_share_for_picture">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ Â«ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑÂ», Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ</string>
+    <string name="top_album">Ð¢Ð¾Ð¿-Ð°Ð»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="top_artist">Ð¢Ð¾Ð¿-Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <string name="top_genre">Ð¢Ð¾Ð¿-Ð¶Ð°Ð½Ñ€</string>
+    <string name="top_song">Ð¢Ð¾Ð¿-Ð¿ÐµÑÐ½Ñ</string>
+    <string name="when_you_listen_the_most">ÐšÐ¾Ð³Ð´Ð° Ð²Ñ‹ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚Ðµ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð²ÑÐµÐ³Ð¾</string>
+    <string name="your_biggest_day">Ð’Ð°Ñˆ ÑÐ°Ð¼Ñ‹Ð¹ Ð½Ð°ÑÑ‹Ñ‰ÐµÐ½Ð½Ñ‹Ð¹ Ð´ÐµÐ½ÑŒ: %1$s</string>
+    <string name="your_listening_experience">Ð’Ð°Ñˆ Ð¾Ð¿Ñ‹Ñ‚ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="your_lyrics_card">Ð’Ð°ÑˆÐ° ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ° Ñ Ñ‚ÐµÐºÑÑ‚Ð¾Ð¼</string>
+    <string name="your_replay">Ð’Ð°Ñˆ Replay</string>
+    <plurals name="replay_artist_count">
+        <item quantity="one">%1$s Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</item>
+        <item quantity="few">%1$s Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</item>
+        <item quantity="many">%1$s Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹</item>
+    </plurals>
+    <plurals name="replay_play_count">
+        <item quantity="one">%1$s Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ðµ</item>
+        <item quantity="few">%1$s Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</item>
+        <item quantity="many">%1$s Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ð¹</item>
+    </plurals>
+    <plurals name="replay_song_count">
+        <item quantity="one">%1$s Ð¿ÐµÑÐ½Ñ</item>
+        <item quantity="few">%1$s Ð¿ÐµÑÐ½Ð¸</item>
+        <item quantity="many">%1$s Ð¿ÐµÑÐµÐ½</item>
+    </plurals>
+    <string name="all_audio_folders">Ð’ÑÐµ Ð¿Ð°Ð¿ÐºÐ¸ Ñ Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="local_music_folder">ÐŸÐ°Ð¿ÐºÐ° Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ð¾Ð¹ Ð¼ÑƒÐ·Ñ‹ÐºÐ¸</string>
+    <string name="sort_music">Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ð¼ÑƒÐ·Ñ‹ÐºÐ¸</string>
+    <string name="sort_title_ascending">ÐŸÐ¾ Ð°Ð»Ñ„Ð°Ð²Ð¸Ñ‚Ñƒ (Ð â€” Ð¯)</string>
+    <string name="sort_title_descending">ÐŸÐ¾ Ð°Ð»Ñ„Ð°Ð²Ð¸Ñ‚Ñƒ (Ð¯ â€” Ð)</string>
+    <string name="sort_date_added">ÐŸÐ¾ Ð´Ð°Ñ‚Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ (ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð½Ð¾Ð²Ñ‹Ðµ)</string>
+    <string name="sort_date_modified">ÐŸÐ¾ Ð´Ð°Ñ‚Ðµ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ (ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð½Ð¾Ð²Ñ‹Ðµ)</string>
+    <string name="use_all_audio_folders">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð²ÑÐµ Ð¿Ð°Ð¿ÐºÐ¸ Ñ Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="use_all_audio_folders_subtitle">Ð¡Ð½ÑÑ‚ÑŒ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ Ð¿Ð°Ð¿ÐºÐ°Ð¼ Ð¸ ÑÐºÐ°Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ Ð¿Ð¾ Ð²ÑÐµÐ¼Ñƒ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ñƒ</string>
+    <string name="album">Ð°Ð»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="artist">Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
+    <string name="webdav">WebDAV</string>
+    <string name="webdav_subtitle">ÐœÑƒÐ·Ñ‹ÐºÐ° Ð½Ð° Ð²Ð°ÑˆÐµÐ¼ ÑÐµÑ€Ð²ÐµÑ€Ðµ</string>
+    <string name="webdav_not_configured">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ ÑÐµÑ€Ð²ÐµÑ€ Ð² Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ Â«Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸Â»</string>
+    <string name="webdav_empty">ÐÐ° ÑÐµÑ€Ð²ÐµÑ€Ðµ WebDAV Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð°ÑƒÐ´Ð¸Ð¾Ñ„Ð°Ð¹Ð»Ð¾Ð². ÐŸÑ€Ð¾Ð²ÐµÑ€ÑŒÑ‚Ðµ URL Ð² Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°Ñ….</string>
+    <string name="webdav_description">Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Sonora Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½ÑƒÑŽ Ð¿Ð°Ð¿ÐºÑƒ WebDAV â€” ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ Â«ÐœÑƒÐ·Ñ‹ÐºÐ°Â» Ð² Nextcloud Ð¸Ð»Ð¸ Ð»ÑŽÐ±Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¾Ð¹ WebDAV.</string>
+    <string name="webdav_server_url">URL ÑÐµÑ€Ð²ÐµÑ€Ð°</string>
+    <string name="webdav_server_url_hint">https://cloud.example.com/remote.php/dav/files/user/Music</string>
+    <string name="webdav_disconnect">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="webdav_test_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ: %1$s</string>
+    <string name="upload_to_webdav">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ Ð² WebDAV</string>
+    <string name="webdav_conflict_title">Â«%1$sÂ» ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ Ð½Ð° ÑÐµÑ€Ð²ÐµÑ€Ðµ</string>
+    <string name="webdav_conflict_message">ÐŸÐµÑ€ÐµÐ·Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ Ð¸Ð»Ð¸ ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¾Ð±Ðµ ÐºÐ¾Ð¿Ð¸Ð¸?</string>
+    <string name="webdav_overwrite">ÐŸÐµÑ€ÐµÐ·Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ</string>
+    <string name="webdav_keep_both">Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¾Ð±Ðµ</string>
+    <string name="webdav_skip">ÐŸÑ€Ð¾Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ</string>
+    <string name="webdav_apply_to_all">ÐŸÑ€Ð¸Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÐºÐ¾ Ð²ÑÐµÐ¼</string>
+    <string name="webdav_upload_summary">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¾: %1$d Â· Ð¿Ñ€Ð¾Ð¿ÑƒÑ‰ÐµÐ½Ð¾: %2$d Â· Ð¾ÑˆÐ¸Ð±Ð¾Ðº: %3$d</string>
+    <string name="smb">SMB</string>
+    <string name="smb_subtitle">ÐœÑƒÐ·Ñ‹ÐºÐ° Ð² Ð¾Ð±Ñ‰ÐµÐ¹ Ð¿Ð°Ð¿ÐºÐµ</string>
+    <string name="smb_not_configured">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ð¾Ð±Ñ‰ÑƒÑŽ Ð¿Ð°Ð¿ÐºÑƒ Ð² Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ Â«Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸Â»</string>
+    <string name="smb_empty">Ð’ Ð¾Ð±Ñ‰ÐµÐ¹ Ð¿Ð°Ð¿ÐºÐµ SMB Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð°ÑƒÐ´Ð¸Ð¾Ñ„Ð°Ð¹Ð»Ð¾Ð². ÐŸÑ€Ð¾Ð²ÐµÑ€ÑŒÑ‚Ðµ ÑÐµÑ€Ð²ÐµÑ€ Ð² Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ Â«Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸Â».</string>
+    <string name="smb_description">Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Sonora Ð¾Ð±Ñ‰ÑƒÑŽ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½ÑƒÑŽ Ð¿Ð°Ð¿ÐºÑƒ â€” NAS Ð¸Ð»Ð¸ Ð¾Ð±Ñ‰ÑƒÑŽ Ð¿Ð°Ð¿ÐºÑƒ Windows Ð¿Ð¾ SMB.</string>
+    <string name="smb_server_hint">nas.local or 192.168.1.10:4445</string>
+    <string name="smb_share_hint">Ð˜Ð¼Ñ Ñ€ÐµÑÑƒÑ€ÑÐ°, Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€ Music</string>
+    <string name="smb_folder_hint">ÐŸÐ°Ð¿ÐºÐ° (Ð½ÐµÐ¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾)</string>
+    <string name="smb_disconnect">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="smb_test_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ: %1$s</string>
+    <string name="playlist">Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="open">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ</string>
+    <string name="open_playlist">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="pin">Ð—Ð°ÐºÑ€ÐµÐ¿Ð¸Ñ‚ÑŒ</string>
+    <string name="unpin">ÐžÑ‚ÐºÑ€ÐµÐ¿Ð¸Ñ‚ÑŒ</string>
+    <string name="rename">ÐŸÐµÑ€ÐµÐ¸Ð¼ÐµÐ½Ð¾Ð²Ð°Ñ‚ÑŒ</string>
+    <string name="downloading">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ°</string>
+    <string name="delete_playlist">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="delete_download">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÑƒ</string>
+    <string name="delete_playlist_confirmation">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Â«%1$sÂ»? ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ ÐµÑ‰Ñ‘ Ñ€Ð°Ð· Ð´Ð»Ñ Ð¿Ð¾Ð´Ñ‚Ð²ÐµÑ€Ð¶Ð´ÐµÐ½Ð¸Ñ.</string>
+    <string name="delete_download_confirmation">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Â«%1$sÂ» Ñ ÑÑ‚Ð¾Ð³Ð¾ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°? ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ ÐµÑ‰Ñ‘ Ñ€Ð°Ð· Ð´Ð»Ñ Ð¿Ð¾Ð´Ñ‚Ð²ÐµÑ€Ð¶Ð´ÐµÐ½Ð¸Ñ.</string>
+    <string name="running">Ð’Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÑ‚ÑÑ</string>
+    <string name="version_alignment_status">%1$s Â· %2$s</string>
+    <string name="version_cut_not_fetched">Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾</string>
+    <string name="version_cut_fetching">Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ°</string>
+    <string name="version_cut_measuring">Ð°Ð½Ð°Ð»Ð¸Ð·</string>
+    <string name="version_cut_aligned">Ð²Ñ‹Ñ€Ð¾Ð²Ð½ÐµÐ½Ð¾</string>
+    <string name="automix_enabled_subtitle">Ð Ð°ÑÑÑ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÑ‚ Ð²Ñ€ÐµÐ¼Ñ Ð¸ ÑÐ¼ÐµÑˆÐ¸Ð²Ð°ÐµÑ‚ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´ Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ðµ ÑÐ°Ð¼Ð¸Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð². ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ, ÐµÑÐ»Ð¸ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½ Ð½Ð°Ð³Ñ€ÐµÐ²Ð°ÐµÑ‚ÑÑ Ð¸Ð»Ð¸ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ.</string>
+    <string name="automix_disabled_subtitle">ÐÐ²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸ Ñ€Ð°ÑÑÑ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÑ‚ Ð²Ñ€ÐµÐ¼Ñ Ð¸ ÑÐ¼ÐµÑˆÐ¸Ð²Ð°ÐµÑ‚ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´Ñ‹ Ð±ÐµÐ· Ð¿Ð¾Ð»Ð·ÑƒÐ½ÐºÐ°. ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¾Ñ‚Ð»Ð¸Ñ‡Ð°Ñ‚ÑŒÑÑ Ð½Ð° Ð¼ÐµÐ´Ð»ÐµÐ½Ð½Ñ‹Ñ… ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°Ñ….</string>
+    <string name="advanced_automix">Ð Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð½Ñ‹Ð¹ Ð°Ð²Ñ‚Ð¾Ð¼Ð¸ÐºÑ</string>
+    <string name="advanced_automix_subtitle">Ð¡Ð²Ð¾Ð´Ð¸Ñ‚ ÐºÐ°Ðº Ð´Ð¸Ð´Ð¶ÐµÐ¹: Ð´ÐµÑ€Ð¶Ð¸Ñ‚ Ð±Ð¸Ñ‚Ñ‹ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð½Ð¾, Ð´ÐµÐ»Ð°ÐµÑ‚ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´ Ð² Ð´Ð¾Ð»ÑŽ Ð¸ Ñ€ÐµÐ¶ÐµÑ‚ Ð¼ÐµÐ¶Ð´Ñƒ Ñ‚Ñ€ÐµÐºÐ°Ð¼Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð½Ðµ ÑÐ¾Ñ‡ÐµÑ‚Ð°ÑŽÑ‚ÑÑ. Ð‘ÐµÐ· Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸.</string>
+    <string name="no_lyrics_sources_enabled">ÐÐ¸Ñ‡ÐµÐ³Ð¾. Ð¢ÐµÐºÑÑ‚ Ð¿ÐµÑÐµÐ½ Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°Ñ‚ÑŒÑÑ.</string>
+    <string name="song_cache_large_subtitle">Ð¥Ñ€Ð°Ð½Ð¸Ñ‚ Ð½Ð° Ð´Ð¸ÑÐºÐµ Ð´Ð¾ %1$s Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð°ÑƒÐ´Ð¸Ð¾. Ð­Ñ‚Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð·Ð°Ð½ÑÑ‚ÑŒ Ð·Ð°Ð¼ÐµÑ‚Ð½ÑƒÑŽ Ñ‡Ð°ÑÑ‚ÑŒ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ð¼ÐµÑÑ‚Ð°.</string>
+    <string name="song_cache_limit_subtitle">Ð¥Ñ€Ð°Ð½Ð¸Ñ‚ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ð¾Ðµ Ð°ÑƒÐ´Ð¸Ð¾ Ð½Ð° Ð´Ð¸ÑÐºÐµ Ð´Ð»Ñ Ð¼Ð³Ð½Ð¾Ð²ÐµÐ½Ð½Ð¾Ð¹ Ð¿ÐµÑ€ÐµÐ¼Ð¾Ñ‚ÐºÐ¸ Ð¸ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="replay_genres_enabled_subtitle">Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÑ‚ Ñƒ Last.fm Ð¶Ð°Ð½Ñ€Ñ‹ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ. ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¸Ð¼Ñ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ.</string>
+    <string name="replay_genres_disabled_subtitle">ÐŸÐ¾ÐºÐ° ÑÑ‚Ð¾ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾, Ð³Ñ€Ð°Ñ„Ð¸Ðº Ð¶Ð°Ð½Ñ€Ð¾Ð² Ð² Replay Ð¾ÑÑ‚Ð°Ñ‘Ñ‚ÑÑ ÑÐºÑ€Ñ‹Ñ‚Ñ‹Ð¼</string>
+    <string name="swipe_plays_next">Ð¡Ð²Ð°Ð¹Ð¿ Ð¿ÐµÑÐ½Ð¸ ÑÑ‚Ð°Ð²Ð¸Ñ‚ ÐµÑ‘ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹</string>
+    <string name="swipe_adds_to_queue">Ð•ÑÐ»Ð¸ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾, ÑÐ²Ð°Ð¹Ð¿ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ Ð¿ÐµÑÐ½ÑŽ Ð² ÐºÐ¾Ð½ÐµÑ† Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="import_backup_warning">Ð­Ñ‚Ð¾ Ð·Ð°Ð¼ÐµÐ½Ð¸Ñ‚ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ñ‹Ð¼ Ñ„Ð°Ð¹Ð»Ð°. Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ, ÐµÑÐ»Ð¸ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ Ð¸Ñ… ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ.</string>
+    <string name="youtube_music_account">ÐÐºÐºÐ°ÑƒÐ½Ñ‚ YouTube Music</string>
+    <string name="tap_to_sign_in_google">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¾Ð¹Ñ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· Google</string>
+    <string name="export_succeeded">Ð­ÐºÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ñ‹ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¸ %1$s</string>
+    <string name="export_failed">ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð°: %1$s</string>
+    <string name="import_succeeded">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾ %1$s Ð¸Ð· v%2$s</string>
+    <string name="import_failed">ÐžÑˆÐ¸Ð±ÐºÐ° Ð¸Ð¼Ð¿Ð¾Ñ€Ñ‚Ð°: %1$s</string>
+    <string name="unknown_error">Ð½ÐµÐ¸Ð·Ð²ÐµÑÑ‚Ð½Ð°Ñ Ð¾ÑˆÐ¸Ð±ÐºÐ°</string>
+    <string name="no_listening_history">Ð½ÐµÑ‚ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</string>
+    <plurals name="listening_month_count">
+        <item quantity="one">%1$d Ð¼ÐµÑÑÑ† Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</item>
+        <item quantity="few">%1$d Ð¼ÐµÑÑÑ†Ð° Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</item>
+        <item quantity="many">%1$d Ð¼ÐµÑÑÑ†ÐµÐ² Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ</item>
+    </plurals>
+    <string name="no_local_albums">Ð—Ð´ÐµÑÑŒ Ð¿Ð¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½ÐµÑ‚ Ð¸Ð· Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð° Ð¸Ð»Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°. Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚Ðµ Ð¿Ð¾Ð»Ð½Ñ‹Ð¹ Ð°Ð»ÑŒÐ±Ð¾Ð¼ Ð¸Ð»Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚, Ð¸ Ð¾Ð½ Ð¿Ð¾ÑÐ²Ð¸Ñ‚ÑÑ Ð·Ð´ÐµÑÑŒ.</string>
+    <string name="play_your_replay">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÑÑ‚Ð¸ Ð²Ð°Ñˆ Replay</string>
+    <string name="counted_on_device_with_bitchord">ÐŸÐ¾Ð´ÑÑ‡Ð¸Ñ‚Ð°Ð½Ð¾ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Sonora</string>
+    <string name="this_month">Ð­Ñ‚Ð¾Ñ‚ Ð¼ÐµÑÑÑ†</string>
+    <string name="this_year">Ð­Ñ‚Ð¾Ñ‚ Ð³Ð¾Ð´</string>
+    <string name="all_time">Ð—Ð° Ð²ÑÑ‘ Ð²Ñ€ÐµÐ¼Ñ</string>
+
+    <!-- Listen together -->
+    <string name="listen_together">Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ Ð²Ð¼ÐµÑÑ‚Ðµ</string>
+    <string name="listen_together_subtitle">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÐµÑÑŒ ÐºÐ¾Ð´Ð¾Ð¼ Ð¸ ÑÐ»ÑƒÑˆÐ°Ð¹Ñ‚Ðµ Ð¾Ð´Ð½Ñƒ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð½Ð¾</string>
+    <string name="listen_together_in_party">Ð’ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ Â· %1$s</string>
+    <string name="listen_together_sign_in_footer">Ð”Ð»Ñ ÑÐ¾Ð²Ð¼ÐµÑÑ‚Ð½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ Ð½ÑƒÐ¶ÐµÐ½ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÑÐµ ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ¸ Ð²Ð¸Ð´ÐµÐ»Ð¸, ÐºÑ‚Ð¾ ÐµÑ‰Ñ‘ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚.</string>
+    <string name="listen_together_server">Ð¡ÐµÑ€Ð²ÐµÑ€ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸</string>
+    <string name="listen_together_server_online">Ð’ ÑÐµÑ‚Ð¸ Â· %1$d Ð¼Ñ</string>
+    <string name="listen_together_server_online_fallback">Ð’ ÑÐµÑ‚Ð¸ (Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ð¹ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ) Â· %1$d Ð¼Ñ</string>
+    <string name="listen_together_server_offline">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½</string>
+    <string name="listen_together_server_checking">ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ°â€¦</string>
+    <string name="listen_together_server_unknown">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ</string>
+    <string name="listen_together_custom_server">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€</string>
+    <string name="listen_together_custom_server_footer">ÐžÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ Ð¿ÑƒÑÑ‚Ñ‹Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð²ÑÑ‚Ñ€Ð¾ÐµÐ½Ð½Ñ‹Ð¹ ÑÐµÑ€Ð²ÐµÑ€. Ð•ÑÐ»Ð¸ Ñƒ Ð²Ð°Ñ ÑÐ²Ð¾Ñ ÐºÐ¾Ð¿Ð¸Ñ, Ð²ÑÐµ ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ¸ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð¾Ð´Ð¸Ð½ Ð¸ Ñ‚Ð¾Ñ‚ Ð¶Ðµ Ð°Ð´Ñ€ÐµÑ.</string>
+    <string name="listen_together_using_default">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð²ÑÑ‚Ñ€Ð¾ÐµÐ½Ð½Ñ‹Ð¹ ÑÐµÑ€Ð²ÐµÑ€</string>
+    <string name="listen_together_remove_server">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐµÑ€Ð²ÐµÑ€</string>
+    <string name="listen_together_switched_to_default">ÐŸÐµÑ€ÐµÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾ Ð½Ð° ÑÐµÑ€Ð²ÐµÑ€ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+    <string name="listen_together_custom_server_saved">Ð¡Ð²Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€ ÑÐ¾Ñ…Ñ€Ð°Ð½Ñ‘Ð½</string>
+    <string name="listen_together_create">Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_create_subtitle">ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚Ðµ ÐºÐ¾Ð´, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ Ñ Ð´Ñ€ÑƒÐ·ÑŒÑÐ¼Ð¸</string>
+    <string name="listen_together_create_footer">Ð’Ñ‹ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚Ðµ ÐºÐ¾Ð´ Ð¸Ð· ÑˆÐµÑÑ‚Ð¸ ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð². ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ð¼Ð¾Ð¶ÐµÑ‚ Ð»ÑŽÐ±Ð¾Ð¹, Ñƒ ÐºÐ¾Ð³Ð¾ Ð¾Ð½ ÐµÑÑ‚ÑŒ, â€” Ð´Ð¾ %1$d ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð², Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ Ð²Ð°ÑˆÐµ.</string>
+    <string name="listen_together_profile">Ð’Ð°Ñˆ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð½Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ</string>
+    <string name="listen_together_nickname_hint">ÐÐ¸ÐºÐ½ÐµÐ¹Ð¼ Ð´Ð»Ñ ÑÑ‚Ð¾Ð¹ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸</string>
+    <string name="listen_together_party_size">Ð Ð°Ð·Ð¼ÐµÑ€ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸</string>
+    <string name="listen_together_party_size_subtitle">Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¾Ñ‚ 2 Ð´Ð¾ 10 ÑÐ»ÑƒÑˆÐ°Ñ‚ÐµÐ»ÐµÐ¹</string>
+    <string name="listen_together_host_controls">Ð¢Ð¾Ð»ÑŒÐºÐ¾ Ð²Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ Ð²Ð¼ÐµÑÑ‚Ð¸Ð¼Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÑ‚ÑŒ ÑÐ»ÑƒÑˆÐ°Ñ‚ÐµÐ»ÐµÐ¹</string>
+    <string name="listen_together_remove">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ</string>
+    <string name="listen_together_activity">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ðµ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ</string>
+    <string name="listen_together_activity_footer">Ð¢Ð¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ð¾Ñ‚ ÑÐµÐ°Ð½Ñ Â· ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð½Ð¾Ð²Ñ‹Ðµ Â· Ð´Ð¾ 100 Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ð¹</string>
+    <string name="listen_together_activity_played">Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ð» Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ</string>
+    <string name="listen_together_activity_paused">ÐŸÐ¾ÑÑ‚Ð°Ð²Ð¸Ð» Ð½Ð° Ð¿Ð°ÑƒÐ·Ñƒ</string>
+    <string name="listen_together_activity_seeked">ÐŸÐµÑ€ÐµÐ¼Ð¾Ñ‚Ð°Ð» Ñ‚Ñ€ÐµÐº</string>
+    <string name="listen_together_activity_skipped">ÐŸÐµÑ€ÐµÐºÐ»ÑŽÑ‡Ð¸Ð» Ð²Ð¿ÐµÑ€Ñ‘Ð´</string>
+    <string name="listen_together_activity_went_back">Ð’ÐµÑ€Ð½ÑƒÐ»ÑÑ Ð½Ð°Ð·Ð°Ð´</string>
+    <string name="listen_together_activity_added">Ð”Ð¾Ð±Ð°Ð²Ð¸Ð» Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ</string>
+    <string name="listen_together_activity_removed_track">Ð£Ð´Ð°Ð»Ð¸Ð» Ñ‚Ñ€ÐµÐº Ð¸Ð· Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="listen_together_activity_cleared">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ð» ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ðµ Ñ‚Ñ€ÐµÐºÐ¸</string>
+    <string name="listen_together_activity_reordered">Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð» Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="listen_together_activity_removed_member">Ð£Ð´Ð°Ð»Ð¸Ð» ÑÐ»ÑƒÑˆÐ°Ñ‚ÐµÐ»Ñ</string>
+    <string name="listen_together_activity_changed_size">Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð» Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸</string>
+    <string name="listen_together_activity_updated">ÐžÐ±Ð½Ð¾Ð²Ð¸Ð» Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_join">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ</string>
+    <string name="listen_together_join_action">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ</string>
+    <string name="listen_together_code_hint">Ð¨ÐµÑÑ‚ÑŒ Ð±ÑƒÐºÐ² Ð¸Ð»Ð¸ Ñ†Ð¸Ñ„Ñ€</string>
+    <string name="listen_together_code">ÐšÐ¾Ð´ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸</string>
+    <string name="listen_together_code_footer">ÐŸÑ€Ð¾Ð´Ð¸ÐºÑ‚ÑƒÐ¹Ñ‚Ðµ Ð¸Ð»Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²ÑŒÑ‚Ðµ ÐµÐ³Ð¾. Ð‘ÑƒÐºÐ²Ñ‹ O Ð¸ I Ð½Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑŽÑ‚ÑÑ, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Â«Ð¾Â» â€” ÑÑ‚Ð¾ Ð²ÑÐµÐ³Ð´Ð° Ð½Ð¾Ð»ÑŒ.</string>
+    <string name="copy_code">ÐšÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÐºÐ¾Ð´</string>
+    <string name="listen_together_share_text">Ð¡Ð»ÑƒÑˆÐ°Ð¹ ÑÐ¾ Ð¼Ð½Ð¾Ð¹ Ð² Sonora â€” ÐºÐ¾Ð´ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸ %1$s</string>
+    <string name="listen_together_now_playing">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="listen_together_nothing_playing">ÐŸÐ¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¸Ð³Ñ€Ð°ÐµÑ‚</string>
+    <string name="listen_together_listening">Ð¡Ð»ÑƒÑˆÐ°ÑŽÑ‚ Â· %1$d Ð¸Ð· %2$d</string>
+    <string name="listen_together_members_footer">Ð’ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ Ð´Ð¾ %1$d ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð². Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒ Ð¼ÑƒÐ·Ñ‹ÐºÐ¾Ð¹ Ð¼Ð¾Ð¶ÐµÑ‚ Ð»ÑŽÐ±Ð¾Ð¹ ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸Ðº.</string>
+    <string name="listen_together_you">Ð’Ñ‹</string>
+    <string name="listen_together_host">Ð¥Ð¾ÑÑ‚</string>
+    <string name="listen_together_away">ÐžÑ‚Ð¾ÑˆÑ‘Ð» â€” Ð¼ÐµÑÑ‚Ð¾ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾</string>
+    <string name="listen_together_landing_title">ÐÐ°Ñ‡Ð°Ñ‚ÑŒ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_landing_subtitle">ÐŸÐ¾Ñ‚Ð¾Ð¼Ñƒ Ñ‡Ñ‚Ð¾ Ð²Ð¼ÐµÑÑ‚Ðµ Ð¼ÑƒÐ·Ñ‹ÐºÐ° Ð·Ð²ÑƒÑ‡Ð¸Ñ‚ Ð»ÑƒÑ‡ÑˆÐµ. ÐŸÑ€Ð¸Ð³Ð»Ð°ÑˆÐ°Ð¹Ñ‚Ðµ Ð´Ñ€ÑƒÐ·ÐµÐ¹ ÑÐ»ÑƒÑˆÐ°Ñ‚ÑŒ Ð¸ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÑ‚ÑŒ Ð¿ÐµÑÐ½Ð¸ Ð² Ñ€ÐµÐ°Ð»ÑŒÐ½Ð¾Ð¼ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸, Ð³Ð´Ðµ Ð±Ñ‹ Ð¾Ð½Ð¸ Ð½Ð¸ Ð±Ñ‹Ð»Ð¸.</string>
+    <string name="listen_together_create_action">Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_join_existing">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰ÐµÐ¹</string>
+    <string name="listen_together_create_sheet_subtitle">Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ, ÐºÐ°Ðº Ð²Ñ‹ Ð±ÑƒÐ´ÐµÑ‚Ðµ Ð²Ñ‹Ð³Ð»ÑÐ´ÐµÑ‚ÑŒ Ð¸ ÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð»ÑŽÐ´ÐµÐ¹ ÑÐ¼Ð¾Ð³ÑƒÑ‚ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ.</string>
+    <string name="listen_together_creating">Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµâ€¦</string>
+    <string name="listen_together_joining">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµâ€¦</string>
+    <string name="listen_together_full">Ð­Ñ‚Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ° Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð°</string>
+    <string name="listen_together_join_question">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ %1$s?</string>
+    <string name="listen_together_join_question_unnamed">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº ÑÑ‚Ð¾Ð¹ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ?</string>
+    <string name="listen_together_not_now">ÐÐµ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+    <string name="listen_together_preview_footer">Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ¸ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸ ÑƒÐ²Ð¸Ð´ÑÑ‚ Ð²Ð°ÑˆÐµ Ð¸Ð¼Ñ Ð¸ Ñ„Ð¾Ñ‚Ð¾ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ.</string>
+    <string name="listen_together_invite_title">ÐŸÑ€Ð¸Ð³Ð»Ð°ÑÐ¸Ñ‚Ðµ Ð´Ñ€ÑƒÐ·ÐµÐ¹ Ð½Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_share_link">ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÑŒÑÑ ÑÑÑ‹Ð»ÐºÐ¾Ð¹</string>
+    <string name="listen_together_scan_qr">Ð¡ÐºÐ°Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ QR-ÐºÐ¾Ð´</string>
+    <string name="listen_together_scan_qr_subtitle">Ð”Ñ€ÑƒÐ·ÑŒÑ Ð¼Ð¾Ð³ÑƒÑ‚ Ð¾Ñ‚ÑÐºÐ°Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÐµÐ³Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ.</string>
+    <string name="listen_together_invite">ÐŸÑ€Ð¸Ð³Ð»Ð°ÑÐ¸Ñ‚ÑŒ</string>
+    <string name="listen_together_host_only">Ð¢Ð¾Ð»ÑŒÐºÐ¾ Ñ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÑÑŽ Ð¼ÑƒÐ·Ñ‹ÐºÐ¾Ð¹</string>
+    <string name="listen_together_host_only_subtitle">ÐžÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐ»ÑƒÑˆÐ°ÑŽÑ‚ Ð²Ð¼ÐµÑÑ‚Ðµ Ð¸ Ð¼Ð¾Ð³ÑƒÑ‚ ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ð°ÑƒÐ·Ñƒ Ð½Ð° ÑÐ²Ð¾Ñ‘Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="listen_together_host_only_notice">Ð¢Ð¾Ð»ÑŒÐºÐ¾ Ñ…Ð¾Ð·ÑÐ¸Ð½ Ð¼Ð¾Ð¶ÐµÑ‚ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒ Ð¼ÑƒÐ·Ñ‹ÐºÐ¾Ð¹</string>
+    <string name="listen_together_leave">ÐŸÐ¾ÐºÐ¸Ð½ÑƒÑ‚ÑŒ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÑƒ</string>
+    <string name="listen_together_leave_subtitle">ÐžÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð°Ñ‚ ÑÐ»ÑƒÑˆÐ°Ñ‚ÑŒ</string>
+    <string name="listen_together_reconnecting">ÐŸÐµÑ€ÐµÐ¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµâ€¦</string>
+    <string name="listen_together_syncing_clock">Ð¡Ð²ÐµÑ€ÑÐµÐ¼ Ñ‡Ð°ÑÑ‹â€¦</string>
+    <string name="listen_together_in_sync">Ð¡Ð¸Ð½Ñ…Ñ€Ð¾Ð½Ð½Ð¾ Â· %1$d Ð¼Ñ Ð½Ð° ÐºÑ€ÑƒÐ³</string>
+    <string name="listen_together_custom_server_dialog_title">ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ Ð½Ð° ÑÐ²Ð¾Ñ‘Ð¼ ÑÐµÑ€Ð²ÐµÑ€Ðµ?</string>
+    <string name="listen_together_custom_server_dialog_message">Ð­Ñ‚Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ° Ñ€Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð° Ð½Ð° Ð²Ð½ÐµÑˆÐ½ÐµÐ¼ ÑÐµÑ€Ð²ÐµÑ€Ðµ:\n\n%1$s\n\nÐ¡Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÑÐµÑ€Ð²ÐµÑ€ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½Ð¾Ðº Ð¸ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ %2$s?</string>
+    <string name="listen_together_custom_server_switch_and_join">Ð¡Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¸ Ð²Ð¾Ð¹Ñ‚Ð¸</string>
+    <string name="listen_together_official_server_dialog_title">ÐŸÐµÑ€ÐµÐ¹Ñ‚Ð¸ Ð½Ð° Ð¾Ñ„Ð¸Ñ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÐµÑ€Ð²ÐµÑ€?</string>
+    <string name="listen_together_official_server_dialog_message">Ð­Ñ‚Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ° Ñ€Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð° Ð½Ð° Ð¾Ñ„Ð¸Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾Ð¼ ÑÐµÑ€Ð²ÐµÑ€Ðµ Sonora.\n\nÐ’ÐµÑ€Ð½ÑƒÑ‚ÑŒÑÑ Ð½Ð° Ð¾Ñ„Ð¸Ñ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ð¸ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ Ðº Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ %1$s?</string>
+    <string name="listen_together_switch_failed_stayed_in_party">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ: %1$s. Ð’Ñ‹ Ð¾ÑÑ‚Ð°Ñ‘Ñ‚ÐµÑÑŒ Ð½Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ %2$s.</string>
+    <string name="listen_together_switch_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½Ð¸Ñ‚ÑŒÑÑ: %1$s.</string>
+    <string name="listen_together_ping">%1$d ms</string>
+    <string name="listen_together_server_offline_dash">â€”</string>
+    <string name="listen_together_invalid_server_url">ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ URL ÑÐµÑ€Ð²ÐµÑ€Ð°. Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ Ð°Ð´Ñ€ÐµÑ (Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€, https://your-server.com)</string>
+    <string name="listen_together_err_whitespace">URL ÑÐµÑ€Ð²ÐµÑ€Ð° Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð±ÐµÐ»Ñ‹</string>
+    <string name="listen_together_err_invalid_path">URL ÑÐµÑ€Ð²ÐµÑ€Ð° ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ñ‚ Ð½ÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ð¹ Ð¿ÑƒÑ‚ÑŒ</string>
+    <string name="listen_together_err_no_path">URL ÑÐµÑ€Ð²ÐµÑ€Ð° Ð½Ðµ Ð´Ð¾Ð»Ð¶ÐµÐ½ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ð¿ÑƒÑ‚ÑŒ</string>
+    <string name="listen_together_err_no_query">URL ÑÐµÑ€Ð²ÐµÑ€Ð° Ð½Ðµ Ð´Ð¾Ð»Ð¶ÐµÐ½ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°</string>
+    <string name="listen_together_err_no_fragment">URL ÑÐµÑ€Ð²ÐµÑ€Ð° Ð½Ðµ Ð´Ð¾Ð»Ð¶ÐµÐ½ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ñ„Ñ€Ð°Ð³Ð¼ÐµÐ½Ñ‚Ñ‹</string>
+    <string name="listen_together_err_invalid_port">ÐŸÐ¾Ñ€Ñ‚ ÑÐµÑ€Ð²ÐµÑ€Ð° Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ñ‚ 1 Ð´Ð¾ 65535</string>
+    <string name="listen_together_custom_server_connected">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾ Ðº ÑÐ²Ð¾ÐµÐ¼Ñƒ ÑÐµÑ€Ð²ÐµÑ€Ñƒ</string>
+    <string name="listen_together_custom_server_unreachable_fallback">Ð¡Ð²Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½. Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ ÑÐµÑ€Ð²ÐµÑ€ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ.</string>
+    <string name="listen_together_status_custom_online">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾ Ðº ÑÐ²Ð¾ÐµÐ¼Ñƒ ÑÐµÑ€Ð²ÐµÑ€Ñƒ Â· %1$d Ð¼Ñ</string>
+    <string name="listen_together_status_custom_fallback">Ð¡Ð²Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½ Â· Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ð¹ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ (%1$d Ð¼Ñ)</string>
+    <string name="listen_together_status_all_offline">Ð˜ ÑÐ²Ð¾Ð¹ ÑÐµÑ€Ð²ÐµÑ€, Ð¸ ÑÐµÑ€Ð²ÐµÑ€ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹</string>
+    <string name="listen_together_top_bar_fallback">Ð ÐµÐ·ÐµÑ€Ð² Â· %1$s</string>
+
+    <string name="vietnamese">Ð’ÑŒÐµÑ‚Ð½Ð°Ð¼ÑÐºÐ¸Ð¹</string>
+
+    <string name="miscellaneous_footer">ÐŸÑ€Ð¸ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¸Ð· Ð½ÐµÐ´Ð°Ð²Ð½Ð¸Ñ… Ñ‚Ð°ÐºÐ¶Ðµ Ð¾ÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð¼ÑƒÐ·Ñ‹ÐºÐ¸.</string>
+
+
+    <plurals name="track_count_plural">
+        <item quantity="one">%1$d Ñ‚Ñ€ÐµÐº</item>
+        <item quantity="few">%1$d Ñ‚Ñ€ÐµÐºÐ°</item>
+        <item quantity="many">%1$d Ñ‚Ñ€ÐµÐºÐ¾Ð²</item>
+        <item quantity="other">%1$d Ñ‚Ñ€ÐµÐºÐ¾Ð²</item>
+    </plurals>
+
+    <string name="account_profiles_help">Ð£ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ð° Google Ð¼Ð¾Ð³ÑƒÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð»Ð¸Ñ‡Ð½Ñ‹Ð¹ Ð¸ Ð±Ñ€ÐµÐ½Ð´Ð¾Ð²Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ð¸. Ð£ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ ÑÐ²Ð¾Ñ Ð¼ÐµÐ´Ð¸Ð°Ñ‚ÐµÐºÐ° Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ñ.</string>
+
+    <string name="accounts">ÐÐºÐºÐ°ÑƒÐ½Ñ‚Ñ‹</string>
+
+    <string name="add_account">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+
+    <string name="add_addon">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ð»Ð°Ð³Ð¸Ð½</string>
+
+    <string name="add_addon_detail">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Sonora Ðº ÑÐµÑ€Ð²ÐµÑ€Ñƒ Ð¿Ð»Ð°Ð³Ð¸Ð½Ð°</string>
+
+    <string name="addon_url_description">Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ URL Ð¿Ð»Ð°Ð³Ð¸Ð½Ð° â€” ÐºÐ¾Ñ€ÐµÐ½ÑŒ Ð¸Ð»Ð¸ manifest.json. Sonora ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐºÐ¸.</string>
+
+
+    <string name="automix_mode_balanced">Ð¡Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹</string>
+
+    <string name="automix_mode_balanced_subtitle">2 Ð¿Ð¾Ñ‚Ð¾ÐºÐ° Â· Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ Ð¸ Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸</string>
+
+    <string name="automix_mode_efficient">Ð­Ð½ÐµÑ€Ð³Ð¾ÑÐ±ÐµÑ€ÐµÐ³Ð°ÑŽÑ‰Ð¸Ð¹</string>
+
+    <string name="automix_mode_efficient_subtitle">1 Ð¿Ð¾Ñ‚Ð¾Ðº Â· Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð½Ð°Ð³Ñ€ÐµÐ² Ð¸ Ñ€Ð°ÑÑ…Ð¾Ð´ Ð±Ð°Ñ‚Ð°Ñ€ÐµÐ¸</string>
+
+    <string name="automix_mode_performance">ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹</string>
+
+    <string name="automix_mode_performance_subtitle">4 Ð¿Ð¾Ñ‚Ð¾ÐºÐ° Â· ÑÐ°Ð¼Ñ‹Ð¹ Ð±Ñ‹ÑÑ‚Ñ€Ñ‹Ð¹ Ð°Ð½Ð°Ð»Ð¸Ð· Â· Ð²Ñ‹ÑˆÐµ Ð½Ð°Ð³Ñ€ÐµÐ² Ð¸ Ñ€Ð°ÑÑ…Ð¾Ð´</string>
+
+
+    <string name="automix_performance">ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Automix</string>
+
+    <string name="automix_performance_subtitle">ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÑ‚ Ð½Ð°Ð³Ñ€ÑƒÐ·ÐºÑƒ Ð½Ð° Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€ Ð¿Ñ€Ð¸ Ñ„Ð¾Ð½Ð¾Ð²Ð¾Ð¼ Ð°Ð½Ð°Ð»Ð¸Ð·Ðµ</string>
+
+    <string name="automix_performance_warning">Ð’Ñ‹ÑÐ¾ÐºÐ°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð±Ñ‹ÑÑ‚Ñ€ÐµÐµ Ð°Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ¸, Ð½Ð¾ ÑÐ¸Ð»ÑŒÐ½ÐµÐµ ÑÐ°Ð´Ð¸Ñ‚ Ð±Ð°Ñ‚Ð°Ñ€ÐµÑŽ.</string>
+
+    <string name="blur_unfocused_lyrics">Ð Ð°Ð·Ð¼Ñ‹Ð²Ð°Ñ‚ÑŒ Ð½ÐµÐ°ÐºÑ‚Ð¸Ð²Ð½Ñ‹Ðµ ÑÑ‚Ñ€Ð¾ÐºÐ¸</string>
+
+    <string name="blur_unfocused_lyrics_subtitle">ÐÐºÑ†ÐµÐ½Ñ‚Ð¸Ñ€ÑƒÐµÑ‚ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ð½Ð° Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÑÑ‚Ñ€Ð¾ÐºÐµ</string>
+
+    <string name="brand_account">Ð‘Ñ€ÐµÐ½Ð´Ð¾Ð²Ñ‹Ð¹ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+
+    <string name="card_plays_format">%1$s Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ð¹</string>
+
+    <string name="card_songs_format">%1$s Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+
+    <string name="card_views_format">%1$s Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€Ð¾Ð²</string>
+
+    <string name="channel_session_unavailable">Ð¡ÐµÑÑÐ¸Ñ ÐµÑ‰Ðµ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð° â€” ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð¾Ñ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ YouTube Music</string>
+
+    <string name="channel_switch_instructions">Ð¡Ð¼ÐµÐ½Ð¸Ñ‚Ðµ Ñ‡ÐµÑ€ÐµÐ· Ð°Ð²Ð°Ñ‚Ð°Ñ€, Ð·Ð°Ñ‚ÐµÐ¼ Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ \'Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ð¾Ñ‚ ÐºÐ°Ð½Ð°Ð»\'</string>
+
+    <string name="choose_a_channel">Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÐºÐ°Ð½Ð°Ð»</string>
+
+    <string name="choose_profile">Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ</string>
+
+    <string name="convert_to_audio">ÐšÐ¾Ð½Ð²ÐµÑ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð² Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="convert_to_video">ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ð² Ð²Ð¸Ð´ÐµÐ¾</string>
+
+    <string name="converting_to_audio">ÐšÐ¾Ð½Ð²ÐµÑ€Ñ‚Ð°Ñ†Ð¸Ñ Ð² Ð°ÑƒÐ´Ð¸Ð¾â€¦</string>
+
+    <string name="current_account">Ð¢ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+
+    <string name="current_profile">Ð¢ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ</string>
+
+    <string name="default_youtube_profile">Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ YouTube Music</string>
+
+    <string name="dolby_atmos">Dolby Atmos</string>
+
+    <string name="dolby_atmos_subtitle">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ Ð±Ð¾Ð»ÐµÐµ Ð¾Ð±ÑŠÐµÐ¼Ð½Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐ¼Ð½Ñ‹Ð¹ Ð·Ð²ÑƒÐº, ÐµÑÐ»Ð¸ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾.</string>
+
+    <string name="dolby_atmos_unavailable">Ð­Ñ‚Ð¾ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾ Ð½Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÑ‚ Atmos, Ñ‚Ñ€ÐµÐºÐ¸ Ð±ÑƒÐ´ÑƒÑ‚ Ð¸Ð³Ñ€Ð°Ñ‚ÑŒ Ð² Ð¾Ð±Ñ‹Ñ‡Ð½Ð¾Ð¼ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ðµ</string>
+
+    <string name="export_compatible_downloads">Ð­ÐºÑÐ¿Ð¾Ñ€Ñ‚ ÑÐ¾Ð²Ð¼ÐµÑÑ‚Ð¸Ð¼Ñ‹Ñ… Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¾Ðº</string>
+    <string name="sync_downloaded_playlists">ÐžÐ±Ð½Ð¾Ð²Ð»ÑÑ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹</string>
+    <string name="sync_downloaded_playlists_subtitle">ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ Ð´Ð²Ð°Ð¶Ð´Ñ‹ Ð² Ð´ÐµÐ½ÑŒ Ð¸ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÑ‚ Ð½Ð¾Ð²Ñ‹Ðµ Ð¿ÐµÑÐ½Ð¸ Ð² Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ñ‹Ñ… Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°Ñ…</string>
+    <string name="playlist_sync_ask_title">ÐÐ¾Ð²Ñ‹Ðµ Ð¿ÐµÑÐ½Ð¸ Ð² Â«%1$sÂ»: %2$d</string>
+    <string name="playlist_sync_ask_text">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ</string>
+    <string name="playlist_sync_done_title">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² Â«%1$sÂ»: %2$d</string>
+    <string name="playlist_updates_channel">ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð²</string>
+
+    <string name="player_theme">Ð¢ÐµÐ¼Ð° Ð¿Ð»ÐµÐµÑ€Ð°</string>
+    <string name="player_theme_default">ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+    <string name="player_theme_legacy">ÐŸÑ€ÐµÐ¶Ð½ÑÑ</string>
+    <string name="player_theme_simple">ÐŸÑ€Ð¾ÑÑ‚Ð°Ñ</string>
+    <string name="player_theme_default_subtitle">Ð¦Ð²ÐµÑ‚Ð° Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ¸ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð°ÑŽÑ‚ÑÑ Ð¿Ð¾Ð´ Ð½ÐµÐ¹</string>
+    <string name="player_theme_simple_subtitle">Ð Ð°Ð·Ð¼Ñ‹Ñ‚Ð°Ñ Ð¾Ð±Ð»Ð¾Ð¶ÐºÐ° Ð·Ð° Ð²ÑÐµÐ¼ Ð¿Ð»ÐµÐµÑ€Ð¾Ð¼</string>
+
+    <string name="player_theme_legacy_subtitle">Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð¼ÑÐ³ÐºÐ¸Ðµ Ð°Ð½Ð¸Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ†Ð²ÐµÑ‚Ð½Ñ‹Ðµ Ð¿ÑÑ‚Ð½Ð° Ð¸Ð· v1.5</string>
+
+    <string name="liquid_glass">Ð–Ð¸Ð´ÐºÐ¾Ðµ ÑÑ‚ÐµÐºÐ»Ð¾</string>
+
+    <string name="liquid_glass_subtitle">Ð­Ñ„Ñ„ÐµÐºÑ‚ ÑÑ‚ÐµÐºÐ»Ð° Ð½Ð° Ð¿Ð°Ð½ÐµÐ»Ð¸ Ð½Ð°Ð²Ð¸Ð³Ð°Ñ†Ð¸Ð¸. Ð¢Ð¾Ð»ÑŒÐºÐ¾ Android 12+.</string>
+
+    <string name="liquid_glass_unavailable">Ð¢Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Android 12 Ð¸Ð»Ð¸ Ð½Ð¾Ð²ÐµÐµ</string>
+
+    <string name="listen_as">Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ ÐºÐ°Ðº</string>
+
+    <string name="lyrics_debug_logs">ÐžÑ‚Ð»Ð°Ð´ÐºÐ° Ñ‚ÐµÐºÑÑ‚Ð¾Ð² Ð¿ÐµÑÐµÐ½</string>
+
+    <string name="lyrics_debug_logs_subtitle">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð·Ð°Ð¿Ñ€Ð¾ÑÑ‹ API Ð² Ð¿Ð°Ð½ÐµÐ»Ð¸ Ñ‚ÐµÐºÑÑ‚Ð¾Ð² Ð¿ÐµÑÐµÐ½</string>
+
+    <string name="manage_accounts">Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ð°Ð¼Ð¸</string>
+
+    <string name="output_precision">Ð¢Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ Ð²Ñ‹Ð²Ð¾Ð´Ð°</string>
+
+    <string name="personal">Ð›Ð¸Ñ‡Ð½Ñ‹Ð¹</string>
+
+
+    <string name="playlist_action">ÐŸÐ»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+
+    <string name="prefer_usb_dac">ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ USB Ð¦ÐÐŸ</string>
+    <string name="loudness_normalization">ÐÐ¾Ñ€Ð¼Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸</string>
+    <string name="loudness_normalization_subtitle">Ð’Ñ‹Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°ÐµÑ‚ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Ð²ÑÐµÑ… Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="loudness_off_on_speaker">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð½Ð° Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐµ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð°</string>
+    <string name="loudness_target">Ð¦ÐµÐ»ÐµÐ²Ð°Ñ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ</string>
+    <string name="loudness_target_subtitle">Ð¢Ð¸ÑˆÐµ â€” Ð´Ð»Ñ Ð½Ð°ÑƒÑˆÐ½Ð¸ÐºÐ¾Ð²; Ð³Ñ€Ð¾Ð¼Ñ‡Ðµ â€” Ð´Ð»Ñ Ð¼Ð°ÑˆÐ¸Ð½Ñ‹ Ð¸Ð»Ð¸ Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐ° Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð°</string>
+    <string name="loudness_target_value">%1$s LUFS</string>
+    <string name="pipeline_loudness">Ð“Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ</string>
+    <string name="pipeline_loudness_gain">Ð£ÑÐ¸Ð»ÐµÐ½Ð¸Ðµ</string>
+    <string name="pipeline_loudness_measured">Ð˜Ð·Ð¼ÐµÑ€ÐµÐ½Ð¾</string>
+    <string name="pipeline_bit_exact">Ð‘Ð¸Ñ‚ Ð² Ð±Ð¸Ñ‚</string>
+    <string name="loudness_measuring">Ð˜Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ðµâ€¦</string>
+    <string name="loudness_gain_db">%1$s dB</string>
+    <string name="loudness_lufs">%1$s LUFS</string>
+
+    <string name="profile_unavailable">ÐÐ° ÑÑ‚Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ðµ ÐµÑ‰Ðµ Ð½ÐµÑ‚ Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ.</string>
+
+    <string name="profiles">ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð¸</string>
+
+    <string name="radio_started">Ð Ð°Ð´Ð¸Ð¾ %1$s Ð·Ð°Ð¿ÑƒÑ‰ÐµÐ½Ð¾</string>
+
+    <string name="revert_to_original">Ð’ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ð¾Ñ€Ð¸Ð³Ð¸Ð½Ð°Ð»</string>
+
+    <string name="scrobble_primary_artist_only">Ð¡ÐºÑ€Ð¾Ð±Ð±Ð»Ð¸Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð³Ð¾ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ</string>
+
+    <string name="scrobble_primary_artist_only_subtitle">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿ÐµÑ€Ð²Ð¾Ð³Ð¾ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ñ Ð¿Ñ€Ð¸ Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ð¸ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¸Ñ…</string>
+
+    <string name="select_all">Ð’Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ð²ÑÐµ</string>
+
+    <string name="selected_account">Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ð¹ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+
+    <string name="shelf_100_on_repeat">ÐÐ° Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ðµ</string>
+
+    <string name="shelf_artists_on_the_rise">ÐÐ°Ð±Ð¸Ñ€Ð°ÑŽÑ‰Ð¸Ðµ Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ð¾ÑÑ‚ÑŒ</string>
+
+    <string name="shelf_chart">Ð§Ð°Ñ€Ñ‚Ñ‹</string>
+
+    <string name="shelf_charts">Ð§Ð°Ñ€Ñ‚Ñ‹</string>
+
+    <string name="shelf_commute">Ð’ Ð´Ð¾Ñ€Ð¾Ð³Ðµ</string>
+
+    <string name="shelf_concerts">ÐšÐ¾Ð½Ñ†ÐµÑ€Ñ‚Ñ‹</string>
+
+    <string name="shelf_energy_boosters">Ð—Ð°Ñ€ÑÐ´ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸</string>
+
+    <string name="shelf_featured_playlists_for_you">Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ðµ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹</string>
+
+    <string name="shelf_feel_good">Ð¥Ð¾Ñ€Ð¾ÑˆÐµÐµ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ðµ</string>
+
+    <string name="shelf_focus">ÐšÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ</string>
+
+    <string name="shelf_for_you">Ð”Ð»Ñ Ð²Ð°Ñ</string>
+
+    <string name="shelf_forgotten_favorites">Ð—Ð°Ð±Ñ‹Ñ‚Ñ‹Ðµ Ð»ÑŽÐ±Ð¸Ð¼Ñ‹Ðµ Ñ‚Ñ€ÐµÐºÐ¸</string>
+
+    <string name="shelf_from_the_community">ÐžÑ‚ ÑÐ¾Ð¾Ð±Ñ‰ÐµÑÑ‚Ð²Ð°</string>
+
+    <string name="shelf_from_your_library">Ð˜Ð· Ð²Ð°ÑˆÐµÐ¹ Ð¼ÐµÐ´Ð¸Ð°Ñ‚ÐµÐºÐ¸</string>
+
+    <string name="shelf_hits_today">Ð¥Ð¸Ñ‚Ñ‹ ÑÐµÐ³Ð¾Ð´Ð½ÑÑˆÐ½ÐµÐ³Ð¾ Ð´Ð½Ñ</string>
+
+    <string name="shelf_listen_again">ÐŸÐ¾ÑÐ»ÑƒÑˆÐ°Ð¹Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°</string>
+
+    <string name="shelf_mixed_for_you">ÐœÐ¸ÐºÑÑ‹ Ð´Ð»Ñ Ð²Ð°Ñ</string>
+
+    <string name="shelf_new_albums_singles">ÐÐ¾Ð²Ñ‹Ðµ Ð°Ð»ÑŒÐ±Ð¾Ð¼Ñ‹ Ð¸ ÑÐ¸Ð½Ð³Ð»Ñ‹</string>
+
+    <string name="shelf_new_releases">ÐÐ¾Ð²Ð¸Ð½ÐºÐ¸</string>
+
+    <string name="shelf_party">Ð’ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ°</string>
+
+    <string name="shelf_quick_picks">Ð‘Ñ‹ÑÑ‚Ñ€Ñ‹Ð¹ Ð²Ñ‹Ð±Ð¾Ñ€</string>
+
+    <string name="shelf_recents">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ðµ</string>
+
+    <string name="shelf_recommended_music_videos">Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ðµ ÐºÐ»Ð¸Ð¿Ñ‹</string>
+
+    <string name="shelf_relax">Ð ÐµÐ»Ð°ÐºÑ</string>
+
+    <string name="shelf_romance">Ð Ð¾Ð¼Ð°Ð½Ñ‚Ð¸ÐºÐ°</string>
+
+    <string name="shelf_sad">Ð“Ñ€ÑƒÑÑ‚ÑŒ</string>
+
+    <string name="shelf_shorts">Shorts</string>
+
+    <string name="shelf_similar_to">ÐŸÐ¾Ñ…Ð¾Ð¶Ðµ Ð½Ð° %1$s</string>
+
+    <string name="shelf_single">Ð¡Ð¸Ð½Ð³Ð»</string>
+
+    <string name="shelf_sleep">Ð¡Ð¾Ð½</string>
+
+    <string name="shelf_song_item">Ð¢Ñ€ÐµÐº</string>
+
+    <string name="shelf_top_music_videos">Ð›ÑƒÑ‡ÑˆÐ¸Ðµ ÐºÐ»Ð¸Ð¿Ñ‹</string>
+
+    <string name="shelf_top_tunes_right_now">Ð“Ð»Ð°Ð²Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐºÐ¸ Ð¿Ñ€ÑÐ¼Ð¾ ÑÐµÐ¹Ñ‡Ð°Ñ</string>
+
+    <string name="shelf_trending">Ð’ Ñ‚Ñ€ÐµÐ½Ð´Ðµ</string>
+
+    <string name="shelf_trending_community_playlists">ÐŸÐ¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ðµ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹ ÑÐ¾Ð¾Ð±Ñ‰ÐµÑÑ‚Ð²Ð°</string>
+
+    <string name="shelf_workout">Ð¢Ñ€ÐµÐ½Ð¸Ñ€Ð¾Ð²ÐºÐ°</string>
+
+    <string name="shelf_youtube_charts">Ð§Ð°Ñ€Ñ‚Ñ‹ YouTube</string>
+
+    <string name="sort_date_added_oldest">Ð”Ð°Ñ‚Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ (ÑÐ½Ð°Ñ‡Ð°Ð»Ð° ÑÑ‚Ð°Ñ€Ñ‹Ðµ)</string>
+
+    <string name="sort_date_added_toggle">Ð”Ð°Ñ‚Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ</string>
+
+    <string name="sort_default">ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+
+    <string name="sort_library">Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ°</string>
+
+    <string name="sort_songs">Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ñ‚Ñ€ÐµÐºÐ¸</string>
+
+    <string name="source_already_added">Ð£Ð¶Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ ÐºÐ°Ðº %1$s</string>
+
+    <string name="source_skipped_by_quality">ÐÐµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð½Ð° %1$s Â· ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð½Ð° %2$s</string>
+
+    <string name="source_unrecognised">Sonora Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ñ€Ð°ÑÐ¿Ð¾Ð·Ð½Ð°Ñ‚ÑŒ ÑÑÑ‹Ð»ÐºÑƒ</string>
+
+    <string name="start_radio">Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ Ñ€Ð°Ð´Ð¸Ð¾</string>
+
+    <string name="subscribe">ÐŸÐ¾Ð´Ð¿Ð¸ÑÐ°Ñ‚ÑŒÑÑ</string>
+
+    <string name="subscriptions">ÐŸÐ¾Ð´Ð¿Ð¸ÑÐºÐ¸</string>
+
+    <string name="switch_account">Ð¡Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚</string>
+
+    <string name="switch_profile_hint">Ð¡Ð¼ÐµÐ½Ð¸Ñ‚Ðµ Ñ‡ÐµÑ€ÐµÐ· Ð°Ð²Ð°Ñ‚Ð°Ñ€ Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ð¾Ñ‚ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ.</string>
+
+    <string name="unsubscribe">ÐžÑ‚Ð¿Ð¸ÑÐ°Ñ‚ÑŒÑÑ</string>
+
+    <string name="upgrade_quality">Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾</string>
+
+    <string name="use_this_channel">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ð¾Ñ‚ ÐºÐ°Ð½Ð°Ð»</string>
+
+    <string name="use_this_profile">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ð¾Ñ‚ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ</string>
+
+
+    <string name="lyrics_offset">Lyrics offset</string>
+
+
+
+
+
+    <string name="auto_quick_picks">Quick picks</string>
+
+    <string name="auto_recents">Recent</string>
+
+    <string name="auto_liked">Liked songs</string>
+
+    <string name="auto_login_title">Sign in to YouTube on your phone</string>
+
+    <string name="auto_login_subtitle">Open Sonora on your phone to sign in</string>
+
+    <string name="auto_empty_recents_title">No recent songs</string>
+
+    <string name="auto_empty_recents_subtitle">Songs you play will appear here</string>
+
+    <string name="auto_empty_quick_picks_title">No suggestions</string>
+
+    <string name="auto_empty_quick_picks_subtitle">Check your connection and try again</string>
+
+    <string name="auto_empty_playlists_title">No playlists available</string>
+
+    <string name="auto_empty_playlists_subtitle">Check your connection and try again</string>
+
+    <string name="auto_empty_liked_title">No liked songs</string>
+
+    <string name="auto_empty_liked_subtitle">Tap the heart on a song to save it here</string>
+
+    <string name="auto_empty_offline_title">No offline songs</string>
+
+    <string name="auto_empty_offline_subtitle">Download songs on your phone to listen here</string>
+
+    <string name="auto_unavailable_title">Content unavailable</string>
+
+    <string name="auto_unavailable_subtitle">Reopen the folder and try again</string>
+
+    <string name="settings_search_hint">Search settings</string>
+
+    <string name="settings_search_empty">No settings match â€œ%1$sâ€</string>
+
+
+    <string name="content_preferences">Content Preferences</string>
+    <string name="hide_recents">Hide Recents</string>
+    <string name="hide_home_videos">Hide videos from Home</string>
+    <string name="hide_home_videos_subtitle">Shelves of only videos go too. Search, artists and playlists still show them</string>
+    <string name="hide_top_picks">Hide Top Picks for You</string>
+    <string name="hide_home_moods">Hide Find Your Mood</string>
+    <string name="square_video_thumbnails">Square video thumbnails</string>
+    <string name="square_video_thumbnails_subtitle">Show music videos as squares everywhere, including the player</string>
+    <string name="prefer_music_only">Prefer music-only version</string>
+    <string name="prefer_music_only_subtitle">Music videos play as their audio version, and the next track in the queue is converted ahead of time so Automix and crossfade work</string>
+    <string name="smart_version_alignment">Ð£Ð¼Ð½Ð¾Ðµ Ð²Ñ‹Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°Ð½Ð¸Ðµ Ð°ÑƒÐ´Ð¸Ð¾</string>
+    <string name="smart_version_alignment_subtitle">ÐÐ½Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÐµÑ‚ Ð·Ð²ÑƒÐºÐ¾Ð²Ñ‹Ðµ Ð²Ð¾Ð»Ð½Ñ‹, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°Ð¹Ñ‚Ð¸ Ñ‚Ð¾Ñ‡Ð½Ð¾ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ð¹ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ</string>
+
+    <string name="equalizer_footer">Shapes the sound inside Sonora, before it reaches the system.</string>
+
+    <string name="equalizer_dynamic">Dynamic</string>
+
+    <string name="equalizer_manual">Manual</string>
+
+    <string name="equalizer_tone">Tone</string>
+
+    <string name="equalizer_tilt">Tilt</string>
+
+    <string name="equalizer_contour">Contour</string>
+
+    <string name="equalizer_broad">Broad</string>
+
+    <string name="equalizer_focused">Focused</string>
+
+    <string name="equalizer_broad_footer">Drag left for a warmer sound and right for a brighter one; down scoops the middle, up brings it forward. Broad moves wide stretches of the spectrum at once.</string>
+
+    <string name="equalizer_focused_footer">Drag left for a warmer sound and right for a brighter one; down scoops the middle, up brings it forward. Focused works on narrower stretches, so it changes less around what it moves.</string>
+
+    <string name="equalizer_preset">Preset</string>
+
+    <string name="equalizer_bands">Bands</string>
+
+    <string name="equalizer_bands_footer">Moving a band leaves the preset behind and the curve becomes your own.</string>
+
+    <string name="equalizer_reset">Reset all bands</string>
+
+    <string name="equalizer_balance">Balance</string>
+
+    <string name="equalizer_balance_left">L</string>
+
+    <string name="equalizer_balance_right">R</string>
+
+    <string name="equalizer_balance_footer">Shifts the sound towards one ear by quietening the other.</string>
+    <string name="equalizer_bitstream_title">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð½Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚</string>
+    <string name="equalizer_bitstream_subtitle">Ð­Ñ‚Ð¾Ñ‚ Ñ‚Ñ€ÐµÐº Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‘Ñ‚ÑÑ Ð½Ð° Ð²Ñ‹Ñ…Ð¾Ð´ Ð±ÐµÐ· Ð´ÐµÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ</string>
+    <string name="equalizer_bitstream_footer">Ð­ÐºÐ²Ð°Ð»Ð°Ð¹Ð·ÐµÑ€ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ñ Ð´ÐµÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð·Ð²ÑƒÐºÐ¾Ð¼. Ð­Ñ‚Ð¾Ñ‚ Ñ‚Ñ€ÐµÐº Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‘Ñ‚ÑÑ Ð±Ð¸Ñ‚ÑÑ‚Ñ€Ð¸Ð¼Ð¾Ð¼, Ð¸ Ð´ÐµÐºÐ¾Ð´Ð¸Ñ€ÑƒÐµÑ‚ ÐµÐ³Ð¾ Ð²Ð°ÑˆÐµ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ð·Ð´ÐµÑÑŒ Ð½ÐµÑ‚ ÑÑÐ¼Ð¿Ð»Ð¾Ð² Ð´Ð»Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸.</string>
+
+    <string name="system_equalizer">System equalizer</string>
+
+    <string name="system_equalizer_subtitle">Your device\'s own panel</string>
+
+    <string name="system_equalizer_footer">Runs after Sonora\'s, on the whole audio session. Using both applies both.</string>
+
+    <string name="eq_preset_flat">Flat</string>
+
+    <string name="eq_preset_acoustic">Acoustic</string>
+
+    <string name="eq_preset_bass_boost">Bass boost</string>
+
+    <string name="eq_preset_bass_cut">Bass cut</string>
+
+    <string name="eq_preset_vocal">Vocal</string>
+
+    <string name="eq_preset_treble_boost">Treble boost</string>
+
+    <string name="eq_preset_treble_cut">Treble cut</string>
+
+    <string name="eq_preset_loudness">Loudness</string>
+
+    <string name="eq_preset_spoken_word">Spoken word</string>
+
+    <string name="eq_preset_electronic">Electronic</string>
+
+    <string name="eq_preset_rock">Rock</string>
+
+    <string name="eq_preset_hip_hop">Hip-hop</string>
+
+    <string name="eq_preset_jazz">Jazz</string>
+
+    <string name="eq_preset_classical">Classical</string>
+
+    <string name="eq_preset_small_speakers">Small speakers</string>
+
+    <string name="eq_preset_late_night">Late night</string>
+
+    <string name="eq_preset_custom">Custom</string>
+
+    <string name="translation_language">Translation language</string>
+
+    <string name="translation_language_description">The language the translate button turns lyrics into.</string>
+
+    <string name="translation_language_app_default">App language</string>
+
+    <string name="translation_language_subtitle">Follows the app language</string>
+
+    <string name="search_languages">Search languages</string>
+
+    <string name="no_languages_match">No languages match</string>
+
+
+
+    <string name="audio_pipeline">Audio Pipeline</string>
+    <string name="cast_dialog_title">Cast</string>
+    <string name="cast_dialog_subtitle">Play on a Chromecast or Google Cast speaker</string>
+    <string name="cast_searching">Looking for devicesâ€¦</string>
+    <string name="cast_searching_hint">Your phone and the receiver need to be on the same Wi-Fi network.</string>
+    <string name="cast_device_connecting">Connectingâ€¦</string>
+    <string name="cast_device_connected">Casting</string>
+    <string name="cast_stop">Stop casting</string>
+    <string name="cast_track_unsupported">This track can\'t be cast</string>
+    <string name="cast_connect_failed">Couldn\'t connect to the receiver</string>
+    <string name="audio_pipeline_subtitle">ÐŸÑƒÑ‚ÑŒ ÑÐ¸Ð³Ð½Ð°Ð»Ð° Ð² Ñ€ÐµÐ°Ð»ÑŒÐ½Ð¾Ð¼ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸, Ð¾Ñ‚ Ð´ÐµÐºÐ¾Ð´ÐµÑ€Ð° Ð´Ð¾ Ð²Ñ‹Ñ…Ð¾Ð´Ð°</string>
+
+    <string name="pipeline_track_info">Track Info</string>
+
+    <string name="pipeline_decoder">Decoder</string>
+
+    <string name="pipeline_resampler">Resampler</string>
+
+    <string name="pipeline_dsp">DSP</string>
+
+    <string name="pipeline_output_device">Output Device</string>
+
+    <string name="pipeline_source">Source</string>
+
+    <string name="pipeline_format">Format</string>
+
+    <string name="pipeline_bit_depth">Bit Depth</string>
+
+    <string name="pipeline_sample_rate">Sample Rate</string>
+
+    <string name="pipeline_bitrate">Bitrate</string>
+
+    <string name="pipeline_channels">Channels</string>
+
+    <string name="pipeline_decoder_name">Decoder Name</string>
+
+    <string name="pipeline_io_rate">I/O Rate</string>
+
+    <string name="pipeline_type">Type</string>
+
+    <string name="pipeline_cutoff">Cutoff</string>
+
+    <string name="pipeline_quality">Quality</string>
+
+    <string name="pipeline_pcm_format">PCM Format</string>
+
+    <string name="pipeline_eq_preset">EQ Preset</string>
+
+    <string name="pipeline_stereo_expand">Stereo Expand</string>
+
+    <string name="pipeline_buffers">Buffers</string>
+
+    <string name="pipeline_output_api">Output API</string>
+
+    <string name="pipeline_device_name">Device Name</string>
+
+
+
+    <string name="shared_link">Shared link</string>
+
+    <string name="song_will_play_next">Song will play next</string>
+
+    <string name="song_added_to_queue">Song added to queue</string>
+    <string name="song_added_to_playlist">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="song_already_in_playlist">Ð£Ð¶Ðµ Ð² Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ðµ</string>
+    <plurals name="add_to_playlists_count">
+        <item quantity="one">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</item>
+        <item quantity="few">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</item>
+        <item quantity="many">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð²</item>
+        <item quantity="other">Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</item>
+    </plurals>
+    <plurals name="added_to_playlists_notice">
+        <item quantity="one">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</item>
+        <item quantity="few">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</item>
+        <item quantity="many">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð²</item>
+        <item quantity="other">Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾ Ð² %1$d Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°</item>
+    </plurals>
+    <string name="party_queue_full">ÐžÑ‡ÐµÑ€ÐµÐ´ÑŒ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð° (Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼ %d Ð¿ÐµÑÐµÐ½ Ð½Ð° Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐµ)</string>
+
+    <string name="paxsenix_api_key">PaxSenix API key</string>
+
+    <string name="paxsenix_api_key_configured">PaxSenix API key â€” configured</string>
+
+    <string name="paxsenix_api_key_missing">PaxSenix API key â€” optional, not configured</string>
+
+
+
+
+
+
+
+
+
+
+
+    <string name="source_needs_lossless_output">ÐÑƒÐ¶ÐµÐ½ Ð²Ñ‹Ñ…Ð¾Ð´ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Â· Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾ Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¾Ð¹ Ð·Ð²ÑƒÐºÐ° Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="source_needs_update">Ð­Ñ‚Ð¾ Ð´Ð¾Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ðµ ÑƒÑÑ‚Ð°Ñ€ÐµÐ»Ð¾, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Sonora Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ ÐµÐ³Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ. ÐŸÐ¾Ð¿Ñ€Ð¾ÑÐ¸Ñ‚Ðµ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ° Ð¾Ð±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÐµÐ³Ð¾ Ð¿Ð¾ Ð°ÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½Ð¾Ð¹ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð°Ñ†Ð¸Ð¸ Ð´Ð»Ñ Ð´Ð¾Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ð¹ Sonora.</string>
+    <string name="source_needs_lossless_bt_codec">ÐÑƒÐ¶ÐµÐ½ Ð²Ñ‹Ñ…Ð¾Ð´ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Â· Bluetooth Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð½Ð° %1$s; Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾ Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¾Ð¹ Ð·Ð²ÑƒÐºÐ° Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="source_needs_lossless_bt_unknown">ÐÑƒÐ¶ÐµÐ½ Ð²Ñ‹Ñ…Ð¾Ð´ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Â· Ð½Ðµ ÑƒÐ´Ð°Ñ‘Ñ‚ÑÑ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ð¹ Bluetooth-ÐºÐ¾Ð´ÐµÐº</string>
+    <string name="source_downloads_on">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ñ‹</string>
+    <string name="source_downloads_off">Ð¢Ð¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ñ€Ð¸Ð¼Ð¸Ð½Ð³</string>
+    <string name="lossless_output_permission">ÐŸÑ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Bluetooth-ÐºÐ¾Ð´ÐµÐº</string>
+    <string name="lossless_output_permission_detail">Ð Ð°Ð·Ñ€ÐµÑˆÐ¸Ñ‚Ðµ Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ðº ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°Ð¼ Ð¿Ð¾Ð±Ð»Ð¸Ð·Ð¾ÑÑ‚Ð¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°ÑƒÑˆÐ½Ð¸ÐºÐ¸ LDAC Ð¸Ð»Ð¸ LHDC Ð¾Ñ‚ÐºÑ€Ñ‹Ð»Ð¸ Ð°Ð´Ð´Ð¾Ð½Ñ‹ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="cached_songs">ÐšÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐºÐ¸</string>
+    <string name="cached_songs_subtitle">Ð¢Ñ€ÐµÐºÐ¸ Ð¸Ð· YouTube Ð¸ JioSaavn Ð² ÐºÑÑˆÐµ Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="cached_songs_empty">ÐšÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð¿Ð¾ÐºÐ° Ð½ÐµÑ‚. Ð—Ð´ÐµÑÑŒ Ð¿Ð¾ÑÐ²ÑÑ‚ÑÑ Ñ‚Ñ€ÐµÐºÐ¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð²Ñ‹ ÑÐ»ÑƒÑˆÐ°ÐµÑ‚Ðµ Ð¸Ð· YouTube Ð¸Ð»Ð¸ JioSaavn.</string>
+    <string name="cached_song_partial">Ð§Ð°ÑÑ‚Ð¸Ñ‡Ð½Ð¾</string>
+    <string name="remove_from_cache">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· ÐºÐµÑˆÐ°</string>
+    <string name="cached_song_remove">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ</string>
+    <string name="removed_from_cache">Ð£Ð´Ð°Ð»ÐµÐ½Ð¾ Ð¸Ð· ÐºÐµÑˆÐ° Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="show_cache_folder">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¿Ð°Ð¿ÐºÑƒ ÐºÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="show_cache_folder_subtitle">Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ Ð² Ð‘Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÑƒ Ð¿Ð°Ð¿ÐºÑƒ Ñ Ñ‚Ñ€ÐµÐºÐ°Ð¼Ð¸ Ð¸Ð· YouTube Ð¸ JioSaavn, ÑÐ¾Ñ…Ñ€Ð°Ð½Ñ‘Ð½Ð½Ñ‹Ð¼Ð¸ Ð² ÐºÑÑˆÐµ</string>
+    <string name="song_cache_unlimited">Ð‘ÐµÐ· Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ð¹</string>
+    <string name="song_cache_unlimited_subtitle">Ð‘ÐµÐ· Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ð¹. ÐšÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð°ÑƒÐ´Ð¸Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ñ€Ð°ÑÑ‚Ð¸, Ð¿Ð¾ÐºÐ° Ð½Ðµ Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑÑ Ð¿Ð°Ð¼ÑÑ‚ÑŒ.</string>
+    <string name="clear_song_cache_title">ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑÑˆ Ñ‚Ñ€ÐµÐºÐ¾Ð²?</string>
+    <string name="clear_song_cache_warning">Ð’ÑÐµ ÐºÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐºÐ¸ Ð±ÑƒÐ´ÑƒÑ‚ ÑƒÐ´Ð°Ð»ÐµÐ½Ñ‹, Ð° Ð¿Ð°Ð¿ÐºÐ° ÐºÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð¾Ð¿ÑƒÑÑ‚ÐµÐµÑ‚. ÐŸÑ€Ð¸ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¼ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ð¸ Ð¾Ð½Ð¸ ÑÐ½Ð¾Ð²Ð° Ð±ÑƒÐ´ÑƒÑ‚ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°Ñ‚ÑŒÑÑ Ð¿Ð¾Ñ‚Ð¾ÐºÐ¾Ð¼.</string>
+    <string name="import_spotify">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð¸Ð· Spotify</string>
+    <string name="import_spotify_subtitle">Ð˜Ð· ÑÑÑ‹Ð»ÐºÐ¸ Ð½Ð° Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚</string>
+    <string name="local_playlist_subtitle">%1$d Ñ‚Ñ€ÐµÐºÐ¾Ð² Â· ÐÐ° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="lossless_output_permission_denied">Ð Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Â«Ð£ÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð° Ð¿Ð¾Ð±Ð»Ð¸Ð·Ð¾ÑÑ‚Ð¸Â» Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾</string>
+    <string name="lossless_output_permission_denied_detail">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¸ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ Â«Ð£ÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð° Ð¿Ð¾Ð±Ð»Ð¸Ð·Ð¾ÑÑ‚Ð¸Â» â€” Ð±ÐµÐ· Ð½ÐµÐ³Ð¾ Ð¼Ñ‹ Ð½Ðµ ÑÐ¼Ð¾Ð¶ÐµÐ¼ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ð²Ð°Ñˆ ÐºÐ¾Ð´ÐµÐº Bluetooth</string>
+    <string name="recent_album">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ð¹ Ð°Ð»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="recent_ep">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ð¹ EP</string>
+    <string name="recent_single">ÐÐµÐ´Ð°Ð²Ð½Ð¸Ð¹ ÑÐ¸Ð½Ð³Ð»</string>
+    <string name="spotify">Spotify</string>
+    <string name="spotify_connect_subtitle">Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ ÑÐ²Ð¾Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹. Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ð¸Ð´Ñ‘Ñ‚ Ñ‡ÐµÑ€ÐµÐ· YouTube Music.</string>
+    <string name="spotify_disconnect">ÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ</string>
+    <string name="spotify_empty_playlists">Ð’ ÑÑ‚Ð¾Ð¼ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚Ðµ Ð½ÐµÑ‚ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð¾Ð²</string>
+    <string name="spotify_empty_tracks">Ð’ ÑÑ‚Ð¾Ð¼ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ðµ Ð½ÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="spotify_import_button">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚</string>
+    <string name="spotify_import_description">Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ ÑÑÑ‹Ð»ÐºÑƒ Ð½Ð° Ð¿ÑƒÐ±Ð»Ð¸Ñ‡Ð½Ñ‹Ð¹ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚. Ð¢Ñ€ÐµÐºÐ¸ ÑÐ¾Ð¿Ð¾ÑÑ‚Ð°Ð²Ð»ÑÑŽÑ‚ÑÑ Ð½Ð° YouTube Music.</string>
+    <string name="spotify_import_description_local">Ð’ÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ ÑÑÑ‹Ð»ÐºÑƒ Ð½Ð° Ð¿ÑƒÐ±Ð»Ð¸Ñ‡Ð½Ñ‹Ð¹ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚. Ð¢Ñ€ÐµÐºÐ¸ ÑÐ¾Ð¿Ð¾ÑÑ‚Ð°Ð²Ð»ÑÑŽÑ‚ÑÑ Ð½Ð° YouTube Music Ð¸ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‚ÑÑ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ.</string>
+    <string name="spotify_import_done">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½ Â«%1$sÂ»</string>
+    <string name="spotify_import_empty_playlist">Ð’ ÑÑ‚Ð¾Ð¼ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ðµ Ð½ÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ¾Ð²</string>
+    <string name="spotify_import_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¸Ð¼Ð¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚: %1$s</string>
+    <string name="spotify_import_fetching">Ð§Ð¸Ñ‚Ð°ÐµÐ¼ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚ Spotifyâ€¦</string>
+    <string name="spotify_import_hint">open.spotify.com/playlist/â€¦</string>
+    <string name="spotify_import_invalid">Ð­Ñ‚Ð¾ Ð½Ðµ ÑÑÑ‹Ð»ÐºÐ° Ð½Ð° Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚ Spotify.</string>
+    <string name="spotify_import_local_fallback">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ ÐµÑ‘ Ð½Ð° YouTube Music, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Â«%1$sÂ» ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð° Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ.</string>
+    <string name="spotify_import_matching">Ð¡Ð¾Ð¿Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ‚Ñ€ÐµÐºÐ¾Ð² %1$d Ð¸Ð· %2$d</string>
+    <string name="spotify_import_none">ÐÐ¸ Ð¾Ð´Ð¸Ð½ Ð¸Ð· ÑÑ‚Ð¸Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½ Ð½Ð° YouTube Music.</string>
+    <string name="spotify_import_title">Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð° Ð¸Ð· Spotify</string>
+    <string name="spotify_import_unmatched">%1$d Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð½Ð° YouTube Music</string>
+    <string name="spotify_library_subtitle">Ð’Ð°ÑˆÐ¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹ Spotify</string>
+    <string name="spotify_sign_in">Ð’Ð¾Ð¹Ñ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· Spotify</string>
+    <string name="spotify_use_spdc_token">Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ñ‚Ð¾ÐºÐµÐ½ sp_dc</string>
+    <string name="spotify_track_unavailable">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð½Ð°Ð¹Ñ‚Ð¸ ÑÑ‚Ð¾Ñ‚ Ñ‚Ñ€ÐµÐº Ð½Ð° YouTube Music</string>
+    <string name="artist_signatures">ÐŸÐ¾Ð´Ð¿Ð¸ÑÐ¸ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹</string>
+    <string name="artist_signatures_subtitle">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð¿Ð¾Ð´Ð¿Ð¸ÑÑŒ Ð¾Ñ‚ Ñ€ÑƒÐºÐ¸, ÐµÑÐ»Ð¸ Ð² Apple Music Ð½ÐµÑ‚ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð»Ð¾Ð³Ð¾Ñ‚Ð¸Ð¿Ð°</string>
+    <string name="artist_signatures_url">URL API Ð¿Ð¾Ð´Ð¿Ð¸ÑÐµÐ¹</string>
+    <string name="artist_signatures_url_hint">https://signatures.example.com</string>
+    <string name="artist_signatures_unconfigured">ÐÐµ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¾ â€” Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð´Ð°Ñ‚ÑŒ URL API</string>
+    <string name="artist_signatures_test_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ ÑÐ²ÑÐ·Ð°Ñ‚ÑŒÑÑ Ñ API Ð¿Ð¾ ÑÑ‚Ð¾Ð¼Ñƒ URL</string>
+    <string name="search_source_addons">ÐÐ´Ð´Ð¾Ð½Ñ‹</string>
+    <string name="search_addons_none">ÐÐµÑ‚ Ð²ÐºÐ»ÑŽÑ‡Ñ‘Ð½Ð½Ñ‹Ñ… Ð°Ð´Ð´Ð¾Ð½Ð¾Ð². Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ Ð°Ð´Ð´Ð¾Ð½ Ð² ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ â†’ Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸.</string>
+    <string name="app_icon">Ð—Ð½Ð°Ñ‡Ð¾Ðº Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ</string>
+    <string name="app_icon_default">ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+    <string name="show_queue_history">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸</string>
+    <string name="show_queue_history_subtitle">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸ Ð´Ð¾ 25 Ñ€Ð°Ð½ÐµÐµ Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐ°Ð½Ð½Ñ‹Ñ… Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð½Ð°Ð´ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¼</string>
+    <string name="not_enough_this_week">ÐŸÐ¾ÑÐ»ÑƒÑˆÐ°Ð¹Ñ‚Ðµ Ð½Ð° ÑÑ‚Ð¾Ð¹ Ð½ÐµÐ´ÐµÐ»Ðµ ÐµÑ‰Ñ‘ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ñ‚Ñ€ÐµÐºÐ¾Ð², Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Replay.</string>
+    <string name="replay_artist_start_week">Ð’ÑÑŽ Ð½ÐµÐ´ÐµÐ»ÑŽ </string>
+    <string name="replay_songs_end_week"> Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ð»Ð¸ Ð²Ð°ÑˆÑƒ Ð½ÐµÐ´ÐµÐ»ÑŽ.</string>
+    <string name="replay_summary_end_week">Ð½ÐµÐ´ÐµÐ»Ñ</string>
+    <string name="replay_this_week">ÐÐ° ÑÑ‚Ð¾Ð¹ Ð½ÐµÐ´ÐµÐ»Ðµ</string>
+    <string name="replay_period_weekly">ÐÐµÐ´ÐµÐ»Ñ</string>
+    <string name="replay_period_monthly">ÐœÐµÑÑÑ†</string>
+    <string name="replay_period_yearly">Ð“Ð¾Ð´</string>
+    <string name="replay_period_lifetime">Ð’ÑÑ‘ Ð²Ñ€ÐµÐ¼Ñ</string>
+    <string name="onboarding_title">ÐœÐ¸Ð»Ð»Ð¸Ð¾Ð½Ñ‹ Ñ‚Ñ€ÐµÐºÐ¾Ð² Ð² Sonora</string>
+    <string name="onboarding_name_prompt">ÐšÐ°Ðº Ðº Ð²Ð°Ð¼ Ð¾Ð±Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒÑÑ?</string>
+    <string name="onboarding_name_hint">Ð’Ð°ÑˆÐµ Ð¸Ð¼Ñ</string>
+    <string name="onboarding_name_footer">Ð”Ñ€ÑƒÐ·ÑŒÑ ÑƒÐ²Ð¸Ð´ÑÑ‚ ÐµÐ³Ð¾ Ð² Ñ€ÐµÐ¶Ð¸Ð¼Ðµ Â«Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ Ð²Ð¼ÐµÑÑ‚ÐµÂ». ÐŸÐ¾Ð·Ð¶Ðµ Ð²Ñ‹ ÑÐ¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÐµÐ³Ð¾ Ð² ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°Ñ….</string>
+    <string name="onboarding_next">Ð”Ð°Ð»ÐµÐµ</string>
+    <string name="onboarding_connect_title">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ð°ÐºÐºÐ°ÑƒÐ½Ñ‚ YouTube</string>
+    <string name="onboarding_connect_body">ÐŸÐµÑ€ÐµÐ½ÐµÑÐ¸Ñ‚Ðµ ÑÐ²Ð¾ÑŽ Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÑƒ, Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ñ‹ Ð¸ Ð¼Ð¸ÐºÑÑ‹ Ð¸ ÑƒÑÑ‚Ñ€Ð¾Ð¹Ñ‚Ðµ ÑÐµÑÑÐ¸ÑŽ Â«Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ Ð²Ð¼ÐµÑÑ‚ÐµÂ» Ñ Ð´Ñ€ÑƒÐ·ÑŒÑÐ¼Ð¸.</string>
+    <string name="onboarding_sign_in_google">Ð’Ð¾Ð¹Ñ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· Google</string>
+    <string name="onboarding_skip_sign_in">ÐŸÑ€Ð¾Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ Ð²Ñ…Ð¾Ð´</string>
+    <string name="onboarding_back">ÐÐ°Ð·Ð°Ð´</string>
+    <string name="wear_os_section">Sonora Ð´Ð»Ñ Wear OS</string>
+    <string name="wear_os_page_title">Wear OS</string>
+    <string name="wear_os_your_watches">Ð’Ð°ÑˆÐ¸ Ñ‡Ð°ÑÑ‹</string>
+    <string name="wear_os_value_none">ÐÐµÑ‚ Ñ‡Ð°ÑÐ¾Ð²</string>
+    <string name="wear_os_value_not_installed">ÐÐµ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾</string>
+    <string name="wear_os_value_up_to_date">ÐÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ð²ÐµÑ€ÑÐ¸Ñ</string>
+    <string name="wear_os_looking">ÐŸÐ¾Ð¸ÑÐº Ñ‡Ð°ÑÐ¾Ð²â€¦</string>
+    <string name="wear_os_no_watch">Ð§Ð°ÑÑ‹ Ð½Ðµ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ñ‹</string>
+    <string name="wear_os_no_watch_subtitle">Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ñ‡Ð°ÑÑ‹ Wear OS Ðº ÑÑ‚Ð¾Ð¼Ñƒ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ñƒ Ð² Ð¸Ñ… Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ð¸-ÐºÐ¾Ð¼Ð¿Ð°Ð½ÑŒÐ¾Ð½Ðµ.</string>
+    <string name="wear_os_checking">ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ°â€¦</string>
+    <string name="wear_os_not_installed">Sonora Ð½Ðµ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½ Ð½Ð° ÑÑ‚Ð¸Ñ… Ñ‡Ð°ÑÐ°Ñ…</string>
+    <string name="wear_os_up_to_date">ÐÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ð²ÐµÑ€ÑÐ¸Ñ Â· %1$s</string>
+    <string name="wear_os_update_available">Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ</string>
+    <string name="wear_os_unknown">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Â· Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Ð²ÐµÑ€ÑÐ¸ÑŽ</string>
+    <string name="wear_os_sending">ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° Ð½Ð° Ñ‡Ð°ÑÑ‹â€¦</string>
+    <string name="wear_os_sent">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¾ â€” Ð¿Ñ€Ð¸ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚Ðµ Ð½Ð° Ñ‡Ð°ÑÐ°Ñ…</string>
+    <string name="wear_os_send_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ (%1$s)</string>
+    <string name="wear_os_install">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ</string>
+    <string name="wear_os_update">ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ</string>
+    <string name="wear_os_install_title">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð½Ð° Ñ‡Ð°ÑÑ‹</string>
+    <string name="wear_os_step_wifi">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ñ‡Ð°ÑÑ‹ Ðº Ñ‚Ð¾Ð¹ Ð¶Ðµ ÑÐµÑ‚Ð¸ Wi-Fi, Ñ‡Ñ‚Ð¾ Ð¸ ÑÑ‚Ð¾Ñ‚ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½.</string>
+    <string name="wear_os_step_developer">Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ñ€ÐµÐ¶Ð¸Ð¼ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ° Ð½Ð° Ñ‡Ð°ÑÐ°Ñ…. Galaxy Watch: ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ â†’ Ðž Ñ‡Ð°ÑÐ°Ñ… â†’ Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ ÐŸÐž â†’ Ð¿ÑÑ‚ÑŒ Ñ€Ð°Ð· ÐºÐ¾ÑÐ½Ð¸Ñ‚ÐµÑÑŒ Ð’ÐµÑ€ÑÐ¸Ñ ÐŸÐž. Pixel Watch: ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ â†’ Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð° â†’ Ðž Ñ‡Ð°ÑÐ°Ñ… â†’ ÑÐµÐ¼ÑŒ Ñ€Ð°Ð· ÐºÐ¾ÑÐ½Ð¸Ñ‚ÐµÑÑŒ ÐÐ¾Ð¼ÐµÑ€ ÑÐ±Ð¾Ñ€ÐºÐ¸.</string>
+    <string name="wear_os_step_debugging">Ð’ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°Ñ… Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ° Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ð¾Ñ‚Ð»Ð°Ð´ÐºÑƒ Ð¿Ð¾ ADB Ð¸ Ð¾Ñ‚Ð»Ð°Ð´ÐºÑƒ Ð¿Ð¾ Wi-Fi.</string>
+    <string name="wear_os_step_pair">ÐÐ°Ð¶Ð¼Ð¸Ñ‚Ðµ Â«ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð½Ð¾Ð²Ð¾Ðµ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾Â» Ð¸ Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑˆÐµÑÑ‚Ð¸Ð·Ð½Ð°Ñ‡Ð½Ñ‹Ð¹ ÐºÐ¾Ð´, Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð½Ñ‹Ð¹ Ð½Ð° Ñ‡Ð°ÑÐ°Ñ….</string>
+    <string name="wear_os_searching">ÐŸÐ¾Ð¸ÑÐº Ñ‡Ð°ÑÐ¾Ð² Ð² ÑÐµÑ‚Ð¸ Wi-Fiâ€¦</string>
+    <string name="wear_os_found">Ð§Ð°ÑÑ‹ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ‹</string>
+    <string name="wear_os_pairing">ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµâ€¦</string>
+    <string name="wear_os_installing">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Sonora Ð½Ð° Ñ‡Ð°ÑÑ‹â€¦</string>
+    <string name="wear_os_installed">Ð£ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾. ÐžÑ‚Ð»Ð°Ð´ÐºÑƒ Ð¿Ð¾ Wi-Fi Ð¼Ð¾Ð¶Ð½Ð¾ ÑÐ½Ð¾Ð²Ð° Ð²Ñ‹ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ.</string>
+    <string name="wear_os_failed">ÐÐµ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¾ÑÑŒ (%1$s). ÐŸÑ€Ð¾Ð²ÐµÑ€ÑŒÑ‚Ðµ ÐºÐ¾Ð´ Ð¸ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð¸Ñ‚Ðµ Ð¿Ð¾Ð¿Ñ‹Ñ‚ÐºÑƒ.</string>
+    <string name="wear_os_unsupported">Ð”Ð»Ñ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸ Ð½Ð° Ñ‡Ð°ÑÑ‹ Ð½Ð° ÑÑ‚Ð¾Ð¼ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ðµ Ð½ÑƒÐ¶ÐµÐ½ Android 11 Ð¸Ð»Ð¸ Ð½Ð¾Ð²ÐµÐµ.</string>
+    <string name="wear_os_code_hint">ÐšÐ¾Ð´ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ</string>
+    <string name="wear_os_done">Ð“Ð¾Ñ‚Ð¾Ð²Ð¾</string>
+    <string name="signed_by">ÐŸÐ¾Ð´Ð¿Ð¸ÑÑŒ: %1$s</string>
+    <string name="song_info">Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ Ð¿ÐµÑÐ½Ðµ</string>
+    <string name="song_info_album">ÐÐ»ÑŒÐ±Ð¾Ð¼</string>
+    <string name="song_info_release_date">Ð”Ð°Ñ‚Ð° Ð²Ñ‹Ð¿ÑƒÑÐºÐ°</string>
+    <string name="song_info_views">ÐŸÑ€Ð¾ÑÐ»ÑƒÑˆÐ¸Ð²Ð°Ð½Ð¸Ñ / Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€Ñ‹</string>
+    <string name="song_info_likes">ÐžÑ‚Ð¼ÐµÑ‚ÐºÐ¸ Â«ÐÑ€Ð°Ð²Ð¸Ñ‚ÑÑÂ»</string>
+    <string name="song_info_comments">ÐšÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¸</string>
+    <string name="song_info_unavailable">ÐÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾</string>
+    <string name="song_info_error">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ Ñ‡Ð°ÑÑ‚ÑŒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸.</string>
+    <string name="song_info_retry">ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€Ð¸Ñ‚ÑŒ</string>
+    <string name="no_audio_version">No audio version found for this video</string>
+    <string name="no_video_version">No video version found for this song</string>
+    <string name="version_switch_in_party">Everyone in Listen Together hears the same version</string>
+    <string name="opened_file">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ Ñ„Ð°Ð¹Ð»</string>
+    <string name="folders">ÐŸÐ°Ð¿ÐºÐ¸</string>
+    <string name="folder">ÐŸÐ°Ð¿ÐºÐ°</string>
+    <string name="no_local_folders">ÐÐµÑ‚ Ð¿Ð°Ð¿Ð¾Ðº Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ¾Ð¹</string>
+    <string name="offline_playlist_empty">Ð­Ñ‚Ð¾Ñ‚ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚ Ð¿Ð¾ÐºÐ° Ð¿ÑƒÑÑ‚. Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐ¹Ñ‚Ðµ Ñ‚Ñ€ÐµÐºÐ¸ Ð¸Ð· Ð¸Ñ… Ð¼ÐµÐ½ÑŽ.</string>
+    <string name="offline_liked_empty">Ð¢Ñ€ÐµÐºÐ¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð²Ð°Ð¼ Ð¿Ð¾Ð½Ñ€Ð°Ð²Ð¸Ð»Ð¸ÑÑŒ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ, Ð¿Ð¾ÑÐ²ÑÑ‚ÑÑ Ð·Ð´ÐµÑÑŒ</string>
+    <string name="saved_on_this_device">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ</string>
+    <string name="direct_source_stream_in_party">ÐžÑ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾ Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ð²ÐµÑ‡ÐµÑ€Ð¸Ð½ÐºÐ¸ Listen Together</string>
+    <string name="direct_source_stream">ÐŸÑ€ÑÐ¼Ð¾Ð¹ Ð¿Ð¾Ñ‚Ð¾Ðº Ð¸Ð· Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ°</string>
+    <string name="find_your_mood">ÐÐ°Ð¹Ð´Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ñ‘ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ðµ</string>
+    <string name="progressive_blur">ÐŸÐ»Ð°Ð²Ð½Ð¾Ðµ Ñ€Ð°Ð·Ð¼Ñ‹Ñ‚Ð¸Ðµ</string>
+    <string name="glass_performance">ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ ÑÑ‚ÐµÐºÐ»Ð°</string>
+    <string name="remove_from_history">Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸</string>
+    <string name="remove_from_history_failed">ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸</string>
+    <string name="addon_blocked_title">ÐÐµ ÑƒÐ´Ð°Ñ‘Ñ‚ÑÑ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÑÑ‚Ð¸ ÑÑ‚Ð¾Ñ‚ Ñ‚Ñ€ÐµÐº</string>
+    <string name="addon_blocked_quality">ÐšÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð²ÑƒÐºÐ° Ñ‡ÐµÑ€ÐµÐ· %1$s ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð½Ð° Â«%2$sÂ». Ð¢Ñ€ÐµÐºÐ¸ Ð¸Ð· %3$s Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´ÑÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ â€” Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚Ðµ ÑÑ‚Ð¾ Ð² ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ â†’ ÐšÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð²ÑƒÐºÐ°, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÑÑ‚Ð¸ ÑÑ‚Ð¾Ñ‚ Ñ‚Ñ€ÐµÐº.</string>
+    <string name="addon_blocked_watch">ÐœÑƒÐ·Ñ‹ÐºÐ° Ð¸Ð³Ñ€Ð°ÐµÑ‚ Ñ‡ÐµÑ€ÐµÐ· Ñ‡Ð°ÑÑ‹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°ÑŽÑ‚ Ð·Ð²ÑƒÐº Ð½Ð¸Ð¶Ðµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð° Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ. Ð¢Ñ€ÐµÐºÐ¸ Ð¸Ð· %1$s ÑÐ½Ð¾Ð²Ð° Ð·Ð°Ð¸Ð³Ñ€Ð°ÑŽÑ‚, ÐºÐ¾Ð³Ð´Ð° Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½ Ð²ÐµÑ€Ð½Ñ‘Ñ‚ ÑÐµÐ±Ðµ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ.</string>
+    <string name="download_addon_left_out_title">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð±ÐµÐ· %1$s</string>
+    <string name="download_addon_not_allowed">%1$s Ð½Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ°ÐµÑ‚ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ñ‚Ñ€ÐµÐºÐ¸ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‚ÑÑ Ð¸Ð· Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð²Ð°ÑˆÐ¸Ñ… Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð².</string>
+    <string name="download_addon_needs_lossless_output">%1$s Ð¾Ñ‚Ð´Ð°Ñ‘Ñ‚ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ, Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐºÐ¾Ð³Ð´Ð° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ñ‹ Ð¿Ñ€Ð¾Ð²Ð¾Ð´Ð½Ñ‹Ðµ, USB Ð¸Ð»Ð¸ LDAC-Ð½Ð°ÑƒÑˆÐ½Ð¸ÐºÐ¸. ÐŸÐ¾ÐºÐ° Ð¸Ñ… Ð½ÐµÑ‚, Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ ÐµÐ³Ð¾ Ð¿Ñ€Ð¾Ð¿ÑƒÑÐºÐ°ÑŽÑ‚, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ñ‚Ñ€ÐµÐºÐ¸ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‚ÑÑ Ð¸Ð· Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð²Ð°ÑˆÐ¸Ñ… Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð².</string>
+    <string name="show_listen_together_button">ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ ÐºÐ½Ð¾Ð¿ÐºÑƒ Â«Ð¡Ð»ÑƒÑˆÐ°Ñ‚ÑŒ Ð²Ð¼ÐµÑÑ‚ÐµÂ»</string>
+    <string name="show_listen_together_button_subtitle">Ð•ÑÐ»Ð¸ Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾, Ð¿Ð»ÐµÐµÑ€ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð¼ÐµÐ¶Ð´Ñƒ Ñ‚ÐµÐºÑÑ‚Ð¾Ð¼ Ð¿ÐµÑÐ½Ð¸ Ð¸ Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒÑŽ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐºÐ½Ð¾Ð¿ÐºÑƒ Ð°ÑƒÐ´Ð¸Ð¾Ð²Ñ‹Ñ…Ð¾Ð´Ð°</string>
+    <string name="font">Ð¨Ñ€Ð¸Ñ„Ñ‚</string>
+    <string name="font_default">ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ</string>
+    <string name="font_legacy">ÐŸÑ€ÐµÐ¶Ð½Ð¸Ð¹</string>
+    <string name="font_default_subtitle">SF Pro Display Â· ÐÐ°Ñ‡ÐµÑ€Ñ‚Ð°Ð½Ð¸Ñ Apple Music</string>
+    <string name="font_legacy_subtitle">SF Pro Display Â· Ð˜ÑÑ…Ð¾Ð´Ð½Ñ‹Ðµ Ð¶Ð¸Ñ€Ð½Ñ‹Ðµ Ð½Ð°Ñ‡ÐµÑ€Ñ‚Ð°Ð½Ð¸Ñ</string>
+    <string name="font_footer">Â«ÐŸÑ€ÐµÐ¶Ð½Ð¸Ð¹Â» Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð±Ð¾Ð»ÐµÐµ Ð¶Ð¸Ñ€Ð½Ñ‹Ð¹ Ð¸ Ð¿Ð»Ð¾Ñ‚Ð½Ñ‹Ð¹ ÑˆÑ€Ð¸Ñ„Ñ‚, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð»Ð¾ Ð´Ð¾ Ñ‚Ð¾Ð³Ð¾, ÐºÐ°Ðº ÐµÐ³Ð¾ Ð¿Ñ€Ð¸Ð²ÐµÐ»Ð¸ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ðµ Ñ Apple Music.</string>
+    <string name="bit_perfect_output">Ð’Ñ‹Ð²Ð¾Ð´ bit-perfect</string>
+    <string name="bit_perfect_bypassed_footer">Ð’Ñ‹Ð²Ð¾Ð´ bit-perfect Ð³Ð¾Ñ‚Ð¾Ð², Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ð·Ð°Ñ‚ÐµÐ½Ñ‘Ð½Ð½Ñ‹Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð½Ðµ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ, Ð° Ð²ÐµÑ€ÑÐ¸Ð¸ Dolby Atmos Ð½Ðµ Ð·Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÑŽÑ‚ÑÑ. ÐžÐ½Ð¸ ÑÐ½Ð¾Ð²Ð° Ð·Ð°Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽÑ‚, ÐºÐ¾Ð³Ð´Ð° Ð¦ÐÐŸ Ð±ÑƒÐ´ÐµÑ‚ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ñ‘Ð½ Ð¸Ð»Ð¸ Ñ€ÐµÐ¶Ð¸Ð¼ Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½.</string>
+    <string name="bit_perfect_sheet_warning">ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ Ñ‚Ñ€ÐµÐº Ð½Ð° Ð¦ÐÐŸ Ð±ÐµÐ· Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ð¹. Ð­ÐºÐ²Ð°Ð»Ð°Ð¹Ð·ÐµÑ€, Ð½Ð¾Ñ€Ð¼Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸, ÐºÑ€Ð¾ÑÑÑ„ÐµÐ¹Ð´, Ð°Ð²Ñ‚Ð¾Ð¼Ð¸ÐºÑ, ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ Ð¸ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Sonora Ð½Ðµ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ.</string>
+    <string name="bit_perfect_mode_off_subtitle">Ð—Ð²ÑƒÐº Ð¿Ñ€Ð¾Ñ…Ð¾Ð´Ð¸Ñ‚ Ñ‡ÐµÑ€ÐµÐ· Ð¼Ð¸ÐºÑˆÐµÑ€ Android Ð¸ ÑÑ„Ñ„ÐµÐºÑ‚Ñ‹ Sonora.</string>
+    <string name="bit_perfect_mode_usb_android">USB-Ð¦ÐÐŸ</string>
+    <string name="bit_perfect_mode_usb_android_subtitle">Android 14 Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ð¦ÐÐŸ Ñ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð¾Ð¹ Ð¸ Ñ€Ð°Ð·Ñ€ÑÐ´Ð½Ð¾ÑÑ‚ÑŒÑŽ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ°, Ð±ÐµÐ· Ð¼Ð¸ÐºÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ð¿ÐµÑ€ÐµÐ´Ð¸ÑÐºÑ€ÐµÑ‚Ð¸Ð·Ð°Ñ†Ð¸Ð¸.</string>
+    <string name="bit_perfect_requires_android_14">Ð¢Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Android 14 Ð¸Ð»Ð¸ Ð½Ð¾Ð²ÐµÐµ</string>
+    <string name="bit_perfect_mode_dap_exclusive">Ð’ÑÑ‚Ñ€Ð¾ÐµÐ½Ð½Ñ‹Ð¹ Ð¦ÐÐŸ (AAudio, ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾)</string>
+    <string name="bit_perfect_mode_dap_exclusive_subtitle">Ð”Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð¿Ð»ÐµÐµÑ€Ð¾Ð² Ñ ÑÐ¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¼ Ð¦ÐÐŸ. ÐžÑ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ð²Ñ‹Ñ…Ð¾Ð´ Ð½Ð° Ð½Ð°ÑƒÑˆÐ½Ð¸ÐºÐ¸ Ð¸Ð»Ð¸ Ð»Ð¸Ð½ÐµÐ¹Ð½Ñ‹Ð¹ Ð²Ñ‹Ñ…Ð¾Ð´ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾ Ñ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð¾Ð¹ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ°. Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ñ€ÐµÐ¶Ð¸Ð¼ Ð´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½ Ð½Ðµ Ð½Ð° Ð²ÑÐµÑ… ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°Ñ….</string>
+    <string name="bit_perfect_requires_android_8_1">Ð¢Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Android 8.1 Ð¸Ð»Ð¸ Ð½Ð¾Ð²ÐµÐµ</string>
+    <string name="bit_perfect_mode_usb_direct">USB-Ð¦ÐÐŸ (Ð¿Ñ€ÑÐ¼Ð¾Ð¹ Ð´Ñ€Ð°Ð¹Ð²ÐµÑ€)</string>
+    <string name="bit_perfect_mode_usb_direct_subtitle">Sonora ÑÐ°Ð¼ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ Ð¦ÐÐŸ Ð² Ð»ÑŽÐ±Ð¾Ð¹ Ð²ÐµÑ€ÑÐ¸Ð¸ Android Ð¸ Ð·Ð°Ð´Ð°Ñ‘Ñ‚ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Ð½Ð° Ð¦ÐÐŸ. Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÑ‚ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ USB. Ð—Ð²ÑƒÐº Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð½Ð°Ð¼Ð½Ð¾Ð³Ð¾ Ð³Ñ€Ð¾Ð¼Ñ‡Ðµ Ð¾Ð±Ñ‹Ñ‡Ð½Ð¾Ð³Ð¾ Ð²Ñ‹Ð²Ð¾Ð´Ð°.</string>
+    <string name="dac_volume">Ð“Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Ð¦ÐÐŸ</string>
+    <string name="dac_volume_subtitle">Ð—Ð°Ð´Ð°Ñ‘Ñ‚ÑÑ Ð½Ð° ÑÐ°Ð¼Ð¾Ð¼ Ð¦ÐÐŸ; Ð¼ÑƒÐ·Ñ‹ÐºÐ° Ð½Ðµ Ð¼Ð°ÑÑˆÑ‚Ð°Ð±Ð¸Ñ€ÑƒÐµÑ‚ÑÑ</string>
+    <string name="usb_allow_fixed_volume">Ð Ð°Ð·Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ Ð¦ÐÐŸ Ð±ÐµÐ· Ñ€ÐµÐ³ÑƒÐ»Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸</string>
+    <string name="usb_allow_fixed_volume_subtitle">Ð˜Ð½Ð°Ñ‡Ðµ Ñ‚Ð°ÐºÐ¾Ð¹ Ð¦ÐÐŸ Ð¸Ð³Ñ€Ð°ÐµÑ‚ Ñ‡ÐµÑ€ÐµÐ· Ð¾Ð±Ñ‹Ñ‡Ð½Ñ‹Ð¹ Ð²Ñ‹Ð²Ð¾Ð´</string>
+    <string name="usb_allow_fixed_volume_confirm_title">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ Ð½Ð° Ð¿Ð¾Ð»Ð½Ð¾Ð¹ ÑˆÐºÐ°Ð»Ðµ?</string>
+    <string name="usb_allow_fixed_volume_confirm_message">Sonora Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð·Ð°Ð´Ð°Ñ‚ÑŒ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Ñ‚Ð°ÐºÐ¾Ð³Ð¾ Ð¦ÐÐŸ, Ð¿Ð¾ÑÑ‚Ð¾Ð¼Ñƒ Ð¾Ð½ Ð¸Ð³Ñ€Ð°ÐµÑ‚ Ð½Ð° Ð¿Ð¾Ð»Ð½Ð¾Ð¹ ÑˆÐºÐ°Ð»Ðµ, Ð° ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ Ñ€ÐµÐ³ÑƒÐ»Ð¸Ñ€ÑƒÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÐ³Ð¾ ÑÐ¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ð°Ñ Ñ€ÑƒÑ‡ÐºÐ°, ÐµÑÐ»Ð¸ Ð¾Ð½Ð° ÐµÑÑ‚ÑŒ. Ð¡ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼Ð¸ Ð½Ð°ÑƒÑˆÐ½Ð¸ÐºÐ°Ð¼Ð¸ ÑÑ‚Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ð¿Ð°ÑÐ½Ð¾ Ð³Ñ€Ð¾Ð¼ÐºÐ¾.</string>
+    <string name="convert_for_limited_dac">ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð´Ð»Ñ ÑÐ»Ð°Ð±Ñ‹Ñ… Ð¦ÐÐŸ</string>
+    <string name="convert_for_limited_dac_subtitle">ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·ÑƒÐµÑ‚ Ñ‚Ñ€ÐµÐºÐ¸ ÑÐ²ÐµÑ€Ñ… Ð¿Ñ€ÐµÐ´ÐµÐ»Ð° Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¦ÐÐŸ Ð² ÐµÐ³Ð¾ Ð½Ð°Ð¸Ð²Ñ‹ÑÑˆÐ¸Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚. Ð¢Ñ€ÐµÐºÐ¸ Ð¼Ð¾Ð³ÑƒÑ‚ Ð·Ð°Ð¿ÑƒÑÐºÐ°Ñ‚ÑŒÑÑ Ð´Ð¾Ð»ÑŒÑˆÐµ Ð¸ Ð½Ðµ Ð±ÑƒÐ´ÑƒÑ‚ bit-perfect Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð¾Ñ€Ð¸Ð³Ð¸Ð½Ð°Ð»Ð°.</string>
+    <string name="bit_perfect_confirm_title">Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð²Ñ‹Ð²Ð¾Ð´ bit-perfect?</string>
+    <string name="bit_perfect_confirm_message">Ð¦ÐÐŸ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÑ‚ Ð¼ÑƒÐ·Ñ‹ÐºÑƒ Ð½Ð° Ð¿Ð¾Ð»Ð½Ð¾Ð¹ ÑˆÐºÐ°Ð»Ðµ, Ð° ÐºÐ½Ð¾Ð¿ÐºÐ¸ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚Ð¸ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð° Ð¼Ð¾Ð³ÑƒÑ‚ Ð¿ÐµÑ€ÐµÑÑ‚Ð°Ñ‚ÑŒ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ. ÐŸÐµÑ€ÐµÐ´ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸ÐµÐ¼ ÑƒÐ±Ð°Ð²ÑŒÑ‚Ðµ Ð³Ñ€Ð¾Ð¼ÐºÐ¾ÑÑ‚ÑŒ Ð¦ÐÐŸ Ð¸Ð»Ð¸ ÑƒÑÐ¸Ð»Ð¸Ñ‚ÐµÐ»Ñ.</string>
+    <string name="bit_perfect_status_active">%1$s Â· %2$s ÐºÐ“Ñ† Â· %3$d Ð±Ð¸Ñ‚</string>
+    <string name="bit_perfect_status_dac_limited">%1$s Â· %2$s ÐºÐ“Ñ† Â· %3$d Ð±Ð¸Ñ‚ Â· Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼ Ð¦ÐÐŸ, Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¾ Ð¸Ð· Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð° ÑÑ‚Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ°</string>
+    <string name="bit_perfect_status_inexact">%1$s Â· Ð½ÐµÑ‚Ð¾Ñ‡Ð½Ð¾: ÑÑ‚Ð¾Ñ‚ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº Ð½Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ PCM Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
+    <string name="bit_perfect_status_waiting">ÐžÐ¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ñ‚Ñ€ÐµÐºÐ° Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Ð½Ð° Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÐ¼Ð¾Ð¼ Ð²Ñ‹Ñ…Ð¾Ð´Ðµ</string>
+    <string name="bit_perfect_status_unavailable">ÐÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ° (%1$s)</string>
+</resources>
+
+
