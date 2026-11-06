@@ -79,10 +79,22 @@ fun PlaylistShareSheet(page: DetailPage, songs: List<Song>, onDismiss: () -> Uni
         }
         Spacer(Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            ShareAction("Save", Icons.Rounded.Save, false, poster != null, Modifier.weight(1f)) {
+            ShareAction(
+                label = "Save",
+                icon = Icons.Rounded.Save,
+                accent = false,
+                enabled = poster != null,
+                modifier = Modifier.weight(1f),
+            ) {
                 poster?.let { image -> scope.launch { saveToGallery(context, image, page.title, "sonora-playlist") } }
             }
-            ShareAction("Share", Icons.Rounded.IosShare, true, poster != null, Modifier.weight(1f)) {
+            ShareAction(
+                label = "Share",
+                icon = Icons.Rounded.IosShare,
+                accent = true,
+                enabled = poster != null,
+                modifier = Modifier.weight(1f),
+            ) {
                 poster?.let { image -> scope.launch {
                     cacheForSharing(context, image, "playlist-share.png")?.let { uri ->
                         context.startActivity(android.content.Intent.createChooser(sendIntent(uri), "Share playlist"))

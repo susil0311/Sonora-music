@@ -52,6 +52,12 @@ val listenTogetherServer: String = (
         ?: "https://sonora-listen-together.onrender.com"
     ).trim().trimEnd('/')
 
+val addonAuthServer: String = (
+    localProps.getProperty("ADDON_AUTH_SERVER")
+        ?: System.getenv("ADDON_AUTH_SERVER")
+        ?: "https://sonora-auth.susil.in"
+    ).trim().trimEnd('/')
+
 /*
  * Bump this by hand before cutting each sideloaded test build ("beta2",
  * "beta3", ...) and blank it out before cutting the real release. Marks the
@@ -94,6 +100,11 @@ android {
             "String",
             "LISTEN_TOGETHER_SERVER",
             "\"${listenTogetherServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
+        )
+        buildConfigField(
+            "String",
+            "ADDON_AUTH_URL",
+            "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
         )
         // The TV APKs share a GitHub release with the phone ones and are told
         // apart by name (SonoraTV-v1.8.apk, SonoraTV-v1.8_x86_64.apk), so

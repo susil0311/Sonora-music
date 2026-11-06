@@ -137,6 +137,7 @@ import com.susil.sonora.data.NerdStats
 import com.susil.sonora.data.TrackLog
 import com.susil.sonora.data.innertube.InnertubeParser
 import com.susil.sonora.data.model.BrowseType
+import com.susil.sonora.data.model.DetailPage
 import com.susil.sonora.data.model.HomeShelf
 import com.susil.sonora.data.model.LikeStatus
 import com.susil.sonora.data.model.PlaybackSourceType
@@ -353,6 +354,7 @@ import com.susil.sonora.data.settings.SongSort
 import com.susil.sonora.ui.onboarding.OnboardingScreen
 import com.susil.sonora.ui.replay.ReplayScreen
 import com.susil.sonora.ui.replay.cards
+import com.susil.sonora.ui.replay.PlaylistShareSheet
 import com.susil.sonora.ui.replay.ReplayShareSheet
 import com.susil.sonora.ui.replay.ReplayStories
 import com.susil.sonora.ui.replay.ReplayStoryPage
@@ -637,6 +639,8 @@ private fun SonoraApp(
     var showReplayShare by rememberSaveable { mutableStateOf(false) }
     /** Which story card the share sheet is for, or null for the whole Replay. */
     var replaySharePage by rememberSaveable { mutableStateOf<ReplayStoryPage?>(null) }
+    /** The playlist page currently shown in the playlist share sheet. */
+    var playlistSharePage by remember { mutableStateOf<DetailPage?>(null) }
     var showSpotifyCanvasAuth by remember { mutableStateOf(false) }
 
     // Hosted here rather than inside SourcesScreen so its frosted card has
@@ -4843,7 +4847,7 @@ private fun SonoraApp(
         }
 
         playlistSharePage?.let { sharedPage ->
-            val sharedSongs = (sharedPage.songs as? UiState.Success)?.data.orEmpty()
+            val sharedSongs = (sharedPage.songs as? UiState.Success<List<Song>>)?.data.orEmpty()
             if (sharedSongs.isNotEmpty()) {
                 ModalBottomSheet(
                     onDismissRequest = { playlistSharePage = null },

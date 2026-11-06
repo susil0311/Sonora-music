@@ -16,6 +16,7 @@
     </plurals>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="description">Description</string>
     <string name="close">Close</string>
     <string name="back">Back</string>
     <string name="settings">Settings</string>
