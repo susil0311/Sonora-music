@@ -40,7 +40,7 @@ import kotlinx.coroutines.withTimeoutOrNull
  */
 object SourceResolver {
 
-    private const val TAG = "BitChord"
+    private const val TAG = "Sonora"
 
     /**
      * What to ask a source for, right now, from the connection's ceiling alone
@@ -101,7 +101,7 @@ object SourceResolver {
     }
 
     /**
-     * @param uri a `bitchord://source?...` URI as built by [SourceRegistry.trackUri].
+     * @param uri a `sonora://source?...` URI as built by [SourceRegistry.trackUri].
      * @return the stream, or null when nothing enabled could serve the track.
      */
     suspend fun resolve(uri: Uri): SourceStream? {
@@ -265,7 +265,7 @@ object SourceResolver {
      *
      * A YouTube track keeps its bare video id rather than a
      * [SourceRegistry.trackKey] — see [YouTubeSource] for why — so it reaches
-     * playback as `bitchord://watch?v=…` and never passes through [resolve].
+     * playback as `sonora://watch?v=…` and never passes through [resolve].
      * Without this, ordering a source above YouTube did nothing for anything
      * *queued* from YouTube: the library, a playlist, radio, the home feed —
      * which is very nearly everything. The list said "prefer my server" and

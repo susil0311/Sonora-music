@@ -16,7 +16,7 @@ Maintainers oversee project direction, repository maintenance, review and mergin
 The following list preserves contributor acknowledgements; profile links are omitted.
 
 <!-- BEGIN CONTRIBUTORS -->
-- @kushagrasinghx
+- @susil
 - @Galaxyyss
 - @KabirSinghBhatia
 - @NeoTurcios

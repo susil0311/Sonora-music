@@ -90,7 +90,7 @@ import com.susil.sonora.ui.components.SongRow
 import com.susil.sonora.ui.components.longPressMenuClickable
 import com.susil.sonora.ui.components.rememberRemoteArtworkUrl
 import com.susil.sonora.ui.components.thumbnailBorder
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.theme.ArtworkPalette
 
 /**
@@ -432,7 +432,7 @@ private fun NewPlaylistRow(palette: ArtworkPalette, onClick: () -> Unit) {
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                BitChordIcons.Plus,
+                SonoraIcons.Plus,
                 contentDescription = null,
                 tint = palette.accent,
                 modifier = Modifier.size(22.dp),
@@ -794,7 +794,7 @@ private fun GroupLabels(title: String, subtitle: String, palette: ArtworkPalette
 @Composable
 private fun TrailingGlyph(selected: Boolean, palette: ArtworkPalette) {
     Icon(
-        imageVector = if (selected) Icons.Rounded.CheckCircle else BitChordIcons.ChevronRight,
+        imageVector = if (selected) Icons.Rounded.CheckCircle else SonoraIcons.ChevronRight,
         contentDescription = if (selected) stringResource(R.string.selected) else null,
         tint = if (selected) MaterialTheme.colorScheme.primary else palette.onBackgroundVariant,
         modifier = Modifier.size(if (selected) 22.dp else 16.dp),

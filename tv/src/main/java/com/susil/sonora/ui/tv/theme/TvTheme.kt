@@ -531,7 +531,7 @@ val LocalTvFontFamily = compositionLocalOf { TvSFProDisplay }
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
-fun BitChordTvTheme(
+fun SonoraTvTheme(
     content: @Composable () -> Unit,
 ) {
     val tvThemeId by TvSettings.tvTheme.collectAsState()

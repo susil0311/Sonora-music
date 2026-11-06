@@ -25,7 +25,7 @@ import kotlin.math.abs
 object LrcLib {
 
     private const val BASE = "https://lrclib.net/api"
-    private const val AGENT = "Sonora (https://bitchord.kushagrasingh.in/)"
+    private const val AGENT = "Sonora (https://sonora-listen-together.onrender.com/)"
 
     private val json = Json { ignoreUnknownKeys = true }
 

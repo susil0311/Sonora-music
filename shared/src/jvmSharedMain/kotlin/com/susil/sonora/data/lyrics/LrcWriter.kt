@@ -56,7 +56,7 @@ private fun LyricLine.flattened(): String =
  * documents: a reader without A2 does not ignore a word stamp, it shows it, so
  * a file carrying only this reads as angle-bracket noise everywhere else. The
  * two are written to different fields — plain LRC to the container's own lyrics
- * atom, where every other player looks, and this to a BitChord-specific one
+ * atom, where every other player looks, and this to a Sonora-specific one
  * they don't read (see `Mp4Tagger`, `FlacTagger`, `WebmTagger`). Other players
  * are unaffected; this app gets the timings back off the file instead of the
  * network, which is what lets a downloaded song light up word by word offline.
@@ -69,7 +69,7 @@ private fun LyricLine.flattened(): String =
  * [LyricLine.endMs] across — without it the last word of every line would come
  * back with no end, and the player reads a silence out of that.
  */
-const val WORD_LYRICS_FIELD = "BITCHORD_LYRICS"
+const val WORD_LYRICS_FIELD = "SONORA_LYRICS"
 
 fun List<LyricLine>.toEnhancedLrc(): String {
     if (isEmpty()) return ""

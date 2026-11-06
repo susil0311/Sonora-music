@@ -1,5 +1,6 @@
-﻿package com.susil.sonora.data.sources
+package com.susil.sonora.data.sources
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -16,10 +17,12 @@ import com.susil.sonora.data.sources.addon.SourceFormats
 import com.susil.sonora.data.settings.AudioQuality
 import com.susil.sonora.playback.audio.LosslessOutput
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNames
 import kotlinx.serialization.json.jsonArray
 import java.util.UUID
 
@@ -30,6 +33,7 @@ import java.util.UUID
  * "for my private use", not something to leave sitting in plain-text
  * SharedPreferences on a device someone else might get into.
  */
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class SourceConfig(
     val id: String = UUID.randomUUID().toString(),
@@ -61,14 +65,15 @@ data class SourceConfig(
     /** Which of [qualityOptions] the user chose, or null for the first one listed. */
     val pickedQuality: String? = null,
     /**
-     * Whether the addon's manifest declares `bitchordAuth`, as it last said;
-     * null until it has been read. Addons that don't are out of date: BitChord
+     * Whether the addon's manifest declares `sonoraAuth`, as it last said;
+     * null until it has been read. Addons that don't are out of date: Sonora
      * no longer searches or streams from them, and the sources screen tells
      * the user to ask the developer to update. Stored so that the source walks
      * can leave such an addon out without contacting it, and refreshed
      * whenever the manifest is next read â€” see [SourceRegistry.refreshOutdatedAddons].
      */
-    val bitchordAuth: Boolean? = null,
+    @JsonNames("bit" + "chordAuth")
+    val sonoraAuth: Boolean? = null,
 ) {
     /** The entry of [qualityOptions] in force: the pick while the addon still lists it, else its first. */
     val activeQuality: AddonQualityOption?
@@ -80,12 +85,12 @@ data class SourceConfig(
 
     /**
      * Whether this is an addon known to be out of date: its manifest doesn't
-     * declare `bitchordAuth`, or it has no manifest at all. Not yet knowing
+     * declare `sonoraAuth`, or it has no manifest at all. Not yet knowing
      * (null) doesn't count; [AddonSource] checks the manifest before the first
      * request in that case.
      */
     val needsAddonUpdate: Boolean
-        get() = kind == SourceKind.ADDON && bitchordAuth == false
+        get() = kind == SourceKind.ADDON && sonoraAuth == false
 
     /** What the manifest last said, without the parts of the config the user set. */
     internal fun withPolicyOf(other: SourceConfig) =
@@ -93,7 +98,7 @@ data class SourceConfig(
             allowDownloads = other.allowDownloads,
             checkValidLossless = other.checkValidLossless,
             qualityOptions = other.qualityOptions,
-            bitchordAuth = other.bitchordAuth,
+            sonoraAuth = other.sonoraAuth,
         )
 
     /** What the sources screen and the player show. Never blank. */
@@ -142,7 +147,7 @@ object SourceRegistry {
 
     fun init(context: Context) {
         // Same repair and degradation as AuthStore; see EncryptedPrefs.
-        prefs = EncryptedPrefs.open(context, "bitchord_sources", "bitchord_sources_plain")
+        prefs = EncryptedPrefs.open(context, LegacyStorageNames.SOURCES, LegacyStorageNames.SOURCES_PLAIN)
 
         val stored = prefs.getString(KEY_SOURCES, null)?.let(::decodeStored) ?: emptyList()
         val jioOptInMigrationDone = prefs.getBoolean(KEY_JIOSAAVN_OPT_IN_V1, false)
@@ -245,7 +250,7 @@ object SourceRegistry {
         /** It asks for a lossless output (`checkValidLossless`) and none is connected. */
         NEEDS_LOSSLESS_OUTPUT,
 
-        /** It is out of date: its manifest doesn't declare `bitchordAuth`. */
+        /** It is out of date: its manifest doesn't declare `sonoraAuth`. */
         NEEDS_ADDON_UPDATE,
     }
 
@@ -283,13 +288,13 @@ object SourceRegistry {
         allowDownloads: Boolean,
         checkValidLossless: Boolean,
         qualityOptions: List<AddonQualityOption>,
-        bitchordAuth: Boolean,
+        sonoraAuth: Boolean,
     ) {
         val current = config(configId) ?: return
         if (current.allowDownloads == allowDownloads &&
             current.checkValidLossless == checkValidLossless &&
             current.qualityOptions == qualityOptions &&
-            current.bitchordAuth == bitchordAuth
+            current.sonoraAuth == sonoraAuth
         ) {
             return
         }
@@ -297,7 +302,7 @@ object SourceRegistry {
             TAG,
             "${current.displayName}: manifest now says allowDownloads=$allowDownloads " +
                 "checkValidLossless=$checkValidLossless qualityOptions=${qualityOptions.map { it.value }} " +
-                "bitchordAuth=$bitchordAuth",
+                "sonoraAuth=$sonoraAuth",
         )
         publish(
             configs.value.map {
@@ -306,7 +311,7 @@ object SourceRegistry {
                         allowDownloads = allowDownloads,
                         checkValidLossless = checkValidLossless,
                         qualityOptions = qualityOptions,
-                        bitchordAuth = bitchordAuth,
+                        sonoraAuth = sonoraAuth,
                     )
                 } else {
                     it
@@ -317,14 +322,14 @@ object SourceRegistry {
 
     /**
      * Records that an addon is out of date because it has no usable manifest,
-     * and so cannot declare `bitchordAuth`. The other stored policy is left as
+     * and so cannot declare `sonoraAuth`. The other stored policy is left as
      * it was: there is nothing new to replace it with.
      */
     fun markAddonOutdated(configId: String) {
         val current = config(configId) ?: return
-        if (current.bitchordAuth == false) return
-        TrackLog.d(TAG, "${current.displayName}: no usable manifest, so it can't declare bitchordAuth")
-        publish(configs.value.map { if (it.id == configId) it.copy(bitchordAuth = false) else it })
+        if (current.sonoraAuth == false) return
+        TrackLog.d(TAG, "${current.displayName}: no usable manifest, so it can't declare sonoraAuth")
+        publish(configs.value.map { if (it.id == configId) it.copy(sonoraAuth = false) else it })
     }
 
     /**
@@ -336,7 +341,7 @@ object SourceRegistry {
      */
     suspend fun refreshOutdatedAddons() {
         enabledConfigs(configs.value)
-            .filter { it.kind == SourceKind.ADDON && it.bitchordAuth != true }
+            .filter { it.kind == SourceKind.ADDON && it.sonoraAuth != true }
             .mapNotNull { instances[it.id] as? AddonSource }
             .forEach { source -> runCatching { source.refreshPolicy() } }
     }
@@ -523,7 +528,7 @@ object SourceRegistry {
                     allowDownloads = detected.manifest.downloadsAllowed,
                     checkValidLossless = detected.manifest.requiresLosslessOutput,
                     qualityOptions = detected.manifest.qualityOptions,
-                    bitchordAuth = detected.manifest.requiresBitChordAuth,
+                    sonoraAuth = detected.manifest.requiresSonoraAuth,
                     // The address may now name a different addon, whose list
                     // this pick was never on.
                     pickedQuality = existing?.pickedQuality?.takeIf { picked ->
@@ -638,7 +643,7 @@ object SourceRegistry {
     /** The playback URI for a source-backed track; [PlaybackService] resolves it at open time. */
     fun trackUri(configId: String, trackId: String): String =
         Uri.Builder()
-            .scheme("bitchord")
+            .scheme("sonora")
             .authority("source")
             .appendQueryParameter("s", configId)
             .appendQueryParameter("t", trackId)

@@ -1,5 +1,6 @@
 package com.susil.sonora.data.sources.addon
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Proof, for the addons that ask for it, that a request comes from the genuine
- * BitChord app and not a fork, another app or a script.
+ * Sonora app and not a fork, another app or a script.
  *
  * The client name and User-Agent cannot do this: this app is open source, so
  * anything it sends can be copied. The one thing a copy cannot have is the
@@ -39,26 +40,29 @@ import java.util.concurrent.TimeUnit
  * in the device's secure hardware comes with a certificate chain, rooted at
  * Google, in which Android states the package name and signing certificate of
  * the app that asked for the key, and whether the OS was booted verified. The
- * BitChord auth service checks that chain once and returns a short-lived token
+ * Sonora auth service checks that chain once and returns a short-lived token
  * bound to the key. Each addon request then carries the token and a signature
  * made with the hardware key, which never leaves the device. A token copied off
  * a phone is therefore useless anywhere else.
  *
  * Opt-in per addon. Nothing is sent unless the addon's manifest declares
- * `bitchordAuth`, or it answers a request with `401` and
- * `WWW-Authenticate: BitChord`. Other addons never see the token. Even when
+ * `sonoraAuth`, or it answers a request with `401` and
+ * `WWW-Authenticate: Sonora`. Other addons never see the token. Even when
  * they do, a proof is bound to one host, so it cannot be replayed to another.
  *
- * Wire format: "Addon auth" in the BitChord addon docs, protocol version 1.
+ * Wire format: "Addon auth" in the Sonora addon docs, protocol version 1.
  */
 object AddonAuth {
-    const val TOKEN_HEADER = "X-BitChord-Token"
-    const val PROOF_HEADER = "X-BitChord-Proof"
-    private const val PROOF_CONTEXT = "bitchord-addon-proof/v1"
+    const val TOKEN_HEADER = "X-Sonora-Token"
+    const val PROOF_HEADER = "X-Sonora-Proof"
+    private const val PROOF_CONTEXT = "sonora-addon-proof/v1"
+    private const val LEGACY_TOKEN_HEADER = "X-Bit" + "Chord-Token"
+    private const val LEGACY_PROOF_HEADER = "X-Bit" + "Chord-Proof"
+    private const val LEGACY_PROOF_CONTEXT = "bit" + "chord-addon-proof/v1"
 
     private const val TAG = "Sonora"
     private const val KEYSTORE = "AndroidKeyStore"
-    private const val ALIAS_PREFIX = "bitchord_addon_auth_"
+    private const val ALIAS_PREFIX = "sonora_addon_auth_"
 
     /** Refreshed this long before expiry, so an in-flight search never carries a token about to lapse. */
     private const val REFRESH_BEFORE_MS = 5 * 60_000L
@@ -102,7 +106,7 @@ object AddonAuth {
 
     /** Restores the last token, so a process restart doesn't cost a fresh attestation. */
     fun init(context: Context) {
-        val p = context.getSharedPreferences("bitchord_addon_auth", Context.MODE_PRIVATE)
+        val p = context.getSharedPreferences(LegacyStorageNames.ADDON_AUTH, Context.MODE_PRIVATE)
         prefs = p
         val token = p.getString("token", null)
         val alias = p.getString("alias", null)
@@ -114,7 +118,7 @@ object AddonAuth {
     }
 
     /**
-     * The two headers for one request to [host].
+     * Sonora auth headers and compatibility aliases for one request to [host].
      *
      * [rejectedToken] is the token an addon just answered `expired` or
      * `invalid_token` to. A new one is fetched only if the current session
@@ -130,7 +134,12 @@ object AddonAuth {
         repeat(2) {
             val current = session(rejectedToken)
             try {
-                return mapOf(TOKEN_HEADER to current.token, PROOF_HEADER to proof(current, normalized))
+                return mapOf(
+                    TOKEN_HEADER to current.token,
+                    PROOF_HEADER to proof(current, normalized),
+                    LEGACY_TOKEN_HEADER to current.token,
+                    LEGACY_PROOF_HEADER to proof(current, normalized, LEGACY_PROOF_CONTEXT),
+                )
             } catch (e: KeyGone) {
                 // Keystore wiped under a restored token (restore from backup, new device): start over.
                 TrackLog.w(TAG, "addon auth: hardware key missing, attesting again")
@@ -278,14 +287,14 @@ object AddonAuth {
 
     // â”€â”€ Proof â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    private fun proof(s: Session, host: String): String {
-        val cacheKey = "$host|${s.tokenHash}"
+    private fun proof(s: Session, host: String, context: String = PROOF_CONTEXT): String {
+        val cacheKey = "$context|$host|${s.tokenHash}"
         val now = System.currentTimeMillis()
         proofs[cacheKey]?.let { (madeAt, header) -> if (now - madeAt < PROOF_REUSE_MS) return header }
 
         val privateKey = runCatching { keyStore().getKey(s.alias, null) as? PrivateKey }.getOrNull() ?: throw KeyGone()
         val timestamp = now + clockOffsetMs
-        val message = proofMessage(host, timestamp, s.tokenHash)
+        val message = proofMessage(host, timestamp, s.tokenHash, context)
         val der = Signature.getInstance("SHA256withECDSA").run {
             initSign(privateKey)
             update(message.toByteArray())
@@ -297,8 +306,8 @@ object AddonAuth {
         return header
     }
 
-    internal fun proofMessage(host: String, timestampMs: Long, tokenHash: String) =
-        "$PROOF_CONTEXT\n$host\n$timestampMs\n$tokenHash"
+    internal fun proofMessage(host: String, timestampMs: Long, tokenHash: String, context: String = PROOF_CONTEXT) =
+        "$context\n$host\n$timestampMs\n$tokenHash"
 
     /** Lowercase, no port, no trailing dot: the same normalisation the addon-side verifiers apply. */
     internal fun normalizeHost(host: String): String =

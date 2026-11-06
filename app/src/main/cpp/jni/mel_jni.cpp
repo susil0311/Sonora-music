@@ -2,11 +2,11 @@
  * Ported from Orchard (https://github.com/SFG5453/Orchard).
  *
  * Copyright (C) 2026 SFG545 (original Orchard implementation)
- * Copyright (C) 2026 Kushagra Singh (BitChord adaptation)
+ * Copyright (C) 2026 Kushagra Singh (Sonora adaptation)
  *
  * Orchard's original source is licensed under the GNU Affero General Public
  * License, version 3 or later. Per AGPLv3 section 13, this file is combined
- * here into BitChord -- a work licensed under the GNU General Public
+ * here into Sonora -- a work licensed under the GNU General Public
  * License, version 3 or later -- and remains itself governed by the AGPLv3
  * as part of that combination.
  *
@@ -52,7 +52,7 @@ Java_com_susil_sonora_playback_smart_MelSpectrogram_nativeResample(
   }
 
   const std::vector<float> resampled =
-      bitchord::smart::Resample(input, input_rate, output_rate);
+      sonora::smart::Resample(input, input_rate, output_rate);
 
   const jsize produced = static_cast<jsize>(resampled.size());
   jfloatArray result = env->NewFloatArray(produced);
@@ -81,8 +81,8 @@ Java_com_susil_sonora_playback_smart_MelSpectrogram_nativeCompute(
     env->GetFloatArrayRegion(samples, 0, count, input.data());
   }
 
-  const bitchord::smart::BeatSpectrogram spectrogram =
-      bitchord::smart::ComputeBeatSpectrogram(input, sample_rate);
+  const sonora::smart::BeatSpectrogram spectrogram =
+      sonora::smart::ComputeBeatSpectrogram(input, sample_rate);
 
   const jsize produced = static_cast<jsize>(spectrogram.values.size());
   jfloatArray result = env->NewFloatArray(produced);
@@ -101,21 +101,21 @@ JNIEXPORT jint JNICALL
 Java_com_susil_sonora_playback_smart_MelSpectrogram_nativeMelCount(
     JNIEnv* /* env */,
     jclass /* clazz */) {
-  return static_cast<jint>(bitchord::smart::kBeatSpectrogramMels);
+  return static_cast<jint>(sonora::smart::kBeatSpectrogramMels);
 }
 
 JNIEXPORT jdouble JNICALL
 Java_com_susil_sonora_playback_smart_MelSpectrogram_nativeSampleRate(
     JNIEnv* /* env */,
     jclass /* clazz */) {
-  return bitchord::smart::kBeatSpectrogramSampleRate;
+  return sonora::smart::kBeatSpectrogramSampleRate;
 }
 
 JNIEXPORT jint JNICALL
 Java_com_susil_sonora_playback_smart_MelSpectrogram_nativeHop(
     JNIEnv* /* env */,
     jclass /* clazz */) {
-  return static_cast<jint>(bitchord::smart::kBeatSpectrogramHop);
+  return static_cast<jint>(sonora::smart::kBeatSpectrogramHop);
 }
 
 }  // extern "C"

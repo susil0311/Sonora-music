@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
  *
  * [Home] is the exception and says why it is one.
  */
-object BitChordIcons {
+object SonoraIcons {
 
     private const val STROKE = 2.2f
     private val stroke = SolidColor(Color.Black)

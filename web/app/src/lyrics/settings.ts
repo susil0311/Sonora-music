@@ -20,7 +20,7 @@ interface LyricsSettings {
   reset: () => void;
 }
 
-const KEY = 'bitchord:lyrics';
+const KEY = 'sonora:lyrics';
 type Saved = Pick<LyricsSettings, 'order' | 'disabled' | 'preferSyllables' | 'paxsenixKey'>;
 
 const DEFAULTS: Saved = {

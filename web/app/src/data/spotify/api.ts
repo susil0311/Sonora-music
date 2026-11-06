@@ -1,4 +1,4 @@
-import type { SpotifyPlaylist, SpotifyTrack } from '@bitchord/shared/bridge';
+import type { SpotifyPlaylist, SpotifyTrack } from '@sonora/shared/bridge';
 import { best, type MatchCandidate } from '@/data/match/trackMatcher';
 import { searchSongs } from '@/data/music/api';
 import type { Track } from '@/data/music/types';
@@ -14,7 +14,7 @@ export const LIKED_ID = 'liked';
 
 function bridge() {
   const b = getBridge();
-  if (!b) throw new Error('The BitChord extension is not installed');
+  if (!b) throw new Error('The Sonora extension is not installed');
   return b;
 }
 

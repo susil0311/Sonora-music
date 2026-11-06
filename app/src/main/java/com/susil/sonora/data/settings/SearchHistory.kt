@@ -1,5 +1,6 @@
 package com.susil.sonora.data.settings
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 import android.content.SharedPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,7 +63,7 @@ object SearchHistory {
     }
 
     fun init(context: Context) {
-        prefs = context.getSharedPreferences("bitchord_settings", Context.MODE_PRIVATE)
+        prefs = context.getSharedPreferences(LegacyStorageNames.SETTINGS, Context.MODE_PRIVATE)
         reload()
     }
 

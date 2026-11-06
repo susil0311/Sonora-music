@@ -61,7 +61,7 @@ import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.LibraryMusic
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Storage
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import coil3.compose.AsyncImage
 import com.susil.sonora.data.model.CARD_ART_PX
 import com.susil.sonora.data.model.HomeShelf
@@ -941,7 +941,7 @@ internal fun ShelfCard(
                         blurRadius = 24.dp,
                     )
                     Icon(
-                        imageVector = BitChordIcons.Download,
+                        imageVector = SonoraIcons.Download,
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(40.dp),
@@ -994,7 +994,7 @@ internal fun ShelfCard(
         ) {
             if (isPinned) {
                 Icon(
-                    imageVector = BitChordIcons.Pin,
+                    imageVector = SonoraIcons.Pin,
                     contentDescription = stringResource(Res.string.pinned),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(14.dp),

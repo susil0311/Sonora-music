@@ -3,8 +3,8 @@ import { defineConfig } from 'wxt';
 import { LYRIC_ORIGINS, patternOf } from './lib/lyricHosts';
 import { matchPatternsFor, SITE_ORIGINS } from './site.config';
 
-/** BITCHORD_STORE_BUILD=1 for a Chrome Web Store upload. */
-const STORE_BUILD = process.env.BITCHORD_STORE_BUILD === '1';
+/** SONORA_STORE_BUILD=1 for a Chrome Web Store upload. */
+const STORE_BUILD = process.env.SONORA_STORE_BUILD === '1';
 
 /**
  * Discord presence is user-token automation (prompt §7.3), so it is a build
@@ -58,7 +58,7 @@ export default defineConfig({
       ? {
           browser_specific_settings: {
             gecko: {
-              id: 'extension@sonora.kushagrasingh.in',
+              id: 'extension@sonora.susil.in',
               strict_min_version: '128.0',
               data_collection_permissions: { required: ['none'] },
             },

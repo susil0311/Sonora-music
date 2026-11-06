@@ -137,7 +137,7 @@
     <string name="widget_previous">×”×§×•×“×</string>
     <string name="widget_artwork">×¢×˜×™×¤×ª ××œ×‘×•×</string>
     <string name="widget_nothing_played">×¢×“×™×™×Ÿ ×œ× ×”×•×©×ž×¢ ×“×‘×¨</string>
-    <string name="widget_open_bitchord">×¤×ª×™×—×ª Sonora</string>
+    <string name="widget_open_sonora">×¤×ª×™×—×ª Sonora</string>
     <string name="widget_preview_title">×©× ×”×©×™×¨</string>
     <string name="widget_preview_artist">××ž×Ÿ</string>
     <string name="widget_pill_label">×ž×ª× ×’×Ÿ ×›×¢×ª 4Ã—1</string>
@@ -332,7 +332,7 @@
     <string name="downloads_finished">×”×•×¨×“×•×ª Â· ×”×¡×ª×™×™×ž×•</string>
     <string name="downloading_progress">×ž×•×¨×™×“ Â· %1$d%%</string>
     <string name="starting">×ž×ª×—×™×œ</string>
-    <string name="saved_to_bitchord_folder">× ×©×ž×¨ ×‘-Music/BitChord</string>
+    <string name="saved_to_sonora_folder">× ×©×ž×¨ ×‘-Music/Sonora</string>
     <string name="nothing_downloading">×©×•× ×“×‘×¨ ×œ× ×™×•×¨×“</string>
     <string name="nothing_to_explore">××™×Ÿ ×ž×” ×œ×—×§×•×¨ ×›×¨×’×¢</string>
     <string name="no_youtube_music_results">××™×Ÿ ×ª×•×¦××•×ª ×ž-YouTube Music</string>
@@ -614,7 +614,7 @@
     <string name="no_listening_history">××™×Ÿ ×”×™×¡×˜×•×¨×™×™×ª ×”××–× ×”</string>
     <string name="no_local_albums">×©×•× ×“×‘×¨ ×›××Ÿ ×œ× ×©×™×™×š ×¢×“×™×™×Ÿ ×œ××œ×‘×•× ××• ×¨×©×™×ž×ª ×”×©×ž×¢×”. ×”×•×¨×“ ××œ×‘×•× ×ž×œ× ××• ×¨×©×™×ž×ª ×”×©×ž×¢×” ×•×”× ×™×•×¤×™×¢×• ×›××Ÿ.</string>
     <string name="play_your_replay">×”×¤×¢×œ ××ª ×”-Replay ×©×œ×š</string>
-    <string name="counted_on_device_with_bitchord">× ×¡×¤×¨ ×‘×ž×›×©×™×¨ ×–×” ×¢× Sonora</string>
+    <string name="counted_on_device_with_sonora">× ×¡×¤×¨ ×‘×ž×›×©×™×¨ ×–×” ×¢× Sonora</string>
     <string name="this_month">×”×—×•×“×©</string>
     <string name="this_year">×”×©× ×”</string>
     <string name="all_time">×›×œ ×”×–×ž×Ÿ</string>

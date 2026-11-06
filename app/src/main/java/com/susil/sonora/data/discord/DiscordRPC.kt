@@ -21,13 +21,13 @@ import java.util.Locale
  * The presence Discord renders from one [updateSong] call:
  *
  * ```
- *   Listening to BitChord          <- activityName, or the app's own name
+ *   Listening to Sonora          <- activityName, or the app's own name
  *   ┌────┐  Song title             <- details
  *   │art │  Artist                 <- state
  *   └────┘  Hi-Res Lossless · FLAC · 4608 kbps · 24-bit · 96 kHz
  *           ▁▁▁▁▁▁ 1:04 / 3:47     <- from the timestamps
  *   [ Listen on YouTube Music ]    <- button 1
- *   [ Visit BitChord           ]   <- button 2
+ *   [ Visit Sonora           ]   <- button 2
  * ```
  */
 class DiscordRPC(
@@ -118,7 +118,7 @@ class DiscordRPC(
             //
             // A track with no artwork — or with artwork Discord can't reach,
             // which is anything that isn't an http URL — sends none, and Discord
-            // draws the BitChord application's own icon in its place.
+            // draws the Sonora application's own icon in its place.
             largeImage = song.artworkAt(ART_PX)
                 ?.takeIf { it.startsWith("http") }
                 ?.let(RpcImage::ExternalImage),
@@ -149,7 +149,7 @@ class DiscordRPC(
         context.getString(R.string.app_name).removeSuffix(" Dev")
 
     companion object {
-        const val PROJECT_URL = "https://bitchord.kushagrasingh.in/"
+        const val PROJECT_URL = "https://sonora-listen-together.onrender.com/"
 
         const val DEFAULT_BUTTON_1 = "Listen on YouTube Music"
         const val DEFAULT_BUTTON_2 = "Visit Sonora"

@@ -1,4 +1,4 @@
-import type { HttpResponse, YtFetchParams } from '@bitchord/shared/bridge';
+import type { HttpResponse, YtFetchParams } from '@sonora/shared/bridge';
 import { installExtensionFetchRule } from './rules';
 import { activeIdentity, signedFetch, SignedOutError } from './ytAuth';
 

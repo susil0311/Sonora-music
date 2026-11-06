@@ -1,5 +1,6 @@
 package com.susil.sonora.download
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.Manifest
 import android.app.Application
 import android.app.Notification
@@ -54,10 +55,10 @@ import java.util.concurrent.TimeUnit
  */
 object PlaylistSync {
 
-    private const val TAG = "BitChord"
+    private const val TAG = "Sonora"
     private const val PERIODIC_WORK = "playlist_sync"
     private const val ONE_OFF_WORK = "playlist_sync_now"
-    private const val PREFS = "bitchord_playlist_sync"
+    private const val PREFS = LegacyStorageNames.PLAYLIST_SYNC
     private const val KEY_LAST_CHECK = "last_complete_check"
     private const val CHANNEL_ID = "playlist_updates"
     internal const val KEY_APPROVED = "approved"

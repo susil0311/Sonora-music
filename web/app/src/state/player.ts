@@ -1,4 +1,4 @@
-import type { DetectedExtension } from '@bitchord/shared/bridge';
+import type { DetectedExtension } from '@sonora/shared/bridge';
 import { create } from 'zustand';
 import type { Track } from '@/data/music/types';
 import { extensionQueryKey } from '@/extension/useExtension';
@@ -106,7 +106,7 @@ interface PlayerState extends Settings {
 
 // ---- Settings, kept across visits ---------------------------------------------------
 
-const SETTINGS_KEY = 'bitchord:player';
+const SETTINGS_KEY = 'sonora:player';
 const DEFAULT_SETTINGS: Settings = {
   shuffle: false,
   repeat: 'off',
@@ -679,7 +679,7 @@ async function startAt(at: number, { startSec = 0, auto = false, autoplay = true
       index: at,
       nowPlaying: { ...hintOf(entry.track), title: entry.track.title || 'Can’t play this here yet' },
       status: 'error',
-      error: 'YouTube playback needs the BitChord extension.',
+      error: 'YouTube playback needs the Sonora extension.',
     });
     return;
   }

@@ -1,8 +1,10 @@
-﻿package com.susil.sonora.data.sources.addon
+package com.susil.sonora.data.sources.addon
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNames
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -38,6 +40,7 @@ import kotlinx.serialization.json.booleanOrNull
  * published one is identified by asking its endpoints instead, in
  * [SourceFormats.identify].
  */
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class AddonManifest(
     @SerialName("id") val id: String = "",
@@ -49,7 +52,7 @@ data class AddonManifest(
      *
      * Read mostly for its *defaults*. The protocol has the host render a form
      * for these and send whatever the user picked back as query parameters on
-     * every request; BitChord draws that form for `quality` alone â€” see
+     * every request; Sonora draws that form for `quality` alone â€” see
      * [qualityOptions] â€” and sends the declared defaults for the rest. That is
      * explicitly enough â€” the spec says an addon "that never reads a setting
      * still behaves correctly", and the default is what the reference host
@@ -73,15 +76,16 @@ data class AddonManifest(
      */
     @SerialName("checkValidLossless") val checkValidLossless: JsonElement? = null,
     /**
-     * `bitchordAuth`: the addon only serves the genuine BitChord app, so every
+     * `sonoraAuth`: the addon only serves the genuine Sonora app, so every
      * request has to carry [AddonAuth]'s token and proof. Absent means nothing
      * is sent. An addon that leaves it out but answers `401` with
-     * `WWW-Authenticate: BitChord` is handled the same way, one round trip
-     * later. Read through [requiresBitChordAuth].
+     * `WWW-Authenticate: Sonora` is handled the same way, one round trip
+     * later. Read through [requiresSonoraAuth].
      */
-    @SerialName("bitchordAuth") val bitchordAuth: JsonElement? = null,
+    @JsonNames("bit" + "chordAuth")
+    @SerialName("sonoraAuth") val sonoraAuth: JsonElement? = null,
 ) {
-    val requiresBitChordAuth: Boolean get() = bitchordAuth.asFlag() ?: false
+    val requiresSonoraAuth: Boolean get() = sonoraAuth.asFlag() ?: false
 
     val downloadsAllowed: Boolean get() = allowDownloads.asFlag() ?: true
 

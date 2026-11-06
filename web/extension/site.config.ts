@@ -1,8 +1,5 @@
 /** The web player's production origin. */
-export const PRODUCTION_ORIGIN = 'https://sonora.in';
-
-/** The same site at its Cloudflare Pages address (the production branch's deploy). */
-const PAGES_ORIGIN = 'https://sonora-8bw.pages.dev';
+export const PRODUCTION_ORIGIN = 'https://sonora-listen-together.onrender.com';
 
 /** The Vite dev server (web/app/vite.config.ts pins the port). */
 const DEV_ORIGIN = 'http://localhost:5173';
@@ -12,14 +9,14 @@ const DEV_ORIGIN = 'http://localhost:5173';
  * this list, and it becomes externally_connectable (Chromium), the relay's
  * content-script matches (Firefox) and the DNR rules' initiatorDomains.
  *
- * sonora.in and its pages.dev address always, and the dev server too except in a store build
- * (BITCHORD_STORE_BUILD=1), so a published extension never answers a page on
- * localhost. BITCHORD_SITE_ORIGINS (comma-separated) replaces the list. The
+ * The Render origin is always included; the dev server is included too except in a store build
+ * (SONORA_STORE_BUILD=1), so a published extension never answers a page on
+ * localhost. SONORA_SITE_ORIGINS (comma-separated) replaces the list. The
  * first origin is the one the popup and homepage_url link to.
  */
 export const SITE_ORIGINS: string[] = (
-  process.env.BITCHORD_SITE_ORIGINS ??
-  [PRODUCTION_ORIGIN, PAGES_ORIGIN, ...(process.env.BITCHORD_STORE_BUILD === '1' ? [] : [DEV_ORIGIN])].join(',')
+  process.env.SONORA_SITE_ORIGINS ??
+  [PRODUCTION_ORIGIN, ...(process.env.SONORA_STORE_BUILD === '1' ? [] : [DEV_ORIGIN])].join(',')
 )
   .split(',')
   .map((o) => o.trim().replace(/\/+$/, ''))

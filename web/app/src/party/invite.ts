@@ -1,10 +1,10 @@
 /**
- * Party invites (JamInviteLink.kt): `https://bitchord.kushagrasingh.in/invite/<CODE>`,
- * optionally `?server=<custom server>`, and `bitchord://party/<CODE>`. On the
+ * Party invites (JamInviteLink.kt): `https://sonora-listen-together.onrender.com/invite/<CODE>`,
+ * optionally `?server=<custom server>`, and `sonora://party/<CODE>`. On the
  * web the first is a route of this app (`/invite/:code`).
  */
 
-export const INVITE_ORIGIN = 'https://bitchord.kushagrasingh.in';
+export const INVITE_ORIGIN = 'https://sonora-listen-together.onrender.com';
 export const CODE_LENGTH = 6;
 
 /** Letters and digits only, upper case; null unless it's six of them. */
@@ -32,7 +32,7 @@ export function parseInvite(value: string): { code: string; serverUrl: string | 
     return null;
   }
   const server = sanitizeServerUrl(url.searchParams.get('server'));
-  if (url.protocol === 'bitchord:' && url.host.toLowerCase() === 'party') {
+  if (url.protocol === 'sonora:' && url.host.toLowerCase() === 'party') {
     const code = cleanCode(url.pathname.replace(/^\/+|\/+$/g, '') || url.searchParams.get('code') || '');
     return code ? { code, serverUrl: server } : null;
   }

@@ -50,22 +50,22 @@ val lastfmSecret: String = (
 val listenTogetherServer: String = (
     localProps.getProperty("LISTEN_TOGETHER_SERVER")
         ?: System.getenv("LISTEN_TOGETHER_SERVER")
-        ?: "https://bitchord-listen-together.onrender.com"
+        ?: "https://sonora-listen-together.onrender.com"
     ).trim().trimEnd('/')
 
 /*
  * The service that checks this app's hardware key attestation and issues addon
- * tokens. Addon servers still validate the official BitChord protocol
+ * tokens. Addon servers still validate the official Sonora protocol
  * signature; this URL is overridable for staging only.
  */
 val addonAuthServer: String = (
     localProps.getProperty("ADDON_AUTH_SERVER")
         ?: System.getenv("ADDON_AUTH_SERVER")
-        ?: "https://bitchord-auth.kushagrasingh.in"
+        ?: "https://sonora-auth.susil.in"
     ).trim().trimEnd('/')
 
 // See the root build.gradle.kts: one version for the phone and its watch app.
-val betaSuffix = rootProject.extra["bitchordBetaSuffix"] as String
+val betaSuffix = rootProject.extra["sonoraBetaSuffix"] as String
 
 android {
     namespace = "com.susil.sonora"
@@ -78,8 +78,8 @@ android {
         // Haze falls back to a translucent scrim below that.
         minSdk = 26
         targetSdk = 36
-        versionCode = rootProject.extra["bitchordVersionCode"] as Int
-        versionName = rootProject.extra["bitchordVersionName"] as String
+        versionCode = rootProject.extra["sonoraVersionCode"] as Int
+        versionName = rootProject.extra["sonoraVersionName"] as String
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -96,9 +96,7 @@ android {
             "ADDON_AUTH_URL",
             "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
         )
-        // Which release assets are this app's: the phone and TV APKs ship in
-        // the same GitHub release, told apart by file name. See
-        // AppUpdateChecker.apkAssetUrl.
+        // Prefix for identifying Sonora phone APK artifacts in update feeds.
         buildConfigField("String", "UPDATE_APK_PREFIX", "\"Sonora-\"")
     }
 
@@ -421,7 +419,7 @@ dependencies {
     // ---- Casting: Google Cast sender + the route discovery it sits on ----
     // The framework and the router only. media3-cast is left out on purpose:
     // its CastPlayer hands the receiver whatever URI a MediaItem carries, and
-    // ours are `bitchord://` addresses that only the service's resolver can
+    // ours are `sonora://` addresses that only the service's resolver can
     // turn into a real stream — see [com.susil.sonora.playback.cast.CastPlayback].
     implementation("com.google.android.gms:play-services-cast-framework:22.2.0")
     implementation("androidx.mediarouter:mediarouter:1.8.1")
@@ -500,7 +498,7 @@ tasks.matching { it.name == "installDevDebug" }.configureEach { finalizedBy(veri
  * all. A SHA-256 travels with it, so the phone can tell the watch's build from
  * the one it carries even when the version numbers match.
  *
- * Costs a watch build per phone build; -Pbitchord.bundleWear=false skips it
+ * Costs a watch build per phone build; -Psonora.bundleWear=false skips it
  * for a quick local iteration (Settings then offers no install).
  */
 abstract class BundleWearApk : DefaultTask() {
@@ -532,7 +530,7 @@ abstract class BundleWearApk : DefaultTask() {
     }
 }
 
-if (providers.gradleProperty("bitchord.bundleWear").orNull != "false" && findProject(":wearos") != null) {
+if (providers.gradleProperty("sonora.bundleWear").orNull != "false" && findProject(":wearos") != null) {
     androidComponents.onVariants { variant ->
         val flavor = variant.productFlavors.firstOrNull { it.first == "env" }?.second ?: return@onVariants
         val type = variant.buildType ?: return@onVariants

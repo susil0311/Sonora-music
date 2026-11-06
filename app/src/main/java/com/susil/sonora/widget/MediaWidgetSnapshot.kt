@@ -1,5 +1,6 @@
 package com.susil.sonora.widget
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 
 /**
@@ -97,7 +98,7 @@ internal data class MediaWidgetSnapshot(
         }
 
         private fun prefs(context: Context) =
-            context.getSharedPreferences("bitchord_widget", Context.MODE_PRIVATE)
+            context.getSharedPreferences(LegacyStorageNames.WIDGET, Context.MODE_PRIVATE)
 
         private const val KEY_MEDIA_ID = "media_id"
         private const val KEY_TITLE = "title"

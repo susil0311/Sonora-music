@@ -86,7 +86,7 @@ class AddonSource(
      * which the request was about to read for its settings anyway.
      *
      * Then the addon has to be up to date: only an addon whose manifest
-     * declares `bitchordAuth` is asked for anything. When the manifest can't be
+     * declares `sonoraAuth` is asked for anything. When the manifest can't be
      * read right now, the stored answer decides, and an addon never yet seen
      * declaring it is refused.
      */
@@ -94,8 +94,8 @@ class AddonSource(
         if (shutOut(what)) return false
         val declared = refreshPolicy()
         if (shutOut(what)) return false
-        if ((declared ?: live.bitchordAuth) != true) {
-            TrackLog.d(TAG, "${config.displayName}: addon is out of date (no bitchordAuth); not asking it for $what")
+        if ((declared ?: live.sonoraAuth) != true) {
+            TrackLog.d(TAG, "${config.displayName}: addon is out of date (no sonoraAuth); not asking it for $what")
             return false
         }
         return true
@@ -104,7 +104,7 @@ class AddonSource(
     /**
      * Reads the manifest (the client's cached copy when there is one) and
      * stores what it says. An addon with no usable manifest is recorded as out
-     * of date, since it has nowhere to declare `bitchordAuth`; a manifest that
+     * of date, since it has nowhere to declare `sonoraAuth`; a manifest that
      * merely couldn't be fetched just now changes nothing.
      *
      * Returns whether the addon is up to date by what was just read, or null
@@ -114,7 +114,7 @@ class AddonSource(
         client.manifest().fold(
             onSuccess = { manifest ->
                 recordPolicy(manifest)
-                manifest.requiresBitChordAuth
+                manifest.requiresSonoraAuth
             },
             onFailure = { failure ->
                 if (failure is AddonException) {
@@ -132,7 +132,7 @@ class AddonSource(
             manifest.downloadsAllowed,
             manifest.requiresLosslessOutput,
             manifest.qualityOptions,
-            manifest.requiresBitChordAuth,
+            manifest.requiresSonoraAuth,
         )
 
     // â”€â”€ Health â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -157,7 +157,7 @@ class AddonSource(
         client.manifest().fold(
             onSuccess = { manifest ->
                 recordPolicy(manifest)
-                if (!manifest.requiresBitChordAuth) {
+                if (!manifest.requiresSonoraAuth) {
                     return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
                 }
                 SourceHealth.Ok(
@@ -170,7 +170,7 @@ class AddonSource(
             onFailure = { failure ->
                 // No readable manifest is not the same as no addon: one that
                 // never published a manifest still answers a search. But it has
-                // nowhere to declare `bitchordAuth`, so it is out of date, and
+                // nowhere to declare `sonoraAuth`, so it is out of date, and
                 // is told so rather than reported as a broken URL.
                 if (failure is AddonException) SourceRegistry.markAddonOutdated(config.id)
                 if (client.probeSearch().isSuccess) {
@@ -475,7 +475,7 @@ class AddonSource(
         const val NEEDS_LOSSLESS_OUTPUT =
             "This addon only works with a lossless output â€” use a lossless supported device"
 
-        /** Same, for an addon whose manifest doesn't declare `bitchordAuth`. Matches `source_needs_update`. */
+        /** Same, for an addon whose manifest doesn't declare `sonoraAuth`. Matches `source_needs_update`. */
         const val NEEDS_ADDON_UPDATE =
             "This addon is out of date, so Sonora can't use it. " +
                 "Ask its developer to update it by following the latest Sonora addon docs."

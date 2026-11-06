@@ -138,7 +138,7 @@
     <string name="widget_previous">à¸à¹ˆà¸­à¸™à¸«à¸™à¹‰à¸²</string>
     <string name="widget_artwork">à¸›à¸à¸­à¸±à¸¥à¸šà¸±à¹‰à¸¡</string>
     <string name="widget_nothing_played">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸à¸²à¸£à¹€à¸¥à¹ˆà¸™à¹€à¸žà¸¥à¸‡</string>
-    <string name="widget_open_bitchord">à¹€à¸›à¸´à¸” Sonora</string>
+    <string name="widget_open_sonora">à¹€à¸›à¸´à¸” Sonora</string>
     <string name="widget_preview_title">à¸Šà¸·à¹ˆà¸­à¹€à¸žà¸¥à¸‡</string>
     <string name="widget_preview_artist">à¸¨à¸´à¸¥à¸›à¸´à¸™</string>
     <string name="widget_pill_label">à¸à¸³à¸¥à¸±à¸‡à¹€à¸¥à¹ˆà¸™ 4Ã—1</string>
@@ -352,7 +352,7 @@
     <string name="starting">à¸à¸³à¸¥à¸±à¸‡à¹€à¸£à¸´à¹ˆà¸¡</string>
     <string name="start_radio">à¹€à¸£à¸´à¹ˆà¸¡à¸§à¸´à¸—à¸¢à¸¸</string>
     <string name="radio_started">à¹€à¸£à¸´à¹ˆà¸¡à¸§à¸´à¸—à¸¢à¸¸ %1$s à¹à¸¥à¹‰à¸§</string>
-    <string name="saved_to_bitchord_folder">à¸šà¸±à¸™à¸—à¸¶à¸à¸¥à¸‡ Music/BitChord à¹à¸¥à¹‰à¸§</string>
+    <string name="saved_to_sonora_folder">à¸šà¸±à¸™à¸—à¸¶à¸à¸¥à¸‡ Music/Sonora à¹à¸¥à¹‰à¸§</string>
     <string name="nothing_downloading">à¹„à¸¡à¹ˆà¸¡à¸µà¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”</string>
     <string name="nothing_to_explore">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸­à¸°à¹„à¸£à¹ƒà¸«à¹‰à¸ªà¸³à¸£à¸§à¸ˆà¸•à¸­à¸™à¸™à¸µà¹‰</string>
     <string name="no_youtube_music_results">à¹„à¸¡à¹ˆà¸¡à¸µà¸œà¸¥à¸¥à¸±à¸žà¸˜à¹Œà¸ˆà¸²à¸ YouTube Music</string>
@@ -675,7 +675,7 @@
     </plurals>
     <string name="no_local_albums">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸­à¸°à¹„à¸£à¸—à¸µà¹ˆà¸™à¸µà¹ˆà¹€à¸›à¹‡à¸™à¸‚à¸­à¸‡à¸­à¸±à¸¥à¸šà¸±à¹‰à¸¡à¸«à¸£à¸·à¸­à¹€à¸žà¸¥à¸¢à¹Œà¸¥à¸´à¸ªà¸•à¹Œ à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸­à¸±à¸¥à¸šà¸±à¹‰à¸¡à¸«à¸£à¸·à¸­à¹€à¸žà¸¥à¸¢à¹Œà¸¥à¸´à¸ªà¸•à¹Œà¸—à¸±à¹‰à¸‡à¸Šà¸¸à¸”à¹à¸¥à¹‰à¸§à¸ˆà¸°à¸›à¸£à¸²à¸à¸à¸—à¸µà¹ˆà¸™à¸µà¹ˆ</string>
     <string name="play_your_replay">à¹€à¸¥à¹ˆà¸™ Replay à¸‚à¸­à¸‡à¸„à¸¸à¸“</string>
-    <string name="counted_on_device_with_bitchord">à¸™à¸±à¸šà¸šà¸™à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¸™à¸µà¹‰à¸”à¹‰à¸§à¸¢ Sonora</string>
+    <string name="counted_on_device_with_sonora">à¸™à¸±à¸šà¸šà¸™à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¸™à¸µà¹‰à¸”à¹‰à¸§à¸¢ Sonora</string>
     <string name="this_month">à¹€à¸”à¸·à¸­à¸™à¸™à¸µà¹‰</string>
     <string name="this_year">à¸›à¸µà¸™à¸µà¹‰</string>
     <string name="all_time">à¸•à¸¥à¸­à¸”à¹€à¸§à¸¥à¸²</string>

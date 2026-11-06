@@ -76,7 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Velocity
 import coil3.compose.AsyncImage
 import com.susil.sonora.ui.components.thumbnailBorder
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.data.model.QueueTier
 import com.susil.sonora.data.model.Song
 import com.susil.sonora.playback.autoplaySectionStart
@@ -467,7 +467,7 @@ private fun AutoplayHeading(hasTracks: Boolean, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            BitChordIcons.Infinity,
+            SonoraIcons.Infinity,
             contentDescription = null,
             tint = Color.White.copy(alpha = 0.75f),
             modifier = Modifier.size(18.dp),

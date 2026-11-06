@@ -63,7 +63,7 @@ import coil3.request.ImageRequest
 import com.susil.sonora.ui.components.ExplicitBadge
 import com.susil.sonora.ui.components.menuAnchor
 import com.susil.sonora.ui.haptics.Haptic
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.theme.stableStatusBarInsets
 import com.susil.sonora.data.canvas.CanvasArtwork
 import com.susil.sonora.data.model.LikeStatus
@@ -322,7 +322,7 @@ internal fun LandscapeArtwork(
         ) {
             if (!artLoaded && !canvasRendered) {
                 Icon(
-                    imageVector = BitChordIcons.MusicNote,
+                    imageVector = SonoraIcons.MusicNote,
                     contentDescription = null,
                     tint = Color.White.copy(alpha = 0.35f),
                     modifier = Modifier.fillMaxSize(0.36f),
@@ -470,7 +470,7 @@ internal fun LandscapeCredits(
         if (signedIn || song.localUri != null) {
             val liked = likeStatus == LikeStatus.LIKE
             CircleGlyph(
-                icon = if (liked) BitChordIcons.StarFilled else BitChordIcons.Star,
+                icon = if (liked) SonoraIcons.StarFilled else SonoraIcons.Star,
                 contentDescription = stringResource(
                     if (liked) Res.string.remove_from_liked else Res.string.like,
                 ),

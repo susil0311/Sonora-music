@@ -5,7 +5,7 @@ import com.susil.sonora.data.jiosaavn.JioSaavnService
 import com.susil.sonora.data.jiosaavn.prioritizeExplicit
 import com.susil.sonora.data.model.Song
 
-private const val TAG = "BitChord"
+private const val TAG = "Sonora"
 
 class JioSaavnSource(
     override val config: SourceConfig,
@@ -53,7 +53,7 @@ class JioSaavnSource(
                 thumbnailUrl = thumbnail,
                 // JioSaavn provides duration in seconds, but Song expects durationText ("M:SS")
                 // Alternatively, Song.durationMillis() will parse durationText. Let's just 
-                // format it since BitChord uses string duration.
+                // format it since Sonora uses string duration.
                 durationText = raw.moreInfo.duration.toIntOrNull()?.let { seconds ->
                     val m = seconds / 60
                     val s = seconds % 60

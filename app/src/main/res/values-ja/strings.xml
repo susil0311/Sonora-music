@@ -130,7 +130,7 @@
     <string name="widget_previous">å‰ã¸</string>
     <string name="widget_artwork">ã‚¢ãƒ«ãƒãƒ ã‚¢ãƒ¼ãƒˆ</string>
     <string name="widget_nothing_played">ã¾ã ä½•ã‚‚å†ç”Ÿã•ã‚Œã¦ã„ã¾ã›ã‚“</string>
-    <string name="widget_open_bitchord">Sonoraã‚’é–‹ã</string>
+    <string name="widget_open_sonora">Sonoraã‚’é–‹ã</string>
     <string name="widget_preview_title">æ›²å</string>
     <string name="widget_preview_artist">ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆ</string>
     <string name="widget_pill_label">å†ç”Ÿä¸­ 4Ã—1</string>
@@ -326,7 +326,7 @@
     <string name="downloads_finished">ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ Â· å®Œäº†</string>
     <string name="downloading_progress">ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ä¸­ Â· %1$d%%</string>
     <string name="starting">é–‹å§‹ã—ã¦ã„ã¾ã™</string>
-    <string name="saved_to_bitchord_folder">Music/BitChordã«ä¿å­˜æ¸ˆã¿</string>
+    <string name="saved_to_sonora_folder">Music/Sonoraã«ä¿å­˜æ¸ˆã¿</string>
     <string name="nothing_downloading">ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ä¸­ã®é …ç›®ã¯ã‚ã‚Šã¾ã›ã‚“</string>
     <string name="nothing_to_explore">ç¾åœ¨æŽ¢ç´¢ã§ãã‚‹ã‚‚ã®ã¯ã‚ã‚Šã¾ã›ã‚“</string>
     <string name="no_youtube_music_results">YouTube Musicã‹ã‚‰ã®çµæžœã¯ã‚ã‚Šã¾ã›ã‚“</string>
@@ -646,7 +646,7 @@
     </plurals>
     <string name="no_local_albums">ã“ã“ã«ã¯ã¾ã ã‚¢ãƒ«ãƒãƒ ã‚„ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã«å±žã™ã‚‹ã‚‚ã®ãŒã‚ã‚Šã¾ã›ã‚“ã€‚å®Œå…¨ãªã‚¢ãƒ«ãƒãƒ ã‚„ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã¨ã“ã“ã«è¡¨ç¤ºã•ã‚Œã¾ã™ã€‚</string>
     <string name="play_your_replay">ã‚ãªãŸã®Replayã‚’å†ç”Ÿ</string>
-    <string name="counted_on_device_with_bitchord">Sonoraã§ã“ã®ãƒ‡ãƒã‚¤ã‚¹å†…ã§é›†è¨ˆ</string>
+    <string name="counted_on_device_with_sonora">Sonoraã§ã“ã®ãƒ‡ãƒã‚¤ã‚¹å†…ã§é›†è¨ˆ</string>
     <string name="this_month">ä»Šæœˆ</string>
     <string name="this_year">ä»Šå¹´</string>
     <string name="all_time">ã™ã¹ã¦ã®æœŸé–“</string>

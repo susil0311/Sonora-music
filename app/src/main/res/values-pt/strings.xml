@@ -137,7 +137,7 @@
     <string name="widget_previous">Anterior</string>
     <string name="widget_artwork">Capa do Ã¡lbum</string>
     <string name="widget_nothing_played">Nada foi tocado ainda</string>
-    <string name="widget_open_bitchord">Abrir Sonora</string>
+    <string name="widget_open_sonora">Abrir Sonora</string>
     <string name="widget_preview_title">TÃ­tulo da mÃºsica</string>
     <string name="widget_preview_artist">Artista</string>
     <string name="widget_pill_label">Tocando agora 4Ã—1</string>
@@ -333,7 +333,7 @@
     <string name="downloads_finished">Downloads Â· concluÃ­dos</string>
     <string name="downloading_progress">Baixando Â· %1$d%%</string>
     <string name="starting">Iniciando</string>
-    <string name="saved_to_bitchord_folder">Salvo em MÃºsica/BitChord</string>
+    <string name="saved_to_sonora_folder">Salvo em MÃºsica/Sonora</string>
     <string name="nothing_downloading">Nenhum download em andamento</string>
     <string name="nothing_to_explore">Nada para explorar agora</string>
     <string name="no_youtube_music_results">Sem resultados do YouTube Music</string>
@@ -615,7 +615,7 @@
     <string name="no_listening_history">sem histÃ³rico</string>
     <string name="no_local_albums">Nenhum Ã¡lbum ou playlist ainda. Baixe um Ã¡lbum e ele aparecerÃ¡ aqui.</string>
     <string name="play_your_replay">Tocar seu Replay</string>
-    <string name="counted_on_device_with_bitchord">Contabilizado neste dispositivo com Sonora</string>
+    <string name="counted_on_device_with_sonora">Contabilizado neste dispositivo com Sonora</string>
     <string name="this_month">Este mÃªs</string>
     <string name="this_year">Este ano</string>
     <string name="all_time">Todo o tempo</string>

@@ -107,7 +107,7 @@ import com.susil.sonora.sharedui.resources.Res
 import com.susil.sonora.sharedui.resources.ic_google_g
 import com.susil.sonora.sharedui.resources.ic_logo
 import org.jetbrains.compose.resources.painterResource
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.player.MeshGradientBackground
 import com.susil.sonora.ui.player.MESH_CYCLE_MILLIS
 import com.susil.sonora.ui.player.MeshPalette
@@ -958,7 +958,7 @@ private fun BackButton(onClick: () -> Unit) {
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = BitChordIcons.ChevronRight,
+            imageVector = SonoraIcons.ChevronRight,
             contentDescription = stringResource(R.string.onboarding_back),
             tint = Color.White,
             modifier = Modifier

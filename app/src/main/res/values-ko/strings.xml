@@ -180,7 +180,7 @@
     <string name="widget_previous">ì´ì „</string>
     <string name="widget_artwork">ì•¨ë²” ì•„íŠ¸</string>
     <string name="widget_nothing_played">ì•„ì§ ìž¬ìƒ ì•ˆ í•¨</string>
-    <string name="widget_open_bitchord">Sonora ì—´ê¸°</string>
+    <string name="widget_open_sonora">Sonora ì—´ê¸°</string>
     <string name="widget_preview_title">ê³¡ ì œëª©</string>
     <string name="widget_preview_artist">ì•„í‹°ìŠ¤íŠ¸</string>
     <string name="widget_pill_label">ì§€ê¸ˆ ìž¬ìƒ 4Ã—1</string>
@@ -523,7 +523,7 @@
     <string name="start_radio">ë¼ë””ì˜¤ ì‹œìž‘</string>
     <string name="shared_link">ê³µìœ  ë§í¬</string>
     <string name="radio_started">%1$s ë¼ë””ì˜¤ ì‹œìž‘í•¨</string>
-    <string name="saved_to_bitchord_folder">Music/BitChordì— ì €ìž¥ ì™„ë£Œ</string>
+    <string name="saved_to_sonora_folder">Music/Sonoraì— ì €ìž¥ ì™„ë£Œ</string>
     <string name="nothing_downloading">ë‹¤ìš´ë¡œë“œ ì¤‘ì¸ í•­ëª© ì—†ìŒ</string>
     <string name="nothing_to_explore">ì§€ê¸ˆì€ íƒìƒ‰í•  í•­ëª© ì—†ìŒ</string>
     <string name="no_youtube_music_results">YouTube Music ë‚´ ê²°ê³¼ ì—†ìŒ</string>
@@ -888,7 +888,7 @@
     </plurals>
     <string name="no_local_albums">ì—¬ê¸°ì— ì•¨ë²”ì´ë‚˜ ìž¬ìƒëª©ë¡ìœ¼ë¡œ í‘œì‹œí•  í•­ëª©ì´ ì—†ìŠµë‹ˆë‹¤. ì•¨ë²”ì´ë‚˜ ìž¬ìƒëª©ë¡ ì „ì²´ë¥¼ ë‹¤ìš´ë¡œë“œí•˜ë©´ ì—¬ê¸°ì— ë‚˜íƒ€ë‚©ë‹ˆë‹¤.</string>
     <string name="play_your_replay">ë‚´ ë¦¬í”Œë ˆì´ ìž¬ìƒ</string>
-    <string name="counted_on_device_with_bitchord">Sonoraê°€ ì´ ê¸°ê¸°ì—ì„œ ì§‘ê³„</string>
+    <string name="counted_on_device_with_sonora">Sonoraê°€ ì´ ê¸°ê¸°ì—ì„œ ì§‘ê³„</string>
     <string name="this_month">ì´ë²ˆ ë‹¬</string>
     <string name="replay_this_week">ì´ë²ˆ ì£¼</string>
     <string name="this_year">ì˜¬í•´</string>
@@ -1194,7 +1194,7 @@
     <string name="onboarding_sign_in_google">Googleë¡œ ë¡œê·¸ì¸</string>
     <string name="onboarding_skip_sign_in">ë¡œê·¸ì¸ ê±´ë„ˆë›°ê¸°</string>
     <string name="onboarding_back">ë’¤ë¡œ</string>
-    <!-- Settings: BitChord for Wear OS -->
+    <!-- Settings: Sonora for Wear OS -->
     <string name="wear_os_section">Wear OSìš© Sonora</string>
     <string name="wear_os_page_title">Wear OS</string>
     <string name="wear_os_your_watches">ë‚´ ì›Œì¹˜</string>

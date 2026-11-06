@@ -159,7 +159,7 @@ import com.susil.sonora.ui.theme.topBandScrimAlpha
 import com.susil.sonora.ui.LyricsProviderState
 import com.susil.sonora.ui.haptics.Haptic
 import com.susil.sonora.ui.haptics.rememberHaptics
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.susil.sonora.data.canvas.CanvasSource
 import com.susil.sonora.data.lyrics.LyricLine
@@ -3362,7 +3362,7 @@ fun NowPlayingScreen(
                             ) {
                                 if (!art.loaded && !canvasRendered) {
                                     Icon(
-                                        imageVector = BitChordIcons.MusicNote,
+                                        imageVector = SonoraIcons.MusicNote,
                                         contentDescription = null,
                                         tint = Color.White.copy(alpha = 0.35f),
                                         modifier = Modifier
@@ -3779,7 +3779,7 @@ fun NowPlayingScreen(
                             if (signedIn || song.localUri != null) {
                                 val liked = likeStatus == LikeStatus.LIKE
                                 CircleGlyph(
-                                    icon = if (liked) BitChordIcons.StarFilled else BitChordIcons.Star,
+                                    icon = if (liked) SonoraIcons.StarFilled else SonoraIcons.Star,
                                     contentDescription = stringResource(
                                         if (liked) Res.string.remove_from_liked else Res.string.like,
                                     ),

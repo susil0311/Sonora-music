@@ -1,5 +1,6 @@
 package com.susil.sonora.data.spotify
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 import android.content.SharedPreferences
 import com.susil.sonora.data.model.Song
@@ -17,7 +18,7 @@ data class LocalPlaylist(
 }
 
 object LocalPlaylistStore {
-    private const val PREF_NAME = "bitchord_local_playlists"
+    private const val PREF_NAME = LegacyStorageNames.LOCAL_PLAYLISTS
     private const val KEY_PLAYLISTS = "playlists_json"
 
     private lateinit var prefs: SharedPreferences

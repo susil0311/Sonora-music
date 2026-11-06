@@ -497,9 +497,9 @@ val MediaItem.queueEntryId: String?
     get() = mediaMetadata.extras?.getString(EXTRA_QUEUE_ENTRY_ID) ?: mediaItemEntryIds[this]
 
 /** Public metadata keys for queue categorization and immutable queue entry identity. */
-const val EXTRA_QUEUE_TIER = "bitchord.queueTier"
-const val EXTRA_QUEUE_ENTRY_ID = "bitchord.queueEntryId"
-const val EXTRA_CANONICAL_INDEX = "bitchord.canonicalIndex"
+const val EXTRA_QUEUE_TIER = "sonora.queueTier"
+const val EXTRA_QUEUE_ENTRY_ID = "sonora.queueEntryId"
+const val EXTRA_CANONICAL_INDEX = "sonora.canonicalIndex"
 
 /** Provenance index within the canonical collection (0-based). */
 val MediaItem.canonicalIndex: Int?
@@ -517,15 +517,15 @@ val MediaItem.canonicalIndex: Int?
  * MediaItem so it survives the trip through the session — the queue belongs to
  * the player, and the UI only ever sees it back through a MediaController.
  */
-private const val EXTRA_FROM_AUTOPLAY = "bitchord.fromAutoplay"
+private const val EXTRA_FROM_AUTOPLAY = "sonora.fromAutoplay"
 
 /** @see Song.radioName */
-private const val EXTRA_RADIO_NAME = "bitchord.radioName"
+private const val EXTRA_RADIO_NAME = "sonora.radioName"
 
 /** @see Song.playbackSource */
-private const val EXTRA_PLAYBACK_SOURCE = "bitchord.playbackSource"
-private const val EXTRA_PLAYBACK_SOURCE_TYPE = "bitchord.playbackSourceType"
-private const val EXTRA_PLAYBACK_SOURCE_ID = "bitchord.playbackSourceId"
+private const val EXTRA_PLAYBACK_SOURCE = "sonora.playbackSource"
+private const val EXTRA_PLAYBACK_SOURCE_TYPE = "sonora.playbackSourceType"
+private const val EXTRA_PLAYBACK_SOURCE_ID = "sonora.playbackSourceId"
 
 /**
  * The artist and album pages this track hangs under, when they are known.
@@ -535,17 +535,17 @@ private const val EXTRA_PLAYBACK_SOURCE_ID = "bitchord.playbackSourceId"
  * `links`), but a queue restored after a restart, or a track read back by the
  * service, has only what the item carries.
  */
-private const val EXTRA_ARTIST_ID = "bitchord.artistId"
-private const val EXTRA_ALBUM_ID = "bitchord.albumId"
+private const val EXTRA_ARTIST_ID = "sonora.artistId"
+private const val EXTRA_ALBUM_ID = "sonora.albumId"
 
 /** @see Song.setVideoId */
-private const val EXTRA_SET_VIDEO_ID = "bitchord.setVideoId"
+private const val EXTRA_SET_VIDEO_ID = "sonora.setVideoId"
 
 /** @see Song.localUri */
-internal const val EXTRA_LOCAL_URI = "bitchord.localUri"
+internal const val EXTRA_LOCAL_URI = "sonora.localUri"
 
 /** @see Song.localPath */
-internal const val EXTRA_LOCAL_PATH = "bitchord.localPath"
+internal const val EXTRA_LOCAL_PATH = "sonora.localPath"
 
 /**
  * How long the track runs, as the row that queued it said.
@@ -557,21 +557,21 @@ internal const val EXTRA_LOCAL_PATH = "bitchord.localPath"
  * with the other loses information. Carried so that [toSong] can give it back
  * to the live queue and matching code.
  */
-private const val EXTRA_DURATION = "bitchord.durationText"
-private const val EXTRA_EXPLICIT = "bitchord.explicit"
+private const val EXTRA_DURATION = "sonora.durationText"
+private const val EXTRA_EXPLICIT = "sonora.explicit"
 
 /**
  * @see Song.sourceQuality — carried so an addon row rebuilt from the queue
  * (a restore, a reorder) keeps the `&mix=` its first item had; see
  * [SourceResolver.MIX_PARAM].
  */
-private const val EXTRA_SOURCE_QUALITY = "bitchord.sourceQuality"
-private const val EXTRA_SOURCE_HI_RES = "bitchord.sourceHiRes"
-private const val EXTRA_IS_VIDEO = "bitchord.isVideo"
-private const val EXTRA_VIDEO_ORIGIN = "bitchord.isVideoOrigin"
+private const val EXTRA_SOURCE_QUALITY = "sonora.sourceQuality"
+private const val EXTRA_SOURCE_HI_RES = "sonora.sourceHiRes"
+private const val EXTRA_IS_VIDEO = "sonora.isVideo"
+private const val EXTRA_VIDEO_ORIGIN = "sonora.isVideoOrigin"
 
 /** Set only on the replacement item produced by [QualityUpgrade]. */
-const val EXTRA_QUALITY_UPGRADED = "bitchord.qualityUpgraded"
+const val EXTRA_QUALITY_UPGRADED = "sonora.qualityUpgraded"
 
 /** Whether this item was selected from a music-video row, even after conversion. */
 val MediaItem.isVideoOrigin: Boolean
@@ -694,7 +694,7 @@ fun Song.toMediaItem(): MediaItem {
         // resolves it — see [SourceResolver.substituteForYouTube] — and that
         // match is made on them, which the loader thread has no other way to
         // reach.
-        else -> "bitchord://watch?v=$videoId${matchQuery()}"
+        else -> "sonora://watch?v=$videoId${matchQuery()}"
     }
     return MediaItem.Builder()
         .setMediaId(videoId)
@@ -791,7 +791,7 @@ fun Song.toDirectYouTubeMediaItem(): MediaItem =
         .build()
 
 private fun Song.directYouTubeUri(): String =
-    "bitchord://watch?v=$videoId${matchQuery()}&$DIRECT_YOUTUBE_PARAMETER=1&q=original"
+    "sonora://watch?v=$videoId${matchQuery()}&$DIRECT_YOUTUBE_PARAMETER=1&q=original"
 
 /**
  * Whether there is a YouTube upload behind this song to go back *to* — the

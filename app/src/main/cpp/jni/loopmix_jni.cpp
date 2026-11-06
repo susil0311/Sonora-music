@@ -2,7 +2,7 @@
 // but render() is made while the mix is being set up; render() runs on the
 // player's playback thread, inside its audio sink.
 //
-// Copyright (C) 2026 Kushagra Singh. GPL-3.0-or-later, with the rest of BitChord.
+// Copyright (C) 2026 Kushagra Singh. GPL-3.0-or-later, with the rest of Sonora.
 #include <jni.h>
 
 #include <algorithm>
@@ -10,9 +10,9 @@
 
 #include "loopmix/loop_mix_renderer.h"
 
-using bitchord::loopmix::Deck;
-using bitchord::loopmix::Envelope;
-using bitchord::loopmix::Renderer;
+using sonora::loopmix::Deck;
+using sonora::loopmix::Envelope;
+using sonora::loopmix::Renderer;
 
 namespace {
 

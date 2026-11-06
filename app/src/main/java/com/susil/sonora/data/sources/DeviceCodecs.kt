@@ -67,7 +67,7 @@ import java.util.Locale
  */
 object DeviceCodecs {
 
-    private const val TAG = "BitChord"
+    private const val TAG = "Sonora"
 
     /**
      * E-AC-3 JOC, and the plain E-AC-3 core it degrades to. Either decoder is

@@ -145,7 +145,7 @@
     <string name="widget_previous">ÐÐ°Ð·Ð°Ð´</string>
     <string name="widget_artwork">ÐžÐ±Ð»Ð¾Ð¶ÐºÐ° Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð°</string>
     <string name="widget_nothing_played">ÐŸÐ¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ð»Ð¾ÑÑŒ</string>
-    <string name="widget_open_bitchord">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Sonora</string>
+    <string name="widget_open_sonora">ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Sonora</string>
     <string name="widget_preview_title">ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¿ÐµÑÐ½Ð¸</string>
     <string name="widget_preview_artist">Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ</string>
     <string name="widget_pill_label">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð¸Ð³Ñ€Ð°ÐµÑ‚ 4Ã—1</string>
@@ -341,7 +341,7 @@
     <string name="downloads_finished">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Â· Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¾</string>
     <string name="downloading_progress">Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Â· %1$d%%</string>
     <string name="starting">ÐÐ°Ñ‡Ð°Ð»Ð¾</string>
-    <string name="saved_to_bitchord_folder">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² ÐœÑƒÐ·Ñ‹ÐºÐ°/BitChord</string>
+    <string name="saved_to_sonora_folder">Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² ÐœÑƒÐ·Ñ‹ÐºÐ°/Sonora</string>
     <string name="nothing_downloading">ÐÐ¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÑ‚ÑÑ</string>
     <string name="nothing_to_explore">Ð¡ÐµÐ¹Ñ‡Ð°Ñ Ð½ÐµÑ‡ÐµÐ³Ð¾ ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð² Ð¾Ð±Ð·Ð¾Ñ€Ðµ</string>
     <string name="no_youtube_music_results">ÐÐµÑ‚ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð² Ð¸Ð· YouTube Music</string>
@@ -692,7 +692,7 @@
     </plurals>
     <string name="no_local_albums">Ð—Ð´ÐµÑÑŒ Ð¿Ð¾ÐºÐ° Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½ÐµÑ‚ Ð¸Ð· Ð°Ð»ÑŒÐ±Ð¾Ð¼Ð° Ð¸Ð»Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚Ð°. Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚Ðµ Ð¿Ð¾Ð»Ð½Ñ‹Ð¹ Ð°Ð»ÑŒÐ±Ð¾Ð¼ Ð¸Ð»Ð¸ Ð¿Ð»ÐµÐ¹Ð»Ð¸ÑÑ‚, Ð¸ Ð¾Ð½ Ð¿Ð¾ÑÐ²Ð¸Ñ‚ÑÑ Ð·Ð´ÐµÑÑŒ.</string>
     <string name="play_your_replay">Ð’Ð¾ÑÐ¿Ñ€Ð¾Ð¸Ð·Ð²ÐµÑÑ‚Ð¸ Ð²Ð°Ñˆ Replay</string>
-    <string name="counted_on_device_with_bitchord">ÐŸÐ¾Ð´ÑÑ‡Ð¸Ñ‚Ð°Ð½Ð¾ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Sonora</string>
+    <string name="counted_on_device_with_sonora">ÐŸÐ¾Ð´ÑÑ‡Ð¸Ñ‚Ð°Ð½Ð¾ Ð½Ð° ÑÑ‚Ð¾Ð¼ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Sonora</string>
     <string name="this_month">Ð­Ñ‚Ð¾Ñ‚ Ð¼ÐµÑÑÑ†</string>
     <string name="this_year">Ð­Ñ‚Ð¾Ñ‚ Ð³Ð¾Ð´</string>
     <string name="all_time">Ð—Ð° Ð²ÑÑ‘ Ð²Ñ€ÐµÐ¼Ñ</string>

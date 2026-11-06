@@ -144,7 +144,7 @@
     <string name="widget_previous">Ã–nceki</string>
     <string name="widget_artwork">AlbÃ¼m kapaÄŸÄ±</string>
     <string name="widget_nothing_played">HenÃ¼z bir ÅŸey Ã§alÄ±nmadÄ±</string>
-    <string name="widget_open_bitchord">Sonora\'u AÃ§</string>
+    <string name="widget_open_sonora">Sonora\'u AÃ§</string>
     <string name="widget_preview_title">ÅžarkÄ± adÄ±</string>
     <string name="widget_preview_artist">SanatÃ§Ä±</string>
     <string name="widget_pill_label">Åžu an Ã§alÄ±yor 4Ã—1</string>
@@ -358,7 +358,7 @@
     <string name="starting">BaÅŸlatÄ±lÄ±yor</string>
     <string name="start_radio">Radyoyu baÅŸlat</string>
     <string name="radio_started">%1$s radyosu baÅŸlatÄ±ldÄ±</string>
-    <string name="saved_to_bitchord_folder">MÃ¼zik/BitChord klasÃ¶rÃ¼ne kaydedildi</string>
+    <string name="saved_to_sonora_folder">MÃ¼zik/Sonora klasÃ¶rÃ¼ne kaydedildi</string>
     <string name="nothing_downloading">Ä°ndirilen bir ÅŸey yok</string>
     <string name="nothing_to_explore">Åžu anda keÅŸfedilecek bir ÅŸey yok</string>
     <string name="no_youtube_music_results">YouTube Music\'ten sonuÃ§ yok</string>
@@ -696,7 +696,7 @@
     </plurals>
     <string name="no_local_albums">Burada henÃ¼z bir albÃ¼me veya Ã§alma listesine ait bir ÅŸey yok. Tam bir albÃ¼m veya Ã§alma listesi indir, burada gÃ¶rÃ¼necek.</string>
     <string name="play_your_replay">Replay\'ini Ã§al</string>
-    <string name="counted_on_device_with_bitchord">Bu cihazda Sonora ile sayÄ±ldÄ±</string>
+    <string name="counted_on_device_with_sonora">Bu cihazda Sonora ile sayÄ±ldÄ±</string>
     <string name="this_month">Bu ay</string>
     <string name="this_year">Bu yÄ±l</string>
     <string name="all_time">TÃ¼m zamanlar</string>

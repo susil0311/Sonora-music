@@ -144,7 +144,7 @@
     <string name="widget_previous">TrÆ°á»›c</string>
     <string name="widget_artwork">áº¢nh bÃ¬a album</string>
     <string name="widget_nothing_played">ChÆ°a phÃ¡t bÃ i nÃ o</string>
-    <string name="widget_open_bitchord">Má»Ÿ Sonora</string>
+    <string name="widget_open_sonora">Má»Ÿ Sonora</string>
     <string name="widget_preview_title">TÃªn bÃ i hÃ¡t</string>
     <string name="widget_preview_artist">Nghá»‡ sÄ©</string>
     <string name="widget_pill_label">Äang phÃ¡t 4Ã—1</string>
@@ -372,7 +372,7 @@
     <string name="starting">Äang báº¯t Ä‘áº§u</string>
     <string name="start_radio">PhÃ¡t radio</string>
     <string name="radio_started">ÄÃ£ báº¯t Ä‘áº§u radio %1$s</string>
-    <string name="saved_to_bitchord_folder">ÄÃ£ lÆ°u vÃ o Music/BitChord</string>
+    <string name="saved_to_sonora_folder">ÄÃ£ lÆ°u vÃ o Music/Sonora</string>
     <string name="nothing_downloading">KhÃ´ng cÃ³ ná»™i dung Ä‘ang táº£i</string>
     <string name="nothing_to_explore">Hiá»‡n khÃ´ng cÃ³ gÃ¬ Ä‘á»ƒ khÃ¡m phÃ¡</string>
     <string name="no_youtube_music_results">KhÃ´ng cÃ³ káº¿t quáº£ nÃ o tá»« YouTube Music</string>
@@ -694,7 +694,7 @@
     </plurals>
     <string name="no_local_albums">ChÆ°a cÃ³ má»¥c nÃ o á»Ÿ Ä‘Ã¢y thuá»™c vá» má»™t album hoáº·c danh sÃ¡ch phÃ¡t. Táº£i xuá»‘ng toÃ n bá»™ album hoáº·c danh sÃ¡ch phÃ¡t vÃ  ná»™i dung sáº½ xuáº¥t hiá»‡n á»Ÿ Ä‘Ã¢y.</string>
     <string name="play_your_replay">PhÃ¡t Replay cá»§a báº¡n</string>
-    <string name="counted_on_device_with_bitchord">ÄÆ°á»£c thá»‘ng kÃª trÃªn thiáº¿t bá»‹ nÃ y báº±ng Sonora</string>
+    <string name="counted_on_device_with_sonora">ÄÆ°á»£c thá»‘ng kÃª trÃªn thiáº¿t bá»‹ nÃ y báº±ng Sonora</string>
     <string name="this_month">ThÃ¡ng nÃ y</string>
     <string name="this_year">NÄƒm nay</string>
     <string name="all_time">Táº¥t cáº£ thá»i gian</string>

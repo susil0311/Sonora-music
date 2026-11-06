@@ -112,8 +112,8 @@ export class PartyError extends Error {
 
 // ---- Settings: the server, a nickname -------------------------------------------------
 
-const SETTINGS_KEY = 'bitchord:party';
-const SESSION_KEY = 'bitchord:party-session';
+const SETTINGS_KEY = 'sonora:party';
+const SESSION_KEY = 'sonora:party-session';
 
 interface Settings {
   customServer: string;
@@ -132,7 +132,7 @@ export function savePartySettings(change: Partial<Settings>): void {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify({ ...partySettings(), ...change }));
 }
 
-/** The server parties are made on: the custom one if set, else BitChord's. */
+/** The server parties are made on: the custom one if set, else Sonora's. */
 export function idleServer(): string {
   return sanitizeServerUrl(partySettings().customServer) ?? DEFAULT_SERVER;
 }
@@ -144,10 +144,10 @@ let server: string | null = null;
 export const clock = new ServerClock();
 
 function deviceId(): string {
-  let id = localStorage.getItem('bitchord:deviceId');
+  let id = localStorage.getItem('sonora:deviceId');
   if (!id) {
     id = crypto.randomUUID();
-    localStorage.setItem('bitchord:deviceId', id);
+    localStorage.setItem('sonora:deviceId', id);
   }
   return id;
 }
@@ -315,7 +315,7 @@ export function partyServer(): string | null {
 
 // ---- Recent kicks (a door that stays shut on this device for a day) ------------------------
 
-const KICKS_KEY = 'bitchord:party-kicked';
+const KICKS_KEY = 'sonora:party-kicked';
 
 function recentKicks(): Record<string, number> {
   try {
@@ -423,7 +423,7 @@ function connect(): void {
     const { code } = useParty.getState();
     if (id !== loopId || !code || !token || !server) return;
     useParty.setState({ connection: 'connecting' });
-    const ws = new WebSocket(`${server.replace(/^http/, 'ws')}/ws/parties/${code}`, ['bitchord.v1', `bitchord.token.${token}`]);
+    const ws = new WebSocket(`${server.replace(/^http/, 'ws')}/ws/parties/${code}`, ['sonora.v1', `sonora.token.${token}`]);
     socket = ws;
     let opened = false;
     ws.onopen = () => {

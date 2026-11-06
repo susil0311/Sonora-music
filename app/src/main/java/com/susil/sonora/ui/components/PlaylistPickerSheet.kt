@@ -75,7 +75,7 @@ import com.susil.sonora.data.model.Song
 import com.susil.sonora.data.model.UserPlaylist
 import com.susil.sonora.data.model.artworkAt
 import com.susil.sonora.ui.components.thumbnailBorder
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import java.util.Locale
 import kotlinx.coroutines.launch
 
@@ -185,7 +185,7 @@ fun PlaylistPickerSheet(
                 )
 
                 ActionRow(
-                    icon = BitChordIcons.Plus,
+                    icon = SonoraIcons.Plus,
                     label = stringResource(R.string.new_playlist),
                     onClick = { creating = true },
                 )

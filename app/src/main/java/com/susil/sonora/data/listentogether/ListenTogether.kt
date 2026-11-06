@@ -1,11 +1,12 @@
 package com.susil.sonora.data.listentogether
 
+import com.susil.sonora.data.LegacyStorageNames
 import android.content.Context
 import android.os.SystemClock
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.Network
-import com.susil.sonora.BitChordApplication
+import com.susil.sonora.SonoraApplication
 import com.susil.sonora.BuildConfig
 import com.susil.sonora.data.DebugLog as Log
 import com.susil.sonora.data.settings.AppSettings
@@ -1466,7 +1467,7 @@ object ListenTogether {
      * real account identifiers would be holding something it has no use for.
      */
     private fun identity(nickname: String = nickname()): Identity? {
-        val store = BitChordApplication.authStore
+        val store = SonoraApplication.authStore
         if (!store.isSignedIn) return null
         val account = store.activeSession ?: return null
         val profile = account.profiles.firstOrNull { it.profileId == account.activeProfileId }
@@ -1693,7 +1694,7 @@ object ListenTogether {
     const val CODE_LENGTH = 6
 
     private const val TAG = "ListenTogether"
-    private const val PREFS = "bitchord_listen_together"
+    private const val PREFS = LegacyStorageNames.LISTEN_TOGETHER
     private const val KEY_SERVER = "server_url"
 
     /** What a redacted address reads as. Not a hostname, so it cannot be resolved back. */

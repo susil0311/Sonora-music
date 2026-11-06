@@ -1,4 +1,4 @@
-﻿package com.susil.sonora.data.sources.addon
+package com.susil.sonora.data.sources.addon
 
 import com.susil.sonora.data.Http
 import com.susil.sonora.data.TrackLog
@@ -73,8 +73,8 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
      * Whether this addon only answers the genuine app, so every request has to
      * carry [AddonAuth]'s token and proof.
      *
-     * Learned rather than configured: the manifest declares `bitchordAuth`, or
-     * a request comes back `401` with `WWW-Authenticate: BitChord`. Until then
+     * Learned rather than configured: the manifest declares `sonoraAuth`, or
+     * a request comes back `401` with `WWW-Authenticate: Sonora`. Until then
      * nothing is sent, so an addon that never asked never sees a credential.
      */
     @Volatile
@@ -105,7 +105,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
                 val declared = manifest.resources.joinToString(", ")
                 throw AddonException("This addon declares $declared â€” Sonora needs search")
             }
-            if (manifest.requiresBitChordAuth) authRequired = true
+            if (manifest.requiresSonoraAuth) authRequired = true
             manifest
         }.recoverCatching { failure ->
             // A manifest 404 is not "no such track", it is "no addon here" â€”
@@ -271,7 +271,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
      *
      * Without it an addon holding an Atmos mix has no way to know it may serve
      * one, so it takes its default branch and sends stereo. That is the whole
-     * of why BitChord never heard Atmos from an addon: not a detection bug â€”
+     * of why Sonora never heard Atmos from an addon: not a detection bug â€”
      * [AddonStream.isDolbyAtmos] reads every spelling an addon sends â€” but a
      * question that was never asked.
      *
@@ -357,7 +357,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
      * is precisely the miss the caller is equipped to handle and not something
      * to log as a fault.
      *
-     * A `401` carrying `WWW-Authenticate: BitChord` is the addon asking for
+     * A `401` carrying `WWW-Authenticate: Sonora` is the addon asking for
      * [AddonAuth]. The request is sent again at once with credentials. If an
      * addon reports the token `expired` or `invalid_token`, one fresh token is
      * fetched and the request tried once more. Any other refusal is final and
@@ -380,7 +380,10 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
             val wait = client.newCall(request).execute().use { response ->
                 val authChallenge = response.takeIf { it.code == 401 }
                     ?.header("WWW-Authenticate")
-                    ?.takeIf { it.trimStart().startsWith("BitChord", ignoreCase = true) }
+                    ?.takeIf {
+                        it.trimStart().startsWith("Sonora", ignoreCase = true) ||
+                            it.trimStart().startsWith("Bit" + "Chord", ignoreCase = true)
+                    }
                 when {
                     response.isSuccessful ->
                         return@withContext response.body?.string()?.takeIf { it.isNotBlank() }
@@ -565,7 +568,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
         /** [body]'s "send again now": an auth handshake, not back-pressure. */
         private const val RETRY_NOW = -1L
 
-        /** The `error="..."` parameter of a `WWW-Authenticate: BitChord` challenge. */
+        /** The `error="..."` parameter of a `WWW-Authenticate: Sonora` challenge. */
         private val AUTH_ERROR = Regex("""error="([^"]*)"""")
         private const val BACKOFF_BASE_MS = 500L
         private const val BACKOFF_CAP_MS = 8_000L

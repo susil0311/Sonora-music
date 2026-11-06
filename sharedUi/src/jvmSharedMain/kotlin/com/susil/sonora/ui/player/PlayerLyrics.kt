@@ -137,7 +137,7 @@ import com.susil.sonora.data.lyrics.translationLanguageName
 import com.susil.sonora.ui.haptics.Haptic
 import com.susil.sonora.ui.haptics.Haptics
 import com.susil.sonora.ui.haptics.rememberHaptics
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.rememberIsForeground
 import java.util.Locale
 import kotlin.math.PI
@@ -2817,7 +2817,7 @@ private fun CurrentLyricLine(
                 .padding(vertical = 4.dp),
         ) {
             Icon(
-                imageVector = BitChordIcons.Instrumental,
+                imageVector = SonoraIcons.Instrumental,
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier.size(16.dp),
@@ -2833,7 +2833,7 @@ private fun CurrentLyricLine(
             )
             Spacer(Modifier.width(6.dp))
             Icon(
-                imageVector = BitChordIcons.ChevronRight,
+                imageVector = SonoraIcons.ChevronRight,
                 contentDescription = null,
                 tint = Color.White.copy(alpha = 0.5f),
                 modifier = Modifier.size(14.dp),
@@ -2890,7 +2890,7 @@ private fun CurrentLyricLine(
     ) {
         if (instrumental) {
             Icon(
-                imageVector = BitChordIcons.Instrumental,
+                imageVector = SonoraIcons.Instrumental,
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier.size(16.dp),
@@ -2972,7 +2972,7 @@ private fun CurrentLyricLine(
             Spacer(Modifier.width(6.dp))
             // Disclosure hint: this strip opens the full lyrics screen.
             Icon(
-                imageVector = BitChordIcons.ChevronRight,
+                imageVector = SonoraIcons.ChevronRight,
                 contentDescription = null,
                 tint = Color.White.copy(alpha = 0.5f),
                 modifier = Modifier.size(14.dp),
@@ -2980,7 +2980,7 @@ private fun CurrentLyricLine(
         } else {
             Spacer(Modifier.width(6.dp))
             Icon(
-                imageVector = BitChordIcons.ChevronRight,
+                imageVector = SonoraIcons.ChevronRight,
                 contentDescription = null,
                 tint = Color.White.copy(alpha = 0.5f),
                 modifier = Modifier

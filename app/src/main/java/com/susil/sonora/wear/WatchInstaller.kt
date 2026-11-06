@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 import com.susil.sonora.wear.WearProtocol as P
 
 /**
- * Settings → "BitChord for Wear OS": which watches have BitChord, whether it is
+ * Settings → "Sonora for Wear OS": which watches have Sonora, whether it is
  * this phone's build, and putting it there without a computer.
  *
  * The phone APK carries the watch APK of the same flavor and signing key
@@ -61,7 +61,7 @@ import com.susil.sonora.wear.WearProtocol as P
  */
 object WatchInstaller {
 
-    private const val TAG = "BitChordWear"
+    private const val TAG = "SonoraWear"
     private const val APK_ASSET = "wear/SonoraWear.apk"
     private const val SHA_ASSET = "wear/SonoraWear.sha256"
     private const val PAIRING_SERVICE = "_adb-tls-pairing._tcp"
@@ -80,7 +80,7 @@ object WatchInstaller {
     private val _pairing = MutableStateFlow<WatchPairingState>(WatchPairingState.Idle)
     val pairing: StateFlow<WatchPairingState> = _pairing.asStateFlow()
 
-    /** Whether this build carries a watch APK at all (a `-Pbitchord.bundleWear=false` build doesn't). */
+    /** Whether this build carries a watch APK at all (a `-Psonora.bundleWear=false` build doesn't). */
     fun available(context: Context): Boolean = bundledHash(context) != null
 
     private var cachedHash: String? = null
@@ -167,7 +167,7 @@ object WatchInstaller {
     private val installedAt = java.util.concurrent.ConcurrentHashMap<String, Long>()
     private const val SETTLE_MS = 60_000L
 
-    // ---- Updating a watch that has BitChord ----
+    // ---- Updating a watch that has Sonora ----
 
     fun sendUpdate(context: Context, nodeId: String) {
         val app = context.applicationContext
@@ -211,14 +211,14 @@ object WatchInstaller {
     }
 
     /**
-     * Brings BitChord to the front on the watch, which is where Android's
+     * Brings Sonora to the front on the watch, which is where Android's
      * install prompt can be shown: a background app may not open it itself,
      * and a Galaxy Watch gives the notification it falls back to no alert.
      */
     private fun openOnWatch(app: Context, nodeId: String) {
         val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
             .addCategory(android.content.Intent.CATEGORY_BROWSABLE)
-            .setData(Uri.parse("bitchord-wear://${app.packageName}/update"))
+            .setData(Uri.parse("sonora-wear://${app.packageName}/update"))
         runCatching { RemoteActivityHelper(app).startRemoteActivity(intent, nodeId).get(15, TimeUnit.SECONDS) }
             .onFailure { Log.w(TAG, "couldn't open the watch app: ${it.message}") }
     }
@@ -396,7 +396,7 @@ object WatchInstaller {
                 cert = certFile.inputStream().use { CertificateFactory.getInstance("X.509").generateCertificate(it) }
             } else {
                 val pair = KeyPairGenerator.getInstance("RSA").apply { initialize(2048) }.generateKeyPair()
-                val name = X500Name("CN=BitChord")
+                val name = X500Name("CN=Sonora")
                 val now = System.currentTimeMillis()
                 val holder = JcaX509v3CertificateBuilder(
                     name,
@@ -415,6 +415,6 @@ object WatchInstaller {
 
         override fun getPrivateKey(): PrivateKey = key
         override fun getCertificate(): Certificate = cert
-        override fun getDeviceName(): String = "BitChord"
+        override fun getDeviceName(): String = "Sonora"
     }
 }

@@ -13,10 +13,10 @@ import com.susil.sonora.playback.PlayerDeepLink
 import com.susil.sonora.playback.rememberMediaController
 import com.susil.sonora.playback.rememberPlayerState
 import com.susil.sonora.ui.MainViewModel
-import com.susil.sonora.ui.theme.BitChordTheme
+import com.susil.sonora.ui.theme.SonoraTheme
 import com.susil.sonora.ui.tv.TvApp
 import com.susil.sonora.ui.tv.display.TvRefreshRateController
-import com.susil.sonora.ui.tv.theme.BitChordTvTheme
+import com.susil.sonora.ui.tv.theme.SonoraTvTheme
 
 /**
  * Dedicated TV Activity for Android TV, Google TV, and Fire TV devices.
@@ -37,10 +37,10 @@ class TvActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
         setContent {
-            BitChordTvTheme {
+            SonoraTvTheme {
                 // The phone's Material theme too, so the components shared with
                 // it (lyrics, mood sleeves) are set in SF Pro on its type scale.
-                BitChordTheme(darkTheme = true) {
+                SonoraTheme(darkTheme = true) {
                     val mediaController = rememberMediaController()
                     val playerState = rememberPlayerState(mediaController)
 

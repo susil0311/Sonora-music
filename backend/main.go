@@ -18,13 +18,13 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/KabirSinghBhatia/BitChord/backend/clock"
-	"github.com/KabirSinghBhatia/BitChord/backend/codes"
-	"github.com/KabirSinghBhatia/BitChord/backend/config"
-	"github.com/KabirSinghBhatia/BitChord/backend/hub"
-	"github.com/KabirSinghBhatia/BitChord/backend/party"
-	"github.com/KabirSinghBhatia/BitChord/backend/presence"
-	"github.com/KabirSinghBhatia/BitChord/backend/protocol"
+	"github.com/KabirSinghBhatia/Sonora/backend/clock"
+	"github.com/KabirSinghBhatia/Sonora/backend/codes"
+	"github.com/KabirSinghBhatia/Sonora/backend/config"
+	"github.com/KabirSinghBhatia/Sonora/backend/hub"
+	"github.com/KabirSinghBhatia/Sonora/backend/party"
+	"github.com/KabirSinghBhatia/Sonora/backend/presence"
+	"github.com/KabirSinghBhatia/Sonora/backend/protocol"
 )
 
 var (
@@ -77,7 +77,7 @@ func main() {
 	handler := corsMiddleware(mux)
 
 	addr := fmt.Sprintf("0.0.0.0:%d", config.Port)
-	log.Printf("BitChord Listen Together (Go) starting on %s...", addr)
+	log.Printf("Sonora Listen Together (Go) starting on %s...", addr)
 	server := &http.Server{
 		Addr:              addr,
 		Handler:           handler,
@@ -219,13 +219,13 @@ func parseBearerToken(r *http.Request) string {
 }
 
 // Browsers cannot set headers on a WebSocket handshake, so the web player
-// offers its token as a subprotocol instead: "bitchord.v1, bitchord.token.<hex>".
+// offers its token as a subprotocol instead: "sonora.v1, sonora.token.<hex>".
 // It still stays out of the URL, and so out of access logs, which is the reason
-// the header was chosen; the server answers with "bitchord.v1" alone and never
+// the header was chosen; the server answers with "sonora.v1" alone and never
 // echoes the token.
 const (
-	socketProtocol    = "bitchord.v1"
-	socketTokenPrefix = "bitchord.token."
+	socketProtocol    = "sonora.v1"
+	socketTokenPrefix = "sonora.token."
 )
 
 // parseSocketToken reads the party token from the Authorization header (the
@@ -250,7 +250,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
-		"service":  "bitchord-listen-together",
+		"service":  "sonora-listen-together",
 		"members":  store.MemberCount(),
 		"parties":  store.Len(),
 		"serverMs": clock.NowMs(),
@@ -607,7 +607,7 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BitChord Listen Together - Party {{.Code}}</title>
+    <title>Sonora Listen Together - Party {{.Code}}</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -742,7 +742,7 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
                 <span>Listen Together • {{.MemberCount}} in party</span>
             </div>
             <h1>Join the Music Party</h1>
-            <p class="subtitle">Opening BitChord to sync playback in real time.</p>
+            <p class="subtitle">Opening Sonora to sync playback in real time.</p>
             <div class="code-box">
                 <div class="code-label">Party Code</div>
                 <div class="code-val">{{.Code}}</div>
@@ -750,10 +750,10 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
                     <div class="now-playing">🎵 {{.CurrentSongTitle}} - {{.CurrentSongArtist}}</div>
                 {{end}}
             </div>
-            <a id="joinBtn" href="{{.IntentURI}}" class="btn">Join Party in BitChord</a>
+            <a id="joinBtn" href="{{.IntentURI}}" class="btn">Join Party in Sonora</a>
             <p class="footer-note">
                 Didn’t open automatically? Tap the button above.<br>
-                Don't have BitChord yet? <a href="https://github.com/kushagrasinghx/BitChord/releases" target="_blank" rel="noopener">Download it here</a>.
+                Don't have Sonora yet? <a href="https://sonora-listen-together.onrender.com/" target="_blank" rel="noopener">Download it here</a>.
             </p>
             <script>
                 var intentUri = {{.IntentURI}};
@@ -830,8 +830,8 @@ func handleInviteLanding(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	deepLink := fmt.Sprintf("bitchord://party/%s?server=%s", url.PathEscape(code), url.QueryEscape(origin))
-	intentURI := fmt.Sprintf("intent://party/%s?server=%s#Intent;scheme=bitchord;end", url.PathEscape(code), url.QueryEscape(origin))
+	deepLink := fmt.Sprintf("sonora://party/%s?server=%s", url.PathEscape(code), url.QueryEscape(origin))
+	intentURI := fmt.Sprintf("intent://party/%s?server=%s#Intent;scheme=sonora;end", url.PathEscape(code), url.QueryEscape(origin))
 
 	currentSongTitle := ""
 	currentSongArtist := ""

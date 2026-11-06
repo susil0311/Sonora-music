@@ -80,7 +80,7 @@ fun PlaylistShareSheet(page: DetailPage, songs: List<Song>, onDismiss: () -> Uni
         Spacer(Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
             ShareAction("Save", Icons.Rounded.Save, false, poster != null, Modifier.weight(1f)) {
-                poster?.let { image -> scope.launch { saveToGallery(context, image, page.title, "bitchord-playlist") } }
+                poster?.let { image -> scope.launch { saveToGallery(context, image, page.title, "sonora-playlist") } }
             }
             ShareAction("Share", Icons.Rounded.IosShare, true, poster != null, Modifier.weight(1f)) {
                 poster?.let { image -> scope.launch {
@@ -134,7 +134,7 @@ private suspend fun renderPlaylistCard(context: Context, page: DetailPage, songs
         canvas.drawText(ellipsised(song.artist, artist, width - margin * 2 - art - 24f), margin + art + 24f, y + 34f, artist)
     }
     val brand = type.body(26f, 0xCCFFFFFF.toInt(), bold = true)
-    canvas.drawText("BitChord", width - margin - brand.measureText("BitChord"), height - 38f, brand)
+    canvas.drawText("Sonora", width - margin - brand.measureText("Sonora"), height - 38f, brand)
     bitmap
 }
 

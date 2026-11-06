@@ -55,7 +55,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object DirectSourceGate {
 
-    private const val TAG = "BitChord"
+    private const val TAG = "Sonora"
 
     /** How far ahead of a transition the next track may be resolved and read ahead. */
     const val WINDOW_MS = 25_000L
@@ -154,7 +154,7 @@ object DirectSourceGate {
      */
     fun isStreamReady(item: androidx.media3.common.MediaItem): Boolean {
         val uri = item.localConfiguration?.uri ?: return true
-        if (uri.scheme != "bitchord") return true
+        if (uri.scheme != "sonora") return true
         val now = android.os.SystemClock.elapsedRealtime()
         readyCheck?.let { (id, ready, at) ->
             if (id == item.mediaId && (ready || now - at < READY_RECHECK_MS)) return ready

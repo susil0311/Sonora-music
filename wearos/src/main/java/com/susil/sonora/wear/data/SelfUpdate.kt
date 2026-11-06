@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import com.susil.sonora.wear.WearProtocol as P
 
 /**
- * What the phone's "BitChord for Wear OS" settings need from this side: which
+ * What the phone's "Sonora for Wear OS" settings need from this side: which
  * build is installed, and a way to put a newer one on without a computer.
  *
  * The phone carries the watch APK built alongside it and sends it over a
@@ -32,12 +32,12 @@ import com.susil.sonora.wear.WearProtocol as P
  * wearer to confirm the first time — the app was installed by ADB, so it is
  * not yet the installer of record — and a background app may not open that
  * prompt itself, so it is offered as a notification to tap. Once an update has
- * gone through here, BitChord *is* the installer of record and later updates
+ * gone through here, Sonora *is* the installer of record and later updates
  * need no tap at all.
  */
 object SelfUpdate {
 
-    private const val TAG = "BitChordWear"
+    private const val TAG = "SonoraWear"
     private const val CHANNEL = "updates"
     private const val NOTIFICATION_ID = 2
 
@@ -75,7 +75,7 @@ object SelfUpdate {
         return hash
     }
 
-    private fun incoming(context: Context) = File(context.cacheDir, "update/BitChord.apk")
+    private fun incoming(context: Context) = File(context.cacheDir, "update/Sonora.apk")
 
     /**
      * A newer APK arriving on [P.PATH_APK].
@@ -191,7 +191,7 @@ class InstallResultReceiver : BroadcastReceiver() {
             }
             PackageInstaller.STATUS_SUCCESS -> SelfUpdate.done(context)
             else -> Log.w(
-                "BitChordWear",
+                "SonoraWear",
                 "update failed: ${intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)}",
             )
         }

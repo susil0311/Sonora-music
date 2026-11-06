@@ -13,8 +13,8 @@ against this folder.
 
 | Library | Upstream | Version | License | Used by |
 |---|---|---|---|---|
-| Oboe | https://github.com/google/oboe | 1.11.0 (SHA-256 pinned in `app/src/main/cpp/CMakeLists.txt`) | Apache-2.0 | `libbitchord_exclusive.so` (AAudio exclusive output) |
-| libusb | https://github.com/libusb/libusb | 1.0.27 (SHA-256 pinned in `app/src/main/cpp/CMakeLists.txt`) | LGPL-2.1-or-later | `libbitchord_usb.so` (direct USB output) |
+| Oboe | https://github.com/google/oboe | 1.11.0 (SHA-256 pinned in `app/src/main/cpp/CMakeLists.txt`) | Apache-2.0 | `libsonora_exclusive.so` (AAudio exclusive output) |
+| libusb | https://github.com/libusb/libusb | 1.0.27 (SHA-256 pinned in `app/src/main/cpp/CMakeLists.txt`) | LGPL-2.1-or-later | `libsonora_usb.so` (direct USB output) |
 
 ## Adapted code
 

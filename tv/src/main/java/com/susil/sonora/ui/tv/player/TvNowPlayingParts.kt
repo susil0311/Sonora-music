@@ -92,7 +92,7 @@ import com.susil.sonora.sharedui.resources.ic_player_next
 import com.susil.sonora.sharedui.resources.ic_player_pause
 import com.susil.sonora.sharedui.resources.ic_player_play
 import com.susil.sonora.sharedui.resources.ic_player_previous
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.data.settings.TvPlayerStyle
 import com.susil.sonora.ui.player.ArtworkMeshBackdrop
 import com.susil.sonora.ui.player.CanvasArtworkPlayer
@@ -363,19 +363,19 @@ internal fun TvTransport(
             }
             Row(horizontalArrangement = Arrangement.spacedBy(11.dp)) {
                 TvTransportButton(
-                    icon = if (isLiked) BitChordIcons.StarFilled else BitChordIcons.Star,
+                    icon = if (isLiked) SonoraIcons.StarFilled else SonoraIcons.Star,
                     contentDescription = if (isLiked) "Unfavorite" else "Favorite",
                     onClick = onToggleLike,
                 )
                 TvTransportButton(
-                    icon = BitChordIcons.LyricsQuote,
+                    icon = SonoraIcons.LyricsQuote,
                     contentDescription = "Lyrics",
                     active = lyricsOn,
                     enabled = lyricsAvailable,
                     onClick = onToggleLyrics,
                 )
                 TvTransportButton(
-                    icon = BitChordIcons.Queue,
+                    icon = SonoraIcons.Queue,
                     contentDescription = "Up Next",
                     active = upNextOpen,
                     onClick = onToggleUpNext,
@@ -694,14 +694,14 @@ internal fun TvUpNext(
             )
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 TvTransportButton(
-                    icon = BitChordIcons.Shuffle,
+                    icon = SonoraIcons.Shuffle,
                     contentDescription = "Shuffle",
                     active = shuffle,
                     size = 32.dp,
                     onClick = onToggleShuffle,
                 )
                 TvTransportButton(
-                    icon = if (repeatMode == Player.REPEAT_MODE_ONE) null else BitChordIcons.Repeat,
+                    icon = if (repeatMode == Player.REPEAT_MODE_ONE) null else SonoraIcons.Repeat,
                     contentDescription = when (repeatMode) {
                         Player.REPEAT_MODE_ONE -> "Repeat One"
                         Player.REPEAT_MODE_ALL -> "Repeat All"
@@ -713,7 +713,7 @@ internal fun TvUpNext(
                     onClick = onCycleRepeat,
                 )
                 TvTransportButton(
-                    icon = BitChordIcons.Infinity,
+                    icon = SonoraIcons.Infinity,
                     contentDescription = "Autoplay",
                     active = autoplay,
                     size = 32.dp,
@@ -818,7 +818,7 @@ internal fun TvNothingPlaying(onBrowse: () -> Unit, modifier: Modifier = Modifie
         verticalArrangement = Arrangement.Center,
     ) {
         Icon(
-            imageVector = BitChordIcons.MusicNote,
+            imageVector = SonoraIcons.MusicNote,
             contentDescription = null,
             tint = TvGlass.TextTertiary,
             modifier = Modifier.size(58.dp),

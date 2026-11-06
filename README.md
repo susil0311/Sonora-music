@@ -13,7 +13,7 @@
 
 <br/>
 
-[![Listening now](https://api.bitchord.kushagrasingh.in/api/stats/live/badge.svg)](https://api.bitchord.kushagrasingh.in/api/stats/live)
+[![Listening now](https://sonora-listen-together.onrender.com/api/stats/live/badge.svg)](https://sonora-listen-together.onrender.com/api/stats/live)
 
 <br/>
 

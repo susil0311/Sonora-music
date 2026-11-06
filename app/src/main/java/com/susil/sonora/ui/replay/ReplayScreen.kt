@@ -62,7 +62,7 @@ import com.susil.sonora.data.stats.ArtistFacts
 import com.susil.sonora.data.stats.ReplayPeriod
 import com.susil.sonora.data.stats.ReplaySummary
 import com.susil.sonora.ui.components.PAGE_GUTTER
-import com.susil.sonora.ui.icons.BitChordIcons
+import com.susil.sonora.ui.icons.SonoraIcons
 import com.susil.sonora.ui.player.MeshGradientBackground
 import com.susil.sonora.ui.player.rememberArtworkColors
 import com.susil.sonora.ui.theme.AccentRed
@@ -193,7 +193,7 @@ fun ReplayScreen(
                         )
                     }
                     item("open") {
-                        ReplayActionRow(BitChordIcons.Play, stringResource(R.string.play_your_replay), dark) {
+                        ReplayActionRow(SonoraIcons.Play, stringResource(R.string.play_your_replay), dark) {
                             onOpenStory(ReplayStoryPage.INTRO)
                         }
                     }
@@ -430,7 +430,7 @@ private fun ReplayActionRow(icon: ImageVector, label: String, dark: Boolean, onC
             modifier = Modifier.weight(1f),
         )
         Icon(
-            imageVector = BitChordIcons.ChevronRight,
+            imageVector = SonoraIcons.ChevronRight,
             contentDescription = null,
             tint = textColor.copy(alpha = 0.5f),
             modifier = Modifier.size(16.dp),
@@ -613,7 +613,7 @@ private fun EmptyReplay(period: ReplayPeriod, dark: Boolean) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            imageVector = BitChordIcons.Clock,
+            imageVector = SonoraIcons.Clock,
             contentDescription = null,
             tint = emptyVariant,
             modifier = Modifier.size(44.dp),

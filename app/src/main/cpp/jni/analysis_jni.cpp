@@ -2,11 +2,11 @@
  * Ported from Orchard (https://github.com/SFG5453/Orchard).
  *
  * Copyright (C) 2026 SFG545 (original Orchard implementation)
- * Copyright (C) 2026 Kushagra Singh (BitChord adaptation)
+ * Copyright (C) 2026 Kushagra Singh (Sonora adaptation)
  *
  * Orchard's original source is licensed under the GNU Affero General Public
  * License, version 3 or later. Per AGPLv3 section 13, this file is combined
- * here into BitChord -- a work licensed under the GNU General Public
+ * here into Sonora -- a work licensed under the GNU General Public
  * License, version 3 or later -- and remains itself governed by the AGPLv3
  * as part of that combination.
  *
@@ -77,7 +77,7 @@ void AppendDoubles(std::string& out, const std::vector<double>& values) {
   out += ']';
 }
 
-void AppendEnergyCurve(std::string& out, const std::vector<bitchord::smart::EnergyPoint>& points) {
+void AppendEnergyCurve(std::string& out, const std::vector<sonora::smart::EnergyPoint>& points) {
   out += '[';
   for (size_t index = 0; index < points.size(); ++index) {
     if (index > 0) out += ',';
@@ -90,7 +90,7 @@ void AppendEnergyCurve(std::string& out, const std::vector<bitchord::smart::Ener
   out += ']';
 }
 
-void AppendCuePoints(std::string& out, const std::vector<bitchord::smart::MixCuePoint>& points) {
+void AppendCuePoints(std::string& out, const std::vector<sonora::smart::MixCuePoint>& points) {
   out += '[';
   for (size_t index = 0; index < points.size(); ++index) {
     if (index > 0) out += ',';
@@ -130,8 +130,8 @@ Java_com_susil_sonora_playback_smart_TrackFeatures_nativeAnalyze(
     env->GetFloatArrayRegion(samples, 0, count, input.data());
   }
 
-  const bitchord::smart::AnalysisResult result =
-      bitchord::smart::AnalyzeAudio(input, sample_rate, duration);
+  const sonora::smart::AnalysisResult result =
+      sonora::smart::AnalyzeAudio(input, sample_rate, duration);
 
   std::string json;
   // A whole-track energy curve dominates the output; reserving up front keeps
@@ -200,7 +200,7 @@ Java_com_susil_sonora_playback_smart_TrackFeatures_nativeResample(
   }
 
   const std::vector<float> resampled =
-      bitchord::smart::Resample(input, input_rate, output_rate);
+      sonora::smart::Resample(input, input_rate, output_rate);
 
   const jsize produced = static_cast<jsize>(resampled.size());
   jfloatArray result = env->NewFloatArray(produced);

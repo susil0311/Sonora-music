@@ -237,7 +237,7 @@ class TrackAnalyzer(private val context: Context, private val cache: AudioCache)
     private fun discardsOf(key: String): Int = discarded[key] ?: 0
 
     private val executor = Executors.newSingleThreadExecutor { runnable ->
-        Thread(runnable, "bitchord-smart-analysis").apply {
+        Thread(runnable, "sonora-smart-analysis").apply {
             isDaemon = true
             priority = Thread.NORM_PRIORITY
         }
@@ -1572,7 +1572,7 @@ class TrackAnalyzer(private val context: Context, private val cache: AudioCache)
     }
 
     private companion object {
-        const val TAG = "BitChordTrackAnalyzer"
+        const val TAG = "SonoraTrackAnalyzer"
 
         /**
          * What an unmeasured instant reads as. Below the policy's VOCAL_ACTIVE_THRESHOLD by

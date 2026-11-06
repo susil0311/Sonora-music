@@ -1,4 +1,4 @@
-import { detectExtension, type DetectedExtension } from '@bitchord/shared/bridge';
+import { detectExtension, type DetectedExtension } from '@sonora/shared/bridge';
 import { useQuery } from '@tanstack/react-query';
 import { config } from '@/config';
 import { queryClient } from '@/lib/queryClient';

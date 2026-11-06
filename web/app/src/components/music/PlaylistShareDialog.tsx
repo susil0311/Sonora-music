@@ -57,7 +57,7 @@ export function PlaylistShareDialog({ info, tracks, initialSelection, onClose }:
   const dominant = useDominantColor(info.thumbnail);
   const limit = limits[format];
   const selectedTracks = selected.map((id) => tracks.find((track) => track.videoId === id)).filter((track): track is Track => !!track);
-  const author = info.artists.map((artist) => artist.name).join(', ') || 'BitChord listener';
+  const author = info.artists.map((artist) => artist.name).join(', ') || 'Sonora listener';
   const cardStyle = useMemo(() => ({
     '--share-color': dominant,
     backgroundImage: `linear-gradient(145deg, color-mix(in srgb, ${dominant} 92%, #000), color-mix(in srgb, ${dominant} 48%, #050505) 58%, #090909)`,

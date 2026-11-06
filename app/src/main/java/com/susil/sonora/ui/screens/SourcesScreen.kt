@@ -773,7 +773,7 @@ private fun SourceRow(
     skippedByQuality: Boolean = false,
     /** On, but its addon needs a lossless output and this is what is connected instead. Null when not waiting. */
     awaitingOutput: LosslessOutput.State? = null,
-    /** An addon that is out of date (no `bitchordAuth` in its manifest), so BitChord won't use it. */
+    /** An addon that is out of date (no `sonoraAuth` in its manifest), so Sonora won't use it. */
     needsUpdate: Boolean = false,
     /** Which of the two ceilings [ceiling] is, so the row can name it. */
     onMetered: Boolean = false,
