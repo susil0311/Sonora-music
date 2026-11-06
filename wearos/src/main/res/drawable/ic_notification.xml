@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/sonora_mark" android:gravity="fill" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M19.15,5.45C18.45,7.6 17.03,9.1 15.22,9.1H9.78C7.25,9.1 6,10 6,11.25c0,1.2 1.18,1.8 2.66,2.05l6.37,1.05c2.73,0.45 4.02,1.8 4.02,3.8 0,2.4 -1.95,4 -5.08,4H4.78c0.74,-1.99 2.2,-3.33 4.34,-3.33h4.32c1.72,0 2.59,-0.7 2.59,-1.52 0,-0.8 -0.85,-1.19 -2.33,-1.42l-5.27,-0.86c-2.91,-0.47 -3.99,-1.97 -3.99,-3.99 0,-2.67 2.16,-4.27 5.31,-4.27h6.44c1.36,0 2.45,-0.46 2.96,-1.31Z" />
+</vector>
