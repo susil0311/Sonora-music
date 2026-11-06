@@ -182,6 +182,7 @@ import com.susil.sonora.ui.screens.HistoryScreen
 import com.susil.sonora.ui.screens.LibraryReplayEntry
 import com.susil.sonora.ui.screens.libraryDeviceItems
 import com.susil.sonora.ui.screens.SPOTIFY_BROWSE_ID
+import com.susil.sonora.ui.screens.PLAYLISTS_BROWSE_ID
 import com.susil.sonora.ui.screens.libraryLinks
 import com.susil.sonora.ui.screens.CACHE_FOLDER_BROWSE_ID
 import com.susil.sonora.ui.screens.ListenTogetherScreen
@@ -2226,6 +2227,14 @@ private fun SonoraApp(
     // card opens the same way from either.
     val onLibraryItemClick: (ShelfItem) -> Unit = { item ->
         item.browseId?.let { id ->
+            if (id == PLAYLISTS_BROWSE_ID) {
+                val shelf = (libraryState as? UiState.Success)
+                    ?.data
+                    ?.shelves
+                    ?.firstOrNull { it.title == YtMusicRepository.PLAYLISTS_SHELF }
+                if (shelf != null) navigator.push(AppRoute.LibraryShowAll(shelf))
+                return@let
+            }
             if (id == SPOTIFY_BROWSE_ID) {
                 navigator.push(AppRoute.Spotify)
                 return@let
@@ -5174,6 +5183,20 @@ private fun SonoraApp(
                             }
                             context.startActivity(Intent.createChooser(sendIntent, target.title))
                             browseActions = null
+                        }
+                    },
+                onShareCard = target.browseId
+                    ?.takeIf { id ->
+                        target.type == BrowseType.PLAYLIST &&
+                            detail?.browseId == id &&
+                            (detail?.songs as? UiState.Success<List<Song>>)?.data?.isNotEmpty() == true
+                    }
+                    ?.let {
+                        {
+                            detail?.let { page ->
+                                playlistSharePage = page
+                                browseActions = null
+                            }
                         }
                     },
                 isPinned = pinnableId != null && pinnableId in pinnedPlaylists,

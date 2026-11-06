@@ -145,8 +145,8 @@ private suspend fun renderPlaylistCard(context: Context, page: DetailPage, songs
         val artist = type.body(if (mode == PlaylistCardMode.STORY) 28f else 20f, 0xB3FFFFFF.toInt())
         canvas.drawText(ellipsised(song.artist, artist, width - margin * 2 - art - 24f), margin + art + 24f, y + 34f, artist)
     }
-    val brand = type.body(26f, 0xCCFFFFFF.toInt(), bold = true)
-    canvas.drawText("Sonora", width - margin - brand.measureText("Sonora"), height - 38f, brand)
+    val credit = type.body(24f, 0xA6FFFFFF.toInt()).apply { textAlign = android.graphics.Paint.Align.CENTER }
+    canvas.drawText("Shared from Sonora", width / 2f, height - 28f, credit)
     bitmap
 }
 

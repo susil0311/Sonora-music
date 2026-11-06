@@ -464,23 +464,10 @@ fun <T : Any> IosMenuPopover(
     val progress = remember { Animatable(0f) }
     LaunchedEffect(open) {
         if (open) {
-            // The opening frame is the heaviest the menu has: every row
-            // composed and measured, the player pausing its canvas, and the
-            // still the frost blurs taken and read back. Grown from that frame,
-            // the spring — which runs on the clock — jumps across it. So the
-            // panel waits, unseen, for that frame and the still to be done;
-            // not when it is coming back from part-way out. Only a still
-            // the panel will frost with is waited for: with no glass, or the
-            // blur reduced, none is taken.
-            if (progress.value == 0f) {
-                withFrameNanos { }
-                withFrameNanos { }
-                (backdrop as? SnapshotBackdrop)?.takeIf {
-                    isGlassSupported() && !AppSettings.effectiveReduceDynamicBlur.value
-                }?.let { still ->
-                    withTimeoutOrNull(STILL_WAIT_MS) { snapshotFlow { still.hasStill }.first { it } }
-                }
-            }
+            // Do not wait for the optional blur snapshot here. On a cold or
+            // rapidly changing page that snapshot can arrive late, leaving a
+            // perfectly composed menu at alpha zero and making the menu look
+            // blank. The panel can safely animate over the live backdrop.
             progress.animateTo(
                 1f,
                 if (reduceMotion) {

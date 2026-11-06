@@ -104,8 +104,10 @@ android {
         abi {
             isEnable = true
             reset()
-            include("armeabi-v7a", "arm64-v8a", "x86_64")
-            isUniversalApk = true
+            // Release distribution is intentionally arm64-only. Keeping the
+            // filter here makes local and CI builds produce the same artifact.
+            include("arm64-v8a")
+            isUniversalApk = false
         }
     }
 

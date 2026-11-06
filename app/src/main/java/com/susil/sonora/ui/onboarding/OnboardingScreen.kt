@@ -1,4 +1,4 @@
-﻿package com.susil.sonora.ui.onboarding
+package com.susil.sonora.ui.onboarding
 
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
@@ -459,7 +459,7 @@ private fun StampBanner(
     val reduceMotion = rememberReduceMotion()
     val measurer = rememberTextMeasurer()
     val notes = remember(measurer) {
-        listOf("â™ª", "â™«").map { measurer.measure(it, TextStyle(fontSize = 22.sp)) }
+        listOf("\u266A", "\u266B").map { measurer.measure(it, TextStyle(fontSize = 22.sp)) }
     }
     val sparks = remember {
         val rnd = kotlin.random.Random(11)

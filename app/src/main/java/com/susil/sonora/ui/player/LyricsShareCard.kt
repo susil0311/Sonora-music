@@ -83,21 +83,6 @@ internal suspend fun renderLyricsShareCard(
     val canvas = Canvas(bitmap)
     drawBackdrop(canvas, cover, 0f, cardH)
 
-    // ── Header ──────────────────────────────────────────────────────────────
-    // The mark alone, at the top right — the same one the Replay carries, so
-    // two of these cards still read as one family. Nothing else goes above
-    // the passage: the picture is the verse, not a caption for it.
-    val brand = type.heading(46f, 0xE6FFFFFF.toInt()).apply {
-        textAlign = Paint.Align.RIGHT
-    }
-    canvas.drawText(BRAND, CARD_W - CARD_MARGIN, HEADER_BASELINE, brand)
-    drawLogo(
-        canvas,
-        context,
-        CARD_W - CARD_MARGIN - brand.measureText(BRAND) - LOGO_GAP,
-        HEADER_BASELINE,
-    )
-
     // ── The passage ─────────────────────────────────────────────────────────
     // Every row that exists is drawn: the frame below is measured from
     // wherever these rows end, so there is never room to be short of and
@@ -121,6 +106,12 @@ internal suspend fun renderLyricsShareCard(
     canvas.drawText(ellipsised(card.song.title, title, room), textX, thumbY + 74f, title)
     val artist = type.body(42f, 0x99FFFFFF.toInt())
     canvas.drawText(ellipsised(card.song.artist, artist, room), textX, thumbY + 132f, artist)
+
+    // Keep the attribution quiet and out of the artwork/header.
+    val credit = type.body(CREDIT_SIZE, 0xA6FFFFFF.toInt()).apply {
+        textAlign = Paint.Align.CENTER
+    }
+    canvas.drawText("Shared from Sonora", CARD_W / 2f, cardH - CREDIT_BOTTOM, credit)
 
     bitmap
 }
@@ -266,12 +257,8 @@ private const val MAX_CARD_H = 1920f
 private const val CARD_MARGIN = 72f
 private const val CARD_CONTENT_W = CARD_W - CARD_MARGIN * 2
 
-private const val LOGO_GAP = 20f
-private const val BRAND = "Sonora"
-
-/** Baseline of the mark at the top right, and just under it where the gap starts. */
-private const val HEADER_BASELINE = 132f
-private const val HEADER_BOTTOM = 170f
+/** Header space above the passage. */
+private const val HEADER_BOTTOM = 0f
 
 /** Air kept between the fixed furniture and the passage, both ends alike. */
 private const val GAP_ABOVE_BODY = 20f
@@ -280,6 +267,8 @@ private const val GAP_BELOW_BODY = 20f
 /** The sleeve square in the footer, and the air kept under it. */
 private const val FOOTER_THUMB = 160f
 private const val FOOTER_PAD = 96f
+private const val CREDIT_SIZE = 24f
+private const val CREDIT_BOTTOM = 28f
 
 /** Smallest the translation line is allowed to get before it stops being legible. */
 private const val SUB_FLOOR = 24f

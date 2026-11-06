@@ -1,4 +1,4 @@
-﻿package com.susil.sonora.ui.screens
+package com.susil.sonora.ui.screens
 
 import com.susil.sonora.ui.icons.SfIcons
 import android.content.Intent
@@ -311,7 +311,7 @@ fun SourcesScreen(
             subtitle = if (webdavUrl.isBlank()) {
                 stringResource(R.string.webdav_not_configured)
             } else if (webdavUsername.isNotBlank()) {
-                "$webdavUrl Â· $webdavUsername"
+                "$webdavUrl \u00B7 $webdavUsername"
             } else {
                 webdavUrl
             },
@@ -336,9 +336,9 @@ fun SourcesScreen(
             subtitle = if (smbHost.isBlank() || smbShare.isBlank()) {
                 stringResource(R.string.smb_not_configured)
             } else if (smbUsername.isNotBlank()) {
-                "$smbHost Â· $smbShare Â· $smbUsername"
+                "$smbHost \u00B7 $smbShare \u00B7 $smbUsername"
             } else {
-                "$smbHost Â· $smbShare"
+                "$smbHost \u00B7 $smbShare"
             },
             listSubtitle = stringResource(R.string.smb_subtitle),
             disconnectTitle = stringResource(R.string.smb_disconnect),
@@ -989,12 +989,12 @@ private fun SourceConfig.statusLine(health: SourceHealth?): String = when {
     // Downloads are a line of their own under this one â€” see [SourceRow].
     health is SourceHealth.Ok -> listOfNotNull(
         health.detail,
-        kind.labels.take(3).joinToString(" Â· "),
-    ).joinToString(" Â· ")
+        kind.labels.take(3).joinToString(" \u00B7 "),
+    ).joinToString(" \u00B7 ")
     health is SourceHealth.Rejected -> health.reason
     health is SourceHealth.Unreachable -> stringResource(R.string.source_unreachable, health.reason)
     kind.needsServer -> stringResource(R.string.checking)
-    else -> kind.labels.take(3).joinToString(" Â· ")
+    else -> kind.labels.take(3).joinToString(" \u00B7 ")
 }
 
 /**
@@ -1078,7 +1078,7 @@ internal fun SourceEditorAlert(
                     connected,
                     found.kind.label,
                     health.detail,
-                ).joinToString(" Â· ")
+                ).joinToString(" \u00B7 ")
                 is SourceHealth.Rejected -> health.reason
                 is SourceHealth.Unreachable -> health.reason
             }

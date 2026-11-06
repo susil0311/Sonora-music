@@ -665,7 +665,8 @@ fun DetailScreen(
                 (page.subscriberCountText != null || page.monthlyListenerCount != null)
             // The header holds Apple's logo here, so the ink goes at the foot of the page instead.
             val aboutSignature = if (isArtist && appleArt?.logoUrl != null) signature else null
-            val showAbout = !description.isNullOrBlank() || hasStats || aboutSignature != null
+            val showAbout = (!description.isNullOrBlank() && page.type != BrowseType.PLAYLIST) ||
+                hasStats || aboutSignature != null
             fun LazyListScope.aboutItem() {
                 if (!showAbout) return
                 item(key = "about") {
@@ -679,7 +680,9 @@ fun DetailScreen(
                                 else -> R.string.about_album
                             },
                         ),
-                        text = description?.takeIf { it.isNotBlank() },
+                        text = description?.takeIf {
+                            it.isNotBlank() && page.type != BrowseType.PLAYLIST
+                        },
                         palette = palette,
                         horizontalPadding = if (isArtist) ARTIST_CONTENT_GUTTER else ABOUT_GUTTER,
                         stats = if (hasStats) {
@@ -939,6 +942,8 @@ private fun ReleaseHeader(
     onDownloadAll: (() -> Unit)? = null,
 ) {
     val (credit, meta) = page.headerLines(songs.size, songs.playtime())
+    val playlistDescription = page.description
+        ?.takeIf { page.type == BrowseType.PLAYLIST && it.isNotBlank() }
     // Every row on a release carries the same credit — see [pageCredit] — so
     // the first one speaks for the whole page, the same source the rows'
     // own long-press "Open artist" already reads from.
@@ -1094,19 +1099,18 @@ private fun ReleaseHeader(
                 modifier = Modifier.padding(horizontal = HEADER_GUTTER),
             )
         }
-        if (page.type == BrowseType.PLAYLIST && !page.description.isNullOrBlank()) {
+        if (playlistDescription != null) {
             Spacer(Modifier.height(10.dp))
             Text(
-                text = page.description!!,
+                text = playlistDescription,
                 style = MaterialTheme.typography.bodyMedium,
                 color = palette.onBackgroundVariant,
                 textAlign = TextAlign.Center,
-                maxLines = 3,
+                maxLines = 4,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(horizontal = HEADER_GUTTER),
             )
         }
-
         if (songs.isNotEmpty()) {
             // Only where YouTube said the release can be saved and the caller
             // is willing to take the write — see [onToggleLibrary].
