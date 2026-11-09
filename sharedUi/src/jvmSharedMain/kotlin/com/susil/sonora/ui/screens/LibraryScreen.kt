@@ -33,6 +33,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -331,13 +332,12 @@ private fun PlaylistLayoutSwitch(listMode: Boolean, onListModeChange: (Boolean) 
     val switchLabel = stringResource(
         if (listMode) Res.string.playlist_switch_to_grid else Res.string.playlist_switch_to_list,
     )
+    val selectedLabel = stringResource(
+        if (listMode) Res.string.playlist_list_selected else Res.string.playlist_grid_selected,
+    )
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.semantics {
-            stateDescription = stringResource(
-                if (listMode) Res.string.playlist_list_selected else Res.string.playlist_grid_selected,
-            )
-        },
+        modifier = Modifier.semantics { stateDescription = selectedLabel },
     ) {
         IconButton(
             onClick = { onListModeChange(!listMode) },
