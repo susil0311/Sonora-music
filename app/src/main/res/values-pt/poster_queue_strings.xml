@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Escolher músicas</string>
+    <string name="playlist_share_select_up_to">Escolha até %1$d músicas para o pôster no formato %2$s e organize a ordem.</string>
+    <string name="playlist_share_selected_count">%1$d de %2$d selecionadas</string>
+    <string name="playlist_share_select_all">Selecionar tudo</string>
+    <string name="playlist_share_clear_selection">Limpar</string>
+    <string name="playlist_share_continue">Continuar</string>
+    <string name="playlist_share_portrait">Retrato</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_move_up">Mover para cima</string>
+    <string name="playlist_share_move_down">Mover para baixo</string>
+    <string name="playlist_share_portrait_layout">retrato</string>
+    <string name="playlist_share_story_layout">story</string>
+    <string name="playlist_share_preview_description">Pôster de playlist no formato %1$s com %2$d músicas selecionadas</string>
+    <string name="playlist_share_chooser_title">Compartilhar playlist</string>
+    <string name="playlist_share_shared_from">Compartilhado pelo Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Salvar pôster da playlist</string>
+    <string name="playlist_share_share_poster">Compartilhar pôster da playlist</string>
+    <string name="playlist_share_song_selected_position">Selecionada, posição %1$d de %2$d</string>
+    <string name="playlist_share_not_selected">Não selecionada</string>
+    <string name="clear_queue_title">Remover as músicas que você adicionou?</string>
+    <string name="clear_queue_message">As músicas que você adicionou serão removidas da fila. A música atual e as músicas do álbum ou da reprodução automática serão mantidas.</string>
+    <string name="clear_queue_confirm">Limpar músicas da fila</string>
+    <string name="queue_cleared">Músicas da fila removidas</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Şarkıları seç</string>
+    <string name="playlist_share_select_up_to">%2$s poster için en fazla %1$d şarkı seç ve sıralarını düzenle.</string>
+    <string name="playlist_share_selected_count">%1$d / %2$d seçildi</string>
+    <string name="playlist_share_select_all">Tümünü seç</string>
+    <string name="playlist_share_clear_selection">Seçimi temizle</string>
+    <string name="playlist_share_continue">Devam</string>
+    <string name="playlist_share_portrait">Dikey</string>
+    <string name="playlist_share_story">Hikâye</string>
+    <string name="playlist_share_move_up">Yukarı taşı</string>
+    <string name="playlist_share_move_down">Aşağı taşı</string>
+    <string name="playlist_share_portrait_layout">dikey</string>
+    <string name="playlist_share_story_layout">hikâye</string>
+    <string name="playlist_share_preview_description">%2$d seçili şarkı içeren %1$s biçiminde çalma listesi posteri</string>
+    <string name="playlist_share_chooser_title">Çalma listesini paylaş</string>
+    <string name="playlist_share_shared_from">Sonora’dan paylaşıldı</string>
+    <string name="playlist_share_playlist_fallback">Çalma listesi</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Çalma listesi posterini kaydet</string>
+    <string name="playlist_share_share_poster">Çalma listesi posterini paylaş</string>
+    <string name="playlist_share_song_selected_position">Seçildi, %2$d içinde %1$d. sırada</string>
+    <string name="playlist_share_not_selected">Seçilmedi</string>
+    <string name="clear_queue_title">Eklediğin şarkılar kuyruktan silinsin mi?</string>
+    <string name="clear_queue_message">Kuyruğa eklediğin şarkılar kaldırılacak. Şu an çalan şarkı ve albüm ya da Otomatik Çalma müzikleri kalacak.</string>
+    <string name="clear_queue_confirm">Kuyruktaki şarkıları sil</string>
+    <string name="queue_cleared">Kuyruktaki şarkılar silindi</string>
+</resources>

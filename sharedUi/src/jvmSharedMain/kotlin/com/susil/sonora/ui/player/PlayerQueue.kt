@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,6 +70,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
@@ -341,6 +347,16 @@ internal fun InlineQueue(
                         )
                     }
                 }
+                if (!autoplayEnabled && tracks.user.isEmpty() && tracks.context.isEmpty() && tracks.autoplay.isEmpty()) {
+                    item(key = "queue-empty-upcoming") {
+                        Text(
+                            text = stringResource(Res.string.queue_empty_description),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White.copy(alpha = 0.62f),
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
+                        )
+                    }
+                }
                 if (tracks.user.isNotEmpty()) {
                     item(key = "header-user-queue") {
                         QueueHeading(
@@ -350,7 +366,7 @@ internal fun InlineQueue(
                             QueueClearButton(MaterialTheme.typography.labelLarge, controlsLocked, onClear)
                         }
                     }
-                    queueSection(tracks.user, QueueSection.USER, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.user, QueueSection.USER, drag, controlsLocked, onJumpTo, onRemove, onMove)
                 }
                 if (tracks.context.isNotEmpty()) {
                     item(key = "header-context") {
@@ -363,13 +379,13 @@ internal fun InlineQueue(
                             modifier = Modifier.padding(top = 16.dp, bottom = 6.dp).then(queueMotion()),
                         )
                     }
-                    queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, onJumpTo, onRemove, onMove)
                 }
                 if (autoplayEnabled || tracks.autoplay.isNotEmpty()) {
                     item(key = "autoplay-heading") {
                         AutoplayHeading(hasTracks = tracks.autoplay.isNotEmpty(), modifier = queueMotion())
                     }
-                    queueSection(tracks.autoplay, QueueSection.AUTOPLAY, drag, controlsLocked, onJumpTo, onRemove)
+                    queueSection(tracks.autoplay, QueueSection.AUTOPLAY, drag, controlsLocked, onJumpTo, onRemove, onMove)
                 }
             }
             // The held row, drawn over the list where the finger is. Positioned
@@ -405,8 +421,9 @@ private fun LazyListScope.queueSection(
     locked: Boolean,
     onJumpTo: (Int) -> Unit,
     onRemove: (Int) -> Unit,
+    onMove: (Int, Int) -> Unit,
 ) {
-    items(rows, key = { it.key }) { track ->
+    itemsIndexed(rows, key = { _, track -> track.key }) { position, track ->
         val held = drag.held?.key == track.key
         if (held) {
             // Scrolled far enough to be disposed, the row takes its gesture
@@ -420,6 +437,13 @@ private fun LazyListScope.queueSection(
             onRemove = { onRemove(track.timelineIndex) },
             locked = locked,
             draggable = !locked,
+            queuePosition = stringResource(Res.string.queue_track_position, position + 1, rows.size),
+            onMoveUp = rows.getOrNull(position - 1)?.let { previous ->
+                { onMove(track.timelineIndex, previous.timelineIndex) }
+            }.takeIf { !locked },
+            onMoveDown = rows.getOrNull(position + 1)?.let { next ->
+                { onMove(track.timelineIndex, next.timelineIndex) }
+            }.takeIf { !locked },
             onDragStart = { drag.start(track.key, section) },
             onDrag = drag::drag,
             onDragEnd = { drag.end(track.key) },
@@ -453,7 +477,7 @@ private fun QueueClearButton(style: TextStyle, locked: Boolean, onClear: () -> U
         color = Color.White.copy(alpha = if (locked) 0.25f else 0.75f),
         modifier = Modifier
             .clip(RoundedCornerShape(percent = 50))
-            .clickable(enabled = !locked, onClick = onClear)
+            .clickable(enabled = !locked, role = Role.Button, onClick = onClear)
             .padding(horizontal = 8.dp, vertical = 4.dp),
     )
 }
@@ -730,12 +754,17 @@ private fun InlineQueueRow(
     locked: Boolean = false,
     /** Shows the handle; drags on it go to the callbacks below. */
     draggable: Boolean = false,
+    queuePosition: String? = null,
+    onMoveUp: (() -> Unit)? = null,
+    onMoveDown: (() -> Unit)? = null,
     /** The copy drawn under the finger while the row is being moved. */
     lifted: Boolean = false,
     onDragStart: () -> Unit = {},
     onDrag: (Float) -> Unit = {},
     onDragEnd: () -> Unit = {},
 ) {
+    val moveUpLabel = onMoveUp?.let { stringResource(Res.string.queue_move_up) }
+    val moveDownLabel = onMoveDown?.let { stringResource(Res.string.queue_move_down) }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -743,7 +772,24 @@ private fun InlineQueueRow(
             .background(if (lifted) Color.White.copy(alpha = 0.06f) else Color.Transparent)
             // Disabled rather than ignored: a tap that ripples and then does
             // nothing reads as the app having missed it.
-            .clickable(enabled = !locked, onClick = onClick)
+            .clickable(enabled = !locked, role = Role.Button, onClick = onClick)
+            .semantics {
+                queuePosition?.let { stateDescription = it }
+                customActions = listOfNotNull(
+                    moveUpLabel?.let { label ->
+                        CustomAccessibilityAction(label) {
+                            onMoveUp?.invoke()
+                            true
+                        }
+                    },
+                    moveDownLabel?.let { label ->
+                        CustomAccessibilityAction(label) {
+                            onMoveDown?.invoke()
+                            true
+                        }
+                    },
+                )
+            }
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

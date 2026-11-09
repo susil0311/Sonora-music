@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">गाने चुनें</string>
+    <string name="playlist_share_select_up_to">%2$s पोस्टर के लिए अधिकतम %1$d गाने चुनें और उनका क्रम तय करें।</string>
+    <string name="playlist_share_selected_count">%2$d में से %1$d चुने गए</string>
+    <string name="playlist_share_select_all">सभी चुनें</string>
+    <string name="playlist_share_clear_selection">चयन हटाएँ</string>
+    <string name="playlist_share_continue">जारी रखें</string>
+    <string name="playlist_share_portrait">पोर्ट्रेट</string>
+    <string name="playlist_share_story">स्टोरी</string>
+    <string name="playlist_share_move_up">ऊपर करें</string>
+    <string name="playlist_share_move_down">नीचे करें</string>
+    <string name="playlist_share_portrait_layout">पोर्ट्रेट</string>
+    <string name="playlist_share_story_layout">स्टोरी</string>
+    <string name="playlist_share_preview_description">%1$s प्लेलिस्ट पोस्टर में %2$d चुने गए गाने</string>
+    <string name="playlist_share_chooser_title">प्लेलिस्ट शेयर करें</string>
+    <string name="playlist_share_shared_from">Sonora से शेयर किया गया</string>
+    <string name="playlist_share_playlist_fallback">प्लेलिस्ट</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">प्लेलिस्ट पोस्टर सेव करें</string>
+    <string name="playlist_share_share_poster">प्लेलिस्ट पोस्टर शेयर करें</string>
+    <string name="playlist_share_song_selected_position">चुना गया, स्थान %1$d / %2$d</string>
+    <string name="playlist_share_not_selected">चुना नहीं गया</string>
+    <string name="clear_queue_title">आपके जोड़े गए गाने हटाएँ?</string>
+    <string name="clear_queue_message">आपके जोड़े गए गाने कतार से हट जाएँगे। मौजूदा गाना और एल्बम या ऑटोप्ले का संगीत बना रहेगा।</string>
+    <string name="clear_queue_confirm">कतार के गाने हटाएँ</string>
+    <string name="queue_cleared">कतार के गाने हटाए गए</string>
+</resources>

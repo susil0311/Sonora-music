@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Choisir des titres</string>
+    <string name="playlist_share_select_up_to">Choisissez jusqu’à %1$d titres pour l’affiche au format %2$s, puis classez-les.</string>
+    <string name="playlist_share_selected_count">%1$d sur %2$d sélectionnés</string>
+    <string name="playlist_share_select_all">Tout sélectionner</string>
+    <string name="playlist_share_clear_selection">Effacer</string>
+    <string name="playlist_share_continue">Continuer</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_move_up">Monter</string>
+    <string name="playlist_share_move_down">Descendre</string>
+    <string name="playlist_share_portrait_layout">portrait</string>
+    <string name="playlist_share_story_layout">story</string>
+    <string name="playlist_share_preview_description">Affiche de playlist au format %1$s avec %2$d titres sélectionnés</string>
+    <string name="playlist_share_chooser_title">Partager la playlist</string>
+    <string name="playlist_share_shared_from">Partagé depuis Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Enregistrer l’affiche de la playlist</string>
+    <string name="playlist_share_share_poster">Partager l’affiche de la playlist</string>
+    <string name="playlist_share_song_selected_position">Sélectionné, position %1$d sur %2$d</string>
+    <string name="playlist_share_not_selected">Non sélectionné</string>
+    <string name="clear_queue_title">Effacer les titres ajoutés à la file d’attente ?</string>
+    <string name="clear_queue_message">Les titres ajoutés à la file seront retirés. Le titre en cours et la musique de l’album ou de la lecture automatique seront conservés.</string>
+    <string name="clear_queue_confirm">Effacer les titres en file</string>
+    <string name="queue_cleared">Titres en file supprimés</string>
+</resources>

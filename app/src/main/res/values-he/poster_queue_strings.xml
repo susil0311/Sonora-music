@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">בחירת שירים</string>
+    <string name="playlist_share_select_up_to">בחרו עד %1$d שירים לפוסטר בפורמט %2$s וסדרו אותם.</string>
+    <string name="playlist_share_selected_count">נבחרו %1$d מתוך %2$d</string>
+    <string name="playlist_share_select_all">בחירת הכול</string>
+    <string name="playlist_share_clear_selection">ניקוי הבחירה</string>
+    <string name="playlist_share_continue">המשך</string>
+    <string name="playlist_share_portrait">לאורך</string>
+    <string name="playlist_share_story">סטורי</string>
+    <string name="playlist_share_move_up">העברה למעלה</string>
+    <string name="playlist_share_move_down">העברה למטה</string>
+    <string name="playlist_share_portrait_layout">לאורך</string>
+    <string name="playlist_share_story_layout">סטורי</string>
+    <string name="playlist_share_preview_description">פוסטר פלייליסט בפורמט %1$s עם %2$d שירים שנבחרו</string>
+    <string name="playlist_share_chooser_title">שיתוף פלייליסט</string>
+    <string name="playlist_share_shared_from">שותף דרך Sonora</string>
+    <string name="playlist_share_playlist_fallback">פלייליסט</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">שמירת פוסטר הפלייליסט</string>
+    <string name="playlist_share_share_poster">שיתוף פוסטר הפלייליסט</string>
+    <string name="playlist_share_song_selected_position">נבחר, מיקום %1$d מתוך %2$d</string>
+    <string name="playlist_share_not_selected">לא נבחר</string>
+    <string name="clear_queue_title">למחוק את השירים שהוספת לתור?</string>
+    <string name="clear_queue_message">השירים שהוספת יוסרו מהתור. השיר הנוכחי והמוזיקה מהאלבום או מהפעלה אוטומטית יישארו.</string>
+    <string name="clear_queue_confirm">ניקוי השירים שבתור</string>
+    <string name="queue_cleared">השירים שבתור נוקו</string>
+</resources>

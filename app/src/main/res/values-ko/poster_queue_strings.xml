@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">노래 선택</string>
+    <string name="playlist_share_select_up_to">%2$s 포스터에 사용할 노래를 최대 %1$d곡 선택하고 순서를 정하세요.</string>
+    <string name="playlist_share_selected_count">%2$d곡 중 %1$d곡 선택됨</string>
+    <string name="playlist_share_select_all">모두 선택</string>
+    <string name="playlist_share_clear_selection">선택 해제</string>
+    <string name="playlist_share_continue">계속</string>
+    <string name="playlist_share_portrait">세로</string>
+    <string name="playlist_share_story">스토리</string>
+    <string name="playlist_share_move_up">위로 이동</string>
+    <string name="playlist_share_move_down">아래로 이동</string>
+    <string name="playlist_share_portrait_layout">세로</string>
+    <string name="playlist_share_story_layout">스토리</string>
+    <string name="playlist_share_preview_description">선택한 노래 %2$d곡이 포함된 %1$s 플레이리스트 포스터</string>
+    <string name="playlist_share_chooser_title">플레이리스트 공유</string>
+    <string name="playlist_share_shared_from">Sonora에서 공유</string>
+    <string name="playlist_share_playlist_fallback">플레이리스트</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">플레이리스트 포스터 저장</string>
+    <string name="playlist_share_share_poster">플레이리스트 포스터 공유</string>
+    <string name="playlist_share_song_selected_position">선택됨, %2$d곡 중 %1$d번째</string>
+    <string name="playlist_share_not_selected">선택되지 않음</string>
+    <string name="clear_queue_title">추가한 노래를 대기열에서 지울까요?</string>
+    <string name="clear_queue_message">직접 추가한 노래가 대기열에서 삭제됩니다. 현재 재생 중인 노래와 앨범 또는 자동 재생 음악은 유지됩니다.</string>
+    <string name="clear_queue_confirm">대기열 노래 지우기</string>
+    <string name="queue_cleared">대기열 노래를 지웠습니다</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">เลือกเพลง</string>
+    <string name="playlist_share_select_up_to">เลือกเพลงได้สูงสุด %1$d เพลงสำหรับโปสเตอร์รูปแบบ %2$s แล้วจัดลำดับเพลง</string>
+    <string name="playlist_share_selected_count">เลือกแล้ว %1$d จาก %2$d</string>
+    <string name="playlist_share_select_all">เลือกทั้งหมด</string>
+    <string name="playlist_share_clear_selection">ล้างการเลือก</string>
+    <string name="playlist_share_continue">ดำเนินการต่อ</string>
+    <string name="playlist_share_portrait">แนวตั้ง</string>
+    <string name="playlist_share_story">สตอรี่</string>
+    <string name="playlist_share_move_up">เลื่อนขึ้น</string>
+    <string name="playlist_share_move_down">เลื่อนลง</string>
+    <string name="playlist_share_portrait_layout">แนวตั้ง</string>
+    <string name="playlist_share_story_layout">สตอรี่</string>
+    <string name="playlist_share_preview_description">โปสเตอร์เพลย์ลิสต์รูปแบบ %1$s ที่เลือกไว้ %2$d เพลง</string>
+    <string name="playlist_share_chooser_title">แชร์เพลย์ลิสต์</string>
+    <string name="playlist_share_shared_from">แชร์จาก Sonora</string>
+    <string name="playlist_share_playlist_fallback">เพลย์ลิสต์</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">บันทึกโปสเตอร์เพลย์ลิสต์</string>
+    <string name="playlist_share_share_poster">แชร์โปสเตอร์เพลย์ลิสต์</string>
+    <string name="playlist_share_song_selected_position">เลือกแล้ว ลำดับที่ %1$d จาก %2$d</string>
+    <string name="playlist_share_not_selected">ยังไม่ได้เลือก</string>
+    <string name="clear_queue_title">ลบเพลงที่คุณเพิ่มออกจากคิวหรือไม่</string>
+    <string name="clear_queue_message">เพลงที่คุณเพิ่มจะถูกนำออกจากคิว เพลงปัจจุบันและเพลงจากอัลบั้มหรือเล่นอัตโนมัติจะยังอยู่</string>
+    <string name="clear_queue_confirm">ล้างเพลงในคิว</string>
+    <string name="queue_cleared">ล้างเพลงในคิวแล้ว</string>
+</resources>

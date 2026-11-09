@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">曲を選択</string>
+    <string name="playlist_share_select_up_to">%2$sポスターに使う曲を最大%1$d曲選び、順番を並べ替えます。</string>
+    <string name="playlist_share_selected_count">%2$d曲中%1$d曲を選択</string>
+    <string name="playlist_share_select_all">すべて選択</string>
+    <string name="playlist_share_clear_selection">選択を解除</string>
+    <string name="playlist_share_continue">続行</string>
+    <string name="playlist_share_portrait">縦向き</string>
+    <string name="playlist_share_story">ストーリー</string>
+    <string name="playlist_share_move_up">上へ移動</string>
+    <string name="playlist_share_move_down">下へ移動</string>
+    <string name="playlist_share_portrait_layout">縦向き</string>
+    <string name="playlist_share_story_layout">ストーリー</string>
+    <string name="playlist_share_preview_description">%1$s形式のプレイリストポスター（%2$d曲を選択）</string>
+    <string name="playlist_share_chooser_title">プレイリストを共有</string>
+    <string name="playlist_share_shared_from">Sonoraから共有</string>
+    <string name="playlist_share_playlist_fallback">プレイリスト</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">プレイリストポスターを保存</string>
+    <string name="playlist_share_share_poster">プレイリストポスターを共有</string>
+    <string name="playlist_share_song_selected_position">選択済み、%2$d曲中%1$d番目</string>
+    <string name="playlist_share_not_selected">未選択</string>
+    <string name="clear_queue_title">追加した曲をキューから削除しますか？</string>
+    <string name="clear_queue_message">自分で追加した曲をキューから削除します。再生中の曲とアルバムまたは自動再生の曲は残ります。</string>
+    <string name="clear_queue_confirm">キューの曲を削除</string>
+    <string name="queue_cleared">キューの曲を削除しました</string>
+</resources>

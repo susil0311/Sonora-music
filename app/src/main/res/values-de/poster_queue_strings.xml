@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Songs auswählen</string>
+    <string name="playlist_share_select_up_to">Wähle bis zu %1$d Songs für das Poster im Format %2$s und ordne sie.</string>
+    <string name="playlist_share_selected_count">%1$d von %2$d ausgewählt</string>
+    <string name="playlist_share_select_all">Alle auswählen</string>
+    <string name="playlist_share_clear_selection">Auswahl löschen</string>
+    <string name="playlist_share_continue">Weiter</string>
+    <string name="playlist_share_portrait">Hochformat</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_move_up">Nach oben</string>
+    <string name="playlist_share_move_down">Nach unten</string>
+    <string name="playlist_share_portrait_layout">Hochformat</string>
+    <string name="playlist_share_story_layout">Story</string>
+    <string name="playlist_share_preview_description">Playlist-Poster im Format %1$s mit %2$d ausgewählten Songs</string>
+    <string name="playlist_share_chooser_title">Playlist teilen</string>
+    <string name="playlist_share_shared_from">Geteilt über Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Playlist-Poster speichern</string>
+    <string name="playlist_share_share_poster">Playlist-Poster teilen</string>
+    <string name="playlist_share_song_selected_position">Ausgewählt, Position %1$d von %2$d</string>
+    <string name="playlist_share_not_selected">Nicht ausgewählt</string>
+    <string name="clear_queue_title">Hinzugefügte Songs aus der Warteschlange entfernen?</string>
+    <string name="clear_queue_message">Deine hinzugefügten Songs werden entfernt. Der aktuelle Song sowie Album- und AutoPlay-Musik bleiben erhalten.</string>
+    <string name="clear_queue_confirm">Vorgemerkte Songs entfernen</string>
+    <string name="queue_cleared">Vorgemerkte Songs entfernt</string>
+</resources>

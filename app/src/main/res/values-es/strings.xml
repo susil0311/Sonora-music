@@ -1428,6 +1428,19 @@
     <string name="bit_perfect_status_inexact">%1$s Â· no exacto: esta fuente no es PCM sin pÃ©rdida</string>
     <string name="bit_perfect_status_waiting">Esperando una pista sin pÃ©rdida en una salida compatible</string>
     <string name="bit_perfect_status_unavailable">No disponible para esta pista (%1$s)</string>
+    <string name="playlist_share_continue">Continue</string>
+    <string name="playlist_share_select_all">Select all</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_share_choose_songs">Choose songs</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_share_clear_selection">Clear</string>
 </resources>
+
 
 

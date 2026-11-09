@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="analysis_complete">analysiert</string>
     <string name="analysis_in_progress">wird analysiert…</string>
@@ -198,4 +198,11 @@
     <string name="search_library_empty">Durchsuche die Songs in deinem Ordner für lokale Musik.</string>
     <string name="search_library_hint">Songs, Künstler und Alben</string>
     <string name="search_library_no_results">Nichts in der lokalen Musik passt zu „%1$s“.</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
 </resources>
+

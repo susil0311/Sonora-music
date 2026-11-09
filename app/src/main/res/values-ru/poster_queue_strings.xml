@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Выбрать песни</string>
+    <string name="playlist_share_select_up_to">Выберите до %1$d песен для постера в формате %2$s и задайте их порядок.</string>
+    <string name="playlist_share_selected_count">Выбрано %1$d из %2$d</string>
+    <string name="playlist_share_select_all">Выбрать все</string>
+    <string name="playlist_share_clear_selection">Снять выбор</string>
+    <string name="playlist_share_continue">Продолжить</string>
+    <string name="playlist_share_portrait">Портрет</string>
+    <string name="playlist_share_story">История</string>
+    <string name="playlist_share_move_up">Переместить вверх</string>
+    <string name="playlist_share_move_down">Переместить вниз</string>
+    <string name="playlist_share_portrait_layout">портрет</string>
+    <string name="playlist_share_story_layout">история</string>
+    <string name="playlist_share_preview_description">Постер плейлиста в формате %1$s, выбрано песен: %2$d</string>
+    <string name="playlist_share_chooser_title">Поделиться плейлистом</string>
+    <string name="playlist_share_shared_from">Поделились из Sonora</string>
+    <string name="playlist_share_playlist_fallback">Плейлист</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Сохранить постер плейлиста</string>
+    <string name="playlist_share_share_poster">Поделиться постером плейлиста</string>
+    <string name="playlist_share_song_selected_position">Выбрано, позиция %1$d из %2$d</string>
+    <string name="playlist_share_not_selected">Не выбрано</string>
+    <string name="clear_queue_title">Удалить добавленные песни из очереди?</string>
+    <string name="clear_queue_message">Добавленные вами песни будут удалены из очереди. Текущая песня и музыка альбома или автопроигрывания останутся.</string>
+    <string name="clear_queue_confirm">Очистить очередь</string>
+    <string name="queue_cleared">Песни удалены из очереди</string>
+</resources>

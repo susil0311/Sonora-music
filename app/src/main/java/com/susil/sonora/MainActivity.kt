@@ -1100,9 +1100,15 @@ private fun SonoraApp(
     val controlsLocked = partyState.controlsLocked
     var queueNotice by remember { mutableStateOf<QueueActionNotice?>(null) }
     var queueNoticeId by remember { mutableIntStateOf(0) }
-    val showQueueNotice: (String) -> Unit = { message ->
+    var showClearQueueConfirmation by remember { mutableStateOf(false) }
+    fun showQueueNotice(message: String, action: (() -> Unit)? = null) {
         queueNoticeId += 1
-        queueNotice = QueueActionNotice(queueNoticeId, message)
+        queueNotice = QueueActionNotice(
+            id = queueNoticeId,
+            message = message,
+            actionLabel = action?.let { context.getString(R.string.undo) },
+            onAction = action,
+        )
     }
     LaunchedEffect(queueNotice?.id) {
         val shown = queueNotice ?: return@LaunchedEffect
@@ -2639,7 +2645,22 @@ private fun SonoraApp(
                     c.play()
                 }
             },
-            onRemoveFromQueue = { controller?.removeMediaItem(it) },
+            onRemoveFromQueue = { index ->
+                controller?.let { c ->
+                    if (index in 0 until c.mediaItemCount) {
+                        val removed = c.getMediaItemAt(index)
+                        c.removeMediaItem(index)
+                        showQueueNotice(context.getString(R.string.removed_from_queue)) {
+                            val alreadyPresent = (0 until c.mediaItemCount).any {
+                                c.getMediaItemAt(it).mediaId == removed.mediaId
+                            }
+                            if (!alreadyPresent) {
+                                c.addMediaItem(index.coerceAtMost(c.mediaItemCount), removed)
+                            }
+                        }
+                    }
+                }
+            },
             onMoveInQueue = { from, to -> controller?.moveMediaItem(from, to) },
             onQueueDragActiveChange = { active -> controller?.setQueueDragActive(active) },
             // The enriched copy, not player.song — otherwise the menu
@@ -2768,10 +2789,7 @@ private fun SonoraApp(
                 navigator.pushAll(AppRoute.Settings, AppRoute.ListenTogether)
             },
             onClearQueue = {
-                // Keep what's playing and context/autoplay; drop user-queued tracks.
-                controller?.let { c ->
-                    QueueCoordinator.clearUserQueue(c)
-                }
+                showClearQueueConfirmation = true
             },
         )
     }
@@ -2970,6 +2988,8 @@ private fun SonoraApp(
                                     } else {
                                         null
                                     },
+                                    listMode = AppSettings.playlistListMode.collectAsStateWithLifecycle().value,
+                                    onListModeChange = AppSettings::setPlaylistListMode,
                                     contentPadding = listPadding,
                                 )
                             }
@@ -3692,10 +3712,12 @@ private fun SonoraApp(
                                 refreshing = MainViewModel.Feed.LIBRARY in refreshing,
                                 onRefresh = { viewModel.refresh(MainViewModel.Feed.LIBRARY) },
                                 pullState = libraryPull,
-                                contentPadding = listPadding,
-                                links = libraryLinks(),
-                                deviceItems = libraryDeviceItems(downloadedReleases) + localPlaylistItems,
-                            )
+          contentPadding = listPadding,
+          links = libraryLinks(),
+          deviceItems = libraryDeviceItems(downloadedReleases) + localPlaylistItems,
+          playlistListMode = AppSettings.playlistListMode.collectAsStateWithLifecycle().value,
+          onPlaylistListModeChange = AppSettings::setPlaylistListMode,
+      )
                         }
                     }
                     // A pushed page keeps its saved state — a scroll position,
@@ -4866,6 +4888,8 @@ private fun SonoraApp(
                     PlaylistShareSheet(
                         page = sharedPage,
                         songs = sharedSongs,
+                        accountName = account?.name.orEmpty(),
+                        accountAvatarUrl = account?.thumbnailUrl,
                         onDismiss = { playlistSharePage = null },
                     )
                 }
@@ -5441,6 +5465,32 @@ private fun SonoraApp(
                     )
                 }
             }
+        }
+
+        if (showClearQueueConfirmation) {
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { showClearQueueConfirmation = false },
+                title = { Text(stringResource(R.string.clear_queue_title)) },
+                text = { Text(stringResource(R.string.clear_queue_message)) },
+                confirmButton = {
+                    androidx.compose.material3.TextButton(
+                        onClick = {
+                            showClearQueueConfirmation = false
+                            controller?.let { currentController ->
+                                QueueCoordinator.clearUserQueue(currentController)
+                                showQueueNotice(context.getString(R.string.queue_cleared))
+                            }
+                        },
+                    ) {
+                        Text(stringResource(R.string.clear_queue_confirm))
+                    }
+                },
+                dismissButton = {
+                    androidx.compose.material3.TextButton(onClick = { showClearQueueConfirmation = false }) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+            )
         }
 
         // ---- Update available (once per launch; held until the welcome is done) ----

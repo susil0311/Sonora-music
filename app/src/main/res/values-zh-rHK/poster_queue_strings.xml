@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">選擇歌曲</string>
+    <string name="playlist_share_select_up_to">為 %2$s 海報選擇最多 %1$d 首歌曲並調整次序。</string>
+    <string name="playlist_share_selected_count">已選擇 %1$d/%2$d 首</string>
+    <string name="playlist_share_select_all">全選</string>
+    <string name="playlist_share_clear_selection">清除選擇</string>
+    <string name="playlist_share_continue">繼續</string>
+    <string name="playlist_share_portrait">直向</string>
+    <string name="playlist_share_story">動態</string>
+    <string name="playlist_share_move_up">上移</string>
+    <string name="playlist_share_move_down">下移</string>
+    <string name="playlist_share_portrait_layout">直向</string>
+    <string name="playlist_share_story_layout">動態</string>
+    <string name="playlist_share_preview_description">%1$s播放清單海報，已選擇%2$d首歌曲</string>
+    <string name="playlist_share_chooser_title">分享播放清單</string>
+    <string name="playlist_share_shared_from">透過 Sonora 分享</string>
+    <string name="playlist_share_playlist_fallback">播放清單</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">儲存播放清單海報</string>
+    <string name="playlist_share_share_poster">分享播放清單海報</string>
+    <string name="playlist_share_song_selected_position">已選擇，第 %1$d 首，共 %2$d 首</string>
+    <string name="playlist_share_not_selected">未選擇</string>
+    <string name="clear_queue_title">清除你新增的歌曲？</string>
+    <string name="clear_queue_message">你新增的歌曲會從佇列中移除。目前播放的歌曲以及專輯或自動播放的音樂會保留。</string>
+    <string name="clear_queue_confirm">清除佇列歌曲</string>
+    <string name="queue_cleared">已清除佇列歌曲</string>
+</resources>

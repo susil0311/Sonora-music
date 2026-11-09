@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Scegli brani</string>
+    <string name="playlist_share_select_up_to">Seleziona fino a %1$d brani per il poster in formato %2$s e ordinali.</string>
+    <string name="playlist_share_selected_count">%1$d di %2$d selezionati</string>
+    <string name="playlist_share_select_all">Seleziona tutto</string>
+    <string name="playlist_share_clear_selection">Cancella selezione</string>
+    <string name="playlist_share_continue">Continua</string>
+    <string name="playlist_share_portrait">Verticale</string>
+    <string name="playlist_share_story">Storia</string>
+    <string name="playlist_share_move_up">Sposta in alto</string>
+    <string name="playlist_share_move_down">Sposta in basso</string>
+    <string name="playlist_share_portrait_layout">verticale</string>
+    <string name="playlist_share_story_layout">storia</string>
+    <string name="playlist_share_preview_description">Poster playlist in formato %1$s con %2$d brani selezionati</string>
+    <string name="playlist_share_chooser_title">Condividi playlist</string>
+    <string name="playlist_share_shared_from">Condiviso da Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Salva il poster della playlist</string>
+    <string name="playlist_share_share_poster">Condividi il poster della playlist</string>
+    <string name="playlist_share_song_selected_position">Selezionato, posizione %1$d di %2$d</string>
+    <string name="playlist_share_not_selected">Non selezionato</string>
+    <string name="clear_queue_title">Rimuovere i brani aggiunti?</string>
+    <string name="clear_queue_message">I brani aggiunti da te verranno rimossi dalla coda. Il brano corrente e la musica dell’album o della riproduzione automatica resteranno.</string>
+    <string name="clear_queue_confirm">Rimuovi brani dalla coda</string>
+    <string name="queue_cleared">Brani in coda rimossi</string>
+</resources>

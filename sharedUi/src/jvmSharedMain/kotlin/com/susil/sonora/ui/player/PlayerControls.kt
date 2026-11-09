@@ -100,7 +100,9 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.font.FontWeight
@@ -604,7 +606,8 @@ internal fun PlayerActionRow(
         // hold still as they swap. A lone output glyph is spaced as though the
         // two-up capsule held it — closer in, without crowding — and they part
         // again as the queue opens to make room.
-        val edgeInset = ((maxWidth - BOTTOM_ACTION_SIZE * 2 - pillWidth(3)) / 4).coerceAtLeast(0.dp)
+        val edgeInset = ((maxWidth - BOTTOM_ACTION_SIZE * (if (queueOpen) 2 else 3) - pillWidth(3)) /
+            (if (queueOpen) 4 else 6)).coerceAtLeast(0.dp)
         val compactInset = ((maxWidth - BOTTOM_ACTION_SIZE * 2 - pillWidth(2)) / 4).coerceAtLeast(0.dp)
         val closeIn = compactInset - edgeInset
         // Held as State and read only in the glyphs' placement, so the slide
@@ -620,10 +623,12 @@ internal fun PlayerActionRow(
             modifier = Modifier.fillMaxWidth().padding(horizontal = edgeInset),
             contentAlignment = Alignment.Center,
         ) {
-            Box(
-                Modifier
+            Row(
+                modifier = Modifier
                     .align(Alignment.CenterStart)
                     .offset { IntOffset((closeIn.toPx() * compactness.value).roundToInt(), 0) },
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 BottomGlyph(
                     icon = SonoraIcons.LyricsQuote,
@@ -634,6 +639,22 @@ internal fun PlayerActionRow(
                     highlighted = lyricsOpen,
                     vibrant = true,
                 )
+                if (!queueOpen) {
+                    BottomGlyph(
+                        icon = if (repeatMode == RepeatModes.ONE) null else SonoraIcons.Repeat,
+                        label = if (repeatMode == RepeatModes.ONE) "1" else null,
+                        contentDescription = stringResource(Res.string.repeat_mode),
+                        stateDescription = when (repeatMode) {
+                            RepeatModes.ONE -> stringResource(Res.string.repeat_one)
+                            RepeatModes.ALL -> stringResource(Res.string.repeat_all)
+                            else -> stringResource(Res.string.repeat_off)
+                        },
+                        onClick = onCycleRepeat,
+                        highlighted = repeatMode != RepeatModes.OFF,
+                        haptic = Haptic.Select,
+                        vibrant = true,
+                    )
+                }
             }
             AnimatedContent(
                 targetState = queueOpen,
@@ -664,7 +685,8 @@ internal fun PlayerActionRow(
                         PillSegment(
                             icon = if (repeatMode == RepeatModes.ONE) null else SonoraIcons.Repeat,
                             label = if (repeatMode == RepeatModes.ONE) "1" else null,
-                            contentDescription = when (repeatMode) {
+                            contentDescription = stringResource(Res.string.repeat_mode),
+                            stateDescription = when (repeatMode) {
                                 RepeatModes.ONE -> stringResource(Res.string.repeat_one)
                                 RepeatModes.ALL -> stringResource(Res.string.repeat_all)
                                 else -> stringResource(Res.string.repeat_off)
@@ -1059,6 +1081,7 @@ private data class OutputGlyph(val icon: ImageVector, val size: Dp = PILL_OUTPUT
 private fun PillSegment(
     contentDescription: String,
     onClick: () -> Unit,
+    stateDescription: String? = null,
     icon: ImageVector? = null,
     iconSize: Dp = PILL_ICON_SIZE,
     label: String? = null,
@@ -1087,6 +1110,7 @@ private fun PillSegment(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 enabled = !loading,
+                role = Role.Button,
             ) {
                 val now = uptimeMillis()
                 if (now - lastTap.longValue >= tapWindowMs) {
@@ -1095,7 +1119,10 @@ private fun PillSegment(
                     onClick()
                 }
             }
-            .semantics { this.contentDescription = contentDescription },
+            .semantics {
+                this.contentDescription = contentDescription
+                stateDescription?.let { this.stateDescription = it }
+            },
         contentAlignment = Alignment.Center,
     ) {
         val tint = if (vibrant && chrome) {
@@ -1272,6 +1299,7 @@ private fun BottomGlyph(
     icon: ImageVector?,
     contentDescription: String,
     onClick: () -> Unit,
+    stateDescription: String? = null,
     highlighted: Boolean = false,
     haptic: Haptic = Haptic.Tap,
     label: String? = null,
@@ -1330,6 +1358,7 @@ private fun BottomGlyph(
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
+                role = Role.Button,
             ) {
                 val now = uptimeMillis()
                 if (now - lastTap.longValue >= tapWindowMs) {
@@ -1338,7 +1367,10 @@ private fun BottomGlyph(
                     onClick()
                 }
             }
-            .semantics { this.contentDescription = contentDescription },
+            .semantics {
+                this.contentDescription = contentDescription
+                stateDescription?.let { this.stateDescription = it }
+            },
         contentAlignment = Alignment.Center,
     ) {
         // Not while lit: the tile's cut-out needs the glyph drawn plainly in the

@@ -53,6 +53,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.susil.sonora.data.stats.ReplaySummary
@@ -212,6 +216,9 @@ internal fun ShareAction(
     saved: Boolean = false,
     /** What it says once [saved]; falls back to [label] when null. */
     savedLabel: String? = null,
+    /** A more descriptive label for callers that share a specific kind of image. */
+    accessibilityLabel: String? = null,
+    accessibilityState: String? = null,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -227,7 +234,11 @@ internal fun ShareAction(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
             .background(background.copy(alpha = if (enabled) 1f else 0.4f))
-            .clickable(enabled = enabled, onClick = onClick)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .semantics {
+                accessibilityLabel?.let { contentDescription = it }
+                accessibilityState?.let { stateDescription = it }
+            }
             // The sides carried nothing but the label's own advance, so the
             // words sat against the pill's edges; the vertical rhythm is the
             // one the Replay's buttons use.

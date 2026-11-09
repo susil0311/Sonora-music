@@ -25,6 +25,11 @@
     <string name="channel_count">%1$d ch</string>
     <string name="choose_lyrics_provider">Choose lyrics provider</string>
     <string name="clear">Clear</string>
+    <string name="queue_empty_description">Nothing is coming up. Add songs from a playlist or album to keep listening.</string>
+    <string name="queue_track_position">Position %1$d of %2$d</string>
+    <string name="queue_move_up">Move this song earlier in the queue</string>
+    <string name="queue_move_down">Move this song later in the queue</string>
+    <string name="repeat_mode">Repeat mode</string>
     <string name="close_lyrics">Close lyrics</string>
     <string name="data_saver">Data-Saver</string>
     <string name="decrease_lyrics_offset">Decrease lyrics offset</string>
@@ -153,6 +158,12 @@
     <string name="playlist">playlist</string>
     <string name="playlist_action">Playlist</string>
     <string name="playlists">Playlists</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_list_selected">List view selected</string>
     <string name="recent_search_edit">Edit “%1$s”</string>
     <string name="recent_search_remove">Remove “%1$s” from recent searches</string>
     <string name="recent_searches">Recent searches</string>

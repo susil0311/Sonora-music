@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Wybierz utwory</string>
+    <string name="playlist_share_select_up_to">Wybierz maksymalnie %1$d utworów na plakat w formacie %2$s i ustal ich kolejność.</string>
+    <string name="playlist_share_selected_count">Wybrano %1$d z %2$d</string>
+    <string name="playlist_share_select_all">Zaznacz wszystkie</string>
+    <string name="playlist_share_clear_selection">Wyczyść wybór</string>
+    <string name="playlist_share_continue">Dalej</string>
+    <string name="playlist_share_portrait">Pionowy</string>
+    <string name="playlist_share_story">Relacja</string>
+    <string name="playlist_share_move_up">Przenieś w górę</string>
+    <string name="playlist_share_move_down">Przenieś w dół</string>
+    <string name="playlist_share_portrait_layout">pionowy</string>
+    <string name="playlist_share_story_layout">relacja</string>
+    <string name="playlist_share_preview_description">Plakat playlisty w formacie %1$s z %2$d wybranymi utworami</string>
+    <string name="playlist_share_chooser_title">Udostępnij playlistę</string>
+    <string name="playlist_share_shared_from">Udostępniono z Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlista</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Zapisz plakat playlisty</string>
+    <string name="playlist_share_share_poster">Udostępnij plakat playlisty</string>
+    <string name="playlist_share_song_selected_position">Wybrany, pozycja %1$d z %2$d</string>
+    <string name="playlist_share_not_selected">Nie wybrano</string>
+    <string name="clear_queue_title">Usunąć dodane utwory z kolejki?</string>
+    <string name="clear_queue_message">Dodane przez Ciebie utwory zostaną usunięte z kolejki. Bieżący utwór oraz muzyka z albumu lub autoodtwarzania pozostaną.</string>
+    <string name="clear_queue_confirm">Wyczyść kolejkę</string>
+    <string name="queue_cleared">Utwory z kolejki usunięte</string>
+</resources>

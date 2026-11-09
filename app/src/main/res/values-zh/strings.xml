@@ -1433,6 +1433,19 @@
     <string name="bit_perfect_status_inexact">%1$s Â· ä¸ç²¾ç¡®ï¼šæ­¤éŸ³æºä¸æ˜¯æ— æŸ PCM</string>
     <string name="bit_perfect_status_waiting">æ­£åœ¨ç­‰å¾…å—æ”¯æŒè¾“å‡ºä¸Šçš„æ— æŸæ›²ç›®</string>
     <string name="bit_perfect_status_unavailable">æ­¤æ›²ç›®ä¸å¯ç”¨ï¼ˆ%1$sï¼‰</string>
+    <string name="playlist_share_continue">Continue</string>
+    <string name="playlist_share_select_all">Select all</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_share_choose_songs">Choose songs</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_share_clear_selection">Clear</string>
 </resources>
+
 
 

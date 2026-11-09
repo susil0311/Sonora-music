@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="analysis_complete">анализ завершён</string>
     <string name="analysis_in_progress">анализируется…</string>
@@ -198,4 +198,11 @@
     <string name="search_library_empty">Поиск треков в папке локальной музыки.</string>
     <string name="search_library_hint">Треки, исполнители и альбомы</string>
     <string name="search_library_no_results">В локальной музыке нет ничего, совпадающего с «%1$s».</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
 </resources>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Pilih lagu</string>
+    <string name="playlist_share_select_up_to">Pilih hingga %1$d lagu untuk poster %2$s, lalu atur urutannya.</string>
+    <string name="playlist_share_selected_count">%1$d dari %2$d dipilih</string>
+    <string name="playlist_share_select_all">Pilih semua</string>
+    <string name="playlist_share_clear_selection">Hapus pilihan</string>
+    <string name="playlist_share_continue">Lanjutkan</string>
+    <string name="playlist_share_portrait">Potret</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_move_up">Pindah ke atas</string>
+    <string name="playlist_share_move_down">Pindah ke bawah</string>
+    <string name="playlist_share_portrait_layout">potret</string>
+    <string name="playlist_share_story_layout">story</string>
+    <string name="playlist_share_preview_description">Poster playlist format %1$s dengan %2$d lagu dipilih</string>
+    <string name="playlist_share_chooser_title">Bagikan playlist</string>
+    <string name="playlist_share_shared_from">Dibagikan dari Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Simpan poster playlist</string>
+    <string name="playlist_share_share_poster">Bagikan poster playlist</string>
+    <string name="playlist_share_song_selected_position">Dipilih, posisi %1$d dari %2$d</string>
+    <string name="playlist_share_not_selected">Belum dipilih</string>
+    <string name="clear_queue_title">Hapus lagu yang Anda tambahkan?</string>
+    <string name="clear_queue_message">Lagu yang Anda tambahkan akan dihapus dari antrean. Lagu saat ini dan musik album atau Putar Otomatis akan tetap ada.</string>
+    <string name="clear_queue_confirm">Hapus lagu dalam antrean</string>
+    <string name="queue_cleared">Lagu dalam antrean dihapus</string>
+</resources>

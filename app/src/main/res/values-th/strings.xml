@@ -1439,6 +1439,19 @@
     <string name="bit_perfect_status_inexact">%1$s Â· à¹„à¸¡à¹ˆà¸•à¸£à¸‡à¸—à¸¸à¸à¸šà¸´à¸•: à¹à¸«à¸¥à¹ˆà¸‡à¸™à¸µà¹‰à¹„à¸¡à¹ˆà¹ƒà¸Šà¹ˆ PCM à¹à¸šà¸šà¹„à¸¡à¹ˆà¸ªà¸¹à¸à¹€à¸ªà¸µà¸¢à¸„à¸¸à¸“à¸ à¸²à¸ž</string>
     <string name="bit_perfect_status_waiting">à¸à¸³à¸¥à¸±à¸‡à¸£à¸­à¹à¸—à¸£à¹‡à¸à¹à¸šà¸šà¹„à¸¡à¹ˆà¸ªà¸¹à¸à¹€à¸ªà¸µà¸¢à¸„à¸¸à¸“à¸ à¸²à¸žà¸šà¸™à¹€à¸­à¸²à¸•à¹Œà¸žà¸¸à¸•à¸—à¸µà¹ˆà¸£à¸­à¸‡à¸£à¸±à¸š</string>
     <string name="bit_perfect_status_unavailable">à¹„à¸¡à¹ˆà¸žà¸£à¹‰à¸­à¸¡à¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¸ªà¸³à¸«à¸£à¸±à¸šà¹à¸—à¸£à¹‡à¸à¸™à¸µà¹‰ (%1$s)</string>
+    <string name="playlist_share_continue">Continue</string>
+    <string name="playlist_share_select_all">Select all</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_share_choose_songs">Choose songs</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_share_clear_selection">Clear</string>
 </resources>
+
 
 

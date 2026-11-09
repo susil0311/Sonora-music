@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -24,8 +25,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import com.susil.sonora.ui.components.ShelfRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -36,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.ViewList
@@ -48,6 +52,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -66,6 +73,7 @@ import com.susil.sonora.ui.components.PullToRefresh
 import com.susil.sonora.ui.components.SHELF_CARD_WIDTH
 import com.susil.sonora.ui.components.libraryGrid
 import com.susil.sonora.ui.components.librarySkeleton
+import coil3.compose.AsyncImage
 
 /**
  * The signed-in library: the saved collections, as shelves of cards.
@@ -123,6 +131,9 @@ fun LibraryScreen(
     deviceItems: List<ShelfItem>,
     /** The big "Library" heading; the desktop's pages carry none. */
     showTitle: Boolean = true,
+    /** Persisted by the Android host so the choice survives tab recreation. */
+    playlistListMode: Boolean = false,
+    onPlaylistListModeChange: (Boolean) -> Unit = {},
 ) {
     val pinnedPlaylists by AppUi.host.pinnedPlaylists.collectAsStateWithLifecycle()
     val onDevice = stringResource(Res.string.on_device)
@@ -172,6 +183,8 @@ fun LibraryScreen(
                         onNewPlaylist = onNewPlaylist,
                         onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                         onShowAll = { onShowAll(emptyPlaylists) },
+                        listMode = playlistListMode,
+                        onListModeChange = onPlaylistListModeChange,
                     )
                 }
                 item {
@@ -204,6 +217,8 @@ fun LibraryScreen(
                                 onNewPlaylist = onNewPlaylist,
                                 onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                                 onShowAll = { onShowAll(emptyPlaylists) },
+                                listMode = playlistListMode,
+                                onListModeChange = onPlaylistListModeChange,
                             )
                         }
                     }
@@ -219,6 +234,8 @@ fun LibraryScreen(
                                     onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                                     onShowAll = { onShowAll(pinnedFirst) },
                                     pinnedPlaylists = pinnedPlaylists,
+                                    listMode = playlistListMode,
+                                    onListModeChange = onPlaylistListModeChange,
                                 )
                             } else {
                                 LibraryGridShelf(
@@ -310,6 +327,34 @@ private val LINK_ICON_GAP = 16.dp
  * the queue actions every other shelf's menu offers.
  */
 @Composable
+private fun PlaylistLayoutSwitch(listMode: Boolean, onListModeChange: (Boolean) -> Unit) {
+    val switchLabel = stringResource(
+        if (listMode) Res.string.playlist_switch_to_grid else Res.string.playlist_switch_to_list,
+    )
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.semantics {
+            stateDescription = stringResource(
+                if (listMode) Res.string.playlist_list_selected else Res.string.playlist_grid_selected,
+            )
+        },
+    ) {
+        IconButton(
+            onClick = { onListModeChange(!listMode) },
+            modifier = Modifier.semantics { stateDescription = switchLabel },
+        ) {
+            Icon(
+                imageVector = if (listMode) Icons.Rounded.GridView else Icons.Rounded.ViewList,
+                contentDescription = switchLabel,
+            )
+        }
+        TextButton(onClick = { onListModeChange(!listMode) }) {
+            Text(switchLabel)
+        }
+    }
+}
+
+@Composable
 private fun PlaylistShelf(
     shelf: HomeShelf,
     onItemClick: (ShelfItem) -> Unit,
@@ -318,8 +363,9 @@ private fun PlaylistShelf(
     onImportSpotifyPlaylist: (() -> Unit)? = null,
     onShowAll: () -> Unit,
     pinnedPlaylists: List<String> = emptyList(),
+    listMode: Boolean = false,
+    onListModeChange: (Boolean) -> Unit = {},
 ) {
-    var listMode by rememberSaveable { mutableStateOf(false) }
     if (listMode) {
         Column(Modifier.padding(bottom = 26.dp)) {
             Row(
@@ -334,9 +380,7 @@ private fun PlaylistShelf(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.weight(1f),
                 )
-                IconButton(onClick = { listMode = false }) {
-                    Icon(Icons.Rounded.GridView, contentDescription = null)
-                }
+                PlaylistLayoutSwitch(listMode, onListModeChange)
                 Text(
                     text = stringResource(Res.string.show_all),
                     style = MaterialTheme.typography.titleSmall,
@@ -392,7 +436,7 @@ private fun PlaylistShelf(
         onItemLongPress = onItemLongPress,
         onShowAll = onShowAll,
         pinnedPlaylists = pinnedPlaylists,
-        onTogglePlaylistView = { listMode = true },
+        onTogglePlaylistView = { onListModeChange(true) },
         leadingCard = {
             Row(horizontalArrangement = Arrangement.spacedBy(LIBRARY_GRID_SPACING)) {
                 NewShelfCard(
@@ -460,9 +504,7 @@ internal fun LibraryGridShelf(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.weight(1f),
                 )
-                IconButton(onClick = onTogglePlaylistView) {
-                    Icon(Icons.Rounded.ViewList, contentDescription = null)
-                }
+                PlaylistLayoutSwitch(false) { onTogglePlaylistView() }
                 if (shelf.items.size + leadingCount > LIBRARY_ROW_MAX_ITEMS) {
                     Text(
                         text = stringResource(Res.string.show_all),
@@ -503,6 +545,8 @@ fun LibraryGridPage(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
     onNewPlaylist: (() -> Unit)? = null,
+    listMode: Boolean = false,
+    onListModeChange: (Boolean) -> Unit = {},
 ) {
     // Re-read live rather than trusting [shelf] to already be sorted: this page
     // is opened from a snapshot (see `AppRoute.LibraryShowAll`), and a
@@ -514,6 +558,84 @@ fun LibraryGridPage(
     // more deliberate signal than a pin and is left to reorder the whole grid,
     // pinned cards included.
     val sortedShelf = shelf.pinnedFirst(pinnedPlaylists).sortedForLibrary(librarySort)
+    if (onNewPlaylist != null && listMode) {
+        LazyColumn(
+            state = rememberLazyListState(),
+            modifier = modifier.fillMaxSize(),
+            contentPadding = contentPadding,
+        ) {
+            item(key = "playlist-layout-header") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = PAGE_GUTTER, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = shelf.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.weight(1f),
+                    )
+                    PlaylistLayoutSwitch(listMode, onListModeChange)
+                }
+            }
+            item(key = "leading") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onNewPlaylist)
+                        .padding(horizontal = PAGE_GUTTER, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(SonoraIcons.Plus, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Text(stringResource(Res.string.new_playlist), color = MaterialTheme.colorScheme.primary)
+                }
+            }
+            items(sortedShelf.items, key = { it.browseId ?: it.title }) { item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = { onItemClick(item) },
+                            onLongClick = { onItemLongPress(item) },
+                        )
+                        .padding(horizontal = PAGE_GUTTER, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AsyncImage(
+                        model = item.thumbnailUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(48.dp).clip(RoundedCornerShape(8.dp)),
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = item.title,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            text = item.subtitle,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                }
+                HorizontalDivider(
+                    modifier = Modifier.padding(start = PAGE_GUTTER + 60.dp),
+                    color = MaterialTheme.colorScheme.outline,
+                )
+            }
+        }
+        return
+    }
     BoxWithConstraints(modifier.fillMaxSize()) {
         val grid = libraryGrid(maxWidth - PAGE_GUTTER * 2)
         LazyVerticalGrid(
@@ -524,6 +646,24 @@ fun LibraryGridPage(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier.padding(horizontal = PAGE_GUTTER),
         ) {
+            if (onNewPlaylist != null) {
+                item(key = "playlist-layout-header", span = { GridItemSpan(maxLineSpan) }) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = PAGE_GUTTER, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = shelf.title,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.weight(1f),
+                        )
+                        PlaylistLayoutSwitch(false, onListModeChange)
+                    }
+                }
+            }
             if (onNewPlaylist != null) {
                 item(key = "leading") {
                     NewShelfCard(

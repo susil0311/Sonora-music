@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">Sonora</string>
     <string name="playback_channel_name">Now playing</string>
     <string name="download_channel_name">Downloads</string>
@@ -669,6 +669,33 @@
     <string name="quality_hourly">%1$s · %2$s</string>
     <string name="quality_per_track">%1$s · %2$s per track</string>
     <string name="queued">Queued</string>
+    <string name="undo">Undo</string>
+    <string name="removed_from_queue">Removed from queue</string>
+    <string name="playlist_share_choose_songs">Choose songs</string>
+    <string name="playlist_share_select_up_to">Select up to %1$d songs for the %2$s poster and arrange their order.</string>
+    <string name="playlist_share_selected_count">%1$d of %2$d selected</string>
+    <string name="playlist_share_select_all">Select all</string>
+    <string name="playlist_share_clear_selection">Clear</string>
+    <string name="playlist_share_continue">Continue</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_move_up">Move up</string>
+    <string name="playlist_share_move_down">Move down</string>
+    <string name="playlist_share_portrait_layout">portrait</string>
+    <string name="playlist_share_story_layout">story</string>
+    <string name="playlist_share_preview_description">%1$s playlist poster with %2$d selected songs</string>
+    <string name="playlist_share_chooser_title">Share playlist</string>
+    <string name="playlist_share_shared_from">Shared from Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Save playlist poster</string>
+    <string name="playlist_share_share_poster">Share playlist poster</string>
+    <string name="playlist_share_song_selected_position">Selected, position %1$d of %2$d</string>
+    <string name="playlist_share_not_selected">Not selected</string>
+    <string name="clear_queue_title">Clear songs you queued?</string>
+    <string name="clear_queue_message">This removes songs you added to the queue. The current song and music from the album or AutoPlay will stay.</string>
+    <string name="clear_queue_confirm">Clear queued songs</string>
+    <string name="queue_cleared">Queued songs cleared</string>
     <string name="remove">Remove</string>
     <string name="remove_from_liked">Remove from Liked Music</string>
     <string name="remove_from_playlist">Remove from this playlist</string>
@@ -1321,4 +1348,11 @@
     <string name="no_audio_version">No audio version found for this video</string>
     <string name="no_video_version">No video version found for this song</string>
     <string name="version_switch_in_party">Everyone in Listen Together hears the same version</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
 </resources>
+

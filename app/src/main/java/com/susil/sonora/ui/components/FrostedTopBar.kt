@@ -252,7 +252,9 @@ fun FrostedTopBar(
                         ) {
                             Text(
                                 text = title,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                                ),
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 maxLines = 1,
@@ -262,7 +264,9 @@ fun FrostedTopBar(
                             Spacer(Modifier.width(8.dp))
                             Text(
                                 text = trailing,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                                ),
                                 fontWeight = FontWeight.Medium,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 maxLines = 1,
@@ -274,7 +278,9 @@ fun FrostedTopBar(
                     } else {
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                            ),
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,

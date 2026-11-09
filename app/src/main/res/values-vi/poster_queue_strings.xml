@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Chọn bài hát</string>
+    <string name="playlist_share_select_up_to">Chọn tối đa %1$d bài hát cho áp phích dạng %2$s rồi sắp xếp thứ tự.</string>
+    <string name="playlist_share_selected_count">Đã chọn %1$d/%2$d</string>
+    <string name="playlist_share_select_all">Chọn tất cả</string>
+    <string name="playlist_share_clear_selection">Xóa lựa chọn</string>
+    <string name="playlist_share_continue">Tiếp tục</string>
+    <string name="playlist_share_portrait">Dọc</string>
+    <string name="playlist_share_story">Tin</string>
+    <string name="playlist_share_move_up">Di chuyển lên</string>
+    <string name="playlist_share_move_down">Di chuyển xuống</string>
+    <string name="playlist_share_portrait_layout">dọc</string>
+    <string name="playlist_share_story_layout">tin</string>
+    <string name="playlist_share_preview_description">Áp phích playlist dạng %1$s với %2$d bài hát đã chọn</string>
+    <string name="playlist_share_chooser_title">Chia sẻ playlist</string>
+    <string name="playlist_share_shared_from">Được chia sẻ từ Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Lưu áp phích playlist</string>
+    <string name="playlist_share_share_poster">Chia sẻ áp phích playlist</string>
+    <string name="playlist_share_song_selected_position">Đã chọn, vị trí %1$d trên %2$d</string>
+    <string name="playlist_share_not_selected">Chưa chọn</string>
+    <string name="clear_queue_title">Xóa bài hát bạn đã thêm?</string>
+    <string name="clear_queue_message">Các bài hát bạn thêm sẽ bị xóa khỏi hàng đợi. Bài hát hiện tại và nhạc từ album hoặc Tự động phát sẽ được giữ lại.</string>
+    <string name="clear_queue_confirm">Xóa bài hát trong hàng đợi</string>
+    <string name="queue_cleared">Đã xóa bài hát trong hàng đợi</string>
+</resources>

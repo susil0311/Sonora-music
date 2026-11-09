@@ -1488,6 +1488,19 @@
     <string name="bit_perfect_status_inexact">%1$s Â· Ð½ÐµÑ‚Ð¾Ñ‡Ð½Ð¾: ÑÑ‚Ð¾Ñ‚ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº Ð½Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ PCM Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ</string>
     <string name="bit_perfect_status_waiting">ÐžÐ¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ñ‚Ñ€ÐµÐºÐ° Ð±ÐµÐ· Ð¿Ð¾Ñ‚ÐµÑ€ÑŒ Ð½Ð° Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÐ¼Ð¾Ð¼ Ð²Ñ‹Ñ…Ð¾Ð´Ðµ</string>
     <string name="bit_perfect_status_unavailable">ÐÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ñ‚Ñ€ÐµÐºÐ° (%1$s)</string>
+    <string name="playlist_share_continue">Continue</string>
+    <string name="playlist_share_select_all">Select all</string>
+    <string name="playlist_share_story">Story</string>
+    <string name="playlist_share_portrait">Portrait</string>
+    <string name="playlist_switch_to_grid">Switch to grid view</string>
+    <string name="playlist_switch_to_list">Switch to list view</string>
+    <string name="playlist_view_list">List</string>
+    <string name="playlist_share_choose_songs">Choose songs</string>
+    <string name="playlist_list_selected">List view selected</string>
+    <string name="playlist_view_grid">Grid</string>
+    <string name="playlist_grid_selected">Grid view selected</string>
+    <string name="playlist_share_clear_selection">Clear</string>
 </resources>
+
 
 

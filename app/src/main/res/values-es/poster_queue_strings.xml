@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_share_choose_songs">Elegir canciones</string>
+    <string name="playlist_share_select_up_to">Selecciona hasta %1$d canciones para el póster de formato %2$s y ordénalas.</string>
+    <string name="playlist_share_selected_count">%1$d de %2$d seleccionadas</string>
+    <string name="playlist_share_select_all">Seleccionar todo</string>
+    <string name="playlist_share_clear_selection">Borrar</string>
+    <string name="playlist_share_continue">Continuar</string>
+    <string name="playlist_share_portrait">Vertical</string>
+    <string name="playlist_share_story">Historia</string>
+    <string name="playlist_share_move_up">Subir</string>
+    <string name="playlist_share_move_down">Bajar</string>
+    <string name="playlist_share_portrait_layout">vertical</string>
+    <string name="playlist_share_story_layout">historia</string>
+    <string name="playlist_share_preview_description">Póster de playlist en formato %1$s con %2$d canciones seleccionadas</string>
+    <string name="playlist_share_chooser_title">Compartir playlist</string>
+    <string name="playlist_share_shared_from">Compartido desde Sonora</string>
+    <string name="playlist_share_playlist_fallback">Playlist</string>
+    <string name="playlist_share_metadata">%1$s · %2$s</string>
+    <string name="playlist_share_save_poster">Guardar póster de playlist</string>
+    <string name="playlist_share_share_poster">Compartir póster de playlist</string>
+    <string name="playlist_share_song_selected_position">Seleccionada, posición %1$d de %2$d</string>
+    <string name="playlist_share_not_selected">No seleccionada</string>
+    <string name="clear_queue_title">¿Borrar las canciones que añadiste?</string>
+    <string name="clear_queue_message">Se quitarán las canciones que añadiste a la cola. La canción actual y la música del álbum o de reproducción automática se conservarán.</string>
+    <string name="clear_queue_confirm">Borrar canciones en cola</string>
+    <string name="queue_cleared">Se borraron las canciones en cola</string>
+</resources>
