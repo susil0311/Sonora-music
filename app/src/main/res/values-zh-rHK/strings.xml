@@ -1433,19 +1433,14 @@
     <string name="download_addon_not_allowed">%1$s ä¸å…è¨±ä¸‹è¼‰ï¼Œå› æ­¤ä½ çš„æ­Œæ›²å°‡å¾žå…¶ä»–ä¾†æºå„²å­˜ã€‚</string>
     <string name="download_addon_needs_lossless_output">%1$s åƒ…åœ¨é€£æŽ¥æœ‰ç·šã€USB æˆ– LDAC ç­‰ç´šè€³æ©Ÿæ™‚æä¾›éŸ³æ¨‚ã€‚åœ¨é€£æŽ¥æ­¤é¡žè€³æ©Ÿå‰ï¼Œä¸‹è¼‰æœƒç•¥éŽå®ƒï¼Œå› æ­¤ä½ çš„æ­Œæ›²å°‡å¾žå…¶ä»–ä¾†æºå„²å­˜ã€‚</string>
     <string name="source_downloads_on">å…è¨±ä¸‹è¼‰</string>
-    <string name="playlist_share_continue">Continue</string>
-    <string name="playlist_share_select_all">Select all</string>
-    <string name="playlist_share_story">Story</string>
-    <string name="playlist_share_portrait">Portrait</string>
     <string name="playlist_switch_to_grid">Switch to grid view</string>
     <string name="playlist_switch_to_list">Switch to list view</string>
     <string name="playlist_view_list">List</string>
-    <string name="playlist_share_choose_songs">Choose songs</string>
     <string name="playlist_list_selected">List view selected</string>
     <string name="playlist_view_grid">Grid</string>
     <string name="playlist_grid_selected">Grid view selected</string>
-    <string name="playlist_share_clear_selection">Clear</string>
 </resources>
+
 
 
 
