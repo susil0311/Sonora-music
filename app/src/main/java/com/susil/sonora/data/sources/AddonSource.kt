@@ -158,12 +158,13 @@ class AddonSource(
                 )
             },
             onFailure = { failure ->
-                // A search route without a usable manifest is not enough to
-                // validate the addon contract; auth declaration is unrelated.
+                // A working search route is sufficient for legacy/community
+                // addons that do not publish a usable manifest. BitChord-new
+                // keeps these addons usable and only marks them outdated.
                 if (failure is AddonException) SourceRegistry.markAddonOutdated(config.id)
                 if (client.probeSearch().isSuccess) {
-                    TrackLog.d(TAG, "${config.displayName}: search answers but no usable manifest")
-                    return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
+                    TrackLog.d(TAG, "${config.displayName}: no usable manifest, but search answers")
+                    return@fold SourceHealth.Ok("No manifest · search works")
                 }
                 val reason = failure.message ?: "Could not reach the addon"
                 if (failure is AddonException) {
