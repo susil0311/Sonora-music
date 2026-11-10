@@ -55,8 +55,14 @@ val listenTogetherServer: String = (
 val addonAuthServer: String = (
     localProps.getProperty("ADDON_AUTH_SERVER")
         ?: System.getenv("ADDON_AUTH_SERVER")
-        ?: "https://sonora-auth.susil.in"
+        ?: "https://bitchord-auth.kushagrasingh.in"
     ).trim().trimEnd('/')
+
+val lastWaveAddonClientSecret: String = (
+    localProps.getProperty("ADDON_CLIENT_SECRET")
+        ?: System.getenv("ADDON_CLIENT_SECRET")
+        ?: ""
+    ).trim()
 
 /*
  * Bump this by hand before cutting each sideloaded test build ("beta2",
@@ -105,6 +111,11 @@ android {
             "String",
             "ADDON_AUTH_URL",
             "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
+        )
+        buildConfigField(
+            "String",
+            "LASTWAVE_ADDON_CLIENT_SECRET",
+            "\"${lastWaveAddonClientSecret.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
         )
         // The TV APKs share a GitHub release with the phone ones and are told
         // apart by name (SonoraTV-v1.8.apk, SonoraTV-v1.8_x86_64.apk), so
