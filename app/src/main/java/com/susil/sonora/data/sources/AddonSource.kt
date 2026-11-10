@@ -1,4 +1,4 @@
-﻿package com.susil.sonora.data.sources
+package com.susil.sonora.data.sources
 
 import com.susil.sonora.data.TrackLog
 import com.susil.sonora.data.model.Song
@@ -85,30 +85,23 @@ class AddonSource(
      * rather than after it. The manifest is the client's shared, cached copy,
      * which the request was about to read for its settings anyway.
      *
-     * Then the addon has to be up to date: only an addon whose manifest
-     * declares `sonoraAuth` is asked for anything. When the manifest can't be
-     * read right now, the stored answer decides, and an addon never yet seen
-     * declaring it is refused.
+     * Sonora auth is optional; credentials are sent only when the endpoint
+     * explicitly requests them in its manifest.
      */
     private suspend fun admitted(what: String): Boolean {
         if (shutOut(what)) return false
-        val declared = refreshPolicy()
+        refreshPolicy()
         if (shutOut(what)) return false
-        if ((declared ?: live.sonoraAuth) != true) {
-            TrackLog.d(TAG, "${config.displayName}: addon is out of date (no sonoraAuth); not asking it for $what")
-            return false
-        }
         return true
     }
 
     /**
      * Reads the manifest (the client's cached copy when there is one) and
-     * stores what it says. An addon with no usable manifest is recorded as out
-     * of date, since it has nowhere to declare `sonoraAuth`; a manifest that
-     * merely couldn't be fetched just now changes nothing.
+     * stores what it says. Sonora auth is optional, and a manifest that merely
+     * couldn't be fetched just now changes nothing.
      *
-     * Returns whether the addon is up to date by what was just read, or null
-     * when nothing could be read and the stored answer has to stand.
+     * Returns whether the manifest requested Sonora auth, or null when it could
+     * not be read and the stored answer has to stand.
      */
     suspend fun refreshPolicy(): Boolean? =
         client.manifest().fold(
@@ -157,9 +150,6 @@ class AddonSource(
         client.manifest().fold(
             onSuccess = { manifest ->
                 recordPolicy(manifest)
-                if (!manifest.requiresSonoraAuth) {
-                    return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
-                }
                 SourceHealth.Ok(
                     listOfNotNull(
                         manifest.displayName.takeIf { it.isNotBlank() },
@@ -168,13 +158,11 @@ class AddonSource(
                 )
             },
             onFailure = { failure ->
-                // No readable manifest is not the same as no addon: one that
-                // never published a manifest still answers a search. But it has
-                // nowhere to declare `sonoraAuth`, so it is out of date, and
-                // is told so rather than reported as a broken URL.
+                // A search route without a usable manifest is not enough to
+                // validate the addon contract; auth declaration is unrelated.
                 if (failure is AddonException) SourceRegistry.markAddonOutdated(config.id)
                 if (client.probeSearch().isSuccess) {
-                    TrackLog.d(TAG, "${config.displayName}: no manifest, but search answers; out of date")
+                    TrackLog.d(TAG, "${config.displayName}: search answers but no usable manifest")
                     return@fold SourceHealth.Rejected(NEEDS_ADDON_UPDATE)
                 }
                 val reason = failure.message ?: "Could not reach the addon"
@@ -475,10 +463,9 @@ class AddonSource(
         const val NEEDS_LOSSLESS_OUTPUT =
             "This addon only works with a lossless output â€” use a lossless supported device"
 
-        /** Same, for an addon whose manifest doesn't declare `sonoraAuth`. Matches `source_needs_update`. */
+        /** The URL lacks a usable manifest, even if another endpoint responds. */
         const val NEEDS_ADDON_UPDATE =
-            "This addon is out of date, so Sonora can't use it. " +
-                "Ask its developer to update it by following the latest Sonora addon docs."
+            "This URL does not provide a usable addon manifest."
 
         /** How many search rows to remember. A long queue's worth, several times over. */
         const val MAX_ROWS = 256

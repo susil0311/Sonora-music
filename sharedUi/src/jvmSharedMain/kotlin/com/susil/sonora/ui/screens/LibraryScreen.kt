@@ -132,9 +132,6 @@ fun LibraryScreen(
     deviceItems: List<ShelfItem>,
     /** The big "Library" heading; the desktop's pages carry none. */
     showTitle: Boolean = true,
-    /** Persisted by the Android host so the choice survives tab recreation. */
-    playlistListMode: Boolean = false,
-    onPlaylistListModeChange: (Boolean) -> Unit = {},
 ) {
     val pinnedPlaylists by AppUi.host.pinnedPlaylists.collectAsStateWithLifecycle()
     val onDevice = stringResource(Res.string.on_device)
@@ -184,8 +181,6 @@ fun LibraryScreen(
                         onNewPlaylist = onNewPlaylist,
                         onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                         onShowAll = { onShowAll(emptyPlaylists) },
-                        listMode = playlistListMode,
-                        onListModeChange = onPlaylistListModeChange,
                     )
                 }
                 item {
@@ -218,8 +213,6 @@ fun LibraryScreen(
                                 onNewPlaylist = onNewPlaylist,
                                 onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                                 onShowAll = { onShowAll(emptyPlaylists) },
-                                listMode = playlistListMode,
-                                onListModeChange = onPlaylistListModeChange,
                             )
                         }
                     }
@@ -235,8 +228,6 @@ fun LibraryScreen(
                                     onImportSpotifyPlaylist = onImportSpotifyPlaylist,
                                     onShowAll = { onShowAll(pinnedFirst) },
                                     pinnedPlaylists = pinnedPlaylists,
-                                    listMode = playlistListMode,
-                                    onListModeChange = onPlaylistListModeChange,
                                 )
                             } else {
                                 LibraryGridShelf(
@@ -436,7 +427,6 @@ private fun PlaylistShelf(
         onItemLongPress = onItemLongPress,
         onShowAll = onShowAll,
         pinnedPlaylists = pinnedPlaylists,
-        onTogglePlaylistView = { onListModeChange(true) },
         leadingCard = {
             Row(horizontalArrangement = Arrangement.spacedBy(LIBRARY_GRID_SPACING)) {
                 NewShelfCard(
@@ -546,7 +536,6 @@ fun LibraryGridPage(
     modifier: Modifier = Modifier,
     onNewPlaylist: (() -> Unit)? = null,
     listMode: Boolean = false,
-    onListModeChange: (Boolean) -> Unit = {},
 ) {
     // Re-read live rather than trusting [shelf] to already be sorted: this page
     // is opened from a snapshot (see `AppRoute.LibraryShowAll`), and a
@@ -564,22 +553,6 @@ fun LibraryGridPage(
             modifier = modifier.fillMaxSize(),
             contentPadding = contentPadding,
         ) {
-            item(key = "playlist-layout-header") {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = PAGE_GUTTER, vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = shelf.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.weight(1f),
-                    )
-                    PlaylistLayoutSwitch(listMode, onListModeChange)
-                }
-            }
             item(key = "leading") {
                 Row(
                     modifier = Modifier
@@ -646,24 +619,6 @@ fun LibraryGridPage(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier.padding(horizontal = PAGE_GUTTER),
         ) {
-            if (onNewPlaylist != null) {
-                item(key = "playlist-layout-header", span = { GridItemSpan(maxLineSpan) }) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = PAGE_GUTTER, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = shelf.title,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.weight(1f),
-                        )
-                        PlaylistLayoutSwitch(false, onListModeChange)
-                    }
-                }
-            }
             if (onNewPlaylist != null) {
                 item(key = "leading") {
                     NewShelfCard(

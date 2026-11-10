@@ -64,14 +64,7 @@ data class SourceConfig(
     val qualityOptions: List<AddonQualityOption> = emptyList(),
     /** Which of [qualityOptions] the user chose, or null for the first one listed. */
     val pickedQuality: String? = null,
-    /**
-     * Whether the addon's manifest declares `sonoraAuth`, as it last said;
-     * null until it has been read. Addons that don't are out of date: Sonora
-     * no longer searches or streams from them, and the sources screen tells
-     * the user to ask the developer to update. Stored so that the source walks
-     * can leave such an addon out without contacting it, and refreshed
-     * whenever the manifest is next read â€” see [SourceRegistry.refreshOutdatedAddons].
-     */
+    /** Whether the addon's manifest asks for Sonora auth, as it last said. */
     @JsonNames("bit" + "chordAuth")
     val sonoraAuth: Boolean? = null,
 ) {
@@ -83,14 +76,9 @@ data class SourceConfig(
     val awaitsLosslessOutput: Boolean
         get() = checkValidLossless && !LosslessOutput.capable
 
-    /**
-     * Whether this is an addon known to be out of date: its manifest doesn't
-     * declare `sonoraAuth`, or it has no manifest at all. Not yet knowing
-     * (null) doesn't count; [AddonSource] checks the manifest before the first
-     * request in that case.
-     */
+    /** Sonora auth is optional for user-configured addons. */
     val needsAddonUpdate: Boolean
-        get() = kind == SourceKind.ADDON && sonoraAuth == false
+        get() = false
 
     /** What the manifest last said, without the parts of the config the user set. */
     internal fun withPolicyOf(other: SourceConfig) =
@@ -151,17 +139,23 @@ object SourceRegistry {
 
         val stored = prefs.getString(KEY_SOURCES, null)?.let(::decodeStored) ?: emptyList()
         val jioOptInMigrationDone = prefs.getBoolean(KEY_JIOSAAVN_OPT_IN_V1, false)
-        val after = sourcesForInit(stored, forceJioSaavnOff = !jioOptInMigrationDone)
+        val lastWaveSeedDone = prefs.getBoolean(KEY_LASTWAVE_SEED_V1, false)
+        val after = sourcesForInit(
+            stored,
+            forceJioSaavnOff = !jioOptInMigrationDone,
+            seedLastWave = !lastWaveSeedDone,
+        )
 
         // Publish state and the migration marker in one preferences edit. If a
         // process dies after recording the marker but before recording the
         // disabled source, the next launch would otherwise believe the forced
         // opt-out had already happened and silently restore the old on state.
         publish(after, persist = false)
-        if (after != stored || !jioOptInMigrationDone) {
+        if (after != stored || !jioOptInMigrationDone || !lastWaveSeedDone) {
             prefs.edit()
                 .putString(KEY_SOURCES, json.encodeToString(ListSerializer(SourceConfig.serializer()), after))
                 .putBoolean(KEY_JIOSAAVN_OPT_IN_V1, true)
+                .putBoolean(KEY_LASTWAVE_SEED_V1, true)
                 .apply()
         }
     }
@@ -177,6 +171,7 @@ object SourceRegistry {
     internal fun sourcesForInit(
         stored: List<SourceConfig>,
         forceJioSaavnOff: Boolean,
+        seedLastWave: Boolean = false,
     ): List<SourceConfig> {
         // Seeded rather than persisted-on-first-write, so a build adding a new
         // built-in kind picks it up for existing installs too. SourceConfig's
@@ -184,10 +179,28 @@ object SourceRegistry {
         val seeded = stored + BUILT_IN_KINDS
             .filter { kind -> stored.none { it.kind == kind } }
             .map { SourceConfig(kind = it) }
+        val withLastWave = if (
+            seedLastWave && seeded.none {
+                it.id == LASTWAVE_SOURCE_ID ||
+                    (it.kind == SourceKind.ADDON && canonicalUrl(it.baseUrl) == canonicalUrl(LASTWAVE_URL))
+            }
+        ) {
+            seeded + SourceConfig(
+                id = LASTWAVE_SOURCE_ID,
+                kind = SourceKind.ADDON,
+                label = "LastWave",
+                baseUrl = LASTWAVE_URL,
+                enabled = true,
+                qualityOptions = LASTWAVE_QUALITY_OPTIONS,
+                pickedQuality = "lossless",
+            )
+        } else {
+            seeded
+        }
 
         // The retired built-in module is removed, while a custom module entered
         // by the user is preserved.
-        return seeded
+        return withLastWave
             .filterNot { it.kind == SourceKind.MODULE }
             .map { config ->
                 when {
@@ -227,11 +240,9 @@ object SourceRegistry {
     fun active(): List<MusicSource> =
         enabledConfigs(configs.value)
             // Not in the walk at all while it would be refused anyway: an addon
-            // that asked for a lossless output costs nothing â€” not even a timed
-            // out search â€” while there isn't one. See [SourceConfig.checkValidLossless].
+            // that asked for a lossless output costs nothing — not even a timed
+            // out search — while there isn't one. See [SourceConfig.checkValidLossless].
             .filterNot { it.awaitsLosslessOutput }
-            // Nor while it is out of date: it would be refused anyway.
-            .filterNot { it.needsAddonUpdate }
             .sortedBy { it.kind.rank }
             .mapNotNull { instances[it.id] }
 
@@ -320,28 +331,22 @@ object SourceRegistry {
         )
     }
 
-    /**
-     * Records that an addon is out of date because it has no usable manifest,
-     * and so cannot declare `sonoraAuth`. The other stored policy is left as
-     * it was: there is nothing new to replace it with.
-     */
+    /** Records that a manifest could not be read; absence of auth is not a block. */
     fun markAddonOutdated(configId: String) {
         val current = config(configId) ?: return
         if (current.sonoraAuth == false) return
-        TrackLog.d(TAG, "${current.displayName}: no usable manifest, so it can't declare sonoraAuth")
+        TrackLog.d(TAG, "${current.displayName}: no usable manifest; auth declaration remains unavailable")
         publish(configs.value.map { if (it.id == configId) it.copy(sonoraAuth = false) else it })
     }
 
     /**
-     * Rereads the manifest of every enabled addon not yet known to be up to
-     * date. [active] leaves an out-of-date addon out of every walk, so without
-     * this an addon its developer has since updated would only be noticed the
-     * next time the sources screen is opened. Called once at startup, off the
-     * main thread; each is one manifest request.
+     * Reads manifests only for enabled addons whose auth policy is unknown.
+     * Public addons are valid; known policies are refreshed on demand before a
+     * request. Called once at startup, off the main thread.
      */
-    suspend fun refreshOutdatedAddons() {
+    suspend fun refreshUnknownAddonPolicies() {
         enabledConfigs(configs.value)
-            .filter { it.kind == SourceKind.ADDON && it.sonoraAuth != true }
+            .filter { it.kind == SourceKind.ADDON && it.sonoraAuth == null }
             .mapNotNull { instances[it.id] as? AddonSource }
             .forEach { source -> runCatching { source.refreshPolicy() } }
     }
@@ -650,11 +655,22 @@ object SourceRegistry {
             .build()
             .toString()
 
+    private val LASTWAVE_URL =
+        "https://lastwaveaddons.clashprojects.qd.je/a/e94e546f32fed26a0b1b72841c2fe1cb6d3dce4b0915e23be8caddcc55d49b1b/"
+    private val LASTWAVE_SOURCE_ID = "builtin-lastwave-addon"
+    private val LASTWAVE_QUALITY_OPTIONS = listOf(
+        AddonQualityOption("lossless", "Lossless"),
+        AddonQualityOption("atmos", "Dolby Atmos"),
+        AddonQualityOption("high", "High"),
+        AddonQualityOption("low", "Low"),
+    )
     private val BUILT_IN_KINDS = listOf(SourceKind.JIOSAAVN, SourceKind.YOUTUBE)
 
     private const val KEY_SOURCES = "sources"
     /** One-shot migration: existing users must explicitly opt in again. */
     private const val KEY_JIOSAAVN_OPT_IN_V1 = "jiosaavn_opt_in_v1"
+    /** One-shot seeding marker: deleting or editing the default LastWave entry is respected. */
+    private const val KEY_LASTWAVE_SEED_V1 = "lastwave_seed_v1"
     private const val PREFIX = "src:"
     private const val SEPARATOR = "::"
 }

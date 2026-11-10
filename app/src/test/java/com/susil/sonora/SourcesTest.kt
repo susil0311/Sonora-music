@@ -598,6 +598,48 @@ class SourcesTest {
     }
 
     @Test
+    fun `LastWave is seeded with editable addon URL and declared quality choices`() {
+        val sources = SourceRegistry.sourcesForInit(
+            emptyList(),
+            forceJioSaavnOff = true,
+            seedLastWave = true,
+        )
+        val lastWave = sources.single { it.kind == SourceKind.ADDON }
+
+        assertEquals("LastWave", lastWave.label)
+        assertEquals(
+            "https://lastwaveaddons.clashprojects.qd.je/a/e94e546f32fed26a0b1b72841c2fe1cb6d3dce4b0915e23be8caddcc55d49b1b/",
+            lastWave.baseUrl,
+        )
+        assertEquals("lossless", lastWave.pickedQuality)
+        assertEquals(listOf("lossless", "atmos", "high", "low"), lastWave.qualityOptions.map { it.value })
+        assertTrue(lastWave.enabled)
+    }
+
+    @Test
+    fun `LastWave seeding respects existing entries and does not restore a removed entry`() {
+        val manual = SourceConfig(
+            kind = SourceKind.ADDON,
+            label = "My LastWave",
+            baseUrl = "https://lastwaveaddons.clashprojects.qd.je/a/e94e546f32fed26a0b1b72841c2fe1cb6d3dce4b0915e23be8caddcc55d49b1b/",
+        )
+        val existing = SourceRegistry.sourcesForInit(
+            listOf(manual),
+            forceJioSaavnOff = false,
+            seedLastWave = true,
+        )
+        assertEquals(1, existing.count { it.kind == SourceKind.ADDON })
+        assertEquals("My LastWave", existing.single { it.kind == SourceKind.ADDON }.label)
+
+        val afterUserRemoved = SourceRegistry.sourcesForInit(
+            existing.filterNot { it.kind == SourceKind.ADDON },
+            forceJioSaavnOff = false,
+            seedLastWave = false,
+        )
+        assertTrue(afterUserRemoved.none { it.kind == SourceKind.ADDON })
+    }
+
+    @Test
     fun `JioSaavn is off by default on a fresh install`() {
         assertFalse(SourceConfig(kind = SourceKind.JIOSAAVN).enabled)
         val sources = SourceRegistry.sourcesForInit(emptyList(), forceJioSaavnOff = true)

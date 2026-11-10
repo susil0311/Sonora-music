@@ -1,4 +1,4 @@
-﻿package com.susil.sonora
+package com.susil.sonora
 
 import com.susil.sonora.data.settings.AppSettings
 import com.susil.sonora.data.sources.AddonSource
@@ -61,8 +61,8 @@ class AddonSourceTest {
         // format never depends on what the machine running it can decode.
         DeviceCodecs.forced = true
         AppSettings.dolbyAtmos.value = true
-        // Every fixture manifest declares `sonoraAuth`, as an up-to-date
-        // addon must. Attestation needs secure hardware, so this stands in.
+        // Attestation needs secure hardware; this stands in when a fixture
+        // manifest explicitly requests Sonora authentication.
         AddonAuth.testHeaders = { _, _ -> mapOf(AddonAuth.TOKEN_HEADER to "test-token", AddonAuth.PROOF_HEADER to "test-proof") }
     }
 
@@ -155,68 +155,67 @@ class AddonSourceTest {
     }
 
     /**
-     * An addon that never published a manifest still answers a search, but it
-     * has nowhere to declare `sonoraAuth`, so it is out of date â€” and is told
-     * so, rather than reported as a broken URL.
+     * The required manifest is absent even though the search route responds.
+     * Search compatibility alone does not validate an addon endpoint.
+     * It remains rejected until a usable manifest is provided.
      */
     @Test
-    fun `an addon with no manifest is out of date even when its search endpoint answers`() = runBlocking {
+    fun `an addon with no manifest is rejected even when its search endpoint answers`() = runBlocking {
         route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
 
         val health = source().health()
 
         assertTrue("expected Rejected, got $health", health is SourceHealth.Rejected)
-        assertTrue((health as SourceHealth.Rejected).reason.contains("out of date"))
+        assertTrue((health as SourceHealth.Rejected).reason.contains("manifest"))
     }
 
-    // â”€â”€ Out-of-date addons (no `sonoraAuth`) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â”€â”€ Public addons without Sonora-specific auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private fun outdatedManifest() = json(
         """{"id":"com.test.old","name":"Old Addon","version":"1.0.0","resources":["search","stream"]}""",
     )
 
     @Test
-    fun `a manifest without sonoraAuth is reported out of date`() = runBlocking {
+    fun `a manifest without sonoraAuth is accepted`() = runBlocking {
         route("/manifest.json", outdatedManifest())
 
         val health = source().health()
 
-        assertTrue("expected Rejected, got $health", health is SourceHealth.Rejected)
-        assertTrue((health as SourceHealth.Rejected).reason.contains("latest Sonora addon docs"))
+        assertTrue("expected Ok, got $health", health is SourceHealth.Ok)
     }
 
     @Test
-    fun `an out-of-date addon is never asked to search or stream`() = runBlocking {
+    fun `an addon without sonoraAuth can search and stream without Sonora credentials`() = runBlocking {
         route("/manifest.json", outdatedManifest())
         route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
         route("/stream/t1", json("""{"url":"https://cdn/a.flac"}"""))
         val source = source()
 
-        assertTrue(source.search("S", 10, false, null).isEmpty())
-        assertNull(source.stream("t1", StreamRequest.Lossless))
-        val asked = synchronized(seen) { seen.map { it.requestUrl?.encodedPath } }
-        assertEquals(listOf("/manifest.json"), asked.distinct())
+        assertEquals(1, source.search("S", 10, false, null).size)
+        assertEquals("https://cdn/a.flac", source.stream("t1", StreamRequest.Lossless)?.url)
+        assertTrue(seen.all { it.getHeader("X-Sonora-Token") == null })
     }
 
     /** A manifest that says `false` is the same as one that says nothing. */
     @Test
-    fun `sonoraAuth false is out of date too`() = runBlocking {
+    fun `sonoraAuth false is accepted`() = runBlocking {
         route(
             "/manifest.json",
             json("""{"id":"x","name":"X","sonoraAuth":false,"resources":["search","stream"]}"""),
         )
         route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
 
-        assertTrue(source().search("S", 10, false, null).isEmpty())
+        assertEquals(1, source().search("S", 10, false, null).size)
     }
 
-    /** Never seen declaring it, and the manifest can't be read: refused rather than guessed at. */
+    /** Public addons can search while the manifest is temporarily unavailable. */
     @Test
-    fun `an addon never seen up to date is refused while its manifest is down`() = runBlocking {
+    fun `an addon can query without credentials while its manifest is down`() = runBlocking {
         route("/manifest.json", MockResponse().setResponseCode(503))
         route("/search", json("""{"tracks":[{"id":"t1","title":"S","artist":"A"}]}"""))
 
-        assertTrue(source().search("S", 10, false, null).isEmpty())
+        assertEquals(1, source().search("S", 10, false, null).size)
+        assertTrue(seen.all { it.getHeader("X-Sonora-Token") == null })
     }
 
     @Test
@@ -229,8 +228,8 @@ class AddonSourceTest {
     }
 
     @Test
-    fun `only an addon known to lack sonoraAuth counts as needing an update`() {
-        assertTrue(SourceConfig(kind = SourceKind.ADDON, sonoraAuth = false).needsAddonUpdate)
+    fun `lack of sonoraAuth does not count as needing an update`() {
+        assertFalse(SourceConfig(kind = SourceKind.ADDON, sonoraAuth = false).needsAddonUpdate)
         assertFalse(SourceConfig(kind = SourceKind.ADDON, sonoraAuth = true).needsAddonUpdate)
         // Not read yet: the manifest is checked before the first request instead.
         assertFalse(SourceConfig(kind = SourceKind.ADDON, sonoraAuth = null).needsAddonUpdate)

@@ -202,9 +202,9 @@ class SonoraApplication : Application(), SingletonImageLoader.Factory, Configura
         // The public "apps open right now" count; see Presence.
         com.susil.sonora.data.presence.AndroidPresence.install(this)
         backgroundInit.join()
-        // Refresh only addons previously marked out of date; current addons do
-        // not incur a startup manifest request.
-        CoroutineScope(Dispatchers.IO).launch { SourceRegistry.refreshOutdatedAddons() }
+        // Read auth policy for addons not yet probed. Public addons need no
+        // special status and known policies are refreshed on demand.
+        CoroutineScope(Dispatchers.IO).launch { SourceRegistry.refreshUnknownAddonPolicies() }
     }
 
     /**

@@ -584,12 +584,10 @@ internal fun PlayerActionRow(
     lyricsOpen: Boolean,
     queueOpen: Boolean,
     shuffleEnabled: Boolean,
-    repeatMode: Int,
     autoplayEnabled: Boolean,
     onToggleLyrics: () -> Unit,
     onToggleQueue: () -> Unit,
     onToggleShuffle: () -> Unit,
-    onCycleRepeat: () -> Unit,
     onToggleAutoplay: () -> Unit,
     onOpenOutput: () -> Unit,
     onListenTogether: () -> Unit,
@@ -601,12 +599,12 @@ internal fun PlayerActionRow(
     // Just the output glyph in the middle.
     val compact = !queueOpen && !showPartyButton && !inParty
     BoxWithConstraints(Modifier.fillMaxWidth()) {
-        // Sized for the wider of the two capsules — the three-up one — whether
+        // Sized for the wider of the two capsules — the two-up one — whether
         // that or the output/party one is up, so the lyrics and queue glyphs
         // hold still as they swap. A lone output glyph is spaced as though the
         // two-up capsule held it — closer in, without crowding — and they part
         // again as the queue opens to make room.
-        val edgeInset = ((maxWidth - BOTTOM_ACTION_SIZE * (if (queueOpen) 2 else 3) - pillWidth(3)) /
+        val edgeInset = ((maxWidth - BOTTOM_ACTION_SIZE * (if (queueOpen) 2 else 3) - pillWidth(2)) /
             (if (queueOpen) 4 else 6)).coerceAtLeast(0.dp)
         val compactInset = ((maxWidth - BOTTOM_ACTION_SIZE * 2 - pillWidth(2)) / 4).coerceAtLeast(0.dp)
         val closeIn = compactInset - edgeInset
@@ -639,22 +637,6 @@ internal fun PlayerActionRow(
                     highlighted = lyricsOpen,
                     vibrant = true,
                 )
-                if (!queueOpen) {
-                    BottomGlyph(
-                        icon = if (repeatMode == RepeatModes.ONE) null else SonoraIcons.Repeat,
-                        label = if (repeatMode == RepeatModes.ONE) "1" else null,
-                        contentDescription = stringResource(Res.string.repeat_mode),
-                        stateDescription = when (repeatMode) {
-                            RepeatModes.ONE -> stringResource(Res.string.repeat_one)
-                            RepeatModes.ALL -> stringResource(Res.string.repeat_all)
-                            else -> stringResource(Res.string.repeat_off)
-                        },
-                        onClick = onCycleRepeat,
-                        highlighted = repeatMode != RepeatModes.OFF,
-                        haptic = Haptic.Select,
-                        vibrant = true,
-                    )
-                }
             }
             AnimatedContent(
                 targetState = queueOpen,
@@ -680,28 +662,6 @@ internal fun PlayerActionRow(
                             highlighted = shuffleEnabled,
                             haptic = if (shuffleEnabled) Haptic.ToggleOff else Haptic.ToggleOn,
                             tapWindowMs = SHUFFLE_TAP_WINDOW_MS,
-                        )
-                        PillDivider()
-                        PillSegment(
-                            icon = if (repeatMode == RepeatModes.ONE) null else SonoraIcons.Repeat,
-                            label = if (repeatMode == RepeatModes.ONE) "1" else null,
-                            contentDescription = stringResource(Res.string.repeat_mode),
-                            stateDescription = when (repeatMode) {
-                                RepeatModes.ONE -> stringResource(Res.string.repeat_one)
-                                RepeatModes.ALL -> stringResource(Res.string.repeat_all)
-                                else -> stringResource(Res.string.repeat_off)
-                            },
-                            onClick = onCycleRepeat,
-                            highlighted = repeatMode != RepeatModes.OFF,
-                            // Three states, so the buzz tracks the edges of the
-                            // cycle: leaving off rises, returning to off falls,
-                            // and the step between the two repeat modes is just
-                            // a selection.
-                            haptic = when (repeatMode) {
-                                RepeatModes.OFF -> Haptic.ToggleOn
-                                RepeatModes.ONE -> Haptic.ToggleOff
-                                else -> Haptic.Select
-                            },
                         )
                         PillDivider()
                         PillSegment(

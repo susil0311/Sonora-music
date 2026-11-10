@@ -775,7 +775,6 @@ fun NowPlayingScreen(
     queueIndex: Int,
     hasPrevious: Boolean,
     hasNext: Boolean,
-    repeatMode: Int,
     shuffleEnabled: Boolean,
     autoplayEnabled: Boolean,
     signedIn: Boolean,
@@ -803,10 +802,9 @@ fun NowPlayingScreen(
      * the handle on a bar still scaled to the previous song and seek to the
      * wrong fraction of the current one. The conversion belongs wherever the
      * freshest duration is.
-     */
+    */
     onSeekFraction: (Float) -> Unit,
     onToggleShuffle: () -> Unit,
-    onCycleRepeat: () -> Unit,
     onToggleAutoplay: () -> Unit,
     onJumpTo: (Int) -> Unit,
     onRemoveFromQueue: (Int) -> Unit,
@@ -1663,12 +1661,10 @@ fun NowPlayingScreen(
             lyricsOpen = lyricsOpen,
             queueOpen = queueOpen,
             shuffleEnabled = shuffleEnabled,
-            repeatMode = repeatMode,
             autoplayEnabled = autoplayEnabled,
             onToggleLyrics = toggleLyrics,
             onToggleQueue = toggleQueue,
             onToggleShuffle = onToggleShuffle,
-            onCycleRepeat = onCycleRepeat,
             onToggleAutoplay = onToggleAutoplay,
             onOpenOutput = openAudioOutput,
             onListenTogether = onListenTogether,

@@ -69,12 +69,14 @@ import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CloudOff
+import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.IosShare
 import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Sort
 import androidx.compose.material.icons.rounded.Upgrade
+import androidx.compose.material.icons.rounded.ViewList
 import com.susil.sonora.data.listentogether.ServerConnectionState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -355,6 +357,7 @@ import com.susil.sonora.data.settings.SongSort
 import com.susil.sonora.ui.onboarding.OnboardingScreen
 import com.susil.sonora.ui.replay.ReplayScreen
 import com.susil.sonora.ui.replay.cards
+import com.susil.sonora.ui.replay.PlaylistShareRequest
 import com.susil.sonora.ui.replay.PlaylistShareSheet
 import com.susil.sonora.ui.replay.ReplayShareSheet
 import com.susil.sonora.ui.replay.ReplayStories
@@ -1008,6 +1011,7 @@ private fun SonoraApp(
     val webdavUrl by AppSettings.webdavUrl.collectAsStateWithLifecycle()
     val smbHost by AppSettings.smbHost.collectAsStateWithLifecycle()
     val librarySort by AppSettings.librarySort.collectAsStateWithLifecycle()
+    val playlistListMode by AppSettings.playlistListMode.collectAsStateWithLifecycle()
     // The releases those files were asked for as — read here rather than in the
     // page so the Downloads folder recomposes when one is added, the same way it
     // does when a file is.
@@ -2603,7 +2607,6 @@ private fun SonoraApp(
             queueIndex = player.queueIndex,
             hasPrevious = player.hasPrevious,
             hasNext = player.hasNext,
-            repeatMode = player.repeatMode,
             shuffleEnabled = shuffleEnabled,
             autoplayEnabled = autoplayEnabled,
             signedIn = signedIn,
@@ -2613,23 +2616,6 @@ private fun SonoraApp(
             // the toggle on that side prevents the UI from changing the icon
             // before its asynchronous reorder command has actually landed.
             onToggleShuffle = { controller?.toggleShuffle() },
-            onCycleRepeat = {
-                controller?.let {
-                    val next = when (it.repeatMode) {
-                        Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
-                        Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
-                        else -> Player.REPEAT_MODE_OFF
-                    }
-                    // Persist the new repeat mode so it survives app restarts.
-                    AppSettings.setRepeatMode(next)
-                    // Nothing else to do here: PlaybackService watches the
-                    // repeat mode itself and takes AutoPlay's tracks out of
-                    // the queue for the duration of repeat-all — and, unlike
-                    // this screen, is still around to put them back when the
-                    // loop ends.
-                    it.repeatMode = next
-                }
-            },
             onToggleAutoplay = {
                 // PlaybackService owns the setting and queue extension so
                 // this path and the notification use exactly one loader.
@@ -2988,8 +2974,7 @@ private fun SonoraApp(
                                     } else {
                                         null
                                     },
-                                    listMode = AppSettings.playlistListMode.collectAsStateWithLifecycle().value,
-                                    onListModeChange = AppSettings::setPlaylistListMode,
+                                    listMode = playlistListMode,
                                     contentPadding = listPadding,
                                 )
                             }
@@ -3715,9 +3700,7 @@ private fun SonoraApp(
           contentPadding = listPadding,
           links = libraryLinks(),
           deviceItems = libraryDeviceItems(downloadedReleases) + localPlaylistItems,
-          playlistListMode = AppSettings.playlistListMode.collectAsStateWithLifecycle().value,
-          onPlaylistListModeChange = AppSettings::setPlaylistListMode,
-      )
+                            )
                         }
                     }
                     // A pushed page keeps its saved state — a scroll position,
@@ -3999,6 +3982,20 @@ private fun SonoraApp(
                             // the one thing a playlist or album card carries: a
                             // title.
                             if (route is AppRoute.LibraryShowAll) {
+                                if (route.shelf.title == YtMusicRepository.PLAYLISTS_SHELF) {
+                                    IconButton(
+                                        onClick = { AppSettings.setPlaylistListMode(!playlistListMode) },
+                                    ) {
+                                        Icon(
+                                            imageVector = if (playlistListMode) Icons.Rounded.GridView else Icons.Rounded.ViewList,
+                                            contentDescription = stringResource(
+                                                if (playlistListMode) R.string.playlist_switch_to_grid
+                                                else R.string.playlist_switch_to_list,
+                                            ),
+                                            tint = MaterialTheme.colorScheme.onSurface,
+                                        )
+                                    }
+                                }
                                 Box {
                                     IconButton(onClick = { librarySortMenuOpen = true }) {
                                         Icon(
@@ -4886,10 +4883,15 @@ private fun SonoraApp(
                     containerColor = MaterialTheme.colorScheme.background,
                 ) {
                     PlaylistShareSheet(
-                        page = sharedPage,
-                        songs = sharedSongs,
-                        accountName = account?.name.orEmpty(),
-                        accountAvatarUrl = account?.thumbnailUrl,
+                        request = PlaylistShareRequest(
+                            title = sharedPage.title,
+                            username = sharedPage.subtitle,
+                            description = sharedPage.description,
+                            artworkUrl = sharedPage.thumbnailUrl,
+                            songs = sharedSongs,
+                            playlistTrackCount = sharedSongs.size,
+                            ownerAvatarUrl = account?.thumbnailUrl,
+                        ),
                         onDismiss = { playlistSharePage = null },
                     )
                 }
