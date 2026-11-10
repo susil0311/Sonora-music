@@ -1,5 +1,6 @@
 package com.susil.sonora.data.sources.addon
 
+import com.susil.sonora.BuildConfig
 import com.susil.sonora.data.Http
 import com.susil.sonora.data.TrackLog
 import com.susil.sonora.data.settings.AppSettings
@@ -15,6 +16,9 @@ import kotlinx.serialization.json.Json
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import java.net.URI
 import java.util.concurrent.TimeUnit
 
 /**
@@ -40,6 +44,9 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
 
     /** Where this addon lives, with `/manifest.json` and trailing slashes off. */
     val baseUrl: String = normalizeBase(rawBaseUrl)
+
+    /** LastWave has a separate signed-request protocol; all other addons use BitChord auth. */
+    private val isLastWaveAddon: Boolean = isLastWaveUrl(baseUrl)
 
     private val json = Json {
         isLenient = true
@@ -105,7 +112,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
                 val declared = manifest.resources.joinToString(", ")
                 throw AddonException("This addon declares $declared â€” Sonora needs search")
             }
-            if (manifest.requiresSonoraAuth) authRequired = true
+            if (!isLastWaveAddon && manifest.requiresSonoraAuth) authRequired = true
             manifest
         }.recoverCatching { failure ->
             // A manifest 404 is not "no such track", it is "no addon here" â€”
@@ -370,19 +377,19 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
         while (true) {
             (quietUntilMs - System.currentTimeMillis()).takeIf { it > 0 }?.let { delay(it) }
 
-            val auth = if (authRequired) authHeaders(url, rejectedToken) else emptyMap()
-            val request = Request.Builder().url(url)
+            val auth = if (!isLastWaveAddon && authRequired) authHeaders(url, rejectedToken) else emptyMap()
+            val requestBuilder = Request.Builder().url(url)
                 .header("Accept", "application/json")
                 .header("User-Agent", USER_AGENT)
-                .apply { auth.forEach { (name, value) -> header(name, value) } }
-                .build()
+            if (isLastWaveAddon) applyLastWaveHeaders(url, requestBuilder)
+            auth.forEach { (name, value) -> requestBuilder.header(name, value) }
+            val request = requestBuilder.build()
 
             val wait = client.newCall(request).execute().use { response ->
                 val authChallenge = response.takeIf { it.code == 401 }
                     ?.header("WWW-Authenticate")
                     ?.takeIf {
-                        it.trimStart().startsWith("Sonora", ignoreCase = true) ||
-                            it.trimStart().startsWith("Bit" + "Chord", ignoreCase = true)
+                        !isLastWaveAddon && it.trimStart().startsWith("Bit" + "Chord", ignoreCase = true)
                     }
                 when {
                     response.isSuccessful ->
@@ -409,7 +416,7 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
                     // sends people to re-paste a URL that was always correct.
                     response.code >= 500 -> throw AddonUnavailable("HTTP ${response.code}")
                     response.code != 429 -> throw AddonException("HTTP ${response.code}")
-                    attempt >= MAX_RETRIES -> throw AddonUnavailable("This addon is rate limiting Sonora")
+                    attempt >= MAX_RETRIES -> throw AddonUnavailable("This addon is rate limiting BitChord")
                     else -> retryAfterMs(response.header("Retry-After"), attempt)
                 }
             }
@@ -432,9 +439,27 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
         val parsed = url.toHttpUrlOrNull() ?: throw AddonException("Invalid addon URL")
         val loopback = parsed.host == "localhost" || parsed.host == "127.0.0.1" || parsed.host == "::1"
         if (!parsed.isHttps && !loopback) {
-            throw AddonException("This addon asks for Sonora verification but isn't using HTTPS")
+            throw AddonException("This addon asks for BitChord verification but isn't using HTTPS")
         }
         return AddonAuth.headersFor(parsed.host, rejectedToken)
+    }
+
+    /** LastWave marks playback requests and optionally authenticates them with its HMAC scheme. */
+    private fun applyLastWaveHeaders(url: String, request: Request.Builder) {
+        val path = runCatching { URI(url).path.orEmpty() }.getOrDefault("")
+        if (path.contains("/stream/")) {
+            request.header("X-LW-Intent", "stream")
+                .header("User-Agent", "LastWave-Player/1.0")
+        }
+        val secret = BuildConfig.LASTWAVE_ADDON_CLIENT_SECRET.takeIf { it.isNotBlank() } ?: return
+        val token = Regex("/a/([^/]+)").find(path)?.groupValues?.getOrNull(1) ?: return
+        val timestamp = (System.currentTimeMillis() / 1000L).toString()
+        val message = "$timestamp\nGET\n$path\n$token"
+        val mac = Mac.getInstance("HmacSHA256")
+        mac.init(SecretKeySpec(secret.toByteArray(Charsets.UTF_8), "HmacSHA256"))
+        val signature = mac.doFinal(message.toByteArray(Charsets.UTF_8))
+            .joinToString("") { "%02x".format(it) }
+        request.header("X-LW-TS", timestamp).header("X-LW-Sign", signature)
     }
 
     /** How long to wait after a 429, from the header when it sent one. */
@@ -522,6 +547,12 @@ class AddonClient(rawBaseUrl: String, private val pickedQuality: String? = null)
             } else {
                 trimmed
             }
+        }
+
+        fun isLastWaveUrl(raw: String): Boolean {
+            val parsed = raw.toHttpUrlOrNull() ?: return false
+            return parsed.host.equals("lastwaveaddons.clashprojects.qd.je", ignoreCase = true) ||
+                parsed.host.contains("lastwave", ignoreCase = true)
         }
 
         fun manifestUrl(base: String): String = "$base$MANIFEST_SUFFIX"

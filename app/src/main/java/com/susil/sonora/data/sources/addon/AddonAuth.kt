@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Proof, for the addons that ask for it, that a request comes from the genuine
- * Sonora app and not a fork, another app or a script.
+ * BitChord app and not a fork, another app or a script.
  *
  * The client name and User-Agent cannot do this: this app is open source, so
  * anything it sends can be copied. The one thing a copy cannot have is the
@@ -40,29 +40,26 @@ import java.util.concurrent.TimeUnit
  * in the device's secure hardware comes with a certificate chain, rooted at
  * Google, in which Android states the package name and signing certificate of
  * the app that asked for the key, and whether the OS was booted verified. The
- * Sonora auth service checks that chain once and returns a short-lived token
+ * BitChord auth service checks that chain once and returns a short-lived token
  * bound to the key. Each addon request then carries the token and a signature
  * made with the hardware key, which never leaves the device. A token copied off
  * a phone is therefore useless anywhere else.
  *
  * Opt-in per addon. Nothing is sent unless the addon's manifest declares
- * `sonoraAuth`, or it answers a request with `401` and
- * `WWW-Authenticate: Sonora`. Other addons never see the token. Even when
+ * `bitchordAuth`, or it answers a request with `401` and
+ * `WWW-Authenticate: BitChord`. Other addons never see the token. Even when
  * they do, a proof is bound to one host, so it cannot be replayed to another.
  *
- * Wire format: "Addon auth" in the Sonora addon docs, protocol version 1.
+ * Wire format: "Addon auth" in the BitChord addon docs, protocol version 1.
  */
 object AddonAuth {
-    const val TOKEN_HEADER = "X-Sonora-Token"
-    const val PROOF_HEADER = "X-Sonora-Proof"
-    private const val PROOF_CONTEXT = "sonora-addon-proof/v1"
-    private const val LEGACY_TOKEN_HEADER = "X-Bit" + "Chord-Token"
-    private const val LEGACY_PROOF_HEADER = "X-Bit" + "Chord-Proof"
-    private const val LEGACY_PROOF_CONTEXT = "bit" + "chord-addon-proof/v1"
+    const val TOKEN_HEADER = "X-Bit" + "Chord-Token"
+    const val PROOF_HEADER = "X-Bit" + "Chord-Proof"
+    private const val PROOF_CONTEXT = "bit" + "chord-addon-proof/v1"
 
-    private const val TAG = "Sonora"
+    private const val TAG = "BitChord"
     private const val KEYSTORE = "AndroidKeyStore"
-    private const val ALIAS_PREFIX = "sonora_addon_auth_"
+    private const val ALIAS_PREFIX = "bitchord_addon_auth_"
 
     /** Refreshed this long before expiry, so an in-flight search never carries a token about to lapse. */
     private const val REFRESH_BEFORE_MS = 5 * 60_000L
@@ -118,7 +115,7 @@ object AddonAuth {
     }
 
     /**
-     * Sonora auth headers and compatibility aliases for one request to [host].
+     * BitChord auth headers for one request to [host].
      *
      * [rejectedToken] is the token an addon just answered `expired` or
      * `invalid_token` to. A new one is fetched only if the current session
@@ -134,26 +131,21 @@ object AddonAuth {
         repeat(2) {
             val current = session(rejectedToken)
             try {
-                return mapOf(
-                    TOKEN_HEADER to current.token,
-                    PROOF_HEADER to proof(current, normalized),
-                    LEGACY_TOKEN_HEADER to current.token,
-                    LEGACY_PROOF_HEADER to proof(current, normalized, LEGACY_PROOF_CONTEXT),
-                )
+                return mapOf(TOKEN_HEADER to current.token, PROOF_HEADER to proof(current, normalized))
             } catch (e: KeyGone) {
                 // Keystore wiped under a restored token (restore from backup, new device): start over.
                 TrackLog.w(TAG, "addon auth: hardware key missing, attesting again")
                 drop(current)
             }
         }
-        throw AddonException("Sonora couldn't use this device's secure key store")
+        throw AddonException("BitChord couldn't use this device's secure key store")
     }
 
     /** What to tell the listener when an addon refused credentials that were sent. */
     fun rejectionMessage(code: String?): String = when (code) {
         "stale_proof" -> "This addon rejected the request because this phone's clock is wrong"
-        "unavailable" -> "This addon couldn't check Sonora's verification right now"
-        else -> "This addon didn't accept Sonora's verification" + (code?.let { " ($it)" } ?: "")
+        "unavailable" -> "This addon couldn't check BitChord's verification right now"
+        else -> "This addon didn't accept BitChord's verification" + (code?.let { " ($it)" } ?: "")
     }
 
     // â”€â”€ Session â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -175,7 +167,7 @@ object AddonAuth {
                 Refusal(e.message ?: "Verification refused", System.currentTimeMillis() + e.backoffMs, transient = false)
                     .also { refusal = it }.raise()
             } catch (e: Exception) {
-                val message = "Couldn't reach Sonora's addon verification service"
+                val message = "Couldn't reach BitChord's addon verification service"
                 TrackLog.w(TAG, "addon auth: $message", e)
                 Refusal(message, System.currentTimeMillis() + TRANSIENT_BACKOFF_MS, transient = true)
                     .also { refusal = it }.raise()
@@ -229,7 +221,7 @@ object AddonAuth {
             generateAttestedKey(alias, Base64.getUrlDecoder().decode(challenge.challenge))
         } catch (e: Exception) {
             deleteKey(alias)
-            throw AttestRefused("This device can't prove it is running the official Sonora app (no hardware key attestation)")
+            throw AttestRefused("This device can't prove it is running the official BitChord app (no hardware key attestation)")
         }
         try {
             val body = json.encodeToString(
@@ -260,7 +252,7 @@ object AddonAuth {
                     // Fixable by updating rather than waiting: check again soon after.
                     val backoff = if (error?.error == "outdated_app") TRANSIENT_BACKOFF_MS else REFUSED_BACKOFF_MS
                     throw AttestRefused(
-                        "Sonora couldn't verify this device: " + (error?.message?.ifBlank { null } ?: "HTTP ${response.code}"),
+                        "BitChord couldn't verify this device: " + (error?.message?.ifBlank { null } ?: "HTTP ${response.code}"),
                         backoff,
                     )
                 }

@@ -55,14 +55,22 @@ val listenTogetherServer: String = (
 
 /*
  * The service that checks this app's hardware key attestation and issues addon
- * tokens. Addon servers still validate the official Sonora protocol
+ * tokens. Addon servers still validate the official BitChord protocol
  * signature; this URL is overridable for staging only.
  */
 val addonAuthServer: String = (
     localProps.getProperty("ADDON_AUTH_SERVER")
         ?: System.getenv("ADDON_AUTH_SERVER")
-        ?: "https://sonora-auth.susil.in"
+        ?: "https://bitchord-auth.kushagrasingh.in"
     ).trim().trimEnd('/')
+
+/* Optional LastWave addon signing secret. LastWave's public checkout does not
+ * contain this CI-only value, so unsigned requests remain supported. */
+val lastWaveAddonClientSecret: String = (
+    localProps.getProperty("ADDON_CLIENT_SECRET")
+        ?: System.getenv("ADDON_CLIENT_SECRET")
+        ?: ""
+    ).trim()
 
 // See the root build.gradle.kts: one version for the phone and its watch app.
 val betaSuffix = rootProject.extra["sonoraBetaSuffix"] as String
@@ -95,6 +103,11 @@ android {
             "String",
             "ADDON_AUTH_URL",
             "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
+        )
+        buildConfigField(
+            "String",
+            "LASTWAVE_ADDON_CLIENT_SECRET",
+            "\"${lastWaveAddonClientSecret.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
         )
         // Prefix for identifying Sonora phone APK artifacts in update feeds.
         buildConfigField("String", "UPDATE_APK_PREFIX", "\"Sonora-\"")

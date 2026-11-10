@@ -598,26 +598,16 @@ class SourcesTest {
     }
 
     @Test
-    fun `LastWave is seeded with editable addon URL and declared quality choices`() {
+    fun `LastWave is not added to a fresh source list`() {
         val sources = SourceRegistry.sourcesForInit(
             emptyList(),
             forceJioSaavnOff = true,
-            seedLastWave = true,
         )
-        val lastWave = sources.single { it.kind == SourceKind.ADDON }
-
-        assertEquals("LastWave", lastWave.label)
-        assertEquals(
-            "https://lastwaveaddons.clashprojects.qd.je/a/e94e546f32fed26a0b1b72841c2fe1cb6d3dce4b0915e23be8caddcc55d49b1b/",
-            lastWave.baseUrl,
-        )
-        assertEquals("lossless", lastWave.pickedQuality)
-        assertEquals(listOf("lossless", "atmos", "high", "low"), lastWave.qualityOptions.map { it.value })
-        assertTrue(lastWave.enabled)
+        assertTrue(sources.none { it.kind == SourceKind.ADDON })
     }
 
     @Test
-    fun `LastWave seeding respects existing entries and does not restore a removed entry`() {
+    fun `manual LastWave entries are preserved while old built-in entry is removed`() {
         val manual = SourceConfig(
             kind = SourceKind.ADDON,
             label = "My LastWave",
@@ -626,17 +616,22 @@ class SourcesTest {
         val existing = SourceRegistry.sourcesForInit(
             listOf(manual),
             forceJioSaavnOff = false,
-            seedLastWave = true,
         )
         assertEquals(1, existing.count { it.kind == SourceKind.ADDON })
         assertEquals("My LastWave", existing.single { it.kind == SourceKind.ADDON }.label)
 
-        val afterUserRemoved = SourceRegistry.sourcesForInit(
-            existing.filterNot { it.kind == SourceKind.ADDON },
-            forceJioSaavnOff = false,
-            seedLastWave = false,
+        val oldBuiltIn = SourceConfig(
+            id = "builtin-lastwave-addon",
+            kind = SourceKind.ADDON,
+            label = "LastWave",
+            baseUrl = manual.baseUrl,
         )
-        assertTrue(afterUserRemoved.none { it.kind == SourceKind.ADDON })
+        val afterUserRemoved = SourceRegistry.sourcesForInit(
+            existing + oldBuiltIn,
+            forceJioSaavnOff = false,
+        )
+        assertEquals(1, afterUserRemoved.count { it.kind == SourceKind.ADDON })
+        assertEquals("My LastWave", afterUserRemoved.single { it.kind == SourceKind.ADDON }.label)
     }
 
     @Test

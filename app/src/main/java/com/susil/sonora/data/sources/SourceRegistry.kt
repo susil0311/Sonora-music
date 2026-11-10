@@ -139,11 +139,9 @@ object SourceRegistry {
 
         val stored = prefs.getString(KEY_SOURCES, null)?.let(::decodeStored) ?: emptyList()
         val jioOptInMigrationDone = prefs.getBoolean(KEY_JIOSAAVN_OPT_IN_V1, false)
-        val lastWaveSeedDone = prefs.getBoolean(KEY_LASTWAVE_SEED_V1, false)
         val after = sourcesForInit(
             stored,
             forceJioSaavnOff = !jioOptInMigrationDone,
-            seedLastWave = !lastWaveSeedDone,
         )
 
         // Publish state and the migration marker in one preferences edit. If a
@@ -151,17 +149,16 @@ object SourceRegistry {
         // disabled source, the next launch would otherwise believe the forced
         // opt-out had already happened and silently restore the old on state.
         publish(after, persist = false)
-        if (after != stored || !jioOptInMigrationDone || !lastWaveSeedDone) {
+        if (after != stored || !jioOptInMigrationDone) {
             prefs.edit()
                 .putString(KEY_SOURCES, json.encodeToString(ListSerializer(SourceConfig.serializer()), after))
                 .putBoolean(KEY_JIOSAAVN_OPT_IN_V1, true)
-                .putBoolean(KEY_LASTWAVE_SEED_V1, true)
                 .apply()
         }
     }
 
     /**
-     * Built-in seeding and one-time source migrations, kept pure for tests.
+     * Built-in source seeding and one-time source migrations, kept pure for tests.
      *
      * [forceJioSaavnOff] is true exactly once for every install that first runs
      * this version, including upgrades whose stored config currently says on.
@@ -171,36 +168,19 @@ object SourceRegistry {
     internal fun sourcesForInit(
         stored: List<SourceConfig>,
         forceJioSaavnOff: Boolean,
-        seedLastWave: Boolean = false,
     ): List<SourceConfig> {
-        // Seeded rather than persisted-on-first-write, so a build adding a new
-        // built-in kind picks it up for existing installs too. SourceConfig's
-        // default is the policy: JioSaavn off, YouTube on.
-        val seeded = stored + BUILT_IN_KINDS
+        // LastWave is deliberately not seeded: it is an optional user-entered
+        // addon. Remove only the old auto-seeded entry from existing installs;
+        // a manually entered LastWave URL has its own id and is preserved.
+        val withoutOldLastWave = stored.filterNot { it.id == LASTWAVE_SOURCE_ID }
+        // SourceConfig's default is the policy: JioSaavn off, YouTube on.
+        val seeded = withoutOldLastWave + BUILT_IN_KINDS
             .filter { kind -> stored.none { it.kind == kind } }
             .map { SourceConfig(kind = it) }
-        val withLastWave = if (
-            seedLastWave && seeded.none {
-                it.id == LASTWAVE_SOURCE_ID ||
-                    (it.kind == SourceKind.ADDON && canonicalUrl(it.baseUrl) == canonicalUrl(LASTWAVE_URL))
-            }
-        ) {
-            seeded + SourceConfig(
-                id = LASTWAVE_SOURCE_ID,
-                kind = SourceKind.ADDON,
-                label = "LastWave",
-                baseUrl = LASTWAVE_URL,
-                enabled = true,
-                qualityOptions = LASTWAVE_QUALITY_OPTIONS,
-                pickedQuality = "lossless",
-            )
-        } else {
-            seeded
-        }
 
         // The retired built-in module is removed, while a custom module entered
         // by the user is preserved.
-        return withLastWave
+        return seeded
             .filterNot { it.kind == SourceKind.MODULE }
             .map { config ->
                 when {
@@ -655,22 +635,12 @@ object SourceRegistry {
             .build()
             .toString()
 
-    private val LASTWAVE_URL =
-        "https://lastwaveaddons.clashprojects.qd.je/a/e94e546f32fed26a0b1b72841c2fe1cb6d3dce4b0915e23be8caddcc55d49b1b/"
     private val LASTWAVE_SOURCE_ID = "builtin-lastwave-addon"
-    private val LASTWAVE_QUALITY_OPTIONS = listOf(
-        AddonQualityOption("lossless", "Lossless"),
-        AddonQualityOption("atmos", "Dolby Atmos"),
-        AddonQualityOption("high", "High"),
-        AddonQualityOption("low", "Low"),
-    )
     private val BUILT_IN_KINDS = listOf(SourceKind.JIOSAAVN, SourceKind.YOUTUBE)
 
     private const val KEY_SOURCES = "sources"
     /** One-shot migration: existing users must explicitly opt in again. */
     private const val KEY_JIOSAAVN_OPT_IN_V1 = "jiosaavn_opt_in_v1"
-    /** One-shot seeding marker: deleting or editing the default LastWave entry is respected. */
-    private const val KEY_LASTWAVE_SEED_V1 = "lastwave_seed_v1"
     private const val PREFIX = "src:"
     private const val SEPARATOR = "::"
 }
